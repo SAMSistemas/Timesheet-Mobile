@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Timesheet</string>
+    <string name="action_account">Cuenta</string>
+    <string name="action_add_hour">Añadir horas</string>
+    <string name="action_settings">Configuración</string>
+    <string name="action_view_calendar">Ver calendario</string>
+    <string name="action_logout">Cerrar sesión</string>
+    <string name="password">Contraseña</string>
+    <string name="section_calendar">Calendario</string>
+    <string name="username">Usuario</string>
+    <string name="setup_toolbar">Añadido la barra de herramientas al layout.</string>
+    <string name="config_changed">Detectado cambios de configuración en: </string>
+    <string name="logo_desc">logo de Sam Sistemas</string>
+    <string name="setup_drawer">Barra de navegación configurada correctamente.</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="domain">\@samsistemas.com.ar</string>
+    <string name="email">jonatan.salas@samsistemas.com.ar</string>
+    <string name="name">Jonatan E. Salas</string>
+    <string name="sam">Building Software®</string>
+
+    <string name="email_password_error">El usuario y/o contraseña ingresados no son válidos.</string>
+    <string name="email_error">El usuario ingresado no es válido.</string>
+    <string name="password_error">La contraseña ingresada no es válida.</string>
+    <string name="login_error">El usuario y contraseña ingresados no existen.</string>
+    <string name="internet_error">No hay conexión a internet.</string>
+
+    <!-- Login dialog message -->
+    <string name="login_dialog_message">Accediendo..</string>
+
+    <!-- Internet Dialog Strings -->
+    <string name="internet_dialog_title">No hay conexión</string>
+    <string name="internet_dialog_message">Se necesita una conexión a internet disponible para ingresar.</string>
+    <string name="internet_dialog_negative_button">Salir</string>
+    <string name="internet_dialog_positive_button">Ir a Ajustes</string>
+
+    <!-- Password Dialog Strings -->
+    <string name="password_dialog_title">Modificar contraseña</string>
+    <string name="password_dialog_latest">Ingrese última contraseña</string>
+    <string name="password_dialog_new">Ingrese nueva contraseña</string>
+    <string name="password_dialog_negative_button">cancelar</string>
+    <string name="password_dialog_positive_button">guardar</string>
+
+
+</resources>

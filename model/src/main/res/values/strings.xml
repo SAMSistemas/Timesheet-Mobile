@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">Data</string>
+
+    <!-- Database info -->
+    <string name="database_version">1</string>
+    <string name="database_name">timesheet.db</string>
+
+    <!-- Content Provider info -->
+    <string name="content_authority">com.samsistemas.timesheet.provider</string>
+    <string name="base_content_uri">content://com.samsistemas.timesheet.provider</string>
+
+    <!-- Client Table name and columns -->
+    <string name="client_table">client</string>
+    <string name="client_id">id_client</string>
+    <string name="client_name">name</string>
+    <string name="client_short_name">short_name</string>
+    <string name="client_enabled">enabled</string>
+    <string name="client_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/client</string>
+    <string name="client_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/client</string>
+    <string name="client_content_uri">content://com.samsistemas.timesheet.provider/client</string>
+
+    <!-- Person Table name and columns -->
+    <string name="person_table">person</string>
+    <string name="person_id">id_person</string>
+    <string name="person_name">name</string>
+    <string name="person_last_name">lastname</string>
+    <string name="person_user_name">username</string>
+    <string name="person_password">password</string>
+    <string name="person_picture">picture</string>
+    <string name="person_enabled">enabled</string>
+    <string name="person_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/person</string>
+    <string name="person_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/person</string>
+    <string name="person_content_uri">content://com.samsistemas.timesheet.provider/person</string>
+
+    <!-- TaskType Table name and columns -->
+    <string name="task_type_table">tasktype</string>
+    <string name="task_type_id">id_tasktype</string>
+    <string name="task_type_name">name</string>
+    <string name="task_type_enabled">enabled</string>
+    <string name="task_type_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/tasktype</string>
+    <string name="task_type_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/tasktype</string>
+    <string name="task_type_content_uri">content://com.samsistemas.timesheet.provider/tasktype</string>
+
+    <!-- Project Table name and columns -->
+    <string name="project_table">project</string>
+    <string name="project_client_id">id_client</string>
+    <string name="project_id">id_project</string>
+    <string name="project_name">name</string>
+    <string name="project_short_name">short_name</string>
+    <string name="project_start_date">start_date</string>
+    <string name="project_enabled">enabled</string>
+    <string name="project_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/project</string>
+    <string name="project_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/project</string>
+    <string name="project_content_uri">content://com.samsistemas.timesheet.provider/project</string>
+
+    <!-- JobLog Table name and columns -->
+    <string name="job_log_table">joblog</string>
+    <string name="job_log_id">id_joblog</string>
+    <string name="job_log_project_id">id_project</string>
+    <string name="job_log_person_id">id_person</string>
+    <string name="job_log_task_type_id">id_tasktype</string>
+    <string name="job_log_hours">hours</string>
+    <string name="job_log_work_date">work_date</string>
+    <string name="job_log_solicitude">solicitude_number</string>
+    <string name="job_log_observations">observations</string>
+    <string name="job_log_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/joblog</string>
+    <string name="job_log_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/joblog</string>
+    <string name="job_log_content_uri">content://com.samsistemas.timesheet.provider/joblog</string>
+
+    <!-- Create Table strings -->
+    <string name="create_table_client">CREATE TABLE IF NOT EXISTS client(id_client INTEGER NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_person">CREATE TABLE IF NOT EXISTS person(id_person INTEGER NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, picture BLOB, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_task_type">CREATE TABLE IF NOT EXISTS tasktype(id_tasktype INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_project">CREATE TABLE IF NOT EXISTS project(id_client INTEGER NOT NULL, id_project INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, start_date INTEGER NOT NULL, enabled INTEGER NOT NULL, FOREIGN KEY(id_client) REFERENCES Client(id_client));</string>
+    <string name="create_table_job_log">CREATE TABLE IF NOT EXISTS joblog(id_joblog INTEGER PRIMARY KEY NOT NULL, id_project INTEGER NOT NULL, id_person INTEGER NOT NULL, id_tasktype INTEGER NOT NULL,  hours TEXT NOT NULL, work_date INTEGER NOT NULL, solicitude_number INTEGER NOT NULL, observations TEXT NOT NULL, FOREIGN KEY(id_project) REFERENCES Project(id_project), FOREIGN KEY(id_person) REFERENCES Person(id_person), FOREIGN KEY(id_tasktype) REFERENCES TaskType(id_tasktype));</string>
+
+    <!-- Drop Table strings -->
+    <string name="drop_table_client">DROP TABLE IF EXISTS client;</string>
+    <string name="drop_table_person">DROP TABLE IF EXISTS person;</string>
+    <string name="drop_table_task_type">DROP TABLE IF EXISTS taskType;</string>
+    <string name="drop_table_project">DROP TABLE IF EXISTS project;</string>
+    <string name="drop_table_job_log">DROP TABLE IF EXISTS joblog;</string>}
+
+    <!-- Shared Preferences Keys -->
+    <string name="key_email">email</string>
+    <string name="is_logged_in">logged_in</string>
+    <string name="preference_filename">timesheet_prefs</string>
+
+</resources>

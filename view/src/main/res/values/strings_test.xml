@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Test Case Strings -->
+    <string name="email1">jonatan.salas@samsistemas.com.ar</string>
+    <string name="email2">lala.ds</string>
+    <string name="email3">fulano@</string>
+
+    <string name="password1">JonatanS</string>
+    <string name="password2">jonatanSalas</string>
+    <string name="password3">JONATANSalas</string>
+    <string name="password4">jonatan.salas</string>
+    <string name="password5">JONataN.</string>
+    <string name="password6">J1232oO</string>
+
+    <string name="dummy_email1">jonatan.salas@samsistemas.com.ar</string>
+    <string name="dummy_password1">maipufdf</string>
+</resources>

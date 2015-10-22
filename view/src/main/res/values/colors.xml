@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Color Palette -->
+    <color name="primary">#1565c0</color>
+    <color name="primary_dark">#0d47a1</color>
+    <color name="accent">#2dc899</color>
+    <color name="gray_light">#e0e0e0</color>
+    <color name="material_red">#d32f2f</color>
+    <color name="material_teal">#009688</color>
+
+    <color name="preference_fallback_accent_color">@color/material_teal</color>
+
+    <!-- Palette for Navigation Drawer item and icon Selector -->
+    <color name="text_item_checked">@color/primary</color>
+    <color name="icon_item_checked">@color/primary</color>
+    <color name="text_item_default">@android:color/black</color>
+    <color name="icon_item_default">@color/material_teal</color>
+
+</resources>

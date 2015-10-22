@@ -1,0 +1,66 @@
+<resources>
+    <!-- App and Activity Strings -->
+    <string name="app_name">Timesheet</string>
+
+    <!-- Navigation Drawer Menu Strings -->
+    <string name="action_settings">Settings</string>
+    <string name="action_account">Account</string>
+    <string name="action_add_hour">Add hours</string>
+    <string name="action_view_calendar">View calendar</string>
+    <string name="action_mode_edit">Edit</string>
+    <string name="action_logout">Logout</string>
+
+    <!-- Navigation Drawer Menu Section Strings -->
+    <string name="section_calendar">Calendar</string>
+
+    <!-- Log Strings -->
+    <string name="setup_toolbar">Adding ToolBar to the Layout.</string>
+    <string name="setup_drawer">Correctly configured Navigation Drawer.</string>
+    <string name="config_changed">Detected configuration change on: </string>
+
+    <!-- Fake Data Strings -->
+    <string name="name">Jonatan E. Salas</string>
+    <string name="email">jonatan.salas@samsistemas.com.ar</string>
+
+    <string name="login">Login</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="username">Email</string>
+    <string name="password">Password</string>
+
+    <string name="sam">Building Software®</string>
+    <string name="logo_desc">Logo image</string>
+
+    <string name="domain">\@samsistemas.com.ar</string>
+    <string name="enterprise_name">by SAM Sistemas</string>
+
+    <string name="email_password_error">Empty or incorrect Email and Password</string>
+    <string name="email_error">Empty or incorrect Email</string>
+    <string name="password_error">Empty or incorrect Password</string>
+    <string name="login_error">Invalid credentials</string>
+    <string name="internet_error">There is no Internet Connection</string>
+
+    <!-- Login dialog message -->
+    <string name="login_dialog_message">Authenticating..</string>
+
+    <!-- Internet Dialog Strings -->
+    <string name="internet_dialog_title">No connection available</string>
+    <string name="internet_dialog_message">Internet connection is required to login</string>
+    <string name="internet_dialog_negative_button">Exit</string>
+    <string name="internet_dialog_positive_button">Open Settings</string>
+
+    <!-- Password Dialog Strings -->
+    <string name="password_dialog_title">Reset Password</string>
+    <string name="password_dialog_latest">Insert latest password</string>
+    <string name="password_dialog_new">Insert new password</string>
+    <string name="password_dialog_negative_button">Cancel</string>
+    <string name="password_dialog_positive_button">Save</string>
+
+    <array name="dialog_array">
+        <item>@drawable/ic_signal_wifi_off_white</item>
+        <item>@string/internet_dialog_title</item>
+        <item>@string/internet_dialog_message</item>
+        <item>@string/internet_dialog_negative_button</item>
+        <item>@string/internet_dialog_positive_button</item>
+    </array>
+
+</resources>

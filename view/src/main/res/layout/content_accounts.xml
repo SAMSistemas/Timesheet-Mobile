@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_accounts"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.samsistemas.timesheet.activity.AccountActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cardview_default_height"
+            android:layout_margin="@dimen/cardview_default_margin"
+            app:cardCornerRadius="@dimen/cardview_default_radius"
+            app:cardElevation="@dimen/cardview_default_elevation"
+            app:cardMaxElevation="@dimen/cardview_default_elevation"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            app:paddingEnd="@dimen/cardview_compat_inset_shadow"
+            app:paddingStart="@dimen/cardview_compat_inset_shadow"
+            app:contentPadding="@dimen/content_default_padding">
+
+            <LinearLayout android:id="@+id/card_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
+                <TextView android:id="@+id/username_textview"
+                    android:layout_marginTop="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:drawableLeft="@drawable/ic_account_box_black"
+                    android:drawableStart="@drawable/ic_account_box_black"
+                    android:text="jonatan.salas"
+                    tools:text="jonatan.salas" />
+
+
+                <TextView android:id="@+id/email_textview"
+                    android:layout_marginTop="@dimen/content_margin_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:drawableLeft="@drawable/ic_email_black"
+                    android:drawableStart="@drawable/ic_email_black"
+                    android:text="jonatan.salas@samsistemas.com.ar"
+                    tools:text="jonatan.salas@samsistemas.com.ar" />
+
+                <TextView android:id="@+id/work_textview"
+                    android:layout_marginTop="@dimen/content_margin_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:drawableLeft="@drawable/ic_work_black"
+                    android:drawableStart="@drawable/ic_work_black"
+                    android:text="Android Developer Ssr."
+                    tools:text="Android Developer Ssr." />
+
+                <TextView android:id="@+id/enterprise_textview"
+                    android:layout_marginTop="@dimen/content_margin_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:drawableLeft="@drawable/ic_domain_black"
+                    android:drawableStart="@drawable/ic_domain_black"
+                    android:text="SAM Sistemas SRL"
+                    tools:text="SAM Sistemas SRL" />
+
+                <TextView android:id="@+id/location_textview"
+                    android:layout_marginTop="@dimen/content_margin_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:drawableLeft="@drawable/ic_location_city_black"
+                    android:drawableStart="@drawable/ic_location_city_black"
+                    android:text="Recoleta, Capital Federal"
+                    tools:text="Recoleta, Capital Federal" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

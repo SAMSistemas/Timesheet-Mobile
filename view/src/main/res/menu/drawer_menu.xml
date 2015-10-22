@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/calendar"
+        android:checkableBehavior="single">
+
+        <item android:id="@+id/action_view_calendar"
+            android:icon="@drawable/ic_calendar_date_black"
+            android:title="@string/action_view_calendar"/>
+
+        <item android:id="@+id/action_add_hour"
+            android:icon="@drawable/ic_add_circle_black"
+            android:title="@string/action_add_hour"/>
+
+    </group>
+
+    <group android:id="@+id/configuration"
+        android:checkableBehavior="single">
+
+        <item android:id="@+id/action_account"
+            android:icon="@drawable/ic_account_circle_black"
+            android:title="@string/action_account"
+            android:checkable="false"/>
+
+        <item android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings_black"
+            android:title="@string/action_settings"
+            android:checkable="false"/>
+    </group>
+
+</menu>
