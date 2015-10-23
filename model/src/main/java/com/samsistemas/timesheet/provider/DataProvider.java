@@ -68,6 +68,28 @@ public class DataProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
+            case WORK_POSITION:
+                retCursor = database.query(
+                        mContext.getString(R.string.work_position_table),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case WORK_POSITION_ID:
+                retCursor = database.query(
+                        mContext.getString(R.string.work_position_table),
+                        projection,
+                        mContext.getString(R.string.work_position_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        null,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             case PERSONS:
                 retCursor = database.query(
                         mContext.getString(R.string.person_table),
@@ -106,6 +128,28 @@ public class DataProvider extends ContentProvider implements ContentUri {
                         mContext.getString(R.string.task_type_table),
                         projection,
                         mContext.getString(R.string.task_type_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        null,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case TASK_TYPE_WORK_POSITION:
+                retCursor = database.query(
+                        mContext.getString(R.string.task_type_x_work_position_table),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case TASK_TYPE_WORK_POSITION_ID:
+                retCursor = database.query(
+                        mContext.getString(R.string.task_type_x_work_position_table),
+                        projection,
+                        mContext.getString(R.string.task_type_x_work_position_id) + " = '" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -173,6 +217,10 @@ public class DataProvider extends ContentProvider implements ContentUri {
                 return mContext.getString(R.string.client_content_type);
             case CLIENT_ID:
                 return mContext.getString(R.string.client_content_item_type);
+            case WORK_POSITION:
+                return mContext.getString(R.string.work_position_content_type);
+            case WORK_POSITION_ID:
+                return mContext.getString(R.string.work_position_content_item_type);
             case PERSONS:
                 return mContext.getString(R.string.person_content_type);
             case PERSON_ID:
@@ -181,6 +229,10 @@ public class DataProvider extends ContentProvider implements ContentUri {
                 return mContext.getString(R.string.task_type_content_type);
             case TASKTYPE_ID:
                 return mContext.getString(R.string.task_type_content_item_type);
+            case TASK_TYPE_WORK_POSITION:
+                return mContext.getString(R.string.task_type_x_work_position_content_type);
+            case TASK_TYPE_WORK_POSITION_ID:
+                return mContext.getString(R.string.task_type_x_work_position_content_item_type);
             case PROJECTS:
                 return mContext.getString(R.string.project_content_type);
             case PROJECT_ID:
@@ -197,84 +249,29 @@ public class DataProvider extends ContentProvider implements ContentUri {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
-        final SQLiteDatabase database = mDatabaseHelper.getWritableDatabase();
         Uri returnUri;
 
         switch(mUriMatcher.match(uri)) {
             case CLIENTS:
-                long id = database.insert(
-                        mContext.getString(R.string.client_table),
-                        null,
-                        values
-                );
-
-                if(id > 0) {
-                    Uri contentUri = Uri.parse(mContext.getString(R.string.client_content_uri));
-                    returnUri = ContentUris.withAppendedId(contentUri, id);
-                } else {
-                    throw new SQLException("failed to insert row in Uri: " + uri);
-                }
-
+                returnUri = insert(uri, values, R.string.client_table, R.string.client_content_uri);
+                break;
+            case WORK_POSITION:
+                returnUri = insert(uri, values, R.string.work_position_table, R.string.work_position_content_uri);
                 break;
             case PERSONS:
-                id = database.insert(
-                        mContext.getString(R.string.person_table),
-                        null,
-                        values
-                );
-
-                if(id > 0) {
-                    Uri contentUri = Uri.parse(mContext.getString(R.string.person_content_uri));
-                    returnUri = ContentUris.withAppendedId(contentUri, id);
-                } else {
-                    throw new SQLException("failed to insert row in Uri: " + uri);
-                }
-
+                returnUri = insert(uri, values, R.string.person_table, R.string.person_content_uri);
                 break;
             case TASK_TYPES:
-                id = database.insert(
-                        mContext.getString(R.string.task_type_table),
-                        null,
-                        values
-                );
-
-                if(id > 0) {
-                    Uri contentUri = Uri.parse(mContext.getString(R.string.task_type_content_uri));
-                    returnUri = ContentUris.withAppendedId(contentUri, id);
-                } else {
-                    throw new SQLException("failed to insert row in Uri: " + uri);
-                }
-
+                returnUri = insert(uri, values, R.string.task_type_table, R.string.task_type_content_uri);
+                break;
+            case TASK_TYPE_WORK_POSITION:
+                returnUri = insert(uri, values, R.string.task_type_x_work_position_table, R.string.task_type_x_work_position_content_uri);
                 break;
             case PROJECTS:
-                id = database.insert(
-                        mContext.getString(R.string.project_table),
-                        null,
-                        values
-                );
-
-                if(id > 0) {
-                    Uri contentUri = Uri.parse(mContext.getString(R.string.project_content_uri));
-                    returnUri = ContentUris.withAppendedId(contentUri, id);
-                } else {
-                    throw new SQLException("failed to insert row in Uri: " + uri);
-                }
-
+                returnUri = insert(uri, values, R.string.project_table, R.string.project_content_uri);
                 break;
             case JOB_LOGS:
-                id = database.insert(
-                        mContext.getString(R.string.job_log_table),
-                        null,
-                        values
-                );
-
-                if(id > 0) {
-                    Uri contentUri = Uri.parse(mContext.getString(R.string.job_log_content_uri));
-                    returnUri = ContentUris.withAppendedId(contentUri, id);
-                } else {
-                    throw new SQLException("failed to insert row in Uri: " + uri);
-                }
-
+                returnUri = insert(uri, values, R.string.job_log_table, R.string.job_log_content_uri);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -285,16 +282,49 @@ public class DataProvider extends ContentProvider implements ContentUri {
         return returnUri;
     }
 
+    /***
+     * Method that makes an insert in a SQLite database.
+     *
+     * @param uri - the uri used by the provider.
+     * @param values - the Values to insert.
+     * @param tableName - the table name as resource id.
+     * @param uriContent - the contentUri as resource id.
+     * @return a uri that notifies the inserted id.
+     */
+    protected Uri insert(@NonNull Uri uri, @NonNull ContentValues values, @StringRes int tableName, @StringRes int uriContent) {
+        final SQLiteDatabase database = mDatabaseHelper.getWritableDatabase();
+        Uri returnUri;
+
+        long id = database.insert(
+                mContext.getString(tableName),
+                null,
+                values
+        );
+
+        if(id > 0) {
+            Uri contentUri = Uri.parse(mContext.getString(uriContent));
+            returnUri = ContentUris.withAppendedId(contentUri, id);
+        } else {
+            throw new SQLException("failed to insert row in Uri: " + uri);
+        }
+
+        return returnUri;
+    }
+
     @Override
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
 
         switch(mUriMatcher.match(uri)) {
             case CLIENTS:
                 return bulkInsert(uri, values, R.string.client_table);
+            case WORK_POSITION:
+                return bulkInsert(uri, values, R.string.work_position_table);
             case PERSONS:
                 return bulkInsert(uri, values, R.string.person_table);
             case TASK_TYPES:
                 return bulkInsert(uri, values, R.string.task_type_table);
+            case TASK_TYPE_WORK_POSITION:
+                return bulkInsert(uri, values, R.string.task_type_x_work_position_table);
             case PROJECTS:
                 return bulkInsert(uri, values, R.string.project_table);
             case JOB_LOGS:
@@ -354,6 +384,14 @@ public class DataProvider extends ContentProvider implements ContentUri {
                         selectionArgs
                 );
                 break;
+            case WORK_POSITION:
+                updatedRows = database.update(
+                        mContext.getString(R.string.work_position_table),
+                        values,
+                        selection,
+                        selectionArgs
+                );
+                break;
             case PERSONS:
                 updatedRows = database.update(
                         mContext.getString(R.string.person_table),
@@ -365,6 +403,14 @@ public class DataProvider extends ContentProvider implements ContentUri {
             case TASK_TYPES:
                 updatedRows = database.update(
                         mContext.getString(R.string.task_type_table),
+                        values,
+                        selection,
+                        selectionArgs
+                );
+                break;
+            case TASK_TYPE_WORK_POSITION:
+                updatedRows = database.update(
+                        mContext.getString(R.string.task_type_x_work_position_table),
                         values,
                         selection,
                         selectionArgs
@@ -407,6 +453,13 @@ public class DataProvider extends ContentProvider implements ContentUri {
                         selectionArgs
                 );
                 break;
+            case WORK_POSITION:
+                deletedRows = database.delete(
+                        mContext.getString(R.string.work_position_table),
+                        selection,
+                        selectionArgs
+                );
+                break;
             case PERSONS:
                 deletedRows = database.delete(
                         mContext.getString(R.string.person_table),
@@ -417,6 +470,13 @@ public class DataProvider extends ContentProvider implements ContentUri {
             case TASK_TYPES:
                 deletedRows = database.delete(
                         mContext.getString(R.string.task_type_table),
+                        selection,
+                        selectionArgs
+                );
+                break;
+            case TASK_TYPE_WORK_POSITION:
+                deletedRows = database.delete(
+                        mContext.getString(R.string.task_type_x_work_position_table),
                         selection,
                         selectionArgs
                 );

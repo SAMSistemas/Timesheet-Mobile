@@ -6,7 +6,9 @@ import com.samsistemas.timesheet.controller.LoginController;
 import com.samsistemas.timesheet.controller.PersonController;
 import com.samsistemas.timesheet.controller.ProjectController;
 import com.samsistemas.timesheet.controller.SessionController;
+import com.samsistemas.timesheet.controller.TaskForPositionController;
 import com.samsistemas.timesheet.controller.TaskTypeController;
+import com.samsistemas.timesheet.controller.WorkPositionController;
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.controller.base.BaseLoginController;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
@@ -14,7 +16,9 @@ import com.samsistemas.timesheet.model.Client;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
+import com.samsistemas.timesheet.model.TaskForPosition;
 import com.samsistemas.timesheet.model.TaskType;
+import com.samsistemas.timesheet.model.WorkPosition;
 
 /**
  * Class used to get controller instances.
@@ -27,6 +31,8 @@ public class ControllerFactory {
     private static BaseController<Person> personBaseController = null;
     private static BaseController<Project> projectBaseController = null;
     private static BaseController<TaskType> taskTypeBaseController = null;
+    private static BaseController<WorkPosition> workPositionBaseController = null;
+    private static BaseController<TaskForPosition> taskForPositionBaseController = null;
     private static BaseLoginController loginController = null;
     private static BaseSessionController sessionController = null;
 
@@ -83,6 +89,26 @@ public class ControllerFactory {
         if(null == taskTypeBaseController)
             taskTypeBaseController = new TaskTypeController();
         return taskTypeBaseController;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static synchronized BaseController<WorkPosition> getWorkPositionController() {
+        if(null == workPositionBaseController)
+            workPositionBaseController = new WorkPositionController();
+        return workPositionBaseController;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static synchronized BaseController<TaskForPosition> getTaskForPositionController() {
+        if(null == taskForPositionBaseController)
+            taskForPositionBaseController = new TaskForPositionController();
+        return taskForPositionBaseController;
     }
 
     /**
