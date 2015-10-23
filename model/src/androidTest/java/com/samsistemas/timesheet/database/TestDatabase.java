@@ -9,6 +9,8 @@ import android.util.Log;
 import com.samsistemas.timesheet.util.TestUtilities;
 import com.samsistemas.timesheet.data.R;
 
+import junit.framework.Test;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -46,9 +48,18 @@ public class TestDatabase extends AndroidTestCase {
         assertTrue(clientRowId != -1);
         Log.d(LOG_TAG, "New row id for client table: " + clientRowId);
 
+
+        //-------------------------------------------------------------------------//
+        //Test insert on WorkPosition Table..
+        final ContentValues workPositionValues = TestUtilities.getWorkPosition(mContext);
+        long workPositionRowId = database.insert(mContext.getString(R.string.work_position_table), null, workPositionValues);
+
+        assertTrue(workPositionRowId != -1);
+        Log.d(LOG_TAG, "New row id for WorkPosition table: " + workPositionRowId);
+
         //-------------------------------------------------------------------------//
         //Test insert on Person Table..
-        final ContentValues personValues = TestUtilities.getPerson(mContext);
+        final ContentValues personValues = TestUtilities.getPerson(mContext, workPositionRowId);
         long personRowId = database.insert(mContext.getString(R.string.person_table), null, personValues);
 
         assertTrue(personRowId != -1);
@@ -61,6 +72,14 @@ public class TestDatabase extends AndroidTestCase {
 
         assertTrue(taskTypeRowId != -1);
         Log.d(LOG_TAG, "New row id for task type table: " + taskTypeRowId);
+
+        //--------------------------------------------------------------------------//
+        //Test insert on TaskForPosition Table..
+        final ContentValues taskForPositionValues = TestUtilities.getTaskForPosition(mContext);
+        long taskForPositionRowId = database.insert(mContext.getString(R.string.task_type_x_work_position_table), null, taskForPositionValues);
+
+        assertTrue(taskForPositionRowId != -1);
+        Log.d(LOG_TAG, "New row id for TaskForPosition table: " + taskForPositionRowId);
 
         //--------------------------------------------------------------------------//
         //Test insert on Project Table..
@@ -87,29 +106,47 @@ public class TestDatabase extends AndroidTestCase {
         if(null != clientCursor && clientCursor.moveToFirst()) {
             validateCursor(clientValues, clientCursor);
 
-            //Test query on Person Table..
-            final Cursor personCursor = database.query(mContext.getString(R.string.person_table), null, null, null, null, null, null);
+            //Test query on Work Position Table..
+            final Cursor workPositionCursor = database.query(mContext.getString(R.string.work_position_table), null, null, null, null, null, null);
 
-            if(null != personCursor && personCursor.moveToFirst()) {
-                validateCursor(personValues, personCursor);
+            if(null != workPositionCursor && workPositionCursor.moveToFirst()) {
+                validateCursor(workPositionValues, workPositionCursor);
 
-                //Test query on TaskType Table..
-                final Cursor taskTypeCursor = database.query(mContext.getString(R.string.task_type_table), null, null, null, null, null, null);
+                //Test query on Person Table..
+                final Cursor personCursor = database.query(mContext.getString(R.string.person_table), null, null, null, null, null, null);
 
-                if(null != taskTypeCursor && taskTypeCursor.moveToFirst()) {
-                    validateCursor(taskTypeValues, taskTypeCursor);
+                if (null != personCursor && personCursor.moveToFirst()) {
+                    validateCursor(personValues, personCursor);
 
-                    //Test query on Project Table..
-                    final Cursor projectCursor = database.query(mContext.getString(R.string.project_table), null, null, null, null, null, null);
+                    //Test query on TaskType Table..
+                    final Cursor taskTypeCursor = database.query(mContext.getString(R.string.task_type_table), null, null, null, null, null, null);
 
-                    if(null != projectCursor && projectCursor.moveToFirst()) {
-                        validateCursor(projectValues, projectCursor);
+                    if (null != taskTypeCursor && taskTypeCursor.moveToFirst()) {
+                        validateCursor(taskTypeValues, taskTypeCursor);
 
-                        //Test query on jobLog Table..
-                        final Cursor jobLogCursor = database.query(mContext.getString(R.string.job_log_table), null, null, null, null, null, null);
+                        //Test query on TaskType x WorkPosition Table..
+                        final Cursor taskForPositionCursor = database.query(mContext.getString(R.string.task_type_x_work_position_table), null, null, null, null, null, null);
 
-                        if(null != jobLogCursor && jobLogCursor.moveToFirst()) {
-                            validateCursor(jobLogValues, jobLogCursor);
+                        if(null != taskForPositionCursor && taskForPositionCursor.moveToFirst()) {
+                            validateCursor(taskForPositionValues, taskForPositionCursor);
+
+                            //Test query on Project Table..
+                            final Cursor projectCursor = database.query(mContext.getString(R.string.project_table), null, null, null, null, null, null);
+
+                            if (null != projectCursor && projectCursor.moveToFirst()) {
+                                validateCursor(projectValues, projectCursor);
+
+                                //Test query on jobLog Table..
+                                final Cursor jobLogCursor = database.query(mContext.getString(R.string.job_log_table), null, null, null, null, null, null);
+
+                                if (null != jobLogCursor && jobLogCursor.moveToFirst()) {
+                                    validateCursor(jobLogValues, jobLogCursor);
+                                } else {
+                                    fail("No values returned :(");
+                                }
+                            } else {
+                                fail("No values returned :(");
+                            }
                         } else {
                             fail("No values returned :(");
                         }

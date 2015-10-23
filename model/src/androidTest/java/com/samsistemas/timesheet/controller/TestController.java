@@ -3,6 +3,7 @@ package com.samsistemas.timesheet.controller;
 import android.test.AndroidTestCase;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
+import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.model.Client;
 import com.samsistemas.timesheet.util.TestUtilities;
@@ -14,12 +15,8 @@ import java.util.List;
  */
 public class TestController extends AndroidTestCase {
 
-    /**
-     *
-     * @throws Throwable
-     */
-    public void testDeleteDb() throws Throwable {
-        mContext.deleteDatabase(mContext.getString(com.samsistemas.timesheet.data.R.string.database_name));
+    public void testDeleteDb() {
+        mContext.deleteDatabase(mContext.getString(R.string.database_name));
     }
 
     /**

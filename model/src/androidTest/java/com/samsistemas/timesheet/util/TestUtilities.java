@@ -8,7 +8,9 @@ import com.samsistemas.timesheet.model.Client;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
+import com.samsistemas.timesheet.model.TaskForPosition;
 import com.samsistemas.timesheet.model.TaskType;
+import com.samsistemas.timesheet.model.WorkPosition;
 
 import java.util.Date;
 
@@ -18,7 +20,6 @@ import java.util.Date;
 public class TestUtilities {
 
     /**
-     *
      * @param context
      * @return
      */
@@ -32,24 +33,34 @@ public class TestUtilities {
     }
 
     /**
-     *
      * @param context
      * @return
      */
-    public static ContentValues getPerson(@NonNull Context context) {
+    public static ContentValues getWorkPosition(@NonNull Context context) {
+        return new WorkPosition()
+                .setWorkPositionId(1)
+                .setDescription("Developer")
+                .asContentValues(context);
+    }
+
+    /**
+     * @param context
+     * @return
+     */
+    public static ContentValues getPerson(@NonNull Context context, long id) {
         return new Person()
                 .setPersonId(1)
                 .setName("Jonatan")
                 .setLastName("Salas")
                 .setUsername("JONATANS")
                 .setPassword("JONATANS")
+                .setWorkPositionId(id)
                 .setPicture(null)
                 .setEnabled(true)
                 .asContentValues(context);
     }
 
     /**
-     *
      * @param context
      * @return
      */
@@ -62,7 +73,17 @@ public class TestUtilities {
     }
 
     /**
-     *
+     * @param context
+     * @return
+     */
+    public static ContentValues getTaskForPosition(@NonNull Context context) {
+        return new TaskForPosition()
+                .setWorkPositionId(1)
+                .setTaskTypeId(1)
+                .asContentValues(context);
+    }
+
+    /**
      * @param context
      * @param clientId
      * @return
@@ -79,7 +100,6 @@ public class TestUtilities {
     }
 
     /**
-     *
      * @param context
      * @param projectId
      * @param personId
@@ -100,7 +120,6 @@ public class TestUtilities {
     }
 
     /**
-     *
      * @return
      */
     public static Client getClient() {
@@ -109,6 +128,16 @@ public class TestUtilities {
                 .setName("fulanito")
                 .setShortName("fn")
                 .setEnabled(true);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static WorkPosition getWorkPosition() {
+        return new WorkPosition()
+                .setWorkPositionId(1)
+                .setDescription("Developer");
     }
 
     /**
@@ -135,6 +164,16 @@ public class TestUtilities {
                 .setTaskTypeId(1)
                 .setName("Programación")
                 .setEnabled(true);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static TaskForPosition getTaskForPosition() {
+        return new TaskForPosition()
+                .setWorkPositionId(1)
+                .setTaskTypeId(1);
     }
 
     /**

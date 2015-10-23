@@ -39,6 +39,13 @@ public class TestProvider extends AndroidTestCase {
         type = mContext.getContentResolver().getType(UriHelper.buildClientUriWithId(mContext, 1L));
         assertEquals(mContext.getString(R.string.client_content_item_type), type);
 
+        //Type for Table WorkPosition..
+        type = mContext.getContentResolver().getType(UriHelper.buildWorkPositionUri(mContext));
+        assertEquals(mContext.getString(R.string.work_position_content_type), type);
+
+        type = mContext.getContentResolver().getType(UriHelper.buildWorkPositionUriWithId(mContext, 1L));
+        assertEquals(mContext.getString(R.string.work_position_content_item_type), type);
+
         //Type for Table Person..
         type = mContext.getContentResolver().getType(UriHelper.buildPersonUri(mContext));
         assertEquals(mContext.getString(R.string.person_content_type), type);
@@ -52,6 +59,13 @@ public class TestProvider extends AndroidTestCase {
 
         type = mContext.getContentResolver().getType(UriHelper.buildTaskTypeUriWithId(mContext, 1L));
         assertEquals(mContext.getString(R.string.task_type_content_item_type), type);
+
+        //Type for Table TaskForPosition..
+        type = mContext.getContentResolver().getType(UriHelper.buildTaskTypeWorkPositionUri(mContext));
+        assertEquals(mContext.getString(R.string.task_type_x_work_position_content_type), type);
+
+        type = mContext.getContentResolver().getType(UriHelper.buildTaskTypeWorkPositionUriWithId(mContext, 1L));
+        assertEquals(mContext.getString(R.string.task_type_x_work_position_content_item_type), type);
 
         //Type for Table Project..
         type = mContext.getContentResolver().getType(UriHelper.buildProjectUri(mContext));
@@ -85,8 +99,18 @@ public class TestProvider extends AndroidTestCase {
         Log.d(LOG_TAG, "New row id for client table: " + clientRowId);
 
         //-------------------------------------------------------------------------//
+        //Test insert on WorkPosition Table..
+        final ContentValues workPositionValues = TestUtilities.getWorkPosition(mContext);
+        Uri workPositionUriId = mContext.getContentResolver().insert(UriHelper.buildWorkPositionUri(mContext), workPositionValues);
+
+        long workPositionRowId = ContentUris.parseId(workPositionUriId);
+
+        assertTrue(workPositionRowId != -1);
+        Log.d(LOG_TAG, "New row id for WorkPosition table: " + workPositionRowId);
+
+        //-------------------------------------------------------------------------//
         //Test insert on Person Table..
-        final ContentValues personValues = TestUtilities.getPerson(mContext);
+        final ContentValues personValues = TestUtilities.getPerson(mContext, workPositionRowId);
         Uri personUriId = mContext.getContentResolver().insert(UriHelper.buildPersonUri(mContext), personValues);
 
         long personRowId = ContentUris.parseId(personUriId);
@@ -103,6 +127,16 @@ public class TestProvider extends AndroidTestCase {
 
         assertTrue(taskTypeRowId != -1);
         Log.d(LOG_TAG, "New row id for task type table: " + taskTypeRowId);
+
+        //--------------------------------------------------------------------------//
+        //Test insert on TaskForPosition Table..
+        final ContentValues taskForPositionValues = TestUtilities.getTaskForPosition(mContext);
+        Uri taskForPositionUriId = mContext.getContentResolver().insert(UriHelper.buildTaskTypeWorkPositionUri(mContext), taskForPositionValues);
+
+        long taskForPositionRowId = ContentUris.parseId(taskForPositionUriId);
+
+        assertTrue(taskForPositionRowId != -1);
+        Log.d(LOG_TAG, "New row id for tasktype for work position table: " + taskForPositionRowId);
 
         //--------------------------------------------------------------------------//
         //Test insert on Project Table..
@@ -133,29 +167,47 @@ public class TestProvider extends AndroidTestCase {
         if(null != clientCursor && clientCursor.moveToFirst()) {
             validateCursor(clientValues, clientCursor);
 
-            //Test query on Person Table..
-            final Cursor personCursor = mContext.getContentResolver().query(UriHelper.buildPersonUri(mContext), null, null, null, null);
+            //Test query on Work Position Table..
+            final Cursor workPositionCursor = mContext.getContentResolver().query(UriHelper.buildWorkPositionUri(mContext), null, null, null, null);
 
-            if(null != personCursor && personCursor.moveToFirst()) {
-                validateCursor(personValues, personCursor);
+            if(null != workPositionCursor && workPositionCursor.moveToFirst()) {
+                validateCursor(workPositionValues, workPositionCursor);
 
-                //Test query on TaskType Table..
-                final Cursor taskTypeCursor = mContext.getContentResolver().query(UriHelper.buildTaskTypeUri(mContext), null, null, null, null);
+                //Test query on Person Table..
+                final Cursor personCursor = mContext.getContentResolver().query(UriHelper.buildPersonUri(mContext), null, null, null, null);
 
-                if(null != taskTypeCursor && taskTypeCursor.moveToFirst()) {
-                    validateCursor(taskTypeValues, taskTypeCursor);
+                if (null != personCursor && personCursor.moveToFirst()) {
+                    validateCursor(personValues, personCursor);
 
-                    //Test query on Project Table..
-                    final Cursor projectCursor = mContext.getContentResolver().query(UriHelper.buildProjectUri(mContext), null, null, null, null);
+                    //Test query on TaskType Table..
+                    final Cursor taskTypeCursor = mContext.getContentResolver().query(UriHelper.buildTaskTypeUri(mContext), null, null, null, null);
 
-                    if(null != projectCursor && projectCursor.moveToFirst()) {
-                        validateCursor(projectValues, projectCursor);
+                    if (null != taskTypeCursor && taskTypeCursor.moveToFirst()) {
+                        validateCursor(taskTypeValues, taskTypeCursor);
 
-                        //Test query on jobLog Table..
-                        final Cursor jobLogCursor = mContext.getContentResolver().query(UriHelper.buildJobLogUri(mContext), null, null, null, null);
+                        //Test query on TaskType x WorkPosition Table..
+                        final Cursor taskForPositionCursor = mContext.getContentResolver().query(UriHelper.buildTaskTypeWorkPositionUri(mContext), null, null, null, null);
 
-                        if(null != jobLogCursor && jobLogCursor.moveToFirst()) {
-                            validateCursor(jobLogValues, jobLogCursor);
+                        if(null != taskForPositionCursor && taskForPositionCursor.moveToFirst()) {
+                            validateCursor(taskForPositionValues, taskForPositionCursor);
+
+                            //Test query on Project Table..
+                            final Cursor projectCursor = mContext.getContentResolver().query(UriHelper.buildProjectUri(mContext), null, null, null, null);
+
+                            if (null != projectCursor && projectCursor.moveToFirst()) {
+                                validateCursor(projectValues, projectCursor);
+
+                                //Test query on jobLog Table..
+                                final Cursor jobLogCursor = mContext.getContentResolver().query(UriHelper.buildJobLogUri(mContext), null, null, null, null);
+
+                                if (null != jobLogCursor && jobLogCursor.moveToFirst()) {
+                                    validateCursor(jobLogValues, jobLogCursor);
+                                } else {
+                                    fail("No values returned :(");
+                                }
+                            } else {
+                                fail("No values returned :(");
+                            }
                         } else {
                             fail("No values returned :(");
                         }

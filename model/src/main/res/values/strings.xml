@@ -2,7 +2,7 @@
     <string name="app_name">Data</string>
 
     <!-- Database info -->
-    <string name="database_version">1</string>
+    <string name="database_version">2</string>
     <string name="database_name">timesheet.db</string>
 
     <!-- Content Provider info -->
