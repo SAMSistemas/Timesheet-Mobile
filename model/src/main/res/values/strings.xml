@@ -100,7 +100,7 @@
     <string name="drop_table_task_type">DROP TABLE IF EXISTS taskType;</string>
     <string name="drop_table_task_type_x_work_position">DROP TABLE IF EXISTS tasktypexworkposition;</string>
     <string name="drop_table_project">DROP TABLE IF EXISTS project;</string>
-    <string name="drop_table_job_log">DROP TABLE IF EXISTS joblog;</string>}
+    <string name="drop_table_job_log">DROP TABLE IF EXISTS joblog;</string>
 
     <!-- Shared Preferences Keys -->
     <string name="key_email">email</string>
