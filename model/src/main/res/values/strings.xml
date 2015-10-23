@@ -19,6 +19,14 @@
     <string name="client_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/client</string>
     <string name="client_content_uri">content://com.samsistemas.timesheet.provider/client</string>
 
+    <!-- Work Position Table name and columns -->
+    <string name="work_position_table">workposition</string>
+    <string name="work_position_id">id_workposition</string>
+    <string name="work_position_description">description</string>
+    <string name="work_position_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/workposition</string>
+    <string name="work_position_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/workposition</string>
+    <string name="work_position_content_uri">content://com.samsistemas.timesheet.provider/workposition</string>
+
     <!-- Person Table name and columns -->
     <string name="person_table">person</string>
     <string name="person_id">id_person</string>
@@ -26,6 +34,7 @@
     <string name="person_last_name">lastname</string>
     <string name="person_user_name">username</string>
     <string name="person_password">password</string>
+    <string name="person_work_position_id">id_workposition</string>
     <string name="person_picture">picture</string>
     <string name="person_enabled">enabled</string>
     <string name="person_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/person</string>
@@ -40,7 +49,15 @@
     <string name="task_type_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/tasktype</string>
     <string name="task_type_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/tasktype</string>
     <string name="task_type_content_uri">content://com.samsistemas.timesheet.provider/tasktype</string>
-
+    
+    <!-- TaskType x WorkPosition-->
+    <string name="task_type_x_work_position">tasktypexworkposition</string>
+    <string name="task_type_x_work_position_id">id_workposition</string>
+    <string name="task_type_x_work_position_task_id">id_tasktype</string>
+    <string name="task_type_x_work_position_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/tasktypexworkposition</string>
+    <string name="task_type_x_work_position_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/tasktypexworkposition</string>
+    <string name="task_type_x_work_position_content_uri">content://com.samsistemas.timesheet.provider/tasktypexworkposition</string>
+    
     <!-- Project Table name and columns -->
     <string name="project_table">project</string>
     <string name="project_client_id">id_client</string>
@@ -69,15 +86,19 @@
 
     <!-- Create Table strings -->
     <string name="create_table_client">CREATE TABLE IF NOT EXISTS client(id_client INTEGER NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
-    <string name="create_table_person">CREATE TABLE IF NOT EXISTS person(id_person INTEGER NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, picture BLOB, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_work_position">CREATE TABLE IF NOT EXISTS workposition(id_workposition INTEGER NOT NULL PRIMARY KEY, description TEXT NOT NULL);</string>
+    <string name="create_table_person">CREATE TABLE IF NOT EXISTS person(id_person INTEGER NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, id_workposition INTEGER NOT NULL, picture BLOB, enabled INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition));</string>
     <string name="create_table_task_type">CREATE TABLE IF NOT EXISTS tasktype(id_tasktype INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_task_type_x_work_position">CREATE TABLE IF NOT EXISTS tasktypexworkposition(id_workposition INTEGER NOT NULL, id_tasktype INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
     <string name="create_table_project">CREATE TABLE IF NOT EXISTS project(id_client INTEGER NOT NULL, id_project INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, start_date INTEGER NOT NULL, enabled INTEGER NOT NULL, FOREIGN KEY(id_client) REFERENCES client(id_client));</string>
     <string name="create_table_job_log">CREATE TABLE IF NOT EXISTS joblog(id_joblog INTEGER PRIMARY KEY NOT NULL, id_project INTEGER NOT NULL, id_person INTEGER NOT NULL, id_tasktype INTEGER NOT NULL,  hours TEXT NOT NULL, work_date INTEGER NOT NULL, solicitude_number INTEGER NOT NULL, observations TEXT NOT NULL, FOREIGN KEY(id_project) REFERENCES project(id_project), FOREIGN KEY(id_person) REFERENCES person(id_person), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
 
     <!-- Drop Table strings -->
     <string name="drop_table_client">DROP TABLE IF EXISTS client;</string>
+    <string name="drop_table_work_position">DROP TABLE IF EXISTS workposition;</string>
     <string name="drop_table_person">DROP TABLE IF EXISTS person;</string>
     <string name="drop_table_task_type">DROP TABLE IF EXISTS taskType;</string>
+    <string name="drop_table_task_type_x_work_position">DROP TABLE IF EXISTS tasktypexworkposition;</string>
     <string name="drop_table_project">DROP TABLE IF EXISTS project;</string>
     <string name="drop_table_job_log">DROP TABLE IF EXISTS joblog;</string>}
 

@@ -29,8 +29,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(mContext.getString(R.string.create_table_client));
+        db.execSQL(mContext.getString(R.string.create_table_work_position));
         db.execSQL(mContext.getString(R.string.create_table_person));
         db.execSQL(mContext.getString(R.string.create_table_task_type));
+        db.execSQL(mContext.getString(R.string.create_table_task_type_x_work_position));
         db.execSQL(mContext.getString(R.string.create_table_project));
         db.execSQL(mContext.getString(R.string.create_table_job_log));
     }
@@ -40,8 +42,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Effectuates a version check.. this applies when the scheme it`s updated.
         if(oldVersion < newVersion) {
             db.execSQL(mContext.getString(R.string.drop_table_client));
+            db.execSQL(mContext.getString(R.string.drop_table_work_position));
             db.execSQL(mContext.getString(R.string.drop_table_person));
             db.execSQL(mContext.getString(R.string.drop_table_task_type));
+            db.execSQL(mContext.getString(R.string.drop_table_task_type_x_work_position));
             db.execSQL(mContext.getString(R.string.drop_table_project));
             db.execSQL(mContext.getString(R.string.drop_table_job_log));
 
