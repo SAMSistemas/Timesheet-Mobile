@@ -294,17 +294,20 @@ public class DataProvider extends ContentProvider implements ContentUri {
         SQLiteDatabase writableDatabase = mDatabaseHelper.getWritableDatabase();
         Uri returnUri;
 
-        long id = writableDatabase.insert(
-                mContext.getString(tableName),
-                null,
-                values
-        );
+        long id = -1;
 
-        if(id > 0) {
-            //Uri contentUri = Uri.parse(mContext.getString(uriContent));
-            returnUri = ContentUris.withAppendedId(uri, id);
-        } else {
+        if (!writableDatabase.isReadOnly()) {
+            id = writableDatabase.insertOrThrow(
+                    mContext.getString(tableName),
+                    null,
+                    values
+            );
+        }
+
+        if(id < 0) {
             throw new SQLException("failed to insert row in Uri: " + uri);
+        } else {
+            returnUri = ContentUris.withAppendedId(uri, id);
         }
 
         return returnUri;

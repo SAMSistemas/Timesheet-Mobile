@@ -10,6 +10,7 @@
         <provider android:authorities="com.samsistemas.timesheet.provider"
             android:name="com.samsistemas.timesheet.provider.DataProvider"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="false"/>
+
     </application>
 </manifest>
