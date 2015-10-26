@@ -136,7 +136,7 @@ public class TestUtilities {
      */
     public static WorkPosition getWorkPosition() {
         return new WorkPosition()
-                .setWorkPositionId(1)
+                .setWorkPositionId(0)
                 .setDescription("Developer");
     }
 
@@ -144,13 +144,14 @@ public class TestUtilities {
      *
      * @return
      */
-    public static Person getPerson() {
+    public static Person getPerson(long workPositionId) {
         return new Person()
                 .setPersonId(1)
                 .setName("Jonatan")
                 .setLastName("Salas")
                 .setUsername("JONATANS")
                 .setPassword("JONATANS")
+                .setWorkPositionId(workPositionId)
                 .setPicture(null)
                 .setEnabled(true);
     }
