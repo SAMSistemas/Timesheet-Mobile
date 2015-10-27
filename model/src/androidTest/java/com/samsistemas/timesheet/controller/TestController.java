@@ -46,7 +46,6 @@ public class TestController extends AndroidTestCase {
      *
      */
     public void testControllersCRUD() {
-
         //-------------------------------------------------------------------------//
         //                      CONTROLLER INSERTS TEST PART                       //
         //-------------------------------------------------------------------------//
