@@ -26,7 +26,8 @@ public class Project implements BaseModel<Project>, Parcelable {
     private Date startDate;
     private boolean enabled;
 
-    public Project() {}
+    public Project() {
+    }
 
     /**
      * Protected constructor with parameter.
@@ -43,7 +44,9 @@ public class Project implements BaseModel<Project>, Parcelable {
         enabled = in.readByte() != 0x00;
     }
 
-    /** Attribute setters and getters **/
+    /**
+     * Attribute setters and getters
+     **/
     public Project setProjectId(long projectId) {
         this.projectId = projectId;
         return this;
@@ -143,22 +146,26 @@ public class Project implements BaseModel<Project>, Parcelable {
 
     @Override
     public Project save(@NonNull Context context, Cursor cursor) {
-        final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.project_enabled)));
-        final long millis = cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.project_start_date)));
-        final boolean projectEnabled = ConversionUtil.intToBoolean(available);
+        if (null != cursor && cursor.moveToFirst()) {
+            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.project_enabled)));
+            final long millis = cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.project_start_date)));
+            final boolean projectEnabled = ConversionUtil.intToBoolean(available);
 
-        final Project project = new Project();
+            final Project project = new Project();
 
-        project.setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.project_id))))
-               .setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.project_client_id))))
-               .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.project_name))))
-               .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.project_short_name))))
-               .setStartDate(new Date(millis))
-               .setEnabled(projectEnabled);
+            project.setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.project_id))))
+                    .setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.project_client_id))))
+                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.project_name))))
+                    .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.project_short_name))))
+                    .setStartDate(new Date(millis))
+                    .setEnabled(projectEnabled);
 
-        if(!cursor.isClosed())
-            cursor.close();
+            if (!cursor.isClosed())
+                cursor.close();
 
-        return project;
+            return project;
+        }
+
+        return null;
     }
 }

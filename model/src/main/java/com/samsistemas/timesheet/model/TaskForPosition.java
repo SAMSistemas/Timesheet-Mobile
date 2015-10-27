@@ -44,23 +44,6 @@ public class TaskForPosition implements BaseModel<TaskForPosition>, Parcelable {
     }
 
     @Override
-    public ContentValues asContentValues(@NonNull Context context) {
-        final ContentValues values = new ContentValues(2);
-
-        values.put(context.getString(R.string.task_type_x_work_position_id), workPositionId);
-        values.put(context.getString(R.string.task_type_x_work_position_task_id), taskTypeId);
-
-        return values;
-    }
-
-    @Override
-    public TaskForPosition save(@NonNull Context context, Cursor cursor) {
-        return new TaskForPosition()
-                .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_x_work_position_id))))
-                .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_x_work_position_task_id))));
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -83,4 +66,25 @@ public class TaskForPosition implements BaseModel<TaskForPosition>, Parcelable {
             return new TaskForPosition[size];
         }
     };
+
+    @Override
+    public ContentValues asContentValues(@NonNull Context context) {
+        final ContentValues values = new ContentValues(2);
+
+        values.put(context.getString(R.string.task_type_x_work_position_id), workPositionId);
+        values.put(context.getString(R.string.task_type_x_work_position_task_id), taskTypeId);
+
+        return values;
+    }
+
+    @Override
+    public TaskForPosition save(@NonNull Context context, Cursor cursor) {
+        if (null != cursor && cursor.moveToFirst()) {
+            return new TaskForPosition()
+                    .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_x_work_position_id))))
+                    .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_x_work_position_task_id))));
+        }
+
+        return null;
+    }
 }

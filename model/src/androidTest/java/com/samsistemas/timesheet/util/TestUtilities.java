@@ -12,6 +12,8 @@ import com.samsistemas.timesheet.model.TaskForPosition;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.model.WorkPosition;
 
+import junit.framework.Assert;
+
 import java.util.Date;
 
 /**

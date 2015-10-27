@@ -101,18 +101,22 @@ public class TaskType implements BaseModel<TaskType>, Parcelable {
 
     @Override
     public TaskType save(@NonNull Context context, Cursor cursor) {
-        final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_enabled)));
-        final boolean taskTypeEnabled = ConversionUtil.intToBoolean(available);
+        if (null != cursor && cursor.moveToFirst()) {
+            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_enabled)));
+            final boolean taskTypeEnabled = ConversionUtil.intToBoolean(available);
 
-        final TaskType taskType = new TaskType();
+            final TaskType taskType = new TaskType();
 
-        taskType.setTaskTypeId(cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_id))))
-                .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_name))))
-                .setEnabled(taskTypeEnabled);
+            taskType.setTaskTypeId(cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_id))))
+                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_name))))
+                    .setEnabled(taskTypeEnabled);
 
-        if(!cursor.isClosed())
-            cursor.close();
+            if (!cursor.isClosed())
+                cursor.close();
 
-        return taskType;
+            return taskType;
+        }
+
+        return null;
     }
 }

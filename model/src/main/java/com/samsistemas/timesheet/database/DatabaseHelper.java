@@ -50,7 +50,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Calls onCreate to recreate database tables.
         onCreate(db);
-
     }
 
     /**

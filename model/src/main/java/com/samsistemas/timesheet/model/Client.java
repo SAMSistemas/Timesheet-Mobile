@@ -114,21 +114,24 @@ public class Client implements BaseModel<Client>, Parcelable {
 
     @Override
     public Client save(@NonNull Context context, Cursor cursor) {
-        cursor.moveToFirst();
+        if (null != cursor && cursor.moveToFirst()) {
 
-        final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.client_enabled)));
-        final boolean clientEnabled = ConversionUtil.intToBoolean(available);
+            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.client_enabled)));
+            final boolean clientEnabled = ConversionUtil.intToBoolean(available);
 
-        final Client client = new Client();
+            final Client client = new Client();
 
-        client.setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.client_id))))
-              .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.client_name))))
-              .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.client_short_name))))
-              .setEnabled(clientEnabled);
+            client.setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.client_id))))
+                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.client_name))))
+                    .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.client_short_name))))
+                    .setEnabled(clientEnabled);
 
-        if(!cursor.isClosed())
-            cursor.close();
+            if (!cursor.isClosed())
+                cursor.close();
 
-        return client;
+            return client;
+        }
+
+        return null;
     }
 }

@@ -12,6 +12,7 @@ import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskForPosition;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.model.WorkPosition;
+import com.samsistemas.timesheet.util.AssertUtilities;
 import com.samsistemas.timesheet.util.TestUtilities;
 
 import java.util.List;
@@ -44,40 +45,102 @@ public class TestController extends AndroidTestCase {
     /**
      *
      */
-    public void testClientControllerInsertReadDb() {
-        boolean inserted = clientBaseController.insert(mContext, TestUtilities.getClient());
+    public void testControllersCRUD() {
+
+        //-------------------------------------------------------------------------//
+        //                      CONTROLLER INSERTS TEST PART                       //
+        //-------------------------------------------------------------------------//
+        boolean inserted = clientBaseController.insert(mContext, expectedClient);
         assertEquals(true, inserted);
 
+        inserted = workPositionBaseController.insert(mContext, expectedWorkPosition);
+        assertEquals(true, inserted);
+
+        inserted = personBaseController.insert(mContext, expectedPerson);
+        assertEquals(true, inserted);
+
+        inserted = taskTypeBaseController.insert(mContext, expectedTaskType);
+        assertEquals(true, inserted);
+
+        inserted = taskForPositionBaseController.insert(mContext, expectedTaskForPosition);
+        assertEquals(true, inserted);
+
+        inserted = projectBaseController.insert(mContext, expectedProject);
+        assertEquals(true, inserted);
+
+        inserted = jobLogBaseController.insert(mContext, expectedJobLog);
+        assertEquals(true, inserted);
+
+        //-------------------------------------------------------------------------//
+        //                      CONTROLLER READ TEST PART                          //
+        //-------------------------------------------------------------------------//
         Client client = clientBaseController.get(mContext, 1);
+        AssertUtilities.compareClient(expectedClient, client);
 
-        assertEquals(expectedClient.getClientId(), client.getClientId());
-        assertEquals(expectedClient.getName(), client.getName());
-        assertEquals(expectedClient.getShortName(), client.getShortName());
-        assertEquals(expectedClient.isEnabled(), client.isEnabled());
+        WorkPosition workPosition = workPositionBaseController.get(mContext, expectedWorkPosition.getWorkPositionId());
+        AssertUtilities.compareWorkPosition(expectedWorkPosition, workPosition);
 
+        Person person = personBaseController.get(mContext, expectedPerson.getPersonId());
+        AssertUtilities.comparePerson(expectedPerson, person);
+
+        TaskType taskType = taskTypeBaseController.get(mContext, expectedTaskType.getTaskTypeId());
+        AssertUtilities.compareTaskType(expectedTaskType, taskType);
+
+        TaskForPosition taskForPosition = taskForPositionBaseController.get(mContext, expectedTaskForPosition.getTaskTypeId());
+        AssertUtilities.compareTaskForPosition(expectedTaskForPosition, taskForPosition);
+
+        Project project = projectBaseController.get(mContext, expectedProject.getProjectId());
+        AssertUtilities.compareProject(expectedProject, project);
+
+        JobLog jobLog = jobLogBaseController.get(mContext, expectedJobLog.getJobLogId());
+        AssertUtilities.compareJobLog(expectedJobLog, jobLog);
+
+        //-------------------------------------------------------------------------//
+        //                      CONTROLLER LIST TEST PART                          //
+        //-------------------------------------------------------------------------//
         List<Client> clientList = clientBaseController.listAll(mContext);
         assertEquals(false, clientList.isEmpty());
-
-        boolean deleted = clientBaseController.delete(mContext, client.getClientId());
-        assertEquals(true, deleted);
-    }
-
-    /**
-     *
-     */
-    public void testWorkPositionControllerInsertReadDb() {
-        boolean inserted = workPositionBaseController.insert(mContext, expectedWorkPosition);
-        assertEquals(true, inserted);
-
-        WorkPosition workPosition = workPositionBaseController.get(mContext, 1);
-
-        assertEquals(expectedWorkPosition.getWorkPositionId(), workPosition.getWorkPositionId());
-        assertEquals(expectedWorkPosition.getDescription(), workPosition.getDescription());
 
         List<WorkPosition> workPositionList = workPositionBaseController.listAll(mContext);
         assertEquals(false, workPositionList.isEmpty());
 
-        boolean deleted = workPositionBaseController.delete(mContext, workPosition.getWorkPositionId());
+        List<Person> personList = personBaseController.listAll(mContext);
+        assertEquals(false, personList.isEmpty());
+
+        List<TaskType> taskTypeList = taskTypeBaseController.listAll(mContext);
+        assertEquals(false, taskTypeList.isEmpty());
+
+        List<TaskForPosition> taskForPositionList = taskForPositionBaseController.listAll(mContext);
+        assertEquals(false, taskForPositionList.isEmpty());
+
+        List<Project> projectList = projectBaseController.listAll(mContext);
+        assertEquals(false, projectList.isEmpty());
+
+        List<JobLog> jobLogList = jobLogBaseController.listAll(mContext);
+        assertEquals(false, jobLogList.isEmpty());
+
+        //-------------------------------------------------------------------------//
+        //                      CONTROLLER DELETE TEST PART                       //
+        //-------------------------------------------------------------------------//
+        boolean deleted = clientBaseController.delete(mContext, expectedClient.getClientId());
+        assertEquals(true, deleted);
+
+        deleted = workPositionBaseController.delete(mContext, expectedWorkPosition.getWorkPositionId());
+        assertEquals(true, deleted);
+
+        deleted = personBaseController.delete(mContext, expectedPerson.getPersonId());
+        assertEquals(true, deleted);
+
+        deleted = taskTypeBaseController.delete(mContext, expectedTaskType.getTaskTypeId());
+        assertEquals(true, deleted);
+
+        deleted = taskForPositionBaseController.delete(mContext, expectedTaskForPosition.getTaskTypeId());
+        assertEquals(true, deleted);
+
+        deleted = projectBaseController.delete(mContext, expectedProject.getProjectId());
+        assertEquals(true, deleted);
+
+        deleted = jobLogBaseController.delete(mContext, expectedJobLog.getJobLogId());
         assertEquals(true, deleted);
     }
 }

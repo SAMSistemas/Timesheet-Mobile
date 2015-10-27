@@ -79,8 +79,12 @@ public class WorkPosition implements BaseModel<WorkPosition>, Parcelable {
 
     @Override
     public WorkPosition save(@NonNull Context context, Cursor cursor) {
-        return new WorkPosition()
-                .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.work_position_id))))
-                .setDescription(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.work_position_description))));
+        if (null != cursor && cursor.moveToFirst()) {
+            return new WorkPosition()
+                    .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.work_position_id))))
+                    .setDescription(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.work_position_description))));
+        }
+
+        return null;
     }
 }

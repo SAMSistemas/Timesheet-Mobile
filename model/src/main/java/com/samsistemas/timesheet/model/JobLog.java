@@ -27,7 +27,8 @@ public class JobLog implements BaseModel<JobLog>, Parcelable {
     private int solicitude;
     private String observations;
 
-    public JobLog() {}
+    public JobLog() {
+    }
 
     /**
      * Protected constructor with parameter.
@@ -47,7 +48,9 @@ public class JobLog implements BaseModel<JobLog>, Parcelable {
     }
 
 
-    /** Attributes setters and getters **/
+    /**
+     * Attributes setters and getters
+     **/
     public JobLog setJobLogId(long jobLogId) {
         this.jobLogId = jobLogId;
         return this;
@@ -168,22 +171,26 @@ public class JobLog implements BaseModel<JobLog>, Parcelable {
 
     @Override
     public JobLog save(@NonNull Context context, Cursor cursor) {
-        long millis = cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_work_date)));
+        if(null != cursor && cursor.moveToFirst()) {
+            long millis = cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_work_date)));
 
-        final JobLog jobLog = new JobLog();
+            final JobLog jobLog = new JobLog();
 
-        jobLog.setJobLogId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_id))))
-              .setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_project_id))))
-              .setPersonId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_person_id))))
-              .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_task_type_id))))
-              .setHours(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_hours))))
-              .setWorkDate(new Date(millis))
-              .setSolicitude(cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_solicitude))))
-              .setObservations(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_observations))));
+            jobLog.setJobLogId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_id))))
+                    .setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_project_id))))
+                    .setPersonId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_person_id))))
+                    .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_task_type_id))))
+                    .setHours(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_hours))))
+                    .setWorkDate(new Date(millis))
+                    .setSolicitude(cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_solicitude))))
+                    .setObservations(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_observations))));
 
-        if(!cursor.isClosed())
-            cursor.close();
+            if (!cursor.isClosed())
+                cursor.close();
 
-        return jobLog;
+            return jobLog;
+        }
+
+        return null;
     }
 }

@@ -172,25 +172,30 @@ public class Person implements BaseModel<Person>, Parcelable {
 
     @Override
     public Person save(@NonNull Context context, Cursor cursor) {
-        final byte[] profile = cursor.getBlob(cursor.getColumnIndexOrThrow(context.getString(R.string.person_picture)));
-        final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.person_enabled)));
-        final Drawable personPicture = ConversionUtil.byteArrayToDrawable(profile);
-        final boolean personEnabled = ConversionUtil.intToBoolean(available);
+        if (null != cursor && cursor.moveToFirst()) {
 
-        final Person person = new Person();
+            final byte[] profile = cursor.getBlob(cursor.getColumnIndexOrThrow(context.getString(R.string.person_picture)));
+            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.person_enabled)));
+            final Drawable personPicture = ConversionUtil.byteArrayToDrawable(profile);
+            final boolean personEnabled = ConversionUtil.intToBoolean(available);
 
-        person.setPersonId(cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.person_id))))
-              .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_name))))
-              .setLastName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_last_name))))
-              .setUsername(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_user_name))))
-              .setPassword(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_password))))
-              .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.person_work_position_id))))
-              .setPicture(personPicture)
-              .setEnabled(personEnabled);
+            final Person person = new Person();
 
-        if(!cursor.isClosed())
-            cursor.close();
+            person.setPersonId(cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.person_id))))
+                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_name))))
+                    .setLastName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_last_name))))
+                    .setUsername(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_user_name))))
+                    .setPassword(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_password))))
+                    .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.person_work_position_id))))
+                    .setPicture(personPicture)
+                    .setEnabled(personEnabled);
 
-        return person;
+            if (!cursor.isClosed())
+                cursor.close();
+
+            return person;
+        }
+
+        return null;
     }
 }
