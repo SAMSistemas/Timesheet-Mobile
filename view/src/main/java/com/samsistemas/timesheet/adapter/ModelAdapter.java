@@ -13,10 +13,13 @@ import com.samsistemas.timesheet.model.TaskForPosition;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.model.WorkPosition;
 import com.samsistemas.timesheet.viewmodel.ClientViewModel;
+import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
 import com.samsistemas.timesheet.viewmodel.ProjectViewModel;
+import com.samsistemas.timesheet.viewmodel.TaskTypeViewModel;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,8 +36,12 @@ public class ModelAdapter {
 
     private WeakReference<Context> mContextReference;
 
-    public ModelAdapter(@NonNull WeakReference<Context> contextReference) {
-        this.mContextReference = contextReference;
+    /**
+     *
+     * @param context
+     */
+    public ModelAdapter(@NonNull Context context) {
+        this.mContextReference = new WeakReference<>(context);
     }
 
     /**
@@ -65,5 +72,82 @@ public class ModelAdapter {
         }
 
         return projectViewModels;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<TaskTypeViewModel> getTaskForWorKPosition() {
+        final Person person = personBaseController.get(mContextReference.get(), 0);
+        List<TaskForPosition> taskForPositions = taskForPositionBaseController.listAll(mContextReference.get());
+        List<TaskType> taskTypes = taskTypeBaseController.listAll(mContextReference.get());
+        List<TaskTypeViewModel> taskTypeViewModels = new ArrayList<>();
+
+        List<Long> taskTypesIds = new ArrayList<>();
+
+        for(int i = 0; i < taskForPositions.size(); i++) {
+            if(person.getWorkPositionId() == taskForPositions.get(i).getWorkPositionId()) {
+                taskTypesIds.add(taskForPositions.get(i).getTaskTypeId());
+            }
+        }
+
+        for(int i = 0; i < taskTypes.size(); i++) {
+            for(int j = 0; j < taskTypesIds.size(); j++) {
+                if(taskTypes.get(i).getTaskTypeId() == taskTypesIds.get(j)) {
+                    taskTypeViewModels.add(new TaskTypeViewModel(taskTypes.get(i)));
+                }
+            }
+        }
+
+        return taskTypeViewModels;
+    }
+
+    /**
+     *
+     * @param date
+     * @return
+     */
+    public List<JobLogViewModel> getJobLogsByDate(Date date) {
+        List<JobLog> jobLogs = jobLogBaseController.listAll(mContextReference.get());
+        List<JobLogViewModel> jobLogViewModels = new ArrayList<>();
+        List<TaskTypeViewModel> taskTypes = getTaskForWorKPosition();
+
+        for(int i = 0; i < jobLogs.size(); i++) {
+            for (int j = 0; j < taskTypes.size(); j++) {
+                if (jobLogs.get(i).getWorkDate().equals(date)) {
+                    jobLogViewModels.add(new JobLogViewModel(jobLogs.get(i), taskTypes.get(j)));
+                }
+            }
+        }
+
+        return jobLogViewModels;
+    }
+
+    /**
+     *
+     * @param jobLog
+     * @return
+     */
+    public boolean insertJobLog(@NonNull JobLog jobLog) {
+        return jobLogBaseController.insert(mContextReference.get(), jobLog);
+    }
+
+    /**
+     *
+     * @param jobLog
+     * @return
+     */
+    public boolean updateJobLog(@NonNull JobLog jobLog) {
+        return jobLogBaseController.update(mContextReference.get(), jobLog);
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public boolean deleteJobLog(long id) {
+        return jobLogBaseController.delete(mContextReference.get(), id);
     }
 }
