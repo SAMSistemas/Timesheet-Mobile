@@ -7,7 +7,7 @@
     <string name="action_account">Account</string>
     <string name="action_add_hour">Add hours</string>
     <string name="action_view_calendar">View calendar</string>
-    <string name="action_mode_edit">Edit</string>
+    <string name="action_mode_edit" translatable="false">Edit</string>
     <string name="action_logout">Logout</string>
 
     <!-- Navigation Drawer Menu Section Strings -->
@@ -31,7 +31,7 @@
     <string name="logo_desc">Logo image</string>
 
     <string name="domain">\@samsistemas.com.ar</string>
-    <string name="enterprise_name">by SAM Sistemas</string>
+    <string name="enterprise_name" translatable="false">by SAM Sistemas</string>
 
     <string name="email_password_error">Empty or incorrect Email and Password</string>
     <string name="email_error">Empty or incorrect Email</string>

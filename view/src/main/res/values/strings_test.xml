@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Test Case Strings -->
-    <string name="email1">jonatan.salas@samsistemas.com.ar</string>
-    <string name="email2">lala.ds</string>
-    <string name="email3">fulano@</string>
+    <string name="email1" translatable="false">jonatan.salas@samsistemas.com.ar</string>
+    <string name="email2" translatable="false">lala.ds</string>
+    <string name="email3" translatable="false">fulano@</string>
 
-    <string name="password1">JonatanS</string>
-    <string name="password2">jonatanSalas</string>
-    <string name="password3">JONATANSalas</string>
-    <string name="password4">jonatan.salas</string>
-    <string name="password5">JONataN.</string>
-    <string name="password6">J1232oO</string>
+    <string name="password1" translatable="false">JonatanS</string>
+    <string name="password2" translatable="false">jonatanSalas</string>
+    <string name="password3" translatable="false">JONATANSalas</string>
+    <string name="password4" translatable="false">jonatan.salas</string>
+    <string name="password5" translatable="false">JONataN.</string>
+    <string name="password6" translatable="false">J1232oO</string>
 
-    <string name="dummy_email1">jonatan.salas@samsistemas.com.ar</string>
-    <string name="dummy_password1">maipufdf</string>
+    <string name="dummy_email1" translatable="false">jonatan.salas@samsistemas.com.ar</string>
+    <string name="dummy_password1" translatable="false">maipufdf</string>
 </resources>
