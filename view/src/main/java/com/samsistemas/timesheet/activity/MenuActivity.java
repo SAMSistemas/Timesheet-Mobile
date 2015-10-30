@@ -1,19 +1,32 @@
 package com.samsistemas.timesheet.activity;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.imanoweb.calendarview.CalendarListener;
+import com.imanoweb.calendarview.CustomCalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
+import com.samsistemas.timesheet.util.DateUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Class used as MenuActivity. It manages multiples fragments instances by
@@ -21,8 +34,10 @@ import com.samsistemas.timesheet.navigation.SettingsNavigator;
  *
  * @author jonatan.salas
  */
-public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarListener {
     private static final String LOG_TAG = MenuActivity.class.getSimpleName();
+    private CustomCalendarView mCalendarView;
+    private TextView mDateTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +47,26 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        toolbarLayout.setTitleEnabled(false);
+
+        mDateTitle = (TextView) findViewById(R.id.date);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        mCalendarView = (CustomCalendarView) findViewById(R.id.calendar_view);
+        mCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        mCalendarView.setShowOverflowDate(true);
+        mCalendarView.refreshCalendar(getCalendar());
+        mCalendarView.setCalendarListener(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0);
@@ -100,5 +135,20 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @Override
+    public void onDateSelected(Date date) {
+        String dateTitle = DateUtil.formatDate(getApplicationContext(), date);
+        mDateTitle.setText(dateTitle);
+    }
+
+    @Override
+    public void onMonthChanged(Date date) {
+
+    }
+
+    private Calendar getCalendar() {
+        return Calendar.getInstance(Locale.getDefault());
     }
 }

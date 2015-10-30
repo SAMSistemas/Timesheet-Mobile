@@ -42,5 +42,18 @@
     <string name="password_dialog_negative_button">cancelar</string>
     <string name="password_dialog_positive_button">guardar</string>
 
+    <string name="of">de</string>
+    <string name="january">Enero</string>
+    <string name="february">Febrero</string>
+    <string name="march">Marzo</string>
+    <string name="april">Abril</string>
+    <string name="may">Mayo</string>
+    <string name="june">Junio</string>
+    <string name="july">Julio</string>
+    <string name="august">Agosto</string>
+    <string name="september">Septiembre</string>
+    <string name="october">Octubre</string>
+    <string name="november">Noviembre</string>
+    <string name="december">Deciembre</string>
 
 </resources>
