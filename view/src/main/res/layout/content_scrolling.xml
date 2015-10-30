@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/scroll_layout"
     tools:showIn="@layout/activity_scrolling" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context=".activity.MenuActivity">
 
@@ -26,8 +27,8 @@
             android:layout_marginBottom="8dp"
             tools:text="12 de noviembre de 2015" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <ListView
+            android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"

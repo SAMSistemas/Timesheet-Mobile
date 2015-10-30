@@ -7,12 +7,18 @@ import android.support.design.widget.NavigationView;
 
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.imanoweb.calendarview.CalendarListener;
@@ -23,7 +29,7 @@ import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 
-import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -75,6 +81,30 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        final ActionBar actionBar = getSupportActionBar();
+
+        ListView listView = (ListView) findViewById(R.id.list_view);
+        String[] array = new String[] {
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala",
+            "lalaalalaallalalalallalala"
+        };
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, array);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -141,11 +171,13 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     public void onDateSelected(Date date) {
         String dateTitle = DateUtil.formatDate(getApplicationContext(), date);
         mDateTitle.setText(dateTitle);
+
+
     }
 
     @Override
     public void onMonthChanged(Date date) {
-
+        mDateTitle.setText("");
     }
 
     private Calendar getCalendar() {
