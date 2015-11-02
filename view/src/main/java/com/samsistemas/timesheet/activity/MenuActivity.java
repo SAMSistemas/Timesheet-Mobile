@@ -1,11 +1,14 @@
 package com.samsistemas.timesheet.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -23,6 +26,7 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
+import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 
 import java.util.Calendar;
@@ -58,12 +62,12 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AddHoursNavigator.newInstance().navigateWithAnimation(MenuActivity.this, view);
             }
         });
 
         mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
+
         mCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         mCalendarView.setIsOverflowDateVisible(true);
         mCalendarView.refreshCalendar(getCalendar());
@@ -140,12 +144,11 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         switch (id) {
             case R.id.action_view_calendar:
                 setTitle(R.string.action_view_calendar);
-                //addFragment(mFragment);
                 break;
 
             case R.id.action_add_hour:
-                setTitle(R.string.action_add_hour);
-                //addFragment(mFragment);
+                AddHoursNavigator.newInstance()
+                        .navigateWithAnimation(MenuActivity.this, navigationView);
                 break;
 
             case R.id.action_account:

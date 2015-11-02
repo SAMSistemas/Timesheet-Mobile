@@ -4,7 +4,7 @@
     android:id="@+id/drawer_header"
     android:layout_width="match_parent"
     android:layout_height="190dp"
-    android:background="@drawable/material_dark"
+    android:background="@color/primary"
     android:orientation="vertical">
 
     <de.hdodenhof.circleimageview.CircleImageView
