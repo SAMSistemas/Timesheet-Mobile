@@ -22,7 +22,7 @@ android:fitsSystemWindows="true" tools:openDrawer="start">
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.imanoweb.calendarview.CustomCalendarView
+                <com.samsistemas.calendarview.widget.CalendarView
                     android:id="@+id/calendar_view"
                     android:layout_marginTop="56dp"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -34,7 +34,7 @@ android:fitsSystemWindows="true" tools:openDrawer="start">
                     android:layout_height="wrap_content"
                     android:background="@color/primary"
                     app:calendarBackgroundColor="@color/primary"
-                    app:calendarTitleTextColor="@color/white"
+                    app:calendarTitleTextColor="@color/accent"
                     app:currentDayOfMonthColor="@color/white"
                     app:dayOfMonthTextColor="@color/white"
                     app:dayOfWeekTextColor="@color/white"
@@ -43,7 +43,7 @@ android:fitsSystemWindows="true" tools:openDrawer="start">
                     app:selectedDayBackgroundColor="@color/accent"
                     app:titleLayoutBackgroundColor="@color/primary"
                     app:weekLayoutBackgroundColor="@color/primary">
-                </com.imanoweb.calendarview.CustomCalendarView>
+                </com.samsistemas.calendarview.widget.CalendarView>
 
             </FrameLayout>
 

@@ -7,29 +7,24 @@ import android.support.design.widget.NavigationView;
 
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.imanoweb.calendarview.CalendarListener;
-import com.imanoweb.calendarview.CustomCalendarView;
+import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -40,9 +35,9 @@ import java.util.Locale;
  *
  * @author jonatan.salas
  */
-public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarListener {
+public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener {
     private static final String LOG_TAG = MenuActivity.class.getSimpleName();
-    private CustomCalendarView mCalendarView;
+    private CalendarView mCalendarView;
     private TextView mDateTitle;
 
     @Override
@@ -68,11 +63,12 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
             }
         });
 
-        mCalendarView = (CustomCalendarView) findViewById(R.id.calendar_view);
+        mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
         mCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
-        mCalendarView.setShowOverflowDate(true);
+        mCalendarView.setIsOverflowDateVisible(true);
         mCalendarView.refreshCalendar(getCalendar());
-        mCalendarView.setCalendarListener(this);
+        mCalendarView.setOnDateSelectedListener(this);
+        mCalendarView.setOnMonthChangedListener(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0);
@@ -168,15 +164,13 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     }
 
     @Override
-    public void onDateSelected(Date date) {
-        String dateTitle = DateUtil.formatDate(getApplicationContext(), date);
+    public void onDateSelected(@NonNull Date selectedDate) {
+        String dateTitle = DateUtil.formatDate(getApplicationContext(), selectedDate);
         mDateTitle.setText(dateTitle);
-
-
     }
 
     @Override
-    public void onMonthChanged(Date date) {
+    public void onMonthChanged(@NonNull Date currentMonth) {
         mDateTitle.setText("");
     }
 
