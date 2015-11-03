@@ -1,14 +1,10 @@
 package com.samsistemas.timesheet.activity;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -73,6 +69,10 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         mCalendarView.refreshCalendar(getCalendar());
         mCalendarView.setOnDateSelectedListener(this);
         mCalendarView.setOnMonthChangedListener(this);
+
+        //TODO js: add getCurrentDate method to CalendarView class.
+        //TODO js: add findViewByDate method to CalendarView class.
+        //TODO js: add method decorateCurrentDay to CalendarView class.
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0);
