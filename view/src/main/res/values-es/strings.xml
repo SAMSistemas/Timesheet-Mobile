@@ -56,4 +56,5 @@
     <string name="november">Noviembre</string>
     <string name="december">Deciembre</string>
 
+    <string name="no_job_logs">No hay Tareas registradas</string>
 </resources>
