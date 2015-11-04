@@ -34,7 +34,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.github.SAMSistemas:MaterialCalendarView:v1.1.1'
+    compile 'com.github.SAMSistemas:MaterialCalendarView:v1.2.1'
     compile 'com.android.support:support-annotations:23.1.0'
     compile 'com.android.support:recyclerview-v7:23.1.0'
     compile 'com.android.support:preference-v14:23.1.0'

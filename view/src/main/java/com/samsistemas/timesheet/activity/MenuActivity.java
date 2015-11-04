@@ -65,14 +65,13 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
 
         mCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
+        mCalendarView.setNextButtonColor(R.color.accent);
+        mCalendarView.setBackButtonColor(R.color.accent);
+        mCalendarView.setCurrentDay(new Date(System.currentTimeMillis()));
         mCalendarView.setIsOverflowDateVisible(true);
         mCalendarView.refreshCalendar(getCalendar());
         mCalendarView.setOnDateSelectedListener(this);
         mCalendarView.setOnMonthChangedListener(this);
-
-        //TODO js: add getCurrentDate method to CalendarView class.
-        //TODO js: add findViewByDate method to CalendarView class.
-        //TODO js: add method decorateCurrentDay to CalendarView class.
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0);
