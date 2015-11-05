@@ -9,10 +9,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -24,12 +26,17 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
 import com.samsistemas.timesheet.adapter.ModelAdapter;
+import com.samsistemas.timesheet.model.JobLog;
+import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
+import com.samsistemas.timesheet.viewmodel.TaskTypeViewModel;
+import com.samsistemas.timesheet.widget.EmptyRecyclerView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +51,7 @@ import java.util.Locale;
 public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener {
     private RecyclerView.Adapter mAdapter;
     private CalendarView mCalendarView;
-    private RecyclerView mRecyclerView;
+    private EmptyRecyclerView mRecyclerView;
     private Date mTodayDate;
     private TextView mDateTitle;
 
@@ -189,18 +196,46 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     }
 
     protected void setRecyclerView() {
-        final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
-        List<JobLogViewModel> items = modelAdapter.getJobLogsByDate(mTodayDate);
+//        final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
+        List<JobLogViewModel> items = new ArrayList<>();//modelAdapter.getJobLogsByDate(mTodayDate);
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView = (EmptyRecyclerView) findViewById(R.id.recycler_view);
+        mAdapter = new JobLogAdapter(getApplicationContext(), items);
 
-        //This is done to optimize how the default views are showed. If there is no
-        //item in the List, then it only shows an empty view.
-        if(items.size() > 0)
-            mRecyclerView.setHasFixedSize(true);
+        View emptyView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.empty_job_log, null, false);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new JobLogAdapter(getApplicationContext(), items);
+        mRecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerView.setHasFixedSize(false);
+        mRecyclerView.setEmptyView(emptyView);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         //After creating we set it and tell the observer to show the changes over RecyclerView.
         mRecyclerView.setAdapter(mAdapter);

@@ -1,11 +1,18 @@
 package com.samsistemas.timesheet.adapter;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
 
 import java.util.List;
@@ -13,19 +20,25 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder> {
-    private static final int EMPTY_VIEW_TYPE = 10;
+public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<JobLogViewModel> mItems;
     private Context mContext;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+    /**
+     * @author jonatan.salas
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+        TextView mJobLogTask;
+        TextView mJobLogDescription;
+        TextView mJobLogHours;
+        ImageView mIcon;
 
         public ViewHolder(View v) {
             super(v);
+            mIcon = (ImageView) v.findViewById(R.id.joblog_image);
+            mJobLogTask = (TextView) v.findViewById(R.id.joblog_task);
+            mJobLogDescription = (TextView) v.findViewById(R.id.joblog_description);
+            mJobLogHours = (TextView) v.findViewById(R.id.joblog_hours);
         }
     }
 
@@ -34,22 +47,30 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
      * @param context
      * @param items
      */
-    public JobLogAdapter(@NonNull Context context, @NonNull List<JobLogViewModel> items) {
-
+    public JobLogAdapter(@NonNull Context context, @Nullable List<JobLogViewModel> items) {
+        this.mContext = context;
+        this.mItems = items;
     }
 
     @Override
-    public JobLogAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.job_log_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(JobLogAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        final ViewHolder viewHolder = (ViewHolder) holder;
+        final JobLogViewModel jobLogViewModel = mItems.get(position);
 
+        viewHolder.mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.material_teal), PorterDuff.Mode.SRC_ATOP);
+        viewHolder.mJobLogTask.setText(jobLogViewModel.getTaskTypeViewModel().getTaskTypeName());
+        viewHolder.mJobLogDescription.setText(jobLogViewModel.getJobLogObservation());
+        viewHolder.mJobLogHours.setText(jobLogViewModel.getJobLogHours() + " hrs");
     }
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return (null!= mItems && mItems.size() > 0)? mItems.size() : 0;
     }
 }

@@ -15,7 +15,7 @@ android:fitsSystemWindows="true" tools:openDrawer="start">
 
         <android.support.design.widget.CollapsingToolbarLayout android:id="@+id/toolbar_layout"
             android:fitsSystemWindows="true" android:layout_width="match_parent"
-            android:layout_height="match_parent" app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:layout_height="match_parent" app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|exitUntilCollapsed"
             app:contentScrim="?attr/colorPrimary">
 
             <FrameLayout android:id="@+id/content"
@@ -63,7 +63,8 @@ android:fitsSystemWindows="true" tools:openDrawer="start">
 
 </android.support.design.widget.CoordinatorLayout>
 
-<android.support.design.widget.NavigationView android:id="@+id/navigation_view"
+<android.support.design.widget.NavigationView
+    android:id="@+id/navigation_view"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="start"
