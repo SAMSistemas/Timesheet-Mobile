@@ -13,6 +13,7 @@ import com.samsistemas.timesheet.service.NetworkStateService;
 /**
  * @author jonatan.salas
  */
+//TODO JS: Delete unused methods.
 public class BaseAppCompatActivity extends AppCompatActivity {
 
     /**
