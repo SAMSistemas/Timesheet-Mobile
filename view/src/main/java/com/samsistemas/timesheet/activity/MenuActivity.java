@@ -159,9 +159,13 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
             mCalendarView.setCurrentDay(getCurrentDate());
             mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
+            resetAdapter(getCurrentDate());
         } else {
             //We want this to display an announce, telling the user that has not any date selected..
             mDateTitle.setText(getString(R.string.no_date_selected));
+            //This remove old list by date showed.
+            //Expecting the user to select a new one.
+            deleteAdapterData();
         }
     }
 
@@ -215,6 +219,12 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
     protected void resetAdapter(@NonNull Date date) {
         mAdapter.setItems(getListFilteredByDate(date));
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    protected void deleteAdapterData() {
+        mAdapter.setItems(null);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
