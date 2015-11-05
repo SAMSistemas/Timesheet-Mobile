@@ -4,7 +4,8 @@
     android:id="@+id/empty_view"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground" >
 
     <TextView android:id="@+id/empty_textview"
         android:gravity="center|center_vertical|center_horizontal"

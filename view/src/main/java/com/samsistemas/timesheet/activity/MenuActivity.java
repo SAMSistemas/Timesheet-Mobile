@@ -14,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
-import com.samsistemas.timesheet.adapter.ModelAdapter;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
@@ -34,7 +32,6 @@ import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
 import com.samsistemas.timesheet.viewmodel.TaskTypeViewModel;
-import com.samsistemas.timesheet.widget.EmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,11 +45,11 @@ import java.util.Locale;
  *
  * @author jonatan.salas
  */
+//TODO JS: save View State in order to get a better user experience. When started new activity, the current is killed.
 public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener {
-    private RecyclerView.Adapter mAdapter;
+    private JobLogAdapter mAdapter;
     private CalendarView mCalendarView;
-    private EmptyRecyclerView mRecyclerView;
-    private Date mTodayDate;
+    private RecyclerView mRecyclerView;
     private TextView mDateTitle;
 
     @Override
@@ -65,10 +62,9 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         setCalendarView();
         setRecyclerView();
 
-        mTodayDate = new Date(System.currentTimeMillis());
         mDateTitle = (TextView) findViewById(R.id.date);
         mDateTitle.setTypeface(getRobotoMediumTypeface());
-        mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), mTodayDate));
+        mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +73,13 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
                 AddHoursNavigator.newInstance().navigateWithAnimation(MenuActivity.this, view);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //When Current View is resumed we come to initial status. We expect the user to follow today job logs.
+        resetAdapter(getCurrentDate());
     }
 
     @Override
@@ -141,6 +144,8 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     @Override
     public void onDateSelected(@NonNull Date selectedDate) {
         mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), selectedDate));
+        //We call this in order to show the data, available for the date user-selected.
+        resetAdapter(selectedDate);
     }
 
     @Override
@@ -149,14 +154,14 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         nextCalendar.setTime(currentMonth);
 
         Calendar todayCalendar = getCalendar();
-        todayCalendar.setTime(mTodayDate);
+        todayCalendar.setTime(getCurrentDate());
 
         if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
-            mCalendarView.setCurrentDay(mTodayDate);
-            mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), mTodayDate));
+            mCalendarView.setCurrentDay(getCurrentDate());
+            mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
         } else {
-            //We want this to not display any text..
-            mDateTitle.setText(null);
+            //We want this to display an announce, telling the user that has not any date selected..
+            mDateTitle.setText(getString(R.string.no_date_selected));
         }
     }
 
@@ -182,13 +187,12 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     }
 
     protected void setCalendarView() {
-        mTodayDate = new Date(System.currentTimeMillis());
         mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
 
         mCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         mCalendarView.setNextButtonColor(R.color.accent);
         mCalendarView.setBackButtonColor(R.color.accent);
-        mCalendarView.setCurrentDay(mTodayDate);
+        mCalendarView.setCurrentDay(getCurrentDate());
         mCalendarView.setIsOverflowDateVisible(true);
         mCalendarView.refreshCalendar(getCalendar());
         mCalendarView.setOnDateSelectedListener(this);
@@ -196,48 +200,21 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     }
 
     protected void setRecyclerView() {
-//        final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
-        List<JobLogViewModel> items = new ArrayList<>();//modelAdapter.getJobLogsByDate(mTodayDate);
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-
-        mRecyclerView = (EmptyRecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new JobLogAdapter(getApplicationContext(), items);
-
-        View emptyView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.empty_job_log, null, false);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mAdapter = new JobLogAdapter(getApplicationContext(), getListFilteredByDate(getCurrentDate()));
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setNestedScrollingEnabled(false);
-        mRecyclerView.setHasFixedSize(false);
-        mRecyclerView.setEmptyView(emptyView);
+        mRecyclerView.setNestedScrollingEnabled(true);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        //After creating we set it and tell the observer to show the changes over RecyclerView.
+        //After creating we set it, telling the observer to show the changes over RecyclerView.
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    protected void resetAdapter(@NonNull Date date) {
+        mAdapter.setItems(getListFilteredByDate(date));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
@@ -246,7 +223,100 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         return Calendar.getInstance(Locale.getDefault());
     }
 
+    private Date getCurrentDate() {
+        return new Date(System.currentTimeMillis());
+    }
+
     private Typeface getRobotoMediumTypeface() {
         return TypefaceUtil.getCustomTypeface(getApplicationContext(), R.string.roboto_medium);
+    }
+
+    private List<JobLogViewModel> getListFilteredByDate(@NonNull Date dateToFilter) {
+        //final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
+
+        List<JobLogViewModel> items = new ArrayList<>();//modelAdapter.getJobLogsByDate(dateToFilter);
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
+                        .setHours("3")
+                        .setObservations("lalalalalallala")
+                        .setPersonId(1)
+                        .setProjectId(1)
+                        .setSolicitude(1322)
+                        .setTaskTypeId(12)
+                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
+        );
+
+        return items;
     }
 }

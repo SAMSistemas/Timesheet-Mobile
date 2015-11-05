@@ -73,4 +73,8 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemCount() {
         return (null!= mItems && mItems.size() > 0)? mItems.size() : 0;
     }
+
+    public void setItems(List<JobLogViewModel> items) {
+        this.mItems = items;
+    }
 }
