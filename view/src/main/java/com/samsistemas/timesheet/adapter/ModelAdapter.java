@@ -19,6 +19,7 @@ import com.samsistemas.timesheet.viewmodel.TaskTypeViewModel;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -116,6 +117,29 @@ public class ModelAdapter {
         for(int i = 0; i < jobLogs.size(); i++) {
             for (int j = 0; j < taskTypes.size(); j++) {
                 if (jobLogs.get(i).getWorkDate().equals(date)) {
+                    jobLogViewModels.add(new JobLogViewModel(jobLogs.get(i), taskTypes.get(j)));
+                }
+            }
+        }
+
+        return jobLogViewModels;
+    }
+
+    public List<JobLogViewModel> getJobLogsByMonth(@NonNull Date month) {
+        List<JobLog> jobLogs = jobLogBaseController.listAll(mContextReference.get());
+        List<JobLogViewModel> jobLogViewModels = new ArrayList<>();
+        List<TaskTypeViewModel> taskTypes = getTaskForWorKPosition();
+
+        final Calendar monthCalendar = Calendar.getInstance();
+        monthCalendar.setTime(month);
+
+        for(int i = 0; i < jobLogs.size(); i++) {
+            for (int j = 0; j < taskTypes.size(); j++) {
+                Calendar workCalendar = Calendar.getInstance();
+                workCalendar.setTime(jobLogs.get(i).getWorkDate());
+
+                if (workCalendar.get(Calendar.MONTH) == monthCalendar.get(Calendar.MONTH) &&
+                    workCalendar.get(Calendar.YEAR) == monthCalendar.get(Calendar.YEAR)) {
                     jobLogViewModels.add(new JobLogViewModel(jobLogs.get(i), taskTypes.get(j)));
                 }
             }

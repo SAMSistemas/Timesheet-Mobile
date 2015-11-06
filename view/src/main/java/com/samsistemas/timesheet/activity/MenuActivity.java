@@ -24,6 +24,7 @@ import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
+import com.samsistemas.timesheet.adapter.ModelAdapter;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
@@ -122,8 +123,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
                 break;
 
             case R.id.action_add_hour:
-                AddHoursNavigator.newInstance()
-                        .navigateWithAnimation(MenuActivity.this, navigationView);
+                AddHoursNavigator.newInstance().navigateWithAnimation(this, navigationView);
                 break;
 
             case R.id.action_account:
@@ -144,17 +144,20 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     @Override
     public void onDateSelected(@NonNull Date selectedDate) {
         mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), selectedDate));
-        //We call this in order to show the data, available for the date user-selected.
+        //We call this in order to show the data available for the date user-selected.
         resetAdapter(selectedDate);
     }
 
     @Override
     public void onMonthChanged(@NonNull Date currentMonth) {
-        Calendar nextCalendar = getCalendar();
+        final Calendar nextCalendar = getCalendar();
         nextCalendar.setTime(currentMonth);
 
-        Calendar todayCalendar = getCalendar();
+        final Calendar todayCalendar = getCalendar();
         todayCalendar.setTime(getCurrentDate());
+
+        //This method get All job logs for date, and paint calendar.
+        paintCalendarByMonth(currentMonth);
 
         if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
             mCalendarView.setCurrentDay(getCurrentDate());
@@ -201,6 +204,8 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         mCalendarView.refreshCalendar(getCalendar());
         mCalendarView.setOnDateSelectedListener(this);
         mCalendarView.setOnMonthChangedListener(this);
+
+        paintCalendarByMonth(getCurrentDate());
     }
 
     protected void setRecyclerView() {
@@ -227,6 +232,12 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         mAdapter.setItems(null);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+    }
+
+    protected void paintCalendarByMonth(@NonNull Date monthToPaint) {
+        //TODO JS: implement it.
+        final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
+        List<JobLogViewModel> monthItems = modelAdapter.getJobLogsByMonth(monthToPaint);
     }
 
     private Calendar getCalendar() {

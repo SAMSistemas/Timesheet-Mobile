@@ -24,6 +24,7 @@ public class Person implements BaseModel<Person>, Parcelable {
     private String username;
     private String password;
     private long workPositionId;
+    private int workHours;
     private Drawable picture;
     private boolean enabled;
 
@@ -41,8 +42,7 @@ public class Person implements BaseModel<Person>, Parcelable {
         username = in.readString();
         password = in.readString();
         workPositionId = in.readLong();
-
-        //TODO JS: check this.
+        workHours = in.readInt();
         byte[] pictureArray = new byte[1024];
         in.readByteArray(pictureArray);
         picture = ConversionUtil.byteArrayToDrawable(pictureArray);
@@ -80,6 +80,11 @@ public class Person implements BaseModel<Person>, Parcelable {
         return this;
     }
 
+    public Person setWorkHours(int workHours) {
+        this.workHours = workHours;
+        return this;
+    }
+
     public Person setPicture(Drawable picture) {
         this.picture = picture;
         return this;
@@ -114,6 +119,10 @@ public class Person implements BaseModel<Person>, Parcelable {
         return workPositionId;
     }
 
+    public int getWorkHours() {
+        return workHours;
+    }
+
     public Drawable getPicture() {
         return picture;
     }
@@ -135,6 +144,7 @@ public class Person implements BaseModel<Person>, Parcelable {
         dest.writeString(username);
         dest.writeString(password);
         dest.writeLong(workPositionId);
+        dest.writeInt(workHours);
         dest.writeByteArray(ConversionUtil.drawableToByteArray(picture));
         dest.writeByte((byte) (enabled ? 0x01 : 0x00));
     }
@@ -164,6 +174,7 @@ public class Person implements BaseModel<Person>, Parcelable {
         values.put(context.getString(R.string.person_user_name), username);
         values.put(context.getString(R.string.person_password), password);
         values.put(context.getString(R.string.person_work_position_id), workPositionId);
+        values.put(context.getString(R.string.person_work_hours), workHours);
         values.put(context.getString(R.string.person_picture), personPicture);
         values.put(context.getString(R.string.person_enabled), personEnabled);
 
@@ -187,6 +198,7 @@ public class Person implements BaseModel<Person>, Parcelable {
                     .setUsername(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_user_name))))
                     .setPassword(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.person_password))))
                     .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.person_work_position_id))))
+                    .setWorkHours(cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.person_work_hours))))
                     .setPicture(personPicture)
                     .setEnabled(personEnabled);
 

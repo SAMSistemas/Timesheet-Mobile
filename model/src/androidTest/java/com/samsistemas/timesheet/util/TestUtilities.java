@@ -57,6 +57,7 @@ public class TestUtilities {
                 .setUsername("JONATANS")
                 .setPassword("JONATANS")
                 .setWorkPositionId(id)
+                .setWorkHours(6)
                 .setPicture(null)
                 .setEnabled(true)
                 .asContentValues(context);
@@ -154,6 +155,7 @@ public class TestUtilities {
                 .setUsername("JONATANS")
                 .setPassword("JONATANS")
                 .setWorkPositionId(workPositionId)
+                .setWorkHours(6)
                 .setPicture(null)
                 .setEnabled(true);
     }

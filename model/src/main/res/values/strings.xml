@@ -35,6 +35,7 @@
     <string name="person_user_name">username</string>
     <string name="person_password">password</string>
     <string name="person_work_position_id">id_workposition</string>
+    <string name="person_work_hours">work_hours</string>
     <string name="person_picture">picture</string>
     <string name="person_enabled">enabled</string>
     <string name="person_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/person</string>
@@ -87,7 +88,7 @@
     <!-- Create Table strings -->
     <string name="create_table_client">CREATE TABLE client(id_client INTEGER NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
     <string name="create_table_work_position">CREATE TABLE workposition(id_workposition INTEGER NOT NULL PRIMARY KEY, description TEXT NOT NULL);</string>
-    <string name="create_table_person">CREATE TABLE person(id_person INTEGER NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, id_workposition INTEGER NOT NULL, picture BLOB, enabled INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition));</string>
+    <string name="create_table_person">CREATE TABLE person(id_person INTEGER NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, id_workposition INTEGER NOT NULL, work_hours INTEGER, picture BLOB, enabled INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition));</string>
     <string name="create_table_task_type">CREATE TABLE tasktype(id_tasktype INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
     <string name="create_table_task_type_x_work_position">CREATE TABLE tasktypexworkposition(id_workposition INTEGER NOT NULL, id_tasktype INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
     <string name="create_table_project">CREATE TABLE project(id_client INTEGER NOT NULL, id_project INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, start_date INTEGER NOT NULL, enabled INTEGER NOT NULL, FOREIGN KEY(id_client) REFERENCES client(id_client));</string>
