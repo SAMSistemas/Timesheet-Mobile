@@ -174,4 +174,8 @@ public class ModelAdapter {
     public boolean deleteJobLog(long id) {
         return jobLogBaseController.delete(mContextReference.get(), id);
     }
+
+    public int getWorkHours(long personId) {
+        return personBaseController.get(mContextReference.get(), personId).getWorkHours();
+    }
 }

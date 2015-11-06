@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.activity;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import com.samsistemas.calendarview.util.CalendarUtil;
 import com.samsistemas.calendarview.util.TypefaceUtil;
 import com.samsistemas.calendarview.widget.CalendarView;
+import com.samsistemas.calendarview.widget.DayView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
@@ -157,7 +159,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         todayCalendar.setTime(getCurrentDate());
 
         //This method get All job logs for date, and paint calendar.
-        paintCalendarByMonth(currentMonth);
+        //paintCalendarByMonth(currentMonth);
 
         if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
             mCalendarView.setCurrentDay(getCurrentDate());
@@ -236,8 +238,25 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
     protected void paintCalendarByMonth(@NonNull Date monthToPaint) {
         //TODO JS: implement it.
-        final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
-        List<JobLogViewModel> monthItems = modelAdapter.getJobLogsByMonth(monthToPaint);
+        //final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
+        final Calendar currentCalendar = getCalendar();
+        currentCalendar.setTime(monthToPaint);
+        final Calendar calendarToPaint = getCalendar();
+        calendarToPaint.setTime(monthToPaint);
+        int totalDays = calendarToPaint.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        for(int i = 0; i < totalDays; i++) {
+            calendarToPaint.set(Calendar.DAY_OF_MONTH, i++);
+            List<JobLogViewModel> jobLogList = getListFilteredByDate(calendarToPaint.getTime());
+
+            //modify hardcoded number of hours.
+            if(getTotalWorkedHours(jobLogList) == 9) {
+                DayView dayView = mCalendarView.findViewByDate(calendarToPaint.getTime());
+                if(null != dayView) {
+                    dayView.setBackgroundColor(Color.GREEN);
+                }
+            }
+        }
     }
 
     private Calendar getCalendar() {
@@ -283,61 +302,16 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
                         .setTaskTypeId(12)
                         .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
         );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
 
         return items;
+    }
+
+    protected int getTotalWorkedHours(List<JobLogViewModel> list) {
+        int totalHours = 0;
+        for(int i = 0; i < list.size(); i++) {
+            totalHours += Integer.valueOf(list.get(i).getJobLogHours());
+        }
+
+        return totalHours;
     }
 }

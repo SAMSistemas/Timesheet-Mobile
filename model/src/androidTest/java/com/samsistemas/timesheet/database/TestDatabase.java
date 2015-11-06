@@ -9,8 +9,6 @@ import android.util.Log;
 import com.samsistemas.timesheet.util.TestUtilities;
 import com.samsistemas.timesheet.data.R;
 
-import junit.framework.Test;
-
 import java.util.Map;
 import java.util.Set;
 
