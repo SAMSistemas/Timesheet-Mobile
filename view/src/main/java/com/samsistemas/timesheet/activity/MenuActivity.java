@@ -26,7 +26,6 @@ import com.samsistemas.calendarview.widget.DayView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
-import com.samsistemas.timesheet.adapter.ModelAdapter;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
@@ -48,7 +47,6 @@ import java.util.Locale;
  *
  * @author jonatan.salas
  */
-//TODO JS: save View State in order to get a better user experience. When started new activity, the current is killed.
 public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener {
     private JobLogAdapter mAdapter;
     private CalendarView mCalendarView;
@@ -207,7 +205,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         mCalendarView.setOnDateSelectedListener(this);
         mCalendarView.setOnMonthChangedListener(this);
 
-        paintCalendarByMonth(getCurrentDate());
+        //paintCalendarByMonth(getCurrentDate());
     }
 
     protected void setRecyclerView() {

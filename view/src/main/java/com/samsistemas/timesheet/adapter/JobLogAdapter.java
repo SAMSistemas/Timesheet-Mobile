@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
@@ -28,6 +29,7 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @author jonatan.salas
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        View mItemView;
         TextView mJobLogTask;
         TextView mJobLogDescription;
         TextView mJobLogHours;
@@ -35,6 +37,7 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public ViewHolder(View v) {
             super(v);
+            mItemView = v;
             mIcon = (ImageView) v.findViewById(R.id.joblog_image);
             mJobLogTask = (TextView) v.findViewById(R.id.joblog_task);
             mJobLogDescription = (TextView) v.findViewById(R.id.joblog_description);
@@ -62,6 +65,15 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         final JobLogViewModel jobLogViewModel = mItems.get(position);
+
+        viewHolder.mItemView.setEnabled(true);
+        viewHolder.mItemView.setClickable(true);
+        viewHolder.mItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Me tocaste!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         viewHolder.mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.material_teal), PorterDuff.Mode.SRC_ATOP);
         viewHolder.mJobLogTask.setText(jobLogViewModel.getTaskTypeViewModel().getTaskTypeName());
