@@ -178,4 +178,8 @@ public class ModelAdapter {
     public int getWorkHours(long personId) {
         return personBaseController.get(mContextReference.get(), personId).getWorkHours();
     }
+
+    public JobLog getJoblog(long id) {
+        return jobLogBaseController.get(mContextReference.get(), id);
+    }
 }

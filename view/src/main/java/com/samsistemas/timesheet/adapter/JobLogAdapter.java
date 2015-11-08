@@ -1,10 +1,13 @@
 package com.samsistemas.timesheet.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.activity.AddHoursActivity;
+import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
 
 import java.util.List;
@@ -62,7 +67,7 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
         final JobLogViewModel jobLogViewModel = mItems.get(position);
 
@@ -71,7 +76,12 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         viewHolder.mItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Me tocaste!", Toast.LENGTH_SHORT).show();
+                ModelAdapter adapter = new ModelAdapter(mContext);
+                JobLog jobLog = adapter.getJoblog(jobLogViewModel.getJobLogId());
+                Intent nextActivity = new Intent(mContext, AddHoursActivity.class);
+                nextActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                nextActivity.putExtra("JOBLOG_TO_EDIT", jobLog);
+                mContext.startActivity(nextActivity);
             }
         });
 
