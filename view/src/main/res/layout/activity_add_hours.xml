@@ -57,7 +57,7 @@
 
     <LinearLayout android:layout_marginTop="235dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:fillViewport="true"
         tools:context=".activity.AddHoursActivity"
@@ -100,14 +100,14 @@
 
         <TextView android:id="@+id/solicitude_number"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center|center_horizontal|center_vertical"
             android:layout_weight="0.35"
             tools:text="Solicitude number: "/>
 
         <EditText android:id="@+id/solicitude_number_input"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1.65"
             android:inputType="number"/>
 

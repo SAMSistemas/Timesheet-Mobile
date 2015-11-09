@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.activity;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.samsistemas.calendarview.util.CalendarUtil;
 import com.samsistemas.calendarview.util.TypefaceUtil;
 import com.samsistemas.calendarview.widget.CalendarView;
-import com.samsistemas.calendarview.widget.DayView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
@@ -32,6 +30,7 @@ import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -230,29 +229,6 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         mAdapter.notifyDataSetChanged();
     }
 
-    protected void paintCalendarByMonth(@NonNull Date monthToPaint) {
-        //TODO JS: implement it.
-        //final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
-        final Calendar currentCalendar = getCalendar();
-        currentCalendar.setTime(monthToPaint);
-        final Calendar calendarToPaint = getCalendar();
-        calendarToPaint.setTime(monthToPaint);
-        int totalDays = calendarToPaint.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        for(int i = 0; i < totalDays; i++) {
-            calendarToPaint.set(Calendar.DAY_OF_MONTH, i++);
-            List<JobLogViewModel> jobLogList = getListFilteredByDate(calendarToPaint.getTime());
-
-            //modify hardcoded number of hours.
-            if(getTotalWorkedHours(jobLogList) == 9) {
-                DayView dayView = mCalendarView.findViewByDate(calendarToPaint.getTime());
-                if(null != dayView) {
-                    dayView.setBackgroundColor(Color.GREEN);
-                }
-            }
-        }
-    }
-
     private Calendar getCalendar() {
         return Calendar.getInstance(Locale.getDefault());
     }
@@ -268,14 +244,5 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     private List<JobLogViewModel> getListFilteredByDate(@NonNull Date dateToFilter) {
         final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
         return modelAdapter.getJobLogsByDate(dateToFilter);
-    }
-
-    protected int getTotalWorkedHours(List<JobLogViewModel> list) {
-        int totalHours = 0;
-        for(int i = 0; i < list.size(); i++) {
-            totalHours += Integer.valueOf(list.get(i).getJobLogHours());
-        }
-
-        return totalHours;
     }
 }
