@@ -26,16 +26,12 @@ import com.samsistemas.calendarview.widget.DayView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
-import com.samsistemas.timesheet.model.JobLog;
-import com.samsistemas.timesheet.model.TaskType;
+import com.samsistemas.timesheet.adapter.ModelAdapter;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
-import com.samsistemas.timesheet.viewmodel.TaskTypeViewModel;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -270,38 +266,8 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     }
 
     private List<JobLogViewModel> getListFilteredByDate(@NonNull Date dateToFilter) {
-        //final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
-
-        List<JobLogViewModel> items = new ArrayList<>();//modelAdapter.getJobLogsByDate(dateToFilter);
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-        items.add(new JobLogViewModel(new JobLog().setJobLogId(1)
-                        .setHours("3")
-                        .setObservations("lalalalalallala")
-                        .setPersonId(1)
-                        .setProjectId(1)
-                        .setSolicitude(1322)
-                        .setTaskTypeId(12)
-                        .setWorkDate(new Date(System.currentTimeMillis())), new TaskTypeViewModel(new TaskType().setTaskTypeId(1).setEnabled(true).setName("Programacion")))
-        );
-
-        return items;
+        final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
+        return modelAdapter.getJobLogsByDate(dateToFilter);
     }
 
     protected int getTotalWorkedHours(List<JobLogViewModel> list) {
