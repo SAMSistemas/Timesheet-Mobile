@@ -102,12 +102,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center|center_horizontal|center_vertical"
+            android:textColor="@android:color/black"
             android:layout_weight="0.35"
             tools:text="Solicitude number: "/>
 
         <EditText android:id="@+id/solicitude_number_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
             android:layout_weight="1.65"
             android:inputType="number"/>
 
