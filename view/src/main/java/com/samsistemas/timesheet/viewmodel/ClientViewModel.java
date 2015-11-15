@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.viewmodel;
 
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.model.Client;
+import com.samsistemas.timesheet.entity.ClientEntity;
 
 /**
  * @author jonatan.salas
@@ -13,11 +13,11 @@ public class ClientViewModel {
 
     /**
      *
-     * @param client
+     * @param clientEntity
      */
-    public ClientViewModel(@NonNull Client client) {
-        this.clientId = client.getClientId();
-        this.clientName = client.getName();
+    public ClientViewModel(@NonNull ClientEntity clientEntity) {
+        this.clientId = clientEntity.getClientId();
+        this.clientName = clientEntity.getName();
     }
 
     public ClientViewModel setClientId(long clientId) {

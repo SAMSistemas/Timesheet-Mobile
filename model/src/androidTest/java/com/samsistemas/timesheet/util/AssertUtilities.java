@@ -1,12 +1,11 @@
 package com.samsistemas.timesheet.util;
 
-import com.samsistemas.timesheet.model.Client;
-import com.samsistemas.timesheet.model.JobLog;
-import com.samsistemas.timesheet.model.Person;
-import com.samsistemas.timesheet.model.Project;
-import com.samsistemas.timesheet.model.TaskForPosition;
-import com.samsistemas.timesheet.model.TaskType;
-import com.samsistemas.timesheet.model.WorkPosition;
+import com.samsistemas.timesheet.entity.ClientEntity;
+import com.samsistemas.timesheet.entity.JobLogEntity;
+import com.samsistemas.timesheet.entity.PersonEntity;
+import com.samsistemas.timesheet.entity.ProjectEntity;
+import com.samsistemas.timesheet.entity.TaskTypeEntity;
+import com.samsistemas.timesheet.entity.WorkPositionEntity;
 
 import junit.framework.Assert;
 
@@ -15,54 +14,49 @@ import junit.framework.Assert;
  */
 public class AssertUtilities {
 
-    public static void compareClient(Client expected, Client client) {
-        Assert.assertEquals(expected.getClientId(), client.getClientId());
-        Assert.assertEquals(expected.getName(), client.getName());
-        Assert.assertEquals(expected.getShortName(), client.getShortName());
-        Assert.assertEquals(expected.isEnabled(), client.isEnabled());
+    public static void compareClient(ClientEntity expected, ClientEntity clientEntity) {
+        Assert.assertEquals(expected.getClientId(), clientEntity.getClientId());
+        Assert.assertEquals(expected.getName(), clientEntity.getName());
+        Assert.assertEquals(expected.getShortName(), clientEntity.getShortName());
+        Assert.assertEquals(expected.isEnabled(), clientEntity.isEnabled());
     }
 
-    public static void compareWorkPosition(WorkPosition expected, WorkPosition workPosition) {
-        Assert.assertEquals(expected.getWorkPositionId(), workPosition.getWorkPositionId());
-        Assert.assertEquals(expected.getDescription(), workPosition.getDescription());
+    public static void compareWorkPosition(WorkPositionEntity expected, WorkPositionEntity workPositionEntity) {
+        Assert.assertEquals(expected.getWorkPositionId(), workPositionEntity.getWorkPositionId());
+        Assert.assertEquals(expected.getDescription(), workPositionEntity.getDescription());
     }
 
-    public static void comparePerson(Person expected, Person person) {
-        Assert.assertEquals(expected.getPersonId(), person.getPersonId());
-        Assert.assertEquals(expected.getName(), person.getName());
-        Assert.assertEquals(expected.getLastName(), person.getLastName());
-        Assert.assertEquals(expected.getUsername(), person.getUsername());
-        Assert.assertEquals(expected.getPassword(), person.getPassword());
-        Assert.assertEquals(expected.getWorkPositionId(), person.getWorkPositionId());
-        Assert.assertEquals(expected.getPicture(), person.getPicture());
+    public static void comparePerson(PersonEntity expected, PersonEntity personEntity) {
+        Assert.assertEquals(expected.getPersonId(), personEntity.getPersonId());
+        Assert.assertEquals(expected.getName(), personEntity.getName());
+        Assert.assertEquals(expected.getLastName(), personEntity.getLastName());
+        Assert.assertEquals(expected.getUsername(), personEntity.getUsername());
+        Assert.assertEquals(expected.getPassword(), personEntity.getPassword());
+        Assert.assertEquals(expected.getWorkPositionId(), personEntity.getWorkPositionId());
+        Assert.assertEquals(expected.getPicture(), personEntity.getPicture());
     }
 
-    public static void compareTaskType(TaskType expected, TaskType taskType) {
-        Assert.assertEquals(expected.getTaskTypeId(), taskType.getTaskTypeId());
-        Assert.assertEquals(expected.getName(), taskType.getName());
+    public static void compareTaskType(TaskTypeEntity expected, TaskTypeEntity taskTypeEntity) {
+        Assert.assertEquals(expected.getTaskTypeId(), taskTypeEntity.getTaskTypeId());
+        Assert.assertEquals(expected.getName(), taskTypeEntity.getName());
     }
 
-    public static void compareTaskForPosition(TaskForPosition expected, TaskForPosition taskForPosition) {
-        Assert.assertEquals(expected.getTaskTypeId(), taskForPosition.getTaskTypeId());
-        Assert.assertEquals(expected.getWorkPositionId(), taskForPosition.getWorkPositionId());
+    public static void compareProject(ProjectEntity expected, ProjectEntity projectEntity) {
+        Assert.assertEquals(expected.getProjectId(), projectEntity.getProjectId());
+        Assert.assertEquals(expected.getClientId(), projectEntity.getClientId());
+        Assert.assertEquals(expected.getName(), projectEntity.getName());
+        Assert.assertEquals(expected.getShortName(), projectEntity.getShortName());
+        Assert.assertEquals(expected.getStartDate(), projectEntity.getStartDate());
     }
 
-    public static void compareProject(Project expected, Project project) {
-        Assert.assertEquals(expected.getProjectId(), project.getProjectId());
-        Assert.assertEquals(expected.getClientId(), project.getClientId());
-        Assert.assertEquals(expected.getName(), project.getName());
-        Assert.assertEquals(expected.getShortName(), project.getShortName());
-        Assert.assertEquals(expected.getStartDate(), project.getStartDate());
-    }
-
-    public static void compareJobLog(JobLog expected, JobLog jobLog) {
-        Assert.assertEquals(expected.getJobLogId(), jobLog.getJobLogId());
-        Assert.assertEquals(expected.getProjectId(), jobLog.getProjectId());
-        Assert.assertEquals(expected.getPersonId(), jobLog.getPersonId());
-        Assert.assertEquals(expected.getTaskTypeId(), jobLog.getTaskTypeId());
-        Assert.assertEquals(expected.getHours(), jobLog.getHours());
-        Assert.assertEquals(expected.getObservations(), jobLog.getObservations());
-        Assert.assertEquals(expected.getSolicitude(), jobLog.getSolicitude());
-        Assert.assertEquals(expected.getWorkDate(), jobLog.getWorkDate());
+    public static void compareJobLog(JobLogEntity expected, JobLogEntity jobLogEntity) {
+        Assert.assertEquals(expected.getJobLogId(), jobLogEntity.getJobLogId());
+        Assert.assertEquals(expected.getProjectId(), jobLogEntity.getProjectId());
+        Assert.assertEquals(expected.getPersonId(), jobLogEntity.getPersonId());
+        Assert.assertEquals(expected.getTaskTypeId(), jobLogEntity.getTaskTypeId());
+        Assert.assertEquals(expected.getHours(), jobLogEntity.getHours());
+        Assert.assertEquals(expected.getObservations(), jobLogEntity.getObservations());
+        Assert.assertEquals(expected.getSolicitude(), jobLogEntity.getSolicitude());
+        Assert.assertEquals(expected.getWorkDate(), jobLogEntity.getWorkDate());
     }
 }

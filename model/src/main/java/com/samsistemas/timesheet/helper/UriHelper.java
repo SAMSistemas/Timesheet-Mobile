@@ -39,10 +39,6 @@ public class UriHelper implements ContentUri {
         matcher.addURI(authority, context.getString(R.string.task_type_table), TASK_TYPES);
         matcher.addURI(authority, context.getString(R.string.task_type_table) + "/#", TASKTYPE_ID);
 
-        //Uris for TaskType x WorkPosition Table..
-        matcher.addURI(authority, context.getString(R.string.task_type_x_work_position_table), TASK_TYPE_WORK_POSITION);
-        matcher.addURI(authority, context.getString(R.string.task_type_x_work_position_table) + "/#", TASK_TYPE_WORK_POSITION_ID);
-
         //Uris for Project Table..
         matcher.addURI(authority, context.getString(R.string.project_table), PROJECTS);
         matcher.addURI(authority, context.getString(R.string.project_table) + "/#", PROJECT_ID);
@@ -131,26 +127,6 @@ public class UriHelper implements ContentUri {
      */
     public static Uri buildTaskTypeUriWithId(@NonNull Context context, long id) {
         Uri contentUri = Uri.parse(context.getString(R.string.task_type_content_uri));
-        return ContentUris.withAppendedId(contentUri, id);
-    }
-
-    /**
-     *
-     * @param context
-     * @return
-     */
-    public static Uri buildTaskTypeWorkPositionUri(@NonNull Context context) {
-        return Uri.parse(context.getString(R.string.task_type_x_work_position_content_uri));
-    }
-
-    /**
-     *
-     * @param context
-     * @param id
-     * @return
-     */
-    public static Uri buildTaskTypeWorkPositionUriWithId(@NonNull Context context, long id) {
-        Uri contentUri = Uri.parse(context.getString(R.string.task_type_x_work_position_content_uri));
         return ContentUris.withAppendedId(contentUri, id);
     }
 

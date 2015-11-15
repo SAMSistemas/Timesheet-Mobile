@@ -12,8 +12,8 @@ import com.samsistemas.timesheet.data.R;
  *
  * @author jonatan.salas
  */
-public class DatabaseHelper extends SQLiteOpenHelper {
-    private static DatabaseHelper instance = null;
+public class Database extends SQLiteOpenHelper {
+    private static Database instance = null;
     private Context mContext;
 
     /**
@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @param context - the context used to create the SQLiteDatabase
      */
-    public DatabaseHelper(@NonNull final Context context) {
+    public Database(@NonNull final Context context) {
         super(context, context.getString(R.string.database_name), null, Integer.parseInt(context.getString(R.string.database_version)));
         mContext = context;
     }
@@ -33,7 +33,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(mContext.getString(R.string.create_table_work_position));
         db.execSQL(mContext.getString(R.string.create_table_person));
         db.execSQL(mContext.getString(R.string.create_table_task_type));
-        db.execSQL(mContext.getString(R.string.create_table_task_type_x_work_position));
         db.execSQL(mContext.getString(R.string.create_table_project));
         db.execSQL(mContext.getString(R.string.create_table_job_log));
     }
@@ -44,7 +43,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(mContext.getString(R.string.drop_table_work_position));
         db.execSQL(mContext.getString(R.string.drop_table_person));
         db.execSQL(mContext.getString(R.string.drop_table_task_type));
-        db.execSQL(mContext.getString(R.string.drop_table_task_type_x_work_position));
         db.execSQL(mContext.getString(R.string.drop_table_project));
         db.execSQL(mContext.getString(R.string.drop_table_job_log));
 
@@ -57,9 +55,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param context
      * @return
      */
-    public static DatabaseHelper getInstance(@NonNull Context context) {
+    public static Database getInstance(@NonNull Context context) {
         if(null == instance)
-            instance = new DatabaseHelper(context);
+            instance = new Database(context);
         return instance;
     }
 

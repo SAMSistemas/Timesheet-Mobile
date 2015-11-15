@@ -24,7 +24,7 @@ public class TestDatabase extends AndroidTestCase {
      */
     public void testCreateDb() throws Throwable {
         mContext.deleteDatabase(mContext.getString(R.string.database_name));
-        SQLiteDatabase db = new DatabaseHelper(mContext).getWritableDatabase();
+        SQLiteDatabase db = new Database(mContext).getWritableDatabase();
         assertEquals(true, db.isOpen());
         db.close();
     }
@@ -33,7 +33,7 @@ public class TestDatabase extends AndroidTestCase {
      *
      */
     public void testInsertReadDb() {
-        final DatabaseHelper databaseHelper = new DatabaseHelper(mContext);
+        final Database databaseHelper = new Database(mContext);
         final SQLiteDatabase database = databaseHelper.getWritableDatabase();
 
         //-------------------------------------------------------------------------//
@@ -70,15 +70,6 @@ public class TestDatabase extends AndroidTestCase {
 
         assertTrue(taskTypeRowId != -1);
         Log.d(LOG_TAG, "New row id for task type table: " + taskTypeRowId);
-
-        //--------------------------------------------------------------------------//
-        //Test insert on TaskForPosition Table..
-        final ContentValues taskForPositionValues = TestUtilities.getTaskForPosition(mContext);
-        long taskForPositionRowId = database.insert(mContext.getString(R.string.task_type_x_work_position_table), null, taskForPositionValues);
-
-        assertTrue(taskForPositionRowId != -1);
-        Log.d(LOG_TAG, "New row id for TaskForPosition table: " + taskForPositionRowId);
-
         //--------------------------------------------------------------------------//
         //Test insert on Project Table..
         final ContentValues projectValues = TestUtilities.getProject(mContext, clientRowId);
@@ -101,47 +92,38 @@ public class TestDatabase extends AndroidTestCase {
         //Test query on Client Table..
         final Cursor clientCursor = database.query(mContext.getString(R.string.client_table), null, null, null, null, null, null);
 
-        if(null != clientCursor && clientCursor.moveToFirst()) {
-            validateCursor(clientValues, clientCursor);
+        if (null != clientCursor && clientCursor.moveToFirst()) {
+            TestUtilities.validateCursor(clientValues, clientCursor);
 
             //Test query on Work Position Table..
             final Cursor workPositionCursor = database.query(mContext.getString(R.string.work_position_table), null, null, null, null, null, null);
 
-            if(null != workPositionCursor && workPositionCursor.moveToFirst()) {
-                validateCursor(workPositionValues, workPositionCursor);
+            if (null != workPositionCursor && workPositionCursor.moveToFirst()) {
+                TestUtilities.validateCursor(workPositionValues, workPositionCursor);
 
                 //Test query on Person Table..
                 final Cursor personCursor = database.query(mContext.getString(R.string.person_table), null, null, null, null, null, null);
 
                 if (null != personCursor && personCursor.moveToFirst()) {
-                    validateCursor(personValues, personCursor);
+                    TestUtilities.validateCursor(personValues, personCursor);
 
                     //Test query on TaskType Table..
                     final Cursor taskTypeCursor = database.query(mContext.getString(R.string.task_type_table), null, null, null, null, null, null);
 
                     if (null != taskTypeCursor && taskTypeCursor.moveToFirst()) {
-                        validateCursor(taskTypeValues, taskTypeCursor);
+                        TestUtilities.validateCursor(taskTypeValues, taskTypeCursor);
 
-                        //Test query on TaskType x WorkPosition Table..
-                        final Cursor taskForPositionCursor = database.query(mContext.getString(R.string.task_type_x_work_position_table), null, null, null, null, null, null);
+                        //Test query on Project Table..
+                        final Cursor projectCursor = database.query(mContext.getString(R.string.project_table), null, null, null, null, null, null);
 
-                        if(null != taskForPositionCursor && taskForPositionCursor.moveToFirst()) {
-                            validateCursor(taskForPositionValues, taskForPositionCursor);
+                        if (null != projectCursor && projectCursor.moveToFirst()) {
+                            TestUtilities.validateCursor(projectValues, projectCursor);
 
-                            //Test query on Project Table..
-                            final Cursor projectCursor = database.query(mContext.getString(R.string.project_table), null, null, null, null, null, null);
+                            //Test query on jobLog Table..
+                            final Cursor jobLogCursor = database.query(mContext.getString(R.string.job_log_table), null, null, null, null, null, null);
 
-                            if (null != projectCursor && projectCursor.moveToFirst()) {
-                                validateCursor(projectValues, projectCursor);
-
-                                //Test query on jobLog Table..
-                                final Cursor jobLogCursor = database.query(mContext.getString(R.string.job_log_table), null, null, null, null, null, null);
-
-                                if (null != jobLogCursor && jobLogCursor.moveToFirst()) {
-                                    validateCursor(jobLogValues, jobLogCursor);
-                                } else {
-                                    fail("No values returned :(");
-                                }
+                            if (null != jobLogCursor && jobLogCursor.moveToFirst()) {
+                                TestUtilities.validateCursor(jobLogValues, jobLogCursor);
                             } else {
                                 fail("No values returned :(");
                             }
@@ -159,36 +141,6 @@ public class TestDatabase extends AndroidTestCase {
             }
         } else {
             fail("No values returned :(");
-        }
-
-        database.close();
-    }
-
-    /**
-     *
-     * @param expectedValues
-     * @param valueCursor
-     */
-    public static void validateCursor(ContentValues expectedValues, Cursor valueCursor) {
-        Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
-
-        for(Map.Entry<String, Object> entry: valueSet) {
-
-            String columnName = entry.getKey();
-            int idx = valueCursor.getColumnIndex(columnName);
-
-            assertFalse(-1 == idx);
-            Object value = entry.getValue();
-
-            //Use this check to avoid null pointer troubleshooting when trying to get
-            //the picture from Person Table that could be null.
-            if(null != value) {
-                String expectedValue = entry.getValue().toString();
-                assertEquals(expectedValue, valueCursor.getString(idx));
-            } else {
-                byte[] expected = (byte[]) entry.getValue();
-                assertEquals(expected, valueCursor.getBlob(idx));
-            }
         }
     }
 }

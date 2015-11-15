@@ -50,15 +50,7 @@
     <string name="task_type_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/tasktype</string>
     <string name="task_type_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/tasktype</string>
     <string name="task_type_content_uri">content://com.samsistemas.timesheet.provider/tasktype</string>
-    
-    <!-- TaskType x WorkPosition-->
-    <string name="task_type_x_work_position_table">tasktypexworkposition</string>
-    <string name="task_type_x_work_position_id">id_workposition</string>
-    <string name="task_type_x_work_position_task_id">id_tasktype</string>
-    <string name="task_type_x_work_position_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/tasktypexworkposition</string>
-    <string name="task_type_x_work_position_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/tasktypexworkposition</string>
-    <string name="task_type_x_work_position_content_uri">content://com.samsistemas.timesheet.provider/tasktypexworkposition</string>
-    
+
     <!-- Project Table name and columns -->
     <string name="project_table">project</string>
     <string name="project_client_id">id_client</string>

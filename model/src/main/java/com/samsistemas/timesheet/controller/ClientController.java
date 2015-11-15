@@ -8,8 +8,10 @@ import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.model.Client;
+import com.samsistemas.timesheet.entity.ClientEntity;
+import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +21,17 @@ import java.util.List;
  *
  * @author jonatan.salas
  */
-public class ClientController implements BaseController<Client> {
+public class ClientController implements BaseController<ClientEntity> {
+    protected EntityMapper<ClientEntity, Cursor> clientMapper;
+
+    public ClientController() {
+        this.clientMapper = MapperFactory.getClientMapper();
+    }
 
     @Override
-    public boolean insert(@NonNull Context context, @NonNull Client client) {
+    public boolean insert(@NonNull Context context, @NonNull ClientEntity clientEntity) {
         final Uri clientUri = UriHelper.buildClientUri(context);
-        final ContentValues clientValues = client.asContentValues(context);
+        final ContentValues clientValues = clientMapper.asContentValues(context, clientEntity);
 
         final Uri resultUri = context.getContentResolver().insert(clientUri, clientValues);
 
@@ -32,12 +39,12 @@ public class ClientController implements BaseController<Client> {
     }
 
     @Override
-    public boolean bulkInsert(@NonNull Context context, @NonNull List<Client> clients) {
+    public boolean bulkInsert(@NonNull Context context, @NonNull List<ClientEntity> clientEntities) {
         final Uri clientUri = UriHelper.buildClientUri(context);
-        final ContentValues[] clientsValues = new ContentValues[clients.size()];
+        final ContentValues[] clientsValues = new ContentValues[clientEntities.size()];
 
-        for(int i = 0; i < clients.size(); i++) {
-            clientsValues[i] = clients.get(i).asContentValues(context);
+        for(int i = 0; i < clientEntities.size(); i++) {
+            clientsValues[i] = clientMapper.asContentValues(context, clientEntities.get(i));
         }
 
         final int count = context.getContentResolver().bulkInsert(clientUri, clientsValues);
@@ -46,38 +53,38 @@ public class ClientController implements BaseController<Client> {
     }
 
     @Override
-    public Client get(@NonNull Context context, long id) {
+    public ClientEntity get(@NonNull Context context, long id) {
         final Uri clientUri = UriHelper.buildClientUriWithId(context, id);
         final Cursor clientCursor = context.getContentResolver().query(clientUri, null, null, null, null);
 
-        return new Client().save(context, clientCursor);
+        return clientMapper.asEntity(context, clientCursor);
     }
 
     @Override
-    public List<Client> listAll(@NonNull Context context) {
+    public List<ClientEntity> listAll(@NonNull Context context) {
         final Uri clientUri = UriHelper.buildClientUri(context);
         final Cursor clientsCursor = context.getContentResolver().query(clientUri, null, null, null, null);
 
-        List<Client> clients = new ArrayList<>();
+        List<ClientEntity> clientEntities = new ArrayList<>();
 
         if(null != clientsCursor && clientsCursor.moveToFirst()) {
             for(int i = 0; i < clientsCursor.getCount(); i++) {
-                clients.add(new Client().save(context, clientsCursor));
+                clientEntities.add(clientMapper.asEntity(context, clientsCursor));
             }
 
             if(!clientsCursor.isClosed())
                 clientsCursor.close();
         }
 
-        return clients;
+        return clientEntities;
     }
 
     @Override
-    public boolean update(@NonNull Context context, @NonNull Client client) {
+    public boolean update(@NonNull Context context, @NonNull ClientEntity clientEntity) {
         final Uri clientUri = UriHelper.buildClientUri(context);
-        final ContentValues clientValues = client.asContentValues(context);
+        final ContentValues clientValues = clientMapper.asContentValues(context, clientEntity);
         final String whereClause = context.getString(R.string.client_id) + " =? ";
-        final String[] whereArgs = new String[] { String.valueOf(client.getClientId()) };
+        final String[] whereArgs = new String[] { String.valueOf(clientEntity.getClientId()) };
 
         int updatedRows = context.getContentResolver().update(clientUri, clientValues, whereClause, whereArgs);
 

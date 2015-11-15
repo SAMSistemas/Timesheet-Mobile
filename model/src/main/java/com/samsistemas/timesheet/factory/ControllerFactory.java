@@ -6,19 +6,17 @@ import com.samsistemas.timesheet.controller.LoginController;
 import com.samsistemas.timesheet.controller.PersonController;
 import com.samsistemas.timesheet.controller.ProjectController;
 import com.samsistemas.timesheet.controller.SessionController;
-import com.samsistemas.timesheet.controller.TaskForPositionController;
 import com.samsistemas.timesheet.controller.TaskTypeController;
 import com.samsistemas.timesheet.controller.WorkPositionController;
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.controller.base.BaseLoginController;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
-import com.samsistemas.timesheet.model.Client;
-import com.samsistemas.timesheet.model.JobLog;
-import com.samsistemas.timesheet.model.Person;
-import com.samsistemas.timesheet.model.Project;
-import com.samsistemas.timesheet.model.TaskForPosition;
-import com.samsistemas.timesheet.model.TaskType;
-import com.samsistemas.timesheet.model.WorkPosition;
+import com.samsistemas.timesheet.entity.ClientEntity;
+import com.samsistemas.timesheet.entity.JobLogEntity;
+import com.samsistemas.timesheet.entity.PersonEntity;
+import com.samsistemas.timesheet.entity.ProjectEntity;
+import com.samsistemas.timesheet.entity.TaskTypeEntity;
+import com.samsistemas.timesheet.entity.WorkPositionEntity;
 
 /**
  * Class used to get controller instances.
@@ -26,13 +24,12 @@ import com.samsistemas.timesheet.model.WorkPosition;
  * @author jonatan.salas
  */
 public class ControllerFactory {
-    private static BaseController<Client> clientBaseController = null;
-    private static BaseController<JobLog> jobLogBaseController = null;
-    private static BaseController<Person> personBaseController = null;
-    private static BaseController<Project> projectBaseController = null;
-    private static BaseController<TaskType> taskTypeBaseController = null;
-    private static BaseController<WorkPosition> workPositionBaseController = null;
-    private static BaseController<TaskForPosition> taskForPositionBaseController = null;
+    private static BaseController<ClientEntity> clientBaseController = null;
+    private static BaseController<JobLogEntity> jobLogBaseController = null;
+    private static BaseController<PersonEntity> personBaseController = null;
+    private static BaseController<ProjectEntity> projectBaseController = null;
+    private static BaseController<TaskTypeEntity> taskTypeBaseController = null;
+    private static BaseController<WorkPositionEntity> workPositionBaseController = null;
     private static BaseLoginController loginController = null;
     private static BaseSessionController sessionController = null;
 
@@ -41,7 +38,7 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<Client> getClientController() {
+    public static synchronized BaseController<ClientEntity> getClientController() {
         if(null == clientBaseController)
             clientBaseController = new ClientController();
         return clientBaseController;
@@ -52,7 +49,7 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<JobLog> getJobLogController() {
+    public static synchronized BaseController<JobLogEntity> getJobLogController() {
         if(null == jobLogBaseController)
             jobLogBaseController = new JobLogController();
         return jobLogBaseController;
@@ -63,7 +60,7 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<Person> getPersonController() {
+    public static synchronized BaseController<PersonEntity> getPersonController() {
         if(null == personBaseController)
             personBaseController = new PersonController();
         return personBaseController;
@@ -74,7 +71,7 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<Project> getProjectController() {
+    public static synchronized BaseController<ProjectEntity> getProjectController() {
         if(null == projectBaseController)
             projectBaseController = new ProjectController();
         return projectBaseController;
@@ -85,7 +82,7 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<TaskType> getTaskTypeController() {
+    public static synchronized BaseController<TaskTypeEntity> getTaskTypeController() {
         if(null == taskTypeBaseController)
             taskTypeBaseController = new TaskTypeController();
         return taskTypeBaseController;
@@ -95,20 +92,10 @@ public class ControllerFactory {
      *
      * @return
      */
-    public static synchronized BaseController<WorkPosition> getWorkPositionController() {
+    public static synchronized BaseController<WorkPositionEntity> getWorkPositionController() {
         if(null == workPositionBaseController)
             workPositionBaseController = new WorkPositionController();
         return workPositionBaseController;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public static synchronized BaseController<TaskForPosition> getTaskForPositionController() {
-        if(null == taskForPositionBaseController)
-            taskForPositionBaseController = new TaskForPositionController();
-        return taskForPositionBaseController;
     }
 
     /**

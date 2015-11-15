@@ -14,7 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import com.samsistemas.timesheet.data.R;
-import com.samsistemas.timesheet.database.DatabaseHelper;
+import com.samsistemas.timesheet.database.Database;
 import com.samsistemas.timesheet.helper.UriHelper;
 
 /**
@@ -23,8 +23,8 @@ import com.samsistemas.timesheet.helper.UriHelper;
  * @author jonatan.salas
  */
 public class DataProvider extends ContentProvider implements ContentUri {
-    private DatabaseHelper mDatabaseHelper;
     private UriMatcher mUriMatcher;
+    private Database mDatabase;
     private Context mContext;
 
     @Override
@@ -32,7 +32,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
         mContext = getContext();
 
         if(null != mContext) {
-            mDatabaseHelper = DatabaseHelper.getInstance(mContext);
+            mDatabase = Database.getInstance(mContext);
             mUriMatcher = UriHelper.buildUriMatcher(mContext);
         }
 
@@ -42,7 +42,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        SQLiteDatabase readableDatabase = mDatabaseHelper.getReadableDatabase();
+        SQLiteDatabase readableDatabase = mDatabase.getReadableDatabase();
         Cursor retCursor;
 
         switch(mUriMatcher.match(uri)) {
@@ -134,28 +134,6 @@ public class DataProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case TASK_TYPE_WORK_POSITION:
-                retCursor = readableDatabase.query(
-                        mContext.getString(R.string.task_type_x_work_position_table),
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder
-                );
-                break;
-            case TASK_TYPE_WORK_POSITION_ID:
-                retCursor = readableDatabase.query(
-                        mContext.getString(R.string.task_type_x_work_position_table),
-                        projection,
-                        mContext.getString(R.string.task_type_x_work_position_id) + " = '" + ContentUris.parseId(uri) + "'",
-                        null,
-                        null,
-                        null,
-                        sortOrder
-                );
-                break;
             case PROJECTS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.project_table),
@@ -229,10 +207,6 @@ public class DataProvider extends ContentProvider implements ContentUri {
                 return mContext.getString(R.string.task_type_content_type);
             case TASKTYPE_ID:
                 return mContext.getString(R.string.task_type_content_item_type);
-            case TASK_TYPE_WORK_POSITION:
-                return mContext.getString(R.string.task_type_x_work_position_content_type);
-            case TASK_TYPE_WORK_POSITION_ID:
-                return mContext.getString(R.string.task_type_x_work_position_content_item_type);
             case PROJECTS:
                 return mContext.getString(R.string.project_content_type);
             case PROJECT_ID:
@@ -264,9 +238,6 @@ public class DataProvider extends ContentProvider implements ContentUri {
             case TASK_TYPES:
                 returnUri = insert(uri, values, R.string.task_type_table);
                 break;
-            case TASK_TYPE_WORK_POSITION:
-                returnUri = insert(uri, values, R.string.task_type_x_work_position_table);
-                break;
             case PROJECTS:
                 returnUri = insert(uri, values, R.string.project_table);
                 break;
@@ -291,7 +262,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
      * @return a uri that notifies the inserted id.
      */
     protected Uri insert(@NonNull Uri uri, @NonNull ContentValues values, @StringRes int tableName) {
-        SQLiteDatabase writableDatabase = mDatabaseHelper.getWritableDatabase();
+        SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         Uri returnUri;
 
         long id = -1;
@@ -324,8 +295,6 @@ public class DataProvider extends ContentProvider implements ContentUri {
                 return bulkInsert(uri, values, R.string.person_table);
             case TASK_TYPES:
                 return bulkInsert(uri, values, R.string.task_type_table);
-            case TASK_TYPE_WORK_POSITION:
-                return bulkInsert(uri, values, R.string.task_type_x_work_position_table);
             case PROJECTS:
                 return bulkInsert(uri, values, R.string.project_table);
             case JOB_LOGS:
@@ -344,7 +313,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
      * @return an int representing the count of inserted rows.
      */
     protected int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values, @StringRes int tableName) {
-        SQLiteDatabase writableDatabase = mDatabaseHelper.getWritableDatabase();
+        SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         writableDatabase.beginTransaction();
         int returnCount = 0;
 
@@ -372,7 +341,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        SQLiteDatabase writableDatabase = mDatabaseHelper.getWritableDatabase();
+        SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         int updatedRows;
 
         switch(mUriMatcher.match(uri)) {
@@ -408,14 +377,6 @@ public class DataProvider extends ContentProvider implements ContentUri {
                         selectionArgs
                 );
                 break;
-            case TASK_TYPE_WORK_POSITION:
-                updatedRows = writableDatabase.update(
-                        mContext.getString(R.string.task_type_x_work_position_table),
-                        values,
-                        selection,
-                        selectionArgs
-                );
-                break;
             case PROJECTS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.project_table),
@@ -442,7 +403,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        SQLiteDatabase writableDatabase = mDatabaseHelper.getWritableDatabase();
+        SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         int deletedRows;
 
         switch(mUriMatcher.match(uri)) {
@@ -470,13 +431,6 @@ public class DataProvider extends ContentProvider implements ContentUri {
             case TASK_TYPES:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.task_type_table),
-                        selection,
-                        selectionArgs
-                );
-                break;
-            case TASK_TYPE_WORK_POSITION:
-                deletedRows = writableDatabase.delete(
-                        mContext.getString(R.string.task_type_x_work_position_table),
                         selection,
                         selectionArgs
                 );

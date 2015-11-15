@@ -8,8 +8,11 @@ import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.model.Person;
+import com.samsistemas.timesheet.entity.PersonEntity;
+import com.samsistemas.timesheet.mapper.PersonEntityMapper;
+import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +22,17 @@ import java.util.List;
  *
  * @author jonatan.salas
  */
-public class PersonController implements BaseController<Person> {
+public class PersonController implements BaseController<PersonEntity> {
+    protected EntityMapper<PersonEntity, Cursor> personMapper;
+
+    public PersonController() {
+        this.personMapper = MapperFactory.getPersonMapper();
+    }
 
     @Override
-    public boolean insert(@NonNull Context context, @NonNull Person person) {
+    public boolean insert(@NonNull Context context, @NonNull PersonEntity personEntity) {
         final Uri personUri = UriHelper.buildPersonUri(context);
-        final ContentValues personValues = person.asContentValues(context);
+        final ContentValues personValues = personMapper.asContentValues(context, personEntity);
 
         final Uri resultUri = context.getContentResolver().insert(personUri, personValues);
 
@@ -32,12 +40,12 @@ public class PersonController implements BaseController<Person> {
     }
 
     @Override
-    public boolean bulkInsert(@NonNull Context context, @NonNull List<Person> persons) {
+    public boolean bulkInsert(@NonNull Context context, @NonNull List<PersonEntity> personEntities) {
         final Uri personsUri = UriHelper.buildPersonUri(context);
-        final ContentValues[] personsValues = new ContentValues[persons.size()];
+        final ContentValues[] personsValues = new ContentValues[personEntities.size()];
 
-        for(int i = 0; i < persons.size(); i++) {
-            personsValues[i] = persons.get(i).asContentValues(context);
+        for(int i = 0; i < personEntities.size(); i++) {
+            personsValues[i] = personMapper.asContentValues(context, personEntities.get(i));
         }
 
         final int count = context.getContentResolver().bulkInsert(personsUri, personsValues);
@@ -46,35 +54,35 @@ public class PersonController implements BaseController<Person> {
     }
 
     @Override
-    public Person get(@NonNull Context context, long id) {
+    public PersonEntity get(@NonNull Context context, long id) {
         final Uri personUri = UriHelper.buildPersonUriWithId(context, id);
         final Cursor personCursor = context.getContentResolver().query(personUri, null, null, null, null);
 
-        return new Person().save(context, personCursor);
+        return personMapper.asEntity(context, personCursor);
     }
 
     @Override
-    public List<Person> listAll(@NonNull Context context) {
+    public List<PersonEntity> listAll(@NonNull Context context) {
         final Uri personUri = UriHelper.buildPersonUri(context);
         final Cursor personsCursor = context.getContentResolver().query(personUri, null, null, null, null);
 
-        List<Person> persons = new ArrayList<>();
+        List<PersonEntity> personEntities = new ArrayList<>();
 
         if(null != personsCursor && personsCursor.moveToFirst()) {
             for(int i = 0; i < personsCursor.getCount(); i++) {
-                persons.add(new Person().save(context, personsCursor));
+                personEntities.add(personMapper.asEntity(context, personsCursor));
             }
         }
 
-        return persons;
+        return personEntities;
     }
 
     @Override
-    public boolean update(@NonNull Context context, @NonNull Person person) {
+    public boolean update(@NonNull Context context, @NonNull PersonEntity personEntity) {
         final Uri personUri = UriHelper.buildPersonUri(context);
-        final ContentValues personValues = person.asContentValues(context);
+        final ContentValues personValues = personMapper.asContentValues(context, personEntity);
         final String whereClause = context.getString(R.string.person_id) + " =? ";
-        final String[] whereArgs = new String[] { String.valueOf(person.getPersonId()) };
+        final String[] whereArgs = new String[] { String.valueOf(personEntity.getPersonId()) };
 
         int updatedRows = context.getContentResolver().update(personUri, personValues, whereClause, whereArgs);
 

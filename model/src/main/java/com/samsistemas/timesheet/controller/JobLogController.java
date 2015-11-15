@@ -8,8 +8,10 @@ import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.model.JobLog;
+import com.samsistemas.timesheet.entity.JobLogEntity;
+import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +21,17 @@ import java.util.List;
  *
  * @author jonatan.salas
  */
-public class JobLogController implements BaseController<JobLog> {
+public class JobLogController implements BaseController<JobLogEntity> {
+    protected EntityMapper<JobLogEntity, Cursor> joblogMapper;
+
+    public JobLogController() {
+        this.joblogMapper = MapperFactory.getJoblogMapper();
+    }
 
     @Override
-    public boolean insert(@NonNull Context context, @NonNull JobLog jobLog) {
+    public boolean insert(@NonNull Context context, @NonNull JobLogEntity jobLogEntity) {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
-        final ContentValues jobLogValues = jobLog.asContentValues(context);
+        final ContentValues jobLogValues = joblogMapper.asContentValues(context, jobLogEntity);
 
         final Uri resultUri = context.getContentResolver().insert(jobLogUri, jobLogValues);
 
@@ -32,12 +39,12 @@ public class JobLogController implements BaseController<JobLog> {
     }
 
     @Override
-    public boolean bulkInsert(@NonNull Context context, @NonNull List<JobLog> jobLogs) {
+    public boolean bulkInsert(@NonNull Context context, @NonNull List<JobLogEntity> jobLogEntities) {
         final Uri jobLogsUri = UriHelper.buildJobLogUri(context);
-        final ContentValues[] jobLogsValues = new ContentValues[jobLogs.size()];
+        final ContentValues[] jobLogsValues = new ContentValues[jobLogEntities.size()];
 
-        for(int i = 0; i < jobLogs.size(); i++) {
-            jobLogsValues[i] = jobLogs.get(i).asContentValues(context);
+        for(int i = 0; i < jobLogEntities.size(); i++) {
+            jobLogsValues[i] = joblogMapper.asContentValues(context, jobLogEntities.get(i));
         }
 
         final int count = context.getContentResolver().bulkInsert(jobLogsUri, jobLogsValues);
@@ -46,35 +53,35 @@ public class JobLogController implements BaseController<JobLog> {
     }
 
     @Override
-    public JobLog get(@NonNull Context context, long id) {
+    public JobLogEntity get(@NonNull Context context, long id) {
         final Uri jobLogUri = UriHelper.buildJobLogUriWithId(context, id);
         final Cursor jobLogCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
 
-        return new JobLog().save(context, jobLogCursor);
+        return joblogMapper.asEntity(context, jobLogCursor);
     }
 
     @Override
-    public List<JobLog> listAll(@NonNull Context context) {
+    public List<JobLogEntity> listAll(@NonNull Context context) {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
         final Cursor jobLogsCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
 
-        List<JobLog> jobLogs = new ArrayList<>();
+        List<JobLogEntity> jobLogEntities = new ArrayList<>();
 
         if(null != jobLogsCursor && jobLogsCursor.moveToFirst()) {
             for(int i = 0; i < jobLogsCursor.getCount(); i++) {
-                jobLogs.add(new JobLog().save(context, jobLogsCursor));
+                jobLogEntities.add(joblogMapper.asEntity(context, jobLogsCursor));
             }
         }
 
-        return jobLogs;
+        return jobLogEntities;
     }
 
     @Override
-    public boolean update(@NonNull Context context, @NonNull JobLog jobLog) {
+    public boolean update(@NonNull Context context, @NonNull JobLogEntity jobLogEntity) {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
-        final ContentValues jobLogValues = jobLog.asContentValues(context);
+        final ContentValues jobLogValues = joblogMapper.asContentValues(context, jobLogEntity);
         final String whereClause = context.getString(R.string.job_log_id) + " =? ";
-        final String[] whereArgs = new String[] { String.valueOf(jobLog.getJobLogId()) };
+        final String[] whereArgs = new String[] { String.valueOf(jobLogEntity.getJobLogId()) };
 
         int updatedRows = context.getContentResolver().update(jobLogUri, jobLogValues, whereClause, whereArgs);
 

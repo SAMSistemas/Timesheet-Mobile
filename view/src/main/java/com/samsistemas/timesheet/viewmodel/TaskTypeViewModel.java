@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.viewmodel;
 
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.model.TaskType;
+import com.samsistemas.timesheet.entity.TaskTypeEntity;
 
 /**
  * @author jonatan.salas
@@ -13,11 +13,11 @@ public class TaskTypeViewModel {
 
     /**
      *
-     * @param taskType
+     * @param taskTypeEntity
      */
-    public TaskTypeViewModel(@NonNull TaskType taskType) {
-        this.taskTypeId = taskType.getTaskTypeId();
-        this.taskTypeName = taskType.getName();
+    public TaskTypeViewModel(@NonNull TaskTypeEntity taskTypeEntity) {
+        this.taskTypeId = taskTypeEntity.getTaskTypeId();
+        this.taskTypeName = taskTypeEntity.getName();
     }
 
     public TaskTypeViewModel setTaskTypeId(long taskTypeId) {

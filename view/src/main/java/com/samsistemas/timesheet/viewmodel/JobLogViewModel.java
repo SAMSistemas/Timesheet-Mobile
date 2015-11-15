@@ -1,6 +1,6 @@
 package com.samsistemas.timesheet.viewmodel;
 
-import com.samsistemas.timesheet.model.JobLog;
+import com.samsistemas.timesheet.entity.JobLogEntity;
 
 import java.util.Date;
 
@@ -16,13 +16,13 @@ public class JobLogViewModel {
 
     /**
      *
-     * @param jobLog
+     * @param jobLogEntity
      */
-    public JobLogViewModel(JobLog jobLog, TaskTypeViewModel taskTypeViewModel) {
-        this.jobLogId = jobLog.getJobLogId();
-        this.jobLogDate = jobLog.getWorkDate();
-        this.jobLogHours = jobLog.getHours();
-        this.jobLogObservation = jobLog.getObservations();
+    public JobLogViewModel(JobLogEntity jobLogEntity, TaskTypeViewModel taskTypeViewModel) {
+        this.jobLogId = jobLogEntity.getJobLogId();
+        this.jobLogDate = jobLogEntity.getWorkDate();
+        this.jobLogHours = jobLogEntity.getHours();
+        this.jobLogObservation = jobLogEntity.getObservations();
         this.taskTypeViewModel = taskTypeViewModel;
     }
 

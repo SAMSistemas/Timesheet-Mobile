@@ -5,13 +5,12 @@ import android.test.AndroidTestCase;
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.factory.ControllerFactory;
-import com.samsistemas.timesheet.model.Client;
-import com.samsistemas.timesheet.model.JobLog;
-import com.samsistemas.timesheet.model.Person;
-import com.samsistemas.timesheet.model.Project;
-import com.samsistemas.timesheet.model.TaskForPosition;
-import com.samsistemas.timesheet.model.TaskType;
-import com.samsistemas.timesheet.model.WorkPosition;
+import com.samsistemas.timesheet.entity.ClientEntity;
+import com.samsistemas.timesheet.entity.JobLogEntity;
+import com.samsistemas.timesheet.entity.PersonEntity;
+import com.samsistemas.timesheet.entity.ProjectEntity;
+import com.samsistemas.timesheet.entity.TaskTypeEntity;
+import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.util.AssertUtilities;
 import com.samsistemas.timesheet.util.TestUtilities;
 
@@ -21,21 +20,19 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class TestController extends AndroidTestCase {
-    private static BaseController<Client> clientBaseController = ControllerFactory.getClientController();
-    private static BaseController<WorkPosition> workPositionBaseController = ControllerFactory.getWorkPositionController();
-    private static BaseController<Person> personBaseController = ControllerFactory.getPersonController();
-    private static BaseController<TaskType> taskTypeBaseController = ControllerFactory.getTaskTypeController();
-    private static BaseController<TaskForPosition> taskForPositionBaseController = ControllerFactory.getTaskForPositionController();
-    private static BaseController<Project> projectBaseController = ControllerFactory.getProjectController();
-    private static BaseController<JobLog> jobLogBaseController = ControllerFactory.getJobLogController();
+    private static BaseController<ClientEntity> clientBaseController = ControllerFactory.getClientController();
+    private static BaseController<WorkPositionEntity> workPositionBaseController = ControllerFactory.getWorkPositionController();
+    private static BaseController<PersonEntity> personBaseController = ControllerFactory.getPersonController();
+    private static BaseController<TaskTypeEntity> taskTypeBaseController = ControllerFactory.getTaskTypeController();
+    private static BaseController<ProjectEntity> projectBaseController = ControllerFactory.getProjectController();
+    private static BaseController<JobLogEntity> jobLogBaseController = ControllerFactory.getJobLogController();
 
-    private static Client expectedClient = TestUtilities.getClient();
-    private static WorkPosition expectedWorkPosition = TestUtilities.getWorkPosition();
-    private static Person expectedPerson = TestUtilities.getPerson(expectedWorkPosition.getWorkPositionId());
-    private static TaskType expectedTaskType = TestUtilities.getTaskType();
-    private static TaskForPosition expectedTaskForPosition = TestUtilities.getTaskForPosition();
-    private static Project expectedProject = TestUtilities.getProject(expectedClient.getClientId());
-    private static JobLog expectedJobLog = TestUtilities.getJobLog(expectedProject.getProjectId(), expectedPerson.getPersonId(), expectedTaskType.getTaskTypeId());
+    private static ClientEntity expectedClientEntity = TestUtilities.getClient();
+    private static WorkPositionEntity expectedWorkPositionEntity = TestUtilities.getWorkPosition();
+    private static PersonEntity expectedPersonEntity = TestUtilities.getPerson(expectedWorkPositionEntity.getWorkPositionId());
+    private static TaskTypeEntity expectedTaskTypeEntity = TestUtilities.getTaskType();
+    private static ProjectEntity expectedProjectEntity = TestUtilities.getProject(expectedClientEntity.getClientId());
+    private static JobLogEntity expectedJobLogEntity = TestUtilities.getJobLog(expectedProjectEntity.getProjectId(), expectedPersonEntity.getPersonId(), expectedTaskTypeEntity.getTaskTypeId());
 
 
     public void testDeleteDb() {
@@ -49,97 +46,85 @@ public class TestController extends AndroidTestCase {
         //-------------------------------------------------------------------------//
         //                      CONTROLLER INSERTS TEST PART                       //
         //-------------------------------------------------------------------------//
-        boolean inserted = clientBaseController.insert(mContext, expectedClient);
+        boolean inserted = clientBaseController.insert(mContext, expectedClientEntity);
         assertEquals(true, inserted);
 
-        inserted = workPositionBaseController.insert(mContext, expectedWorkPosition);
+        inserted = workPositionBaseController.insert(mContext, expectedWorkPositionEntity);
         assertEquals(true, inserted);
 
-        inserted = personBaseController.insert(mContext, expectedPerson);
+        inserted = personBaseController.insert(mContext, expectedPersonEntity);
         assertEquals(true, inserted);
 
-        inserted = taskTypeBaseController.insert(mContext, expectedTaskType);
+        inserted = taskTypeBaseController.insert(mContext, expectedTaskTypeEntity);
         assertEquals(true, inserted);
 
-        inserted = taskForPositionBaseController.insert(mContext, expectedTaskForPosition);
+        inserted = projectBaseController.insert(mContext, expectedProjectEntity);
         assertEquals(true, inserted);
 
-        inserted = projectBaseController.insert(mContext, expectedProject);
-        assertEquals(true, inserted);
-
-        inserted = jobLogBaseController.insert(mContext, expectedJobLog);
+        inserted = jobLogBaseController.insert(mContext, expectedJobLogEntity);
         assertEquals(true, inserted);
 
         //-------------------------------------------------------------------------//
         //                      CONTROLLER READ TEST PART                          //
         //-------------------------------------------------------------------------//
-        Client client = clientBaseController.get(mContext, 1);
-        AssertUtilities.compareClient(expectedClient, client);
+        ClientEntity clientEntity = clientBaseController.get(mContext, 1);
+        AssertUtilities.compareClient(expectedClientEntity, clientEntity);
 
-        WorkPosition workPosition = workPositionBaseController.get(mContext, expectedWorkPosition.getWorkPositionId());
-        AssertUtilities.compareWorkPosition(expectedWorkPosition, workPosition);
+        WorkPositionEntity workPositionEntity = workPositionBaseController.get(mContext, expectedWorkPositionEntity.getWorkPositionId());
+        AssertUtilities.compareWorkPosition(expectedWorkPositionEntity, workPositionEntity);
 
-        Person person = personBaseController.get(mContext, expectedPerson.getPersonId());
-        AssertUtilities.comparePerson(expectedPerson, person);
+        PersonEntity personEntity = personBaseController.get(mContext, expectedPersonEntity.getPersonId());
+        AssertUtilities.comparePerson(expectedPersonEntity, personEntity);
 
-        TaskType taskType = taskTypeBaseController.get(mContext, expectedTaskType.getTaskTypeId());
-        AssertUtilities.compareTaskType(expectedTaskType, taskType);
+        TaskTypeEntity taskTypeEntity = taskTypeBaseController.get(mContext, expectedTaskTypeEntity.getTaskTypeId());
+        AssertUtilities.compareTaskType(expectedTaskTypeEntity, taskTypeEntity);
 
-        TaskForPosition taskForPosition = taskForPositionBaseController.get(mContext, expectedTaskForPosition.getTaskTypeId());
-        AssertUtilities.compareTaskForPosition(expectedTaskForPosition, taskForPosition);
+        ProjectEntity projectEntity = projectBaseController.get(mContext, expectedProjectEntity.getProjectId());
+        AssertUtilities.compareProject(expectedProjectEntity, projectEntity);
 
-        Project project = projectBaseController.get(mContext, expectedProject.getProjectId());
-        AssertUtilities.compareProject(expectedProject, project);
-
-        JobLog jobLog = jobLogBaseController.get(mContext, expectedJobLog.getJobLogId());
-        AssertUtilities.compareJobLog(expectedJobLog, jobLog);
+        JobLogEntity jobLogEntity = jobLogBaseController.get(mContext, expectedJobLogEntity.getJobLogId());
+        AssertUtilities.compareJobLog(expectedJobLogEntity, jobLogEntity);
 
         //-------------------------------------------------------------------------//
         //                      CONTROLLER LIST TEST PART                          //
         //-------------------------------------------------------------------------//
-        List<Client> clientList = clientBaseController.listAll(mContext);
-        assertEquals(false, clientList.isEmpty());
+        List<ClientEntity> clientEntityList = clientBaseController.listAll(mContext);
+        assertEquals(false, clientEntityList.isEmpty());
 
-        List<WorkPosition> workPositionList = workPositionBaseController.listAll(mContext);
-        assertEquals(false, workPositionList.isEmpty());
+        List<WorkPositionEntity> workPositionEntityList = workPositionBaseController.listAll(mContext);
+        assertEquals(false, workPositionEntityList.isEmpty());
 
-        List<Person> personList = personBaseController.listAll(mContext);
-        assertEquals(false, personList.isEmpty());
+        List<PersonEntity> personEntityList = personBaseController.listAll(mContext);
+        assertEquals(false, personEntityList.isEmpty());
 
-        List<TaskType> taskTypeList = taskTypeBaseController.listAll(mContext);
-        assertEquals(false, taskTypeList.isEmpty());
+        List<TaskTypeEntity> taskTypeEntityList = taskTypeBaseController.listAll(mContext);
+        assertEquals(false, taskTypeEntityList.isEmpty());
 
-        List<TaskForPosition> taskForPositionList = taskForPositionBaseController.listAll(mContext);
-        assertEquals(false, taskForPositionList.isEmpty());
+        List<ProjectEntity> projectEntityList = projectBaseController.listAll(mContext);
+        assertEquals(false, projectEntityList.isEmpty());
 
-        List<Project> projectList = projectBaseController.listAll(mContext);
-        assertEquals(false, projectList.isEmpty());
-
-        List<JobLog> jobLogList = jobLogBaseController.listAll(mContext);
-        assertEquals(false, jobLogList.isEmpty());
+        List<JobLogEntity> jobLogEntityList = jobLogBaseController.listAll(mContext);
+        assertEquals(false, jobLogEntityList.isEmpty());
 
         //-------------------------------------------------------------------------//
         //                      CONTROLLER DELETE TEST PART                       //
         //-------------------------------------------------------------------------//
-        boolean deleted = clientBaseController.delete(mContext, expectedClient.getClientId());
+        boolean deleted = clientBaseController.delete(mContext, expectedClientEntity.getClientId());
         assertEquals(true, deleted);
 
-        deleted = workPositionBaseController.delete(mContext, expectedWorkPosition.getWorkPositionId());
+        deleted = workPositionBaseController.delete(mContext, expectedWorkPositionEntity.getWorkPositionId());
         assertEquals(true, deleted);
 
-        deleted = personBaseController.delete(mContext, expectedPerson.getPersonId());
+        deleted = personBaseController.delete(mContext, expectedPersonEntity.getPersonId());
         assertEquals(true, deleted);
 
-        deleted = taskTypeBaseController.delete(mContext, expectedTaskType.getTaskTypeId());
+        deleted = taskTypeBaseController.delete(mContext, expectedTaskTypeEntity.getTaskTypeId());
         assertEquals(true, deleted);
 
-        deleted = taskForPositionBaseController.delete(mContext, expectedTaskForPosition.getTaskTypeId());
+        deleted = projectBaseController.delete(mContext, expectedProjectEntity.getProjectId());
         assertEquals(true, deleted);
 
-        deleted = projectBaseController.delete(mContext, expectedProject.getProjectId());
-        assertEquals(true, deleted);
-
-        deleted = jobLogBaseController.delete(mContext, expectedJobLog.getJobLogId());
+        deleted = jobLogBaseController.delete(mContext, expectedJobLogEntity.getJobLogId());
         assertEquals(true, deleted);
     }
 }

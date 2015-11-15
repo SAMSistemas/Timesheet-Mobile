@@ -9,7 +9,9 @@ import android.support.annotation.NonNull;
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.model.TaskType;
+import com.samsistemas.timesheet.entity.TaskTypeEntity;
+import com.samsistemas.timesheet.mapper.TaskTypeEntityMapper;
+import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +21,13 @@ import java.util.List;
  *
  * @author jonatan.salas
  */
-public class TaskTypeController implements BaseController<TaskType> {
+public class TaskTypeController implements BaseController<TaskTypeEntity> {
 
     @Override
-    public boolean insert(@NonNull Context context, @NonNull TaskType taskType) {
+    public boolean insert(@NonNull Context context, @NonNull TaskTypeEntity taskTypeEntity) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUri(context);
-        final ContentValues taskTypeValues = taskType.asContentValues(context);
+        final EntityMapper<TaskTypeEntity, Cursor> mapper = new TaskTypeEntityMapper();
+        final ContentValues taskTypeValues = mapper.asContentValues(context, taskTypeEntity);
 
         final Uri resultUri = context.getContentResolver().insert(taskTypeUri, taskTypeValues);
 
@@ -32,12 +35,13 @@ public class TaskTypeController implements BaseController<TaskType> {
     }
 
     @Override
-    public boolean bulkInsert(@NonNull Context context, @NonNull List<TaskType> taskTypes) {
+    public boolean bulkInsert(@NonNull Context context, @NonNull List<TaskTypeEntity> taskTypeEntities) {
         final Uri taskTypesUri = UriHelper.buildTaskTypeUri(context);
-        final ContentValues[] taskTypesValues = new ContentValues[taskTypes.size()];
+        final EntityMapper<TaskTypeEntity, Cursor> mapper = new TaskTypeEntityMapper();
+        final ContentValues[] taskTypesValues = new ContentValues[taskTypeEntities.size()];
 
-        for(int i = 0; i < taskTypes.size(); i++) {
-            taskTypesValues[i] = taskTypes.get(i).asContentValues(context);
+        for(int i = 0; i < taskTypeEntities.size(); i++) {
+            taskTypesValues[i] = mapper.asContentValues(context, taskTypeEntities.get(i));
         }
 
         final int count = context.getContentResolver().bulkInsert(taskTypesUri, taskTypesValues);
@@ -46,35 +50,38 @@ public class TaskTypeController implements BaseController<TaskType> {
     }
 
     @Override
-    public TaskType get(@NonNull Context context, long id) {
+    public TaskTypeEntity get(@NonNull Context context, long id) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUriWithId(context, id);
+        final EntityMapper<TaskTypeEntity, Cursor> mapper = new TaskTypeEntityMapper();
         final Cursor taskTypeCursor = context.getContentResolver().query(taskTypeUri, null, null, null, null);
 
-        return new TaskType().save(context, taskTypeCursor);
+        return mapper.asEntity(context, taskTypeCursor);
     }
 
     @Override
-    public List<TaskType> listAll(@NonNull Context context) {
+    public List<TaskTypeEntity> listAll(@NonNull Context context) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUri(context);
+        final EntityMapper<TaskTypeEntity, Cursor> mapper = new TaskTypeEntityMapper();
         final Cursor taskTypeCursor = context.getContentResolver().query(taskTypeUri, null, null, null, null);
 
-        List<TaskType> taskTypes = new ArrayList<>();
+        List<TaskTypeEntity> taskTypeEntities = new ArrayList<>();
 
         if(null != taskTypeCursor && taskTypeCursor.moveToFirst()) {
             for(int i = 0; i < taskTypeCursor.getCount(); i++) {
-                taskTypes.add(new TaskType().save(context, taskTypeCursor));
+                taskTypeEntities.add(mapper.asEntity(context, taskTypeCursor));
             }
         }
 
-        return taskTypes;
+        return taskTypeEntities;
     }
 
     @Override
-    public boolean update(@NonNull Context context, @NonNull TaskType taskType) {
+    public boolean update(@NonNull Context context, @NonNull TaskTypeEntity taskTypeEntity) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUri(context);
-        final ContentValues taskTypeValues = taskType.asContentValues(context);
+        final EntityMapper<TaskTypeEntity, Cursor> mapper = new TaskTypeEntityMapper();
+        final ContentValues taskTypeValues = mapper.asContentValues(context, taskTypeEntity);
         final String whereClause = context.getString(R.string.task_type_id) + " =? ";
-        final String[] whereArgs = new String[] { String.valueOf(taskType.getTaskTypeId()) };
+        final String[] whereArgs = new String[] { String.valueOf(taskTypeEntity.getTaskTypeId()) };
 
         int updatedRows = context.getContentResolver().update(taskTypeUri, taskTypeValues, whereClause, whereArgs);
 

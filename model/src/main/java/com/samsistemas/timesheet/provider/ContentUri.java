@@ -14,10 +14,8 @@ public interface ContentUri {
     int PERSON_ID = 6;
     int TASK_TYPES = 7;
     int TASKTYPE_ID = 8;
-    int TASK_TYPE_WORK_POSITION = 9;
-    int TASK_TYPE_WORK_POSITION_ID = 10;
-    int PROJECTS = 11;
-    int PROJECT_ID = 12;
-    int JOB_LOGS = 13;
-    int JOBLOG_ID = 14;
+    int PROJECTS = 9;
+    int PROJECT_ID = 10;
+    int JOB_LOGS = 11;
+    int JOBLOG_ID = 12;
 }

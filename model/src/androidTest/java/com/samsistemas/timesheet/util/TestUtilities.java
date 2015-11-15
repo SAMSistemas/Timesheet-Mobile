@@ -2,19 +2,28 @@ package com.samsistemas.timesheet.util;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.model.Client;
-import com.samsistemas.timesheet.model.JobLog;
-import com.samsistemas.timesheet.model.Person;
-import com.samsistemas.timesheet.model.Project;
-import com.samsistemas.timesheet.model.TaskForPosition;
-import com.samsistemas.timesheet.model.TaskType;
-import com.samsistemas.timesheet.model.WorkPosition;
+import com.samsistemas.timesheet.entity.ClientEntity;
+import com.samsistemas.timesheet.entity.JobLogEntity;
+import com.samsistemas.timesheet.entity.PersonEntity;
+import com.samsistemas.timesheet.entity.ProjectEntity;
+import com.samsistemas.timesheet.entity.TaskTypeEntity;
+import com.samsistemas.timesheet.entity.WorkPositionEntity;
+import com.samsistemas.timesheet.mapper.ClientEntityMapper;
+import com.samsistemas.timesheet.mapper.JobLogEntityMapper;
+import com.samsistemas.timesheet.mapper.PersonEntityMapper;
+import com.samsistemas.timesheet.mapper.ProjectEntityMapper;
+import com.samsistemas.timesheet.mapper.TaskTypeEntityMapper;
+import com.samsistemas.timesheet.mapper.WorkPositionEntityMapper;
+import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
 import junit.framework.Assert;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author jonatan.salas
@@ -22,16 +31,47 @@ import java.util.Date;
 public class TestUtilities {
 
     /**
+     *
+     * @param expectedValues
+     * @param valueCursor
+     */
+    public static void validateCursor(ContentValues expectedValues, Cursor valueCursor) {
+        Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
+
+        for(Map.Entry<String, Object> entry: valueSet) {
+
+            String columnName = entry.getKey();
+            int idx = valueCursor.getColumnIndex(columnName);
+
+            Assert.assertFalse(-1 == idx);
+            Object value = entry.getValue();
+
+            //Use this check to avoid null pointer troubleshooting when trying to get
+            //the picture from Person Table that could be null.
+            if(null != value) {
+                String expectedValue = entry.getValue().toString();
+                Assert.assertEquals(expectedValue, valueCursor.getString(idx));
+            } else {
+                byte[] expected = (byte[]) entry.getValue();
+                Assert.assertEquals(expected, valueCursor.getBlob(idx));
+            }
+        }
+    }
+
+    /**
      * @param context
      * @return
      */
     public static ContentValues getClient(@NonNull Context context) {
-        return new Client()
+        final EntityMapper<ClientEntity, Cursor> mapper = new ClientEntityMapper();
+        return mapper.asContentValues(
+                context,
+                new ClientEntity()
                 .setClientId(1)
                 .setName("fulanito")
                 .setShortName("fn")
                 .setEnabled(true)
-                .asContentValues(context);
+        );
     }
 
     /**
@@ -39,10 +79,13 @@ public class TestUtilities {
      * @return
      */
     public static ContentValues getWorkPosition(@NonNull Context context) {
-        return new WorkPosition()
+        final EntityMapper<WorkPositionEntity, Cursor> mapper = new WorkPositionEntityMapper();
+        return mapper.asContentValues(
+                context,
+                new WorkPositionEntity()
                 .setWorkPositionId(1)
                 .setDescription("Developer")
-                .asContentValues(context);
+        );
     }
 
     /**
@@ -50,7 +93,10 @@ public class TestUtilities {
      * @return
      */
     public static ContentValues getPerson(@NonNull Context context, long id) {
-        return new Person()
+        final EntityMapper<PersonEntity, Cursor> mapper = new PersonEntityMapper();
+        return mapper.asContentValues(
+                context,
+                new PersonEntity()
                 .setPersonId(1)
                 .setName("Jonatan")
                 .setLastName("Salas")
@@ -60,7 +106,7 @@ public class TestUtilities {
                 .setWorkHours(6)
                 .setPicture(null)
                 .setEnabled(true)
-                .asContentValues(context);
+        );
     }
 
     /**
@@ -68,22 +114,14 @@ public class TestUtilities {
      * @return
      */
     public static ContentValues getTaskType(@NonNull Context context) {
-        return new TaskType()
+        final EntityMapper<TaskTypeEntity, Cursor> mapper = new TaskTypeEntityMapper();
+        return mapper.asContentValues(
+                context,
+                new TaskTypeEntity()
                 .setTaskTypeId(1)
                 .setName("Programación")
                 .setEnabled(true)
-                .asContentValues(context);
-    }
-
-    /**
-     * @param context
-     * @return
-     */
-    public static ContentValues getTaskForPosition(@NonNull Context context) {
-        return new TaskForPosition()
-                .setWorkPositionId(1)
-                .setTaskTypeId(1)
-                .asContentValues(context);
+        );
     }
 
     /**
@@ -92,14 +130,17 @@ public class TestUtilities {
      * @return
      */
     public static ContentValues getProject(@NonNull Context context, long clientId) {
-        return new Project()
+        final EntityMapper<ProjectEntity, Cursor> mapper = new ProjectEntityMapper();
+        return  mapper.asContentValues(
+                context,
+                new ProjectEntity()
                 .setProjectId(1)
                 .setClientId(clientId)
                 .setName("Timesheet - carga de horas")
                 .setShortName("cdh")
                 .setStartDate(new Date(System.currentTimeMillis()))
                 .setEnabled(true)
-                .asContentValues(context);
+        );
     }
 
     /**
@@ -110,7 +151,9 @@ public class TestUtilities {
      * @return
      */
     public static ContentValues getJobLog(@NonNull Context context, long projectId, long personId, long taskTypeId) {
-        return new JobLog()
+        final EntityMapper<JobLogEntity, Cursor> mapper = new JobLogEntityMapper();
+        return  mapper.asContentValues(context,
+                new JobLogEntity()
                 .setJobLogId(1)
                 .setProjectId(projectId)
                 .setPersonId(personId)
@@ -119,14 +162,14 @@ public class TestUtilities {
                 .setHours("6")
                 .setSolicitude(33034)
                 .setObservations("lalala")
-                .asContentValues(context);
+        );
     }
 
     /**
      * @return
      */
-    public static Client getClient() {
-        return new Client()
+    public static ClientEntity getClient() {
+        return new ClientEntity()
                 .setClientId(1)
                 .setName("fulanito")
                 .setShortName("fn")
@@ -137,8 +180,8 @@ public class TestUtilities {
      *
      * @return
      */
-    public static WorkPosition getWorkPosition() {
-        return new WorkPosition()
+    public static WorkPositionEntity getWorkPosition() {
+        return new WorkPositionEntity()
                 .setWorkPositionId(0)
                 .setDescription("Developer");
     }
@@ -147,8 +190,8 @@ public class TestUtilities {
      *
      * @return
      */
-    public static Person getPerson(long workPositionId) {
-        return new Person()
+    public static PersonEntity getPerson(long workPositionId) {
+        return new PersonEntity()
                 .setPersonId(1)
                 .setName("Jonatan")
                 .setLastName("Salas")
@@ -164,8 +207,8 @@ public class TestUtilities {
      *
      * @return
      */
-    public static TaskType getTaskType() {
-        return new TaskType()
+    public static TaskTypeEntity getTaskType() {
+        return new TaskTypeEntity()
                 .setTaskTypeId(1)
                 .setName("Programación")
                 .setEnabled(true);
@@ -173,21 +216,11 @@ public class TestUtilities {
 
     /**
      *
-     * @return
-     */
-    public static TaskForPosition getTaskForPosition() {
-        return new TaskForPosition()
-                .setWorkPositionId(1)
-                .setTaskTypeId(1);
-    }
-
-    /**
-     *
      * @param clientId
      * @return
      */
-    public static Project getProject(long clientId) {
-        return new Project()
+    public static ProjectEntity getProject(long clientId) {
+        return new ProjectEntity()
                 .setProjectId(1)
                 .setClientId(clientId)
                 .setName("Timesheet - carga de horas")
@@ -203,8 +236,8 @@ public class TestUtilities {
      * @param taskTypeId
      * @return
      */
-    public static JobLog getJobLog(long projectId, long personId, long taskTypeId) {
-        return new JobLog()
+    public static JobLogEntity getJobLog(long projectId, long personId, long taskTypeId) {
+        return new JobLogEntity()
                 .setJobLogId(1)
                 .setProjectId(projectId)
                 .setPersonId(personId)

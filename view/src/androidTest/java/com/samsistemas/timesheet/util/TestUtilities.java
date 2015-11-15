@@ -1,9 +1,8 @@
 package com.samsistemas.timesheet.util;
 
-import com.samsistemas.timesheet.model.Person;
-import com.samsistemas.timesheet.model.TaskForPosition;
-import com.samsistemas.timesheet.model.TaskType;
-import com.samsistemas.timesheet.model.WorkPosition;
+import com.samsistemas.timesheet.entity.PersonEntity;
+import com.samsistemas.timesheet.entity.TaskTypeEntity;
+import com.samsistemas.timesheet.entity.WorkPositionEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +12,8 @@ import java.util.List;
  */
 public class TestUtilities {
 
-    public static Person getPerson() {
-        return new Person()
+    public static PersonEntity getPerson() {
+        return new PersonEntity()
                 .setPersonId(0)
                 .setName("Jonatan")
                 .setLastName("Salas")
@@ -25,65 +24,39 @@ public class TestUtilities {
                 .setWorkPositionId(1);
     }
 
-    public static WorkPosition getWorkPosition() {
-        return new WorkPosition()
+    public static WorkPositionEntity getWorkPosition() {
+        return new WorkPositionEntity()
                 .setWorkPositionId(1)
                 .setDescription("Developer");
     }
 
-    public static List<TaskType> getTaskTypeList() {
-        List<TaskType> taskTypeList = new ArrayList<>();
-        taskTypeList.add(
-                new TaskType()
+    public static List<TaskTypeEntity> getTaskTypeList() {
+        List<TaskTypeEntity> taskTypeEntityList = new ArrayList<>();
+        taskTypeEntityList.add(
+                new TaskTypeEntity()
                 .setTaskTypeId(1)
                 .setName("Programar")
                 .setEnabled(true)
         );
-        taskTypeList.add(
-                new TaskType()
+        taskTypeEntityList.add(
+                new TaskTypeEntity()
                 .setTaskTypeId(2)
                 .setName("Testear")
                 .setEnabled(true)
         );
-        taskTypeList.add(
-                new TaskType()
+        taskTypeEntityList.add(
+                new TaskTypeEntity()
                 .setTaskTypeId(3)
                 .setName("Diseñar")
                 .setEnabled(true)
         );
-        taskTypeList.add(
-                new TaskType()
+        taskTypeEntityList.add(
+                new TaskTypeEntity()
                 .setTaskTypeId(4)
                 .setName("Debuggear")
                 .setEnabled(true)
         );
 
-        return taskTypeList;
-    }
-
-    public static List<TaskForPosition> getTaskForPositions() {
-        List<TaskForPosition> taskForPositionList = new ArrayList<>();
-        taskForPositionList.add(
-                new TaskForPosition()
-                .setWorkPositionId(getWorkPosition().getWorkPositionId())
-                .setTaskTypeId(1)
-        );
-        taskForPositionList.add(
-                new TaskForPosition()
-                .setWorkPositionId(getWorkPosition().getWorkPositionId())
-                .setTaskTypeId(2)
-        );
-        taskForPositionList.add(
-                new TaskForPosition()
-                .setWorkPositionId(getWorkPosition().getWorkPositionId())
-                .setTaskTypeId(3)
-        );
-        taskForPositionList.add(
-                new TaskForPosition()
-                .setWorkPositionId(getWorkPosition().getWorkPositionId())
-                .setTaskTypeId(4)
-        );
-
-        return taskForPositionList;
+        return taskTypeEntityList;
     }
 }

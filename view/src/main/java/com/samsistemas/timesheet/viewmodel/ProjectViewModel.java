@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.viewmodel;
 
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.model.Project;
+import com.samsistemas.timesheet.entity.ProjectEntity;
 
 /**
  * @author jonatan.salas
@@ -13,11 +13,11 @@ public class ProjectViewModel {
 
     /**
      *
-     * @param project
+     * @param projectEntity
      */
-    public ProjectViewModel(@NonNull Project project) {
-        this.projectId = project.getProjectId();
-        this.projectName = project.getName();
+    public ProjectViewModel(@NonNull ProjectEntity projectEntity) {
+        this.projectId = projectEntity.getProjectId();
+        this.projectName = projectEntity.getName();
     }
 
     public ProjectViewModel setProjectId(long projectId) {

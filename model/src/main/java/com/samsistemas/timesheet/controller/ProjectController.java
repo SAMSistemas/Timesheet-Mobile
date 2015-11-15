@@ -8,8 +8,11 @@ import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.model.Project;
+import com.samsistemas.timesheet.entity.ProjectEntity;
+import com.samsistemas.timesheet.mapper.ProjectEntityMapper;
+import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +22,17 @@ import java.util.List;
  *
  * @author jonatan.salas
  */
-public class ProjectController implements BaseController<Project> {
+public class ProjectController implements BaseController<ProjectEntity> {
+    protected EntityMapper<ProjectEntity, Cursor> projectMapper;
+
+    public ProjectController() {
+        this.projectMapper = MapperFactory.getProjectMapper();
+    }
 
     @Override
-    public boolean insert(@NonNull Context context, @NonNull Project project) {
+    public boolean insert(@NonNull Context context, @NonNull ProjectEntity projectEntity) {
         final Uri projectUri = UriHelper.buildProjectUri(context);
-        final ContentValues projectValues = project.asContentValues(context);
+        final ContentValues projectValues = projectMapper.asContentValues(context, projectEntity);
 
         final Uri resultUri = context.getContentResolver().insert(projectUri, projectValues);
 
@@ -32,12 +40,12 @@ public class ProjectController implements BaseController<Project> {
     }
 
     @Override
-    public boolean bulkInsert(@NonNull Context context, @NonNull List<Project> projects) {
+    public boolean bulkInsert(@NonNull Context context, @NonNull List<ProjectEntity> projectEntities) {
         final Uri projectsUri = UriHelper.buildProjectUri(context);
-        final ContentValues[] projectsValues = new ContentValues[projects.size()];
+        final ContentValues[] projectsValues = new ContentValues[projectEntities.size()];
 
-        for(int i = 0; i < projects.size(); i++) {
-            projectsValues[i] = projects.get(i).asContentValues(context);
+        for(int i = 0; i < projectEntities.size(); i++) {
+            projectsValues[i] = projectMapper.asContentValues(context, projectEntities.get(i));
         }
 
         final int count = context.getContentResolver().bulkInsert(projectsUri, projectsValues);
@@ -46,35 +54,35 @@ public class ProjectController implements BaseController<Project> {
     }
 
     @Override
-    public Project get(@NonNull Context context, long id) {
+    public ProjectEntity get(@NonNull Context context, long id) {
         final Uri projectUri = UriHelper.buildProjectUriWithId(context, id);
         final Cursor projectCursor = context.getContentResolver().query(projectUri, null, null, null, null);
 
-        return new Project().save(context, projectCursor);
+        return projectMapper.asEntity(context, projectCursor);
     }
 
     @Override
-    public List<Project> listAll(@NonNull Context context) {
+    public List<ProjectEntity> listAll(@NonNull Context context) {
         final Uri projectsUri = UriHelper.buildProjectUri(context);
         final Cursor projectsCursor = context.getContentResolver().query(projectsUri, null, null, null, null);
 
-        List<Project> projects = new ArrayList<>();
+        List<ProjectEntity> projectEntities = new ArrayList<>();
 
         if(null != projectsCursor && projectsCursor.moveToFirst()) {
             for(int i = 0; i < projectsCursor.getCount(); i++) {
-                projects.add(new Project().save(context, projectsCursor));
+                projectEntities.add(projectMapper.asEntity(context, projectsCursor));
             }
         }
 
-        return projects;
+        return projectEntities;
     }
 
     @Override
-    public boolean update(@NonNull Context context, @NonNull Project project) {
+    public boolean update(@NonNull Context context, @NonNull ProjectEntity projectEntity) {
         final Uri projectUri = UriHelper.buildProjectUri(context);
-        final ContentValues projectValues = project.asContentValues(context);
+        final ContentValues projectValues = projectMapper.asContentValues(context, projectEntity);
         final String whereClause = context.getString(R.string.project_id) + " =? ";
-        final String[] whereArgs = new String[] { String.valueOf(project.getProjectId()) };
+        final String[] whereArgs = new String[] { String.valueOf(projectEntity.getProjectId()) };
 
         int updatedRows = context.getContentResolver().update(projectUri, projectValues, whereClause, whereArgs);
 
