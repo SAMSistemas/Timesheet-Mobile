@@ -11,6 +11,9 @@ import com.samsistemas.timesheet.mapper.base.EntityMapper;
 import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.util.ConversionUtil;
 
+/**
+ * @author jonatan.salas
+ */
 public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
 
     @Override
