@@ -24,16 +24,13 @@ import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
-import com.samsistemas.timesheet.adapter.ModelAdapter;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
-import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -205,7 +202,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
     protected void setRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new JobLogAdapter(getApplicationContext(), getListFilteredByDate(getCurrentDate()));
+        //mAdapter = new JobLogAdapter(getApplicationContext(), getListFilteredByDate(getCurrentDate()));
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setNestedScrollingEnabled(true);
@@ -218,7 +215,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     }
 
     protected void resetAdapter(@NonNull Date date) {
-        mAdapter.setItems(getListFilteredByDate(date));
+        //mAdapter.setItems(getListFilteredByDate(date));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
@@ -239,10 +236,5 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
     private Typeface getRobotoMediumTypeface() {
         return TypefaceUtil.getCustomTypeface(getApplicationContext(), R.string.roboto_medium);
-    }
-
-    private List<JobLogViewModel> getListFilteredByDate(@NonNull Date dateToFilter) {
-        final ModelAdapter modelAdapter = new ModelAdapter(getApplicationContext());
-        return modelAdapter.getJobLogsByDate(dateToFilter);
     }
 }
