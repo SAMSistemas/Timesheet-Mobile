@@ -74,35 +74,35 @@ public class PersonFacade implements Facade<Person> {
     }
 
     @Override
-    public boolean insert(@NonNull Context context, Person object) {
+    public boolean insert(@NonNull Context context, Person person) {
         final PersonEntity entity = new PersonEntity();
 
-        entity.setPersonId(object.getId())
-              .setName(object.getName())
-              .setLastName(object.getLastName())
-              .setUsername(object.getUsername())
-              .setPassword(object.getPassword())
-              .setPicture(object.getPicture())
-              .setWorkHours(object.getWorkHours())
-              .setWorkPositionId(object.getWorkPosition().getId())
-              .setEnabled(object.isEnabled());
+        entity.setPersonId(person.getId())
+              .setName(person.getName())
+              .setLastName(person.getLastName())
+              .setUsername(person.getUsername())
+              .setPassword(person.getPassword())
+              .setPicture(person.getPicture())
+              .setWorkHours(person.getWorkHours())
+              .setWorkPositionId(person.getWorkPosition().getId())
+              .setEnabled(person.isEnabled());
 
         return personController.insert(context, entity);
     }
 
     @Override
-    public boolean update(@NonNull Context context, Person object) {
+    public boolean update(@NonNull Context context, Person person) {
         final PersonEntity entity = new PersonEntity();
 
-        entity.setPersonId(object.getId())
-              .setName(object.getName())
-              .setLastName(object.getLastName())
-              .setUsername(object.getUsername())
-              .setPassword(object.getPassword())
-              .setPicture(object.getPicture())
-              .setWorkHours(object.getWorkHours())
-              .setWorkPositionId(object.getWorkPosition().getId())
-              .setEnabled(object.isEnabled());
+        entity.setPersonId(person.getId())
+              .setName(person.getName())
+              .setLastName(person.getLastName())
+              .setUsername(person.getUsername())
+              .setPassword(person.getPassword())
+              .setPicture(person.getPicture())
+              .setWorkHours(person.getWorkHours())
+              .setWorkPositionId(person.getWorkPosition().getId())
+              .setEnabled(person.isEnabled());
 
         return personController.update(context, entity);
     }

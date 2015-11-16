@@ -58,25 +58,25 @@ public class ClientFacade implements Facade<Client> {
     }
 
     @Override
-    public boolean insert(@NonNull Context context, Client object) {
+    public boolean insert(@NonNull Context context, Client client) {
         final ClientEntity entity = new ClientEntity();
 
-        entity.setClientId(object.getId())
-              .setName(object.getName())
-              .setShortName(object.getShortName())
-              .setEnabled(object.isEnabled());
+        entity.setClientId(client.getId())
+              .setName(client.getName())
+              .setShortName(client.getShortName())
+              .setEnabled(client.isEnabled());
 
         return clientController.insert(context, entity);
     }
 
     @Override
-    public boolean update(@NonNull Context context, Client object) {
+    public boolean update(@NonNull Context context, Client client) {
         final ClientEntity entity = new ClientEntity();
 
-        entity.setClientId(object.getId())
-                .setName(object.getName())
-                .setShortName(object.getShortName())
-                .setEnabled(object.isEnabled());
+        entity.setClientId(client.getId())
+                .setName(client.getName())
+                .setShortName(client.getShortName())
+                .setEnabled(client.isEnabled());
 
         return clientController.update(context, entity);
     }

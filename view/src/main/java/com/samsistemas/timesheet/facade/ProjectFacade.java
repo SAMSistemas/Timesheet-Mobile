@@ -68,29 +68,29 @@ public class ProjectFacade implements Facade<Project> {
     }
 
     @Override
-    public boolean insert(@NonNull Context context, Project object) {
+    public boolean insert(@NonNull Context context, Project project) {
         final ProjectEntity entity = new ProjectEntity();
 
-        entity.setProjectId(object.getId())
-              .setClientId(object.getClient().getId())
-              .setName(object.getName())
-              .setShortName(object.getShortName())
-              .setStartDate(object.getStartDate())
-              .setEnabled(object.isEnabled());
+        entity.setProjectId(project.getId())
+              .setClientId(project.getClient().getId())
+              .setName(project.getName())
+              .setShortName(project.getShortName())
+              .setStartDate(project.getStartDate())
+              .setEnabled(project.isEnabled());
 
         return projectController.insert(context, entity);
     }
 
     @Override
-    public boolean update(@NonNull Context context, Project object) {
+    public boolean update(@NonNull Context context, Project project) {
         final ProjectEntity entity = new ProjectEntity();
 
-        entity.setProjectId(object.getId())
-                .setClientId(object.getClient().getId())
-                .setName(object.getName())
-                .setShortName(object.getShortName())
-                .setStartDate(object.getStartDate())
-                .setEnabled(object.isEnabled());
+        entity.setProjectId(project.getId())
+                .setClientId(project.getClient().getId())
+                .setName(project.getName())
+                .setShortName(project.getShortName())
+                .setStartDate(project.getStartDate())
+                .setEnabled(project.isEnabled());
 
         return projectController.update(context, entity);
     }

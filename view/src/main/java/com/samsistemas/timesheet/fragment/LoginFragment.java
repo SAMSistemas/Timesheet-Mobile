@@ -49,9 +49,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Vie
     @Bind(R.id.password)
     EditText mPasswordEditText;
 
-    @Bind(R.id.domain)
-    TextView mDomainTextView;
-
     @Bind(R.id.login_button)
     Button mLoginButton;
 
@@ -113,13 +110,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Vie
 
         switch (id) {
             case R.id.login_button:
-                final String domain = mDomainTextView.getText().toString().trim();
                 final String username = mUsernameEditText.getText().toString().trim();
                 final String password = mPasswordEditText.getText().toString().trim();
-                final String email = username.concat(domain);
 
                 final String[] credentials = new String[] {
-                        email,
+                        username,
                         password
                 };
 
@@ -174,17 +169,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Vie
 
         if(!emailValidator.validate(email) && !passwordValidator.validate(password)) {
             Snackbar.make(view, context.getString(R.string.email_password_error), Snackbar.LENGTH_LONG).show();
-            mUsernameEditText.setText("");
-            mPasswordEditText.setText("");
-            mUsernameEditText.requestFocus();
         } else if(!emailValidator.validate(email)) {
             Snackbar.make(view, context.getString(R.string.email_error), Snackbar.LENGTH_LONG).show();
-            mUsernameEditText.setText("");
-            mUsernameEditText.requestFocus();
         } else if(!passwordValidator.validate(password)) {
             Snackbar.make(view, context.getString(R.string.password_error), Snackbar.LENGTH_LONG).show();
-            mPasswordEditText.setText("");
-            mPasswordEditText.requestFocus();
         } else {
             //Do login with service task.
             mLoginService = LoginService.newInstance(context, view);

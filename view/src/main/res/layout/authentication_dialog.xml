@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:background="@color/primary"
-    android:layout_width="200dp"
-    android:layout_height="70dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:gravity="center_horizontal|center|center_vertical"
     android:weightSum="1">
 
@@ -16,8 +16,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/circular_shape"
         android:indeterminate="true"
         android:indeterminateDrawable="@drawable/progress_drawable"

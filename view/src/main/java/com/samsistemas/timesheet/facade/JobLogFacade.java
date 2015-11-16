@@ -85,33 +85,33 @@ public class JobLogFacade implements Facade<JobLog> {
     }
 
     @Override
-    public boolean insert(@NonNull Context context, JobLog object) {
+    public boolean insert(@NonNull Context context, JobLog jobLog) {
         final JobLogEntity entity = new JobLogEntity();
 
-        entity.setJobLogId(object.getId())
-              .setProjectId(object.getProject().getId())
-              .setPersonId(object.getPerson().getId())
-              .setTaskTypeId(object.getTaskType().getId())
-              .setSolicitude(object.getSolicitude())
-              .setHours(object.getHours())
-              .setObservations(object.getObservations())
-              .setWorkDate(object.getWorkDate());
+        entity.setJobLogId(jobLog.getId())
+              .setProjectId(jobLog.getProject().getId())
+              .setPersonId(jobLog.getPerson().getId())
+              .setTaskTypeId(jobLog.getTaskType().getId())
+              .setSolicitude(jobLog.getSolicitude())
+              .setHours(jobLog.getHours())
+              .setObservations(jobLog.getObservations())
+              .setWorkDate(jobLog.getWorkDate());
 
         return jobLogController.insert(context, entity);
     }
 
     @Override
-    public boolean update(@NonNull Context context, JobLog object) {
+    public boolean update(@NonNull Context context, JobLog jobLog) {
         final JobLogEntity entity = new JobLogEntity();
 
-        entity.setJobLogId(object.getId())
-                .setProjectId(object.getProject().getId())
-                .setPersonId(object.getPerson().getId())
-                .setTaskTypeId(object.getTaskType().getId())
-                .setSolicitude(object.getSolicitude())
-                .setHours(object.getHours())
-                .setObservations(object.getObservations())
-                .setWorkDate(object.getWorkDate());
+        entity.setJobLogId(jobLog.getId())
+                .setProjectId(jobLog.getProject().getId())
+                .setPersonId(jobLog.getPerson().getId())
+                .setTaskTypeId(jobLog.getTaskType().getId())
+                .setSolicitude(jobLog.getSolicitude())
+                .setHours(jobLog.getHours())
+                .setObservations(jobLog.getObservations())
+                .setWorkDate(jobLog.getWorkDate());
 
         return jobLogController.update(context, entity);
     }

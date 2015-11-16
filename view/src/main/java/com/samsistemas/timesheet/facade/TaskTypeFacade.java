@@ -56,23 +56,23 @@ public class TaskTypeFacade implements Facade<TaskType> {
     }
 
     @Override
-    public boolean insert(@NonNull Context context, TaskType object) {
+    public boolean insert(@NonNull Context context, TaskType taskType) {
         final TaskTypeEntity entity = new TaskTypeEntity();
 
-        entity.setTaskTypeId(object.getId())
-              .setName(object.getName())
-              .setEnabled(object.isEnabled());
+        entity.setTaskTypeId(taskType.getId())
+              .setName(taskType.getName())
+              .setEnabled(taskType.isEnabled());
 
         return taskTypeController.insert(context, entity);
     }
 
     @Override
-    public boolean update(@NonNull Context context, TaskType object) {
+    public boolean update(@NonNull Context context, TaskType taskType) {
         final TaskTypeEntity entity = new TaskTypeEntity();
 
-        entity.setTaskTypeId(object.getId())
-              .setName(object.getName())
-              .setEnabled(object.isEnabled());
+        entity.setTaskTypeId(taskType.getId())
+              .setName(taskType.getName())
+              .setEnabled(taskType.isEnabled());
 
         return taskTypeController.update(context, entity);
     }

@@ -53,7 +53,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         setToolbar();
         setCollapsingToolbarLayout();
         setCalendarView();
-        setRecyclerView();
+        //setRecyclerView();
 
         mDateTitle = (TextView) findViewById(R.id.date);
         mDateTitle.setTypeface(getRobotoMediumTypeface());
@@ -72,7 +72,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     protected void onResume() {
         super.onResume();
         //When Current View is resumed we come to initial status. We expect the user to follow today job logs.
-        resetAdapter(getCurrentDate());
+        //resetAdapter(getCurrentDate());
     }
 
     @Override
@@ -137,7 +137,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     public void onDateSelected(@NonNull Date selectedDate) {
         mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), selectedDate));
         //We call this in order to show the data available for the date user-selected.
-        resetAdapter(selectedDate);
+        //resetAdapter(selectedDate);
     }
 
     @Override
@@ -154,13 +154,13 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
             mCalendarView.setCurrentDay(getCurrentDate());
             mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
-            resetAdapter(getCurrentDate());
+            //resetAdapter(getCurrentDate());
         } else {
             //We want this to display an announce, telling the user that has not any date selected..
             mDateTitle.setText(getString(R.string.no_date_selected));
             //This remove old list by date showed.
             //Expecting the user to select a new one.
-            deleteAdapterData();
+            //deleteAdapterData();
         }
     }
 
@@ -200,31 +200,31 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         //paintCalendarByMonth(getCurrentDate());
     }
 
-    protected void setRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        //mAdapter = new JobLogAdapter(getApplicationContext(), getListFilteredByDate(getCurrentDate()));
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setNestedScrollingEnabled(true);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        //After creating we set it, telling the observer to show the changes over RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    protected void resetAdapter(@NonNull Date date) {
-        //mAdapter.setItems(getListFilteredByDate(date));
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    protected void deleteAdapterData() {
-        mAdapter.setItems(null);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-    }
+//    protected void setRecyclerView() {
+//        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+//        //mAdapter = new JobLogAdapter(getApplicationContext(), getListFilteredByDate(getCurrentDate()));
+//
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mRecyclerView.setNestedScrollingEnabled(true);
+//        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//
+//        //After creating we set it, telling the observer to show the changes over RecyclerView.
+//        mRecyclerView.setAdapter(mAdapter);
+//        //mAdapter.notifyDataSetChanged();
+//    }
+//
+//    protected void resetAdapter(@NonNull Date date) {
+//        //mAdapter.setItems(getListFilteredByDate(date));
+//        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
+//    }
+//
+//    protected void deleteAdapterData() {
+//        mAdapter.setItems(null);
+//        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
+//    }
 
     private Calendar getCalendar() {
         return Calendar.getInstance(Locale.getDefault());

@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
  * Interface used to map an Entity as ContentValues, and map a Custom object as an Entity.
  *
  * @author jonatan.salas
+ * @param <T>
+ * @param <U>
  */
 public interface EntityMapper<T, U> {
 
