@@ -133,7 +133,11 @@ public class LoginController implements BaseLoginController {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        parseProjectNetWorkResponse(context, response);
+                        try {
+                            parseProjectNetWorkResponse(context, response);
+                        } catch (JSONException ex) {
+                            Log.e(TAG, ex.getMessage(), ex.getCause());
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -159,7 +163,11 @@ public class LoginController implements BaseLoginController {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        parseJobLogNetworkResponse(context, response);
+                        try {
+                            parseJobLogNetworkResponse(context, response);
+                        } catch (JSONException ex) {
+                            Log.e(TAG, ex.getMessage(), ex.getCause());
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -251,18 +259,18 @@ public class LoginController implements BaseLoginController {
         return personEntity.getPersonId();
     }
 
-    protected void parseProjectNetWorkResponse(@NonNull Context context, JSONArray proejectResponse) {
+    protected void parseProjectNetWorkResponse(@NonNull Context context, JSONArray projectResponse) throws JSONException {
         List<ClientEntity> clientEntities = new ArrayList<>();
         List<ProjectEntity> projectEntities = new ArrayList<>();
         ClientEntity clientEntity = new ClientEntity();
         ProjectEntity projectEntity = new ProjectEntity();
 
-        for(int i = 0; i < proejectResponse.length(); i++) {
+        for(int i = 0; i < projectResponse.length(); i++) {
 
         }
     }
 
-    protected void parseJobLogNetworkResponse(@NonNull Context context, JSONArray jobLogResponse) {
+    protected void parseJobLogNetworkResponse(@NonNull Context context, JSONArray jobLogResponse) throws JSONException {
         final List<JobLogEntity> jobLogEntities = new ArrayList<>();
         final JobLogEntity jobLogEntity = new JobLogEntity();
 
