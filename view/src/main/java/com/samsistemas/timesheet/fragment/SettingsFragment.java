@@ -8,6 +8,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
+import com.samsistemas.timesheet.database.Database;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.navigation.LoginNavigator;
 
@@ -41,6 +42,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements BaseSe
     @Override
     public void delete() {
         LoginNavigator.newInstance().navigate(getActivity());
+        Database.dropContent(getApplicationContext());
     }
 
     /**

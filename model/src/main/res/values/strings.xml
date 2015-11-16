@@ -100,4 +100,20 @@
     <string name="is_logged_in">logged_in</string>
     <string name="preference_filename">timesheet_prefs</string>
 
+    <string name="session_id">session_id</string>
+    <string name="user_id">user_id</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="auth_header">auth_header</string>
+    <string name="logged_in">logged_in</string>
+
+    <!-- Json keys -->
+    <string name="work_position">work_position</string>
+    <string name="id">id</string>
+    <string name="name">name</string>
+    <string name="last_name">lastname</string>
+    <string name="description">description</string>
+    <string name="task_types">task_types</string>
+    <string name="enabled">enabled</string>
+
 </resources>

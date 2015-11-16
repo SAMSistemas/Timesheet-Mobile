@@ -19,7 +19,7 @@
     <string name="config_changed">Detected configuration change on: </string>
 
     <!-- Fake Data Strings -->
-    <string name="name">Jonatan E. Salas</string>
+    <string name="full_name">Jonatan E. Salas</string>
     <string name="email">jonatan.salas@samsistemas.com.ar</string>
 
     <string name="login">Login</string>

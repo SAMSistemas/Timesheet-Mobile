@@ -17,7 +17,7 @@
     <string name="login">Iniciar Sesión</string>
     <string name="domain">\@samsistemas.com.ar</string>
     <string name="email">jonatan.salas@samsistemas.com.ar</string>
-    <string name="name">Jonatan E. Salas</string>
+    <string name="full_name">Jonatan E. Salas</string>
     <string name="sam">Building Software®</string>
 
     <string name="email_password_error">El usuario y/o contraseña ingresados no son válidos.</string>

@@ -22,11 +22,20 @@ public class AuthUtil {
      */
     public static Map<String, String> getAuthHeaders(@NonNull final String username, @NonNull final String password) {
         final Map<String, String> requestParams = new HashMap<>(1);
-        final String credentials = String.format(STRING_PATTERN, username, password);
-        final String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT);
-
-        requestParams.put(KEY, auth);
-
+        requestParams.put(KEY, getAuthCredential(username, password));
         return requestParams;
+    }
+
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public static String getAuthCredential(@NonNull final String username,  @NonNull final String password) {
+        final String credentials = String.format(STRING_PATTERN, username, password);
+        final String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+
+        return auth;
     }
 }

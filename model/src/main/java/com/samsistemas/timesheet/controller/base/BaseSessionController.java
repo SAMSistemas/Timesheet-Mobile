@@ -7,15 +7,16 @@ import android.support.annotation.NonNull;
  * Interface that manages the user session.
  *
  * @author jonatan.salas
+ * @param <T>
  */
-public interface BaseSessionController {
+public interface BaseSessionController<T> {
 
     /**
      *
      * @param context
-     * @param email
+     * @param <T>
      */
-    void createUserSession(@NonNull Context context, @NonNull final String email);
+    void createUserSession(@NonNull Context context, @NonNull final T object);
 
     /**
      *

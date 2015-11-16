@@ -6,20 +6,25 @@ import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.entity.SessionEntity;
 
 /**
  * Session MainController implementation.
  *
  * @author jonatan.salas
  */
-public class SessionController implements BaseSessionController {
+public class SessionController implements BaseSessionController<SessionEntity> {
 
     @Override
-    public void createUserSession(@NonNull Context context, @NonNull String email) {
+    public void createUserSession(@NonNull Context context, @NonNull SessionEntity entity) {
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 
-        editor.putString(context.getString(R.string.key_email), email)
-              .putBoolean(context.getString(R.string.is_logged_in), true)
+        editor.putLong(context.getString(R.string.session_id), entity.getSessionId())
+              .putLong(context.getString(R.string.user_id), entity.getUserId())
+              .putString(context.getString(R.string.username), entity.getUsername())
+              .putString(context.getString(R.string.password), entity.getPassword())
+              .putString(context.getString(R.string.auth_header), entity.getAuthHeader())
+              .putBoolean(context.getString(R.string.logged_in), entity.isLogged())
               .apply();
     }
 

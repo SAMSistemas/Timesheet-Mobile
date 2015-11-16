@@ -1,19 +1,16 @@
 package com.samsistemas.timesheet.service;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.UiThread;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialog;
 import android.view.View;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.controller.base.BaseLoginController;
-import com.samsistemas.timesheet.controller.base.BaseSessionController;
-import com.samsistemas.timesheet.factory.*;
+import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.util.NetworkUtil;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 
@@ -24,7 +21,7 @@ import com.samsistemas.timesheet.navigation.MenuNavigator;
  * @author jonatan.salas
  */
 public class LoginService extends AsyncTask<String[], Void, Boolean> {
-    private String[] mCredentials;
+    protected BaseLoginController loginController;
     private AlertDialog mDialog;
     private Activity mContext;
     private View mView;
@@ -37,6 +34,7 @@ public class LoginService extends AsyncTask<String[], Void, Boolean> {
      */
     public LoginService(@NonNull Activity context,
                         @NonNull final View view) {
+        this.loginController = ControllerFactory.getLoginController();
         this.mContext = context;
         this.mView = view;
     }
@@ -47,7 +45,7 @@ public class LoginService extends AsyncTask<String[], Void, Boolean> {
         if (!NetworkUtil.isConnected(mContext.getApplicationContext()))
             cancel(true);
         else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.AppTheme_Dialog);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.AppTheme_Dialog);
             builder.setView(R.layout.authentication_dialog);
             builder.setCancelable(true);
 
@@ -61,30 +59,27 @@ public class LoginService extends AsyncTask<String[], Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String[]... params) {
-        final BaseLoginController loginController = getLoginController();
-        storeCredentials(params[0]);
+        boolean isLogged = false;
 
         try {
             Thread.sleep(1000);
+            isLogged = loginController.performLogin(mContext.getApplicationContext(), params[0]);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return loginController.performLogin(mContext.getApplicationContext(), params[0]);
+        return isLogged;
     }
 
     @UiThread
     @Override
     protected void onPostExecute(Boolean success) {
-        final BaseSessionController sessionController = getSessionController();
-        final String email = getCredentials()[0];
         mDialog.dismiss();
 
         if(isCancelled())
             mContext.finish();
 
         if(success) {
-            sessionController.createUserSession(mContext.getApplicationContext(), email);
             MenuNavigator.newInstance().navigateWithAnimation(mContext, mView);
 
         } else if(NetworkUtil.isConnected(mContext.getApplicationContext())){
@@ -101,21 +96,5 @@ public class LoginService extends AsyncTask<String[], Void, Boolean> {
      */
     public static LoginService newInstance(@NonNull Activity context, @NonNull final View view) {
         return new LoginService(context, view);
-    }
-
-    protected void storeCredentials(@NonNull final String[] credentials) {
-        this.mCredentials = credentials;
-    }
-
-    protected String[] getCredentials() {
-        return mCredentials;
-    }
-
-    protected BaseSessionController getSessionController() {
-        return ControllerFactory.getSessionController();
-    }
-
-    protected BaseLoginController getLoginController() {
-        return ControllerFactory.getLoginController();
     }
 }

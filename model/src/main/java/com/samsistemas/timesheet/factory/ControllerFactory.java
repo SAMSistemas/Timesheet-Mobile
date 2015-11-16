@@ -15,6 +15,7 @@ import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.entity.ProjectEntity;
+import com.samsistemas.timesheet.entity.SessionEntity;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
 
@@ -30,8 +31,9 @@ public class ControllerFactory {
     private static BaseController<ProjectEntity> projectBaseController = null;
     private static BaseController<TaskTypeEntity> taskTypeBaseController = null;
     private static BaseController<WorkPositionEntity> workPositionBaseController = null;
+    private static BaseSessionController<SessionEntity> sessionController = null;
     private static BaseLoginController loginController = null;
-    private static BaseSessionController sessionController = null;
+
 
     /**
      * Method that gets a singleton instance.
@@ -114,7 +116,7 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseSessionController getSessionController() {
+    public static synchronized BaseSessionController<SessionEntity> getSessionController() {
         if(null == sessionController)
             sessionController = new SessionController();
         return sessionController;
