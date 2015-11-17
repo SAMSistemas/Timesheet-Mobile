@@ -1,6 +1,7 @@
 package com.samsistemas.timesheet.activity;
 
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -51,20 +52,16 @@ public class AddHoursActivity extends AppCompatActivity {
         CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         toolbarLayout.setTitleEnabled(false);
 
-        ArrayAdapter<String> taskArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, getTaskTypes());
         mTaskSpinner = (Spinner) findViewById(R.id.task_spinner);
         mTaskSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        mTaskSpinner.setAdapter(taskArrayAdapter);
 
-        ArrayAdapter<String> clientArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, getClients());
         mClientSpinner = (Spinner) findViewById(R.id.client_spinner);
         mClientSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        mClientSpinner.setAdapter(clientArrayAdapter);
 
-        ArrayAdapter<String> projectArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, getProjects());
         mProjectSpinner = (Spinner) findViewById(R.id.project_spinner);
         mProjectSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        mProjectSpinner.setAdapter(projectArrayAdapter);
+
+        fetchData();
 
         ArrayAdapter<String> hoursArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, getHours());
         mHourSpinner = (Spinner) findViewById(R.id.hours_spinner);
@@ -106,37 +103,10 @@ public class AddHoursActivity extends AppCompatActivity {
         MenuNavigator.newInstance().navigate(this);
     }
 
-    protected List<String> getTaskTypes() {
-        final List<TaskType> taskTypes = TaskTypeFacade.newInstance().findAll(getApplicationContext());
-        final List<String> stringList = new ArrayList<>(taskTypes.size());
-
-        for(int i = 0; i < taskTypes.size(); i++) {
-            stringList.add(i, taskTypes.get(i).getName());
-        }
-
-        return stringList;
-    }
-
-    protected List<String> getClients() {
-        final List<Client> clients = ClientFacade.newInstance().findAll(getApplicationContext());
-        final List<String> stringList = new ArrayList<>(clients.size());
-
-        for(int i = 0; i < clients.size(); i++) {
-            stringList.add(i, clients.get(i).getName());
-        }
-
-        return stringList;
-    }
-
-    protected List<String> getProjects() {
-        final List<Project> projects = ProjectFacade.newInstance().findAll(getApplicationContext());
-        final List<String> stringList = new ArrayList<>(projects.size());
-
-        for(int i = 0; i < projects.size(); i++) {
-            stringList.add(i, projects.get(i).getName());
-        }
-
-        return stringList;
+    protected void fetchData() {
+        new FetchTaskTypeAdapterTask().execute();
+        new FetchClientAdapterTask().execute();
+        new FetchProjectAdapterTask().execute();
     }
 
     protected List<String> getHours() {
@@ -163,5 +133,69 @@ public class AddHoursActivity extends AppCompatActivity {
 
         return stringList;
 
+    }
+
+    public class FetchClientAdapterTask extends AsyncTask<Void, Void, List<String>> {
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            final List<Client> clients = ClientFacade.newInstance().findAll(getApplicationContext());
+            final List<String> stringList = new ArrayList<>(clients.size());
+
+            for(int i = 0; i < clients.size(); i++) {
+                stringList.add(i, clients.get(i).getName());
+            }
+
+            return stringList;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> clients) {
+            ArrayAdapter<String> clientArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, clients);
+            mClientSpinner.setAdapter(clientArrayAdapter);
+            clientArrayAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public class FetchTaskTypeAdapterTask extends AsyncTask<Void, Void, List<String>> {
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            final List<TaskType> taskTypes = TaskTypeFacade.newInstance().findAll(getApplicationContext());
+            final List<String> stringList = new ArrayList<>(taskTypes.size());
+
+            for(int i = 0; i < taskTypes.size(); i++) {
+                stringList.add(i, taskTypes.get(i).getName());
+            }
+
+            return stringList;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> taskTypes) {
+            ArrayAdapter<String> taskArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, taskTypes);
+            mTaskSpinner.setAdapter(taskArrayAdapter);
+            taskArrayAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public class FetchProjectAdapterTask extends AsyncTask<Void, Void, List<String>> {
+
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            final List<Project> projects = ProjectFacade.newInstance().findAll(getApplicationContext());
+            final List<String> stringList = new ArrayList<>(projects.size());
+
+            for(int i = 0; i < projects.size(); i++) {
+                stringList.add(i, projects.get(i).getName());
+            }
+
+            return stringList;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> projects) {
+            ArrayAdapter<String> projectArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, projects);
+            mProjectSpinner.setAdapter(projectArrayAdapter);
+            projectArrayAdapter.notifyDataSetChanged();
+        }
     }
 }
