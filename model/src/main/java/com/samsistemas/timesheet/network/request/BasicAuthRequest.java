@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.request;
+package com.samsistemas.timesheet.network.request;
 
 import android.support.annotation.NonNull;
 
@@ -7,6 +7,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
+
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import java.util.Map;

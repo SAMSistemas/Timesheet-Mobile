@@ -24,7 +24,7 @@ import com.samsistemas.timesheet.entity.SessionEntity;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
-import com.samsistemas.timesheet.request.BasicAuthRequest;
+import com.samsistemas.timesheet.network.request.BasicAuthRequest;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONArray;
