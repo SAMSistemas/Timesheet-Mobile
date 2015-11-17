@@ -17,10 +17,7 @@ import java.util.Map;
  */
 public class BasicAuthRequest extends StringRequest {
     @NonNull
-    protected String username;
-
-    @NonNull
-    protected String password;
+    protected String[] credentials;
 
     /**
      *
@@ -33,13 +30,12 @@ public class BasicAuthRequest extends StringRequest {
     public BasicAuthRequest(int method, String url, Response.Listener<String> listener,
                              Response.ErrorListener errorListener, @NonNull String[] credentials) {
         super(method, url, listener, errorListener);
-        this.username = credentials[0];
-        this.password = credentials[1];
+        this.credentials = credentials;
     }
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        return AuthUtil.getAuthHeaders(username, password);
+        return AuthUtil.getAuthHeaders(credentials);
     }
 
     @Override

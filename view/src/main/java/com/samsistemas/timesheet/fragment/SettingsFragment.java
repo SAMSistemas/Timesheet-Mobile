@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.fragment;
 
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,9 +10,9 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
-import com.samsistemas.timesheet.database.Database;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.navigation.LoginNavigator;
+import com.samsistemas.timesheet.provider.DataProvider;
 
 /**
  * @author jonatan.salas
@@ -42,7 +44,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements BaseSe
     @Override
     public void delete() {
         LoginNavigator.newInstance().navigate(getActivity());
-        Database.dropContent(getApplicationContext());
     }
 
     /**

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="base_url">http://10.0.0.67:8080</string>
+    <string name="login_url">/login</string>
+    <string name="job_log_url">/jobLog/all/</string>
+    <string name="project_url">/project/allByUsername/</string>
+    <string name="person_url">/person/show/</string>
+</resources>

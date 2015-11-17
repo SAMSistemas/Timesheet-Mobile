@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.entity.ClientEntity;
@@ -32,10 +33,14 @@ public class ClientController implements BaseController<ClientEntity> {
     public boolean insert(@NonNull Context context, @NonNull ClientEntity clientEntity) {
         final Uri clientUri = UriHelper.buildClientUri(context);
         final ContentValues clientValues = clientMapper.asContentValues(context, clientEntity);
+        final ClientEntity entity = get(context, clientEntity.getClientId());
 
-        final Uri resultUri = context.getContentResolver().insert(clientUri, clientValues);
-
-        return (null != resultUri);
+        if (null != entity) {
+            return false;
+        } else {
+            final Uri resultUri = context.getContentResolver().insert(clientUri, clientValues);
+            return (null != resultUri);
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -9,11 +11,10 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
+import com.samsistemas.timesheet.facade.PersonFacade;
+import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
@@ -181,7 +184,21 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
+        final PersonFacade personFacade = PersonFacade.newInstance();
+        final Person person = personFacade.findById(getApplicationContext(), prefs.getLong(getString(R.string.user_id), 1));
+
+        final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, null, false);
+        final TextView name = (TextView) headerView.findViewById(R.id.username);
+        final TextView email = (TextView) headerView.findViewById(R.id.email);
+
+        String fullName = person.getName() + " " + person.getLastName();
+
+        name.setText(fullName);
+        email.setText(person.getUsername());
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.addHeaderView(headerView);
         navigationView.setNavigationItemSelectedListener(this);
     }
 

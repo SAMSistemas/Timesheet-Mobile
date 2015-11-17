@@ -89,7 +89,6 @@ tools:openDrawer="start">
     android:layout_height="match_parent"
     android:layout_gravity="start"
     android:fitsSystemWindows="true"
-    app:headerLayout="@layout/drawer_header"
     app:menu="@menu/drawer_menu"
     app:itemIconTint="@drawable/icon_item_selector"
     app:itemTextColor="@drawable/text_item_selector" />

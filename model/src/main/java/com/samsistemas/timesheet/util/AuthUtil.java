@@ -16,12 +16,14 @@ public class AuthUtil {
 
     /**
      *
-     * @param username
-     * @param password
+     * @param credentials
      * @return
      */
-    public static Map<String, String> getAuthHeaders(@NonNull final String username, @NonNull final String password) {
+    public static Map<String, String> getAuthHeaders(@NonNull final String[] credentials) {
         final Map<String, String> requestParams = new HashMap<>(1);
+        final String username = credentials[0];
+        final String password = credentials[1];
+
         requestParams.put(KEY, getAuthCredential(username, password));
         return requestParams;
     }
@@ -34,8 +36,6 @@ public class AuthUtil {
      */
     public static String getAuthCredential(@NonNull final String username,  @NonNull final String password) {
         final String credentials = String.format(STRING_PATTERN, username, password);
-        final String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-
-        return auth;
+        return "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
     }
 }

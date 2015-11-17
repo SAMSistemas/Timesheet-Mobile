@@ -115,5 +115,14 @@
     <string name="description">description</string>
     <string name="task_types">task_types</string>
     <string name="enabled">enabled</string>
+    <string name="short_name">short_name</string>
+    <string name="start_date">start_date</string>
+    <string name="date">date</string>
+    <string name="hours">hours</string>
+    <string name="observation">observation</string>
+    <string name="solicitude">solicitude</string>
+    <string name="person">person</string>
+    <string name="project">project</string>
+    <string name="task_type">task_type</string>
 
 </resources>

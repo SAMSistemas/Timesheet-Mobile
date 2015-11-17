@@ -33,10 +33,14 @@ public class PersonController implements BaseController<PersonEntity> {
     public boolean insert(@NonNull Context context, @NonNull PersonEntity personEntity) {
         final Uri personUri = UriHelper.buildPersonUri(context);
         final ContentValues personValues = personMapper.asContentValues(context, personEntity);
+        final PersonEntity entity = get(context, personEntity.getPersonId());
 
-        final Uri resultUri = context.getContentResolver().insert(personUri, personValues);
-
-        return (null != resultUri);
+        if (null != entity) {
+            return false;
+        } else {
+            final Uri resultUri = context.getContentResolver().insert(personUri, personValues);
+            return (null != resultUri);
+        }
     }
 
     @Override

@@ -33,10 +33,14 @@ public class ProjectController implements BaseController<ProjectEntity> {
     public boolean insert(@NonNull Context context, @NonNull ProjectEntity projectEntity) {
         final Uri projectUri = UriHelper.buildProjectUri(context);
         final ContentValues projectValues = projectMapper.asContentValues(context, projectEntity);
+        final ProjectEntity entity = get(context, projectEntity.getProjectId());
 
-        final Uri resultUri = context.getContentResolver().insert(projectUri, projectValues);
-
-        return (null != resultUri);
+        if (null != entity) {
+            return false;
+        } else {
+            final Uri resultUri = context.getContentResolver().insert(projectUri, projectValues);
+            return (null != resultUri);
+        }
     }
 
     @Override

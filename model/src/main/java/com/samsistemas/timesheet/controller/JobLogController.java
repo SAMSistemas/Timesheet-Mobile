@@ -32,10 +32,14 @@ public class JobLogController implements BaseController<JobLogEntity> {
     public boolean insert(@NonNull Context context, @NonNull JobLogEntity jobLogEntity) {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
         final ContentValues jobLogValues = joblogMapper.asContentValues(context, jobLogEntity);
+        final JobLogEntity entity = get(context, jobLogEntity.getJobLogId());
 
-        final Uri resultUri = context.getContentResolver().insert(jobLogUri, jobLogValues);
-
-        return (null != resultUri);
+        if (null != entity) {
+            return false;
+        } else {
+            final Uri resultUri = context.getContentResolver().insert(jobLogUri, jobLogValues);
+            return (null != resultUri);
+        }
     }
 
     @Override

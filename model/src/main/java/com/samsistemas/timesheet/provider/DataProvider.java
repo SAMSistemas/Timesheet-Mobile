@@ -24,6 +24,7 @@ import com.samsistemas.timesheet.helper.UriHelper;
  */
 public class DataProvider extends ContentProvider implements ContentUri {
     private UriMatcher mUriMatcher;
+    private Database mDatabase;
     private Context mContext;
 
     @Override
@@ -31,6 +32,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
         mContext = getContext();
 
         if(null != mContext) {
+            mDatabase = Database.getInstance(mContext);
             mUriMatcher = UriHelper.buildUriMatcher(mContext);
         }
 
@@ -40,7 +42,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        SQLiteDatabase readableDatabase = Database.getInstance(mContext).getReadableDatabase();
+        SQLiteDatabase readableDatabase = mDatabase.getReadableDatabase();
         Cursor retCursor;
 
         switch(mUriMatcher.match(uri)) {
@@ -260,13 +262,13 @@ public class DataProvider extends ContentProvider implements ContentUri {
      * @return a uri that notifies the inserted id.
      */
     protected Uri insert(@NonNull Uri uri, @NonNull ContentValues values, @StringRes int tableName) {
-        SQLiteDatabase writableDatabase = Database.getInstance(mContext).getWritableDatabase();
+        SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         Uri returnUri;
 
         long id = -1;
 
         if (!writableDatabase.isReadOnly()) {
-            id = writableDatabase.insertOrThrow(
+            id = writableDatabase.insert(
                     mContext.getString(tableName),
                     null,
                     values
@@ -311,7 +313,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
      * @return an int representing the count of inserted rows.
      */
     protected int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values, @StringRes int tableName) {
-        SQLiteDatabase writableDatabase = Database.getInstance(mContext).getWritableDatabase();
+        SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         writableDatabase.beginTransaction();
         int returnCount = 0;
 
@@ -339,7 +341,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        SQLiteDatabase writableDatabase = Database.getInstance(mContext).getWritableDatabase();
+        SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         int updatedRows;
 
         switch(mUriMatcher.match(uri)) {
@@ -401,7 +403,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
 
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
-        SQLiteDatabase writableDatabase = Database.getInstance(mContext).getWritableDatabase();
+        SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         int deletedRows;
 
         switch(mUriMatcher.match(uri)) {
@@ -455,5 +457,10 @@ public class DataProvider extends ContentProvider implements ContentUri {
         if(null == selection || 0 != deletedRows) mContext.getContentResolver().notifyChange(uri, null);
 
         return deletedRows;
+    }
+
+    public void resetDatabase() {
+        mDatabase.close();
+        mDatabase = new Database(mContext);
     }
 }

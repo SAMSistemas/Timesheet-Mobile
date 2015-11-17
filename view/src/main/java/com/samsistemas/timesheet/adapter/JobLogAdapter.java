@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.viewmodel.JobLogViewModel;
+import com.samsistemas.timesheet.model.JobLog;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<JobLogViewModel> mItems;
+    private List<JobLog> mItems;
     private Context mContext;
 
     /**
@@ -49,7 +49,7 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @param context
      * @param items
      */
-    public JobLogAdapter(@NonNull Context context, @Nullable List<JobLogViewModel> items) {
+    public JobLogAdapter(@NonNull Context context, @Nullable List<JobLog> items) {
         this.mContext = context;
         this.mItems = items;
     }
@@ -63,7 +63,7 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
-        final JobLogViewModel jobLogViewModel = mItems.get(position);
+        final JobLog jobLog = mItems.get(position);
 
         viewHolder.mItemView.setEnabled(true);
         viewHolder.mItemView.setClickable(true);
@@ -75,9 +75,11 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         });
 
         viewHolder.mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.material_teal), PorterDuff.Mode.SRC_ATOP);
-        viewHolder.mJobLogTask.setText(jobLogViewModel.getTaskTypeViewModel().getTaskTypeName());
-        viewHolder.mJobLogDescription.setText(jobLogViewModel.getJobLogObservation());
-        viewHolder.mJobLogHours.setText(jobLogViewModel.getJobLogHours() + " hrs");
+        viewHolder.mJobLogTask.setText(jobLog.getTaskType().getName());
+        viewHolder.mJobLogDescription.setText(jobLog.getObservations());
+
+        final String workedHours = jobLog.getHours() + " hrs";
+        viewHolder.mJobLogHours.setText(workedHours);
     }
 
     @Override
@@ -85,7 +87,7 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return (null!= mItems && mItems.size() > 0)? mItems.size() : 0;
     }
 
-    public void setItems(List<JobLogViewModel> items) {
+    public void setItems(List<JobLog> items) {
         this.mItems = items;
     }
 }

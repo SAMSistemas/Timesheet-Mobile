@@ -2,6 +2,14 @@ package com.samsistemas.timesheet.facade;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.entity.JobLogEntity;
@@ -12,14 +20,23 @@ import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author jonatan.salas
  */
 public class JobLogFacade implements Facade<JobLog> {
+    protected static final String TAG = JobLogFacade.class.getSimpleName();
+    protected static final String DATE_TEMPLATE = "dd-MM-yyyy";
+
     private static JobLogFacade instance = null;
+
     protected BaseController<JobLogEntity> jobLogController;
     protected Facade<Project> projectFacade;
     protected Facade<Person> personFacade;
@@ -85,11 +102,55 @@ public class JobLogFacade implements Facade<JobLog> {
     }
 
     @Override
-    public boolean insert(@NonNull Context context, JobLog jobLog) {
+    public boolean insert(@NonNull final Context context, JobLog jobLog) {
         final JobLogEntity entity = new JobLogEntity();
+        final String baseUrl = context.getString(com.samsistemas.timesheet.data.R.string.base_url);
+        final String jobLogCreateUrl = baseUrl + "/jobLog/create";
 
-        entity.setJobLogId(jobLog.getId())
-              .setProjectId(jobLog.getProject().getId())
+        String dateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(jobLog.getWorkDate());
+
+        JSONObject jobLogToSend = new JSONObject();
+
+        try {
+
+            jobLogToSend.put("date", dateString)
+                        .put("hours", jobLog.getHours())
+                        .put("solicitude", jobLog.getSolicitude())
+                        .put("observation", jobLog.getObservations())
+                        .put("project_name", jobLog.getProject().getName())
+                        .put("username", jobLog.getPerson().getUsername())
+                        .put("task_type_name", jobLog.getTaskType().getName());
+
+        } catch (JSONException ex) {
+            Log.e(TAG, ex.getMessage(), ex.getCause());
+        }
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                jobLogCreateUrl,
+                jobLogToSend,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            entity.setJobLogId(response.getLong(context.getString(com.samsistemas.timesheet.data.R.string.id)));
+                        } catch (JSONException ex) {
+                            Log.e(TAG, ex.getMessage(), ex.getCause());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, error.getMessage(), error.getCause());
+                    }
+                }
+        );
+
+        requestQueue.add(jsonRequest);
+
+        entity.setProjectId(jobLog.getProject().getId())
               .setPersonId(jobLog.getPerson().getId())
               .setTaskTypeId(jobLog.getTaskType().getId())
               .setSolicitude(jobLog.getSolicitude())

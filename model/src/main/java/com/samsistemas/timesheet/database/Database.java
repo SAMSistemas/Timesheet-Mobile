@@ -50,17 +50,6 @@ public class Database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public static void dropContent(@NonNull Context context) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
-
-        db.delete(context.getString(R.string.client_table), null, null);
-        db.delete(context.getString(R.string.job_log_table), null, null);
-        db.delete(context.getString(R.string.person_table), null, null);
-        db.delete(context.getString(R.string.project_table), null, null);
-        db.delete(context.getString(R.string.task_type_table), null, null);
-        db.delete(context.getString(R.string.work_position_table), null, null);
-    }
-
     /**
      *
      * @param context

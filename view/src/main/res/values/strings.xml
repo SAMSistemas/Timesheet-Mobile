@@ -79,4 +79,7 @@
 
     <string name="no_date_selected">No date selected yet</string>
     <string name="no_job_logs">No upcoming Job Logs</string>
+
+    <string name="preference_filename">timesheet_prefs</string>
+    <string name="user_id">user_id</string>
 </resources>

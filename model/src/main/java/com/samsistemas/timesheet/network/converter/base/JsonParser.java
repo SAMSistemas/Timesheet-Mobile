@@ -10,7 +10,7 @@ import org.json.JSONException;
  * @param <T>
  * @param <U>
  */
-public interface JsonConverter<T, U> {
+public interface JsonParser<T, U> {
 
     /**
      *
