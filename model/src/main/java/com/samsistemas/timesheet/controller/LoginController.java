@@ -91,7 +91,7 @@ public class LoginController implements BaseLoginController {
 
         final JsonArrayRequest projectRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                getProjectUrl(context),
+                getProjectUrl(context) + credentials[0],
                 new JSONObject(),
                 new Response.Listener<JSONArray>() {
                     @Override
