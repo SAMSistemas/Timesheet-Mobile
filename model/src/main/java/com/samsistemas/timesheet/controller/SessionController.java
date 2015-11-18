@@ -2,7 +2,6 @@ package com.samsistemas.timesheet.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
@@ -40,20 +39,6 @@ public class SessionController implements BaseSessionController<SessionEntity> {
 
         editor.clear()
               .apply();
-
-        Uri personUri = Uri.parse(context.getString(R.string.person_content_uri));
-        Uri workPositionUri = Uri.parse(context.getString(R.string.work_position_content_uri));
-        Uri taskTypeUri = Uri.parse(context.getString(R.string.task_type_content_uri));
-        Uri clientUri = Uri.parse(context.getString(R.string.client_content_uri));
-        Uri projectUri = Uri.parse(context.getString(R.string.project_content_uri));
-        Uri jobLogUri = Uri.parse(context.getString(R.string.job_log_content_uri));
-
-        context.getContentResolver().delete(personUri, null, null);
-        context.getContentResolver().delete(workPositionUri, null, null);
-        context.getContentResolver().delete(taskTypeUri, null, null);
-        context.getContentResolver().delete(clientUri, null, null);
-        context.getContentResolver().delete(projectUri, null, null);
-        context.getContentResolver().delete(jobLogUri, null, null);
 
         onSessionDeleted.delete();
     }

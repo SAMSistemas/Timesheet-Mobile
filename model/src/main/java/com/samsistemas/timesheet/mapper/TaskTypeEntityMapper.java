@@ -40,9 +40,6 @@ public class TaskTypeEntityMapper implements EntityMapper<TaskTypeEntity, Cursor
                     .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_name))))
                     .setEnabled(taskTypeEnabled);
 
-            if (!cursor.isClosed())
-                cursor.close();
-
             return taskTypeEntity;
         }
 

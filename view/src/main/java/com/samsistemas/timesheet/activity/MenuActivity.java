@@ -45,9 +45,13 @@ import java.util.Locale;
  */
 public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener {
     private JobLogAdapter mAdapter;
+
+    private TextView mFullName;
+    private TextView mUsername;
+    private TextView mDateTitle;
+
     private CalendarView mCalendarView;
     private RecyclerView mRecyclerView;
-    private TextView mDateTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     @Override
     protected void onResume() {
         super.onResume();
+        fetchData();
         //When Current View is resumed we come to initial status. We expect the user to follow today job logs.
         //resetAdapter(getCurrentDate());
     }
@@ -185,22 +190,15 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
-        final PersonFacade personFacade = PersonFacade.newInstance();
-        final Person person = personFacade.findById(getApplicationContext(), prefs.getLong(getString(R.string.user_id), 1));
-
         final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, null, false);
-        final TextView name = (TextView) headerView.findViewById(R.id.username);
-        final TextView email = (TextView) headerView.findViewById(R.id.email);
-
-        String fullName = person.getName() + " " + person.getLastName();
-
-        name.setText(fullName);
-        email.setText(person.getUsername());
+        mFullName = (TextView) headerView.findViewById(R.id.username);
+        mUsername = (TextView) headerView.findViewById(R.id.email);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.addHeaderView(headerView);
         navigationView.setNavigationItemSelectedListener(this);
+
+        fetchData();
     }
 
     protected void setCalendarView() {
@@ -256,6 +254,12 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         return TypefaceUtil.getCustomTypeface(getApplicationContext(), R.string.roboto_medium);
     }
 
+    protected void fetchData() {
+        final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
+        final long id = prefs.getLong(getString(R.string.user_id), 1);
+        new FetchPersonTask(getApplicationContext()).execute(id);
+    }
+
     public class FetchPersonTask extends AsyncTask<Long, Void, Person> {
         protected Context mContext;
 
@@ -270,7 +274,9 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
         @Override
         protected void onPostExecute(Person person) {
-
+            final String fullName = person.getName() + " " + person.getLastName();
+            mFullName.setText(fullName);
+            mUsername.setText(person.getUsername());
         }
     }
 }

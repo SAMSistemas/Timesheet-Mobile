@@ -12,6 +12,7 @@ import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
+import com.samsistemas.timesheet.util.CursorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,24 +43,27 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<WorkPositionEntity> workPositionEntities) {
-        final Uri workPositionUri = UriHelper.buildWorkPositionUri(context);
-        final ContentValues[] workPositionsValues = new ContentValues[workPositionEntities.size()];
+        int count = 0;
 
-        for(int i = 0; i < workPositionEntities.size(); i++) {
-            workPositionsValues[i] = workPositionMapper.asContentValues(context, workPositionEntities.get(i));
+        for(WorkPositionEntity entity: workPositionEntities) {
+            boolean inserted = insert(context, entity);
+            if(inserted)
+                count++;
         }
 
-        final int count = context.getContentResolver().bulkInsert(workPositionUri, workPositionsValues);
-
-        return (0 != count);
+        return (count == workPositionEntities.size());
     }
 
     @Override
     public WorkPositionEntity get(@NonNull Context context, long id) {
         final Uri workPositionUri = UriHelper.buildWorkPositionUriWithId(context, id);
         final Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
+        final WorkPositionEntity workPositionEntity = workPositionMapper.asEntity(context, workPositionCursor);
 
-        return workPositionMapper.asEntity(context, workPositionCursor);
+        if(null != workPositionCursor && !workPositionCursor.isClosed())
+            workPositionCursor.isClosed();
+
+        return workPositionEntity;
     }
 
     @Override
@@ -67,18 +71,7 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
         final Uri workPositionUri = UriHelper.buildWorkPositionUri(context);
         final Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
 
-        List<WorkPositionEntity> workPositionEntities = new ArrayList<>();
-
-        if(null != workPositionCursor && workPositionCursor.moveToFirst()) {
-            for(int i = 0; i < workPositionCursor.getCount(); i++) {
-                workPositionEntities.add(workPositionMapper.asEntity(context, workPositionCursor));
-            }
-
-            if(!workPositionCursor.isClosed())
-                workPositionCursor.close();
-        }
-
-        return workPositionEntities;
+        return CursorUtil.asEntityList(context, workPositionCursor, workPositionMapper);
     }
 
     @Override

@@ -49,9 +49,6 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
                     .setStartDate(new Date(millis))
                     .setEnabled(projectEnabled);
 
-            if (!cursor.isClosed())
-                cursor.close();
-
             return projectEntity;
         }
 

@@ -11,8 +11,8 @@ import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
-import com.samsistemas.timesheet.mapper.TaskTypeEntityMapper;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
+import com.samsistemas.timesheet.util.CursorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,24 +45,27 @@ public class TaskTypeController implements BaseController<TaskTypeEntity> {
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<TaskTypeEntity> taskTypeEntities) {
-        final Uri taskTypesUri = UriHelper.buildTaskTypeUri(context);
-        final ContentValues[] taskTypesValues = new ContentValues[taskTypeEntities.size()];
+        int count = 0;
 
-        for(int i = 0; i < taskTypeEntities.size(); i++) {
-            taskTypesValues[i] = taskTypeMapper.asContentValues(context, taskTypeEntities.get(i));
+        for(TaskTypeEntity entity: taskTypeEntities) {
+            boolean inserted = insert(context, entity);
+            if(inserted)
+                count++;
         }
 
-        final int count = context.getContentResolver().bulkInsert(taskTypesUri, taskTypesValues);
-
-        return (0 != count);
+        return (count == taskTypeEntities.size());
     }
 
     @Override
     public TaskTypeEntity get(@NonNull Context context, long id) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUriWithId(context, id);
         final Cursor taskTypeCursor = context.getContentResolver().query(taskTypeUri, null, null, null, null);
+        final TaskTypeEntity taskTypeEntity = taskTypeMapper.asEntity(context, taskTypeCursor);
 
-        return taskTypeMapper.asEntity(context, taskTypeCursor);
+        if(null != taskTypeCursor && taskTypeCursor.isClosed())
+            taskTypeCursor.close();
+
+        return taskTypeEntity;
     }
 
     @Override
@@ -70,15 +73,7 @@ public class TaskTypeController implements BaseController<TaskTypeEntity> {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUri(context);
         final Cursor taskTypeCursor = context.getContentResolver().query(taskTypeUri, null, null, null, null);
 
-        List<TaskTypeEntity> taskTypeEntities = new ArrayList<>();
-
-        if(null != taskTypeCursor && taskTypeCursor.moveToFirst()) {
-            for(int i = 0; i < taskTypeCursor.getCount(); i++) {
-                taskTypeEntities.add(taskTypeMapper.asEntity(context, taskTypeCursor));
-            }
-        }
-
-        return taskTypeEntities;
+        return CursorUtil.asEntityList(context, taskTypeCursor, taskTypeMapper);
     }
 
     @Override

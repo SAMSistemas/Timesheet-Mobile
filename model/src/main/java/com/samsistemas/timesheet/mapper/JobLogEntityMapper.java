@@ -49,9 +49,6 @@ public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
                     .setSolicitude(cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_solicitude))))
                     .setObservations(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.job_log_observations))));
 
-            if (!cursor.isClosed())
-                cursor.close();
-
             return jobLogEntity;
         }
 

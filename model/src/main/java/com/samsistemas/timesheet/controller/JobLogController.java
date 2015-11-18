@@ -12,6 +12,7 @@ import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
+import com.samsistemas.timesheet.util.CursorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,24 +45,27 @@ public class JobLogController implements BaseController<JobLogEntity> {
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<JobLogEntity> jobLogEntities) {
-        final Uri jobLogsUri = UriHelper.buildJobLogUri(context);
-        final ContentValues[] jobLogsValues = new ContentValues[jobLogEntities.size()];
+        int count = 0;
 
-        for(int i = 0; i < jobLogEntities.size(); i++) {
-            jobLogsValues[i] = joblogMapper.asContentValues(context, jobLogEntities.get(i));
+        for(JobLogEntity entity: jobLogEntities) {
+            boolean inserted = insert(context, entity);
+            if(inserted)
+                count++;
         }
 
-        final int count = context.getContentResolver().bulkInsert(jobLogsUri, jobLogsValues);
-
-        return (0 != count);
+        return (count == jobLogEntities.size());
     }
 
     @Override
     public JobLogEntity get(@NonNull Context context, long id) {
         final Uri jobLogUri = UriHelper.buildJobLogUriWithId(context, id);
         final Cursor jobLogCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
+        final JobLogEntity jobLogEntity = joblogMapper.asEntity(context, jobLogCursor);
 
-        return joblogMapper.asEntity(context, jobLogCursor);
+        if(null != jobLogCursor && !jobLogCursor.isClosed())
+            jobLogCursor.close();
+
+        return jobLogEntity;
     }
 
     @Override
@@ -69,15 +73,7 @@ public class JobLogController implements BaseController<JobLogEntity> {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
         final Cursor jobLogsCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
 
-        List<JobLogEntity> jobLogEntities = new ArrayList<>();
-
-        if(null != jobLogsCursor && jobLogsCursor.moveToFirst()) {
-            for(int i = 0; i < jobLogsCursor.getCount(); i++) {
-                jobLogEntities.add(joblogMapper.asEntity(context, jobLogsCursor));
-            }
-        }
-
-        return jobLogEntities;
+        return CursorUtil.asEntityList(context, jobLogsCursor, joblogMapper);
     }
 
     @Override

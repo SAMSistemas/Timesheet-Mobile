@@ -11,8 +11,8 @@ import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.entity.PersonEntity;
-import com.samsistemas.timesheet.mapper.PersonEntityMapper;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
+import com.samsistemas.timesheet.util.CursorUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,24 +45,26 @@ public class PersonController implements BaseController<PersonEntity> {
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<PersonEntity> personEntities) {
-        final Uri personsUri = UriHelper.buildPersonUri(context);
-        final ContentValues[] personsValues = new ContentValues[personEntities.size()];
+        int count = 0;
 
-        for(int i = 0; i < personEntities.size(); i++) {
-            personsValues[i] = personMapper.asContentValues(context, personEntities.get(i));
+        for(PersonEntity entity: personEntities) {
+            boolean inserted = insert(context, entity);
+            if(inserted)
+                count++;
         }
-
-        final int count = context.getContentResolver().bulkInsert(personsUri, personsValues);
-
-        return (0 != count);
+        return (count == personEntities.size());
     }
 
     @Override
     public PersonEntity get(@NonNull Context context, long id) {
         final Uri personUri = UriHelper.buildPersonUriWithId(context, id);
         final Cursor personCursor = context.getContentResolver().query(personUri, null, null, null, null);
+        final PersonEntity personEntity = personMapper.asEntity(context, personCursor);
 
-        return personMapper.asEntity(context, personCursor);
+        if(null != personCursor && !personCursor.isClosed())
+            personCursor.close();
+
+        return personEntity;
     }
 
     @Override
@@ -70,15 +72,7 @@ public class PersonController implements BaseController<PersonEntity> {
         final Uri personUri = UriHelper.buildPersonUri(context);
         final Cursor personsCursor = context.getContentResolver().query(personUri, null, null, null, null);
 
-        List<PersonEntity> personEntities = new ArrayList<>();
-
-        if(null != personsCursor && personsCursor.moveToFirst()) {
-            for(int i = 0; i < personsCursor.getCount(); i++) {
-                personEntities.add(personMapper.asEntity(context, personsCursor));
-            }
-        }
-
-        return personEntities;
+        return CursorUtil.asEntityList(context, personsCursor, personMapper);
     }
 
     @Override

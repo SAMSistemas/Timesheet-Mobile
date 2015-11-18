@@ -43,9 +43,6 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
                     .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.client_short_name))))
                     .setEnabled(clientEnabled);
 
-            if (!cursor.isClosed())
-                cursor.close();
-
             return clientEntity;
         }
 

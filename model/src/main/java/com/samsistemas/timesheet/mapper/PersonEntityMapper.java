@@ -57,9 +57,6 @@ public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
                     .setPicture(personPicture)
                     .setEnabled(personEnabled);
 
-            if (!cursor.isClosed())
-                cursor.close();
-
             return personEntity;
         }
 
