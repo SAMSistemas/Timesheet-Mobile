@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,7 @@ import java.lang.ref.WeakReference;
  * @author jonatan.salas
  */
 public class AccountActivity extends AppCompatActivity {
+    private CollapsingToolbarLayout mToolbarLayout;
     private ActionBar mActionBar;
     private TextView mUsername;
     private TextView mEmail;
@@ -46,6 +48,7 @@ public class AccountActivity extends AppCompatActivity {
 
         mActionBar = getSupportActionBar();
 
+        mToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         mUsername = (TextView) findViewById(R.id.username_textview);
         mEmail = (TextView) findViewById(R.id.email_textview);
         mWork = (TextView) findViewById(R.id.work_textview);
@@ -134,11 +137,13 @@ public class AccountActivity extends AppCompatActivity {
                 String fullName = person.getName() + " " + person.getLastName();
 
                 if (null != mActionBar)
-                    ToolbarUtil.styleWithBackButton(mActionBar, fullName);
+                    ToolbarUtil.styleWithBackButton(mActionBar, "");
+                    mToolbarLayout.setTitle(fullName);
 
                 mUsername.setText(person.getUsername());
                 final String emailString = fullName + "@samsistemas.com.ar";
                 mEmail.setText(emailString);
+                mWork.setText(person.getWorkPosition().getDescription());
             }
         }
     }

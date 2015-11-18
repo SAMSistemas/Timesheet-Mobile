@@ -3,6 +3,7 @@ package com.samsistemas.timesheet.activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -253,5 +254,23 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
     private Typeface getRobotoMediumTypeface() {
         return TypefaceUtil.getCustomTypeface(getApplicationContext(), R.string.roboto_medium);
+    }
+
+    public class FetchPersonTask extends AsyncTask<Long, Void, Person> {
+        protected Context mContext;
+
+        public FetchPersonTask(Context context) {
+            this.mContext = context;
+        }
+
+        @Override
+        protected Person doInBackground(Long... params) {
+            return PersonFacade.newInstance().findById(mContext, params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Person person) {
+
+        }
     }
 }

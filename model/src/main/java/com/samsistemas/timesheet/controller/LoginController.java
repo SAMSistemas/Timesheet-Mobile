@@ -117,10 +117,17 @@ public class LoginController implements BaseLoginController {
             }
         };
 
-        JSONObject jobLog = new JSONObject();
+        JSONObject jobLog = null;
+        Date date = new Date(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.setTime(date);
 
         try {
-            jobLog = new JSONObject(getJson(credentials[0]));
+            jobLog = new JSONObject();
+            jobLog.put("username", credentials[0])
+                  .put("month", calendar.get(Calendar.MONTH))
+                  .put("year", calendar.get(Calendar.YEAR));
+
         } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage(), ex.getCause());
         }
@@ -159,20 +166,6 @@ public class LoginController implements BaseLoginController {
         requestQueue.add(jobLogRequest);
 
         return isLogged;
-    }
-
-    protected String getJson(@NonNull String username) {
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.setTime(new Date(System.currentTimeMillis()));
-
-        int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
-
-        return "{ " +
-               "    username: " + username + ", " +
-               "    month: " + String.valueOf(month) + ", " +
-               "    year: " + String.valueOf(year) +
-               " }";
     }
 
     protected String getBaseUrl(@NonNull Context context) {

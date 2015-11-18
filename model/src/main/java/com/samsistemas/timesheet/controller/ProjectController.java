@@ -11,7 +11,6 @@ import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.entity.ProjectEntity;
-import com.samsistemas.timesheet.mapper.ProjectEntityMapper;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
 import java.util.ArrayList;
@@ -45,16 +44,15 @@ public class ProjectController implements BaseController<ProjectEntity> {
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<ProjectEntity> projectEntities) {
-        final Uri projectsUri = UriHelper.buildProjectUri(context);
-        final ContentValues[] projectsValues = new ContentValues[projectEntities.size()];
+        int count = 0;
 
-        for(int i = 0; i < projectEntities.size(); i++) {
-            projectsValues[i] = projectMapper.asContentValues(context, projectEntities.get(i));
+        for(ProjectEntity entity: projectEntities) {
+            boolean inserted = insert(context, entity);
+            if(inserted)
+                count++;
         }
 
-        final int count = context.getContentResolver().bulkInsert(projectsUri, projectsValues);
-
-        return (0 != count);
+        return (count == projectEntities.size());
     }
 
     @Override

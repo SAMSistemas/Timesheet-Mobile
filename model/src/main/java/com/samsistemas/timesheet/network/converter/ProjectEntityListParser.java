@@ -36,7 +36,7 @@ public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, 
 
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonProject = jsonArray.getJSONObject(i);
-            JSONObject jsonClient = jsonProject.getJSONObject(context.getString(R.string.client_name));
+            JSONObject jsonClient = jsonProject.getJSONObject(context.getString(R.string.client));
 
             String dateString = jsonProject.getString(context.getString(R.string.start_date));
             Date date = new Date();

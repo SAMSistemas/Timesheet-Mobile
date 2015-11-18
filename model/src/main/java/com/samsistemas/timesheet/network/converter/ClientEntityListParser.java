@@ -28,7 +28,8 @@ public class ClientEntityListParser implements JsonParser<List<ClientEntity>, JS
         final ClientEntity clientEntity = new ClientEntity();
 
         for(int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonClient = jsonArray.getJSONObject(i);
+            JSONObject jsonProject = jsonArray.getJSONObject(i);
+            JSONObject jsonClient = jsonProject.getJSONObject(context.getString(R.string.client));
 
             clientEntity.setClientId(jsonClient.getLong(context.getString(R.string.id)))
                         .setName(jsonClient.getString(context.getString(R.string.name)))

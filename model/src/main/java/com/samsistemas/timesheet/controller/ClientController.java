@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.data.R;
-import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.factory.MapperFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.entity.ClientEntity;
@@ -45,16 +44,15 @@ public class ClientController implements BaseController<ClientEntity> {
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<ClientEntity> clientEntities) {
-        final Uri clientUri = UriHelper.buildClientUri(context);
-        final ContentValues[] clientsValues = new ContentValues[clientEntities.size()];
+        int count = 0;
 
-        for(int i = 0; i < clientEntities.size(); i++) {
-            clientsValues[i] = clientMapper.asContentValues(context, clientEntities.get(i));
+        for(ClientEntity entity: clientEntities) {
+            boolean inserted = insert(context, entity);
+            if(inserted)
+                count++;
         }
 
-        final int count = context.getContentResolver().bulkInsert(clientUri, clientsValues);
-
-        return (0 != count);
+        return (count == clientEntities.size());
     }
 
     @Override
