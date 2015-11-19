@@ -14,7 +14,6 @@ import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 import com.samsistemas.timesheet.util.CursorUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +58,7 @@ public class ClientController implements BaseController<ClientEntity> {
     @Override
     public ClientEntity get(@NonNull Context context, long id) {
         final Uri clientUri = UriHelper.buildClientUriWithId(context, id);
-        final Cursor clientCursor = context.getContentResolver().query(clientUri, null, null, null, null);
+        Cursor clientCursor = context.getContentResolver().query(clientUri, null, null, null, null);
         final ClientEntity clientEntity = clientMapper.asEntity(context, clientCursor);
 
         if(null != clientCursor && !clientCursor.isClosed())
@@ -71,7 +70,7 @@ public class ClientController implements BaseController<ClientEntity> {
     @Override
     public List<ClientEntity> listAll(@NonNull Context context) {
         final Uri clientUri = UriHelper.buildClientUri(context);
-        final Cursor clientsCursor = context.getContentResolver().query(clientUri, null, null, null, null);
+        Cursor clientsCursor = context.getContentResolver().query(clientUri, null, null, null, null);
 
         return CursorUtil.asEntityList(context, clientsCursor, clientMapper);
     }

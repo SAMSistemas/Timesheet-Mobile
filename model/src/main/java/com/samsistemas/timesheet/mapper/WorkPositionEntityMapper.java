@@ -17,7 +17,7 @@ public class WorkPositionEntityMapper implements EntityMapper<WorkPositionEntity
 
     @Override
     public ContentValues asContentValues(@NonNull Context context, @NonNull WorkPositionEntity workPositionEntity) {
-        final ContentValues values = new ContentValues(2);
+        ContentValues values = new ContentValues(2);
 
         values.put(context.getString(R.string.work_position_id), workPositionEntity.getWorkPositionId());
         values.put(context.getString(R.string.work_position_description), workPositionEntity.getDescription());

@@ -20,8 +20,8 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
 
     @Override
     public ContentValues asContentValues(@NonNull Context context, @NonNull ProjectEntity projectEntity) {
-        final ContentValues values = new ContentValues(6);
-        final int projectEnabled = ConversionUtil.booleanToInt(projectEntity.isEnabled());
+        ContentValues values = new ContentValues(6);
+        int projectEnabled = ConversionUtil.booleanToInt(projectEntity.isEnabled());
 
         values.put(context.getString(R.string.project_id), projectEntity.getProjectId());
         values.put(context.getString(R.string.project_client_id), projectEntity.getClientId());

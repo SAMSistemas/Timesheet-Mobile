@@ -64,7 +64,6 @@ public class AccountActivity extends AppCompatActivity {
         mLocation.setCompoundDrawables(getCustomDrawable(R.drawable.ic_location_city_black), null, null, null);
     }
 
-
     @Override
     protected void onResume() {
         fetchData();

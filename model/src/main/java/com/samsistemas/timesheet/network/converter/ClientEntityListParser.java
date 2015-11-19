@@ -25,12 +25,12 @@ public class ClientEntityListParser implements JsonParser<List<ClientEntity>, JS
     @Override
     public List<ClientEntity> convert(@NonNull Context context, @NonNull JSONArray jsonArray) throws JSONException {
         final List<ClientEntity> clientEntities = new ArrayList<>(jsonArray.length());
-        final ClientEntity clientEntity = new ClientEntity();
 
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonProject = jsonArray.getJSONObject(i);
             JSONObject jsonClient = jsonProject.getJSONObject(context.getString(R.string.client));
 
+            ClientEntity clientEntity = new ClientEntity();
             clientEntity.setClientId(jsonClient.getLong(context.getString(R.string.id)))
                         .setName(jsonClient.getString(context.getString(R.string.name)))
                         .setShortName(jsonClient.getString(context.getString(R.string.short_name)))

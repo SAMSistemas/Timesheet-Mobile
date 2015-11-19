@@ -48,7 +48,7 @@ public class PersonNetworkService implements NetworkService<JSONObject, String[]
 
         final JSONArray jsonTaskTypeArray = response.getJSONArray(context.getString(R.string.task_types));
         final TaskTypeEntityListParser taskTypeEntityListParser = TaskTypeEntityListParser.newInstance();
-        final List<TaskTypeEntity> taskTypeEntities = taskTypeEntityListParser.convert(context.getApplicationContext(), jsonTaskTypeArray);
+        List<TaskTypeEntity> taskTypeEntities = taskTypeEntityListParser.convert(context.getApplicationContext(), jsonTaskTypeArray);
 
         taskTypeController.bulkInsert(context.getApplicationContext(), taskTypeEntities);
         workPositionController.insert(context.getApplicationContext(), workPositionEntity);

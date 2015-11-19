@@ -9,6 +9,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,7 +27,9 @@ import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
+import com.samsistemas.timesheet.facade.JobLogFacade;
 import com.samsistemas.timesheet.facade.PersonFacade;
+import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
@@ -35,6 +38,7 @@ import com.samsistemas.timesheet.util.DateUtil;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -61,7 +65,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         setToolbar();
         setCollapsingToolbarLayout();
         setCalendarView();
-        //setRecyclerView();
+        setRecyclerView();
 
         mDateTitle = (TextView) findViewById(R.id.date);
         mDateTitle.setTypeface(getRobotoMediumTypeface());
@@ -77,9 +81,15 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
         fetchData();
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        fetchData();
+        super.onResume();
         //When Current View is resumed we come to initial status. We expect the user to follow today job logs.
         //resetAdapter(getCurrentDate());
     }
@@ -190,7 +200,8 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, null, false);
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View headerView = inflater.inflate(R.layout.drawer_header, null, false);
         mFullName = (TextView) headerView.findViewById(R.id.username);
         mUsername = (TextView) headerView.findViewById(R.id.email);
 
@@ -216,8 +227,9 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         //paintCalendarByMonth(getCurrentDate());
     }
 
-//    protected void setRecyclerView() {
-//        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    protected void setRecyclerView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    }
 //        //mAdapter = new JobLogAdapter(getApplicationContext(), getListFilteredByDate(getCurrentDate()));
 //
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -256,8 +268,9 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
     protected void fetchData() {
         final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
-        final long id = prefs.getLong(getString(R.string.user_id), 1);
+        final long id = prefs.getLong(getString(R.string.user_id), 0);
         new FetchPersonTask(getApplicationContext()).execute(id);
+        new FetchJobLogTask(getApplicationContext()).execute();
     }
 
     public class FetchPersonTask extends AsyncTask<Long, Void, Person> {
@@ -274,10 +287,36 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
         @Override
         protected void onPostExecute(Person person) {
-            final String fullName = person.getName() + " " + person.getLastName();
-            final String fullUsername = person.getUsername() + mContext.getString(R.string.domain);
-            mFullName.setText(fullName);
-            mUsername.setText(fullUsername);
+            if (null != person) {
+                final String fullName = person.getName() + " " + person.getLastName();
+                final String fullUsername = person.getUsername() + mContext.getString(R.string.domain);
+                mFullName.setText(fullName);
+                mUsername.setText(fullUsername);
+            }
+        }
+    }
+
+    public class FetchJobLogTask extends AsyncTask<Void, Void, List<JobLog>> {
+        protected Context mContext;
+
+        public FetchJobLogTask(Context context) {
+            this.mContext = context;
+        }
+
+        @Override
+        protected List<JobLog> doInBackground(Void... params) {
+            return JobLogFacade.newInstance().findAll(mContext);
+        }
+
+        @Override
+        protected void onPostExecute(List<JobLog> jobLogs) {
+            if (null == jobLogs || jobLogs.isEmpty()) {
+                Snackbar.make(mRecyclerView, mContext.getString(R.string.error_no_available_job_logs), Snackbar.LENGTH_SHORT).show();
+            } else {
+                mAdapter = new JobLogAdapter(mContext, jobLogs);
+                mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 }

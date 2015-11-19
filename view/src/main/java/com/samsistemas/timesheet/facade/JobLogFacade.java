@@ -73,32 +73,37 @@ public class JobLogFacade implements Facade<JobLog> {
     @Override
     public List<JobLog> findAll(@NonNull Context context) {
         final List<JobLogEntity> jobLogEntities = jobLogController.listAll(context);
-        final List<JobLog> jobLogs = new ArrayList<>(jobLogEntities.size());
-        final JobLog jobLog = new JobLog();
-        JobLogEntity entity;
-        Project project;
-        Person person;
-        TaskType taskType;
 
-        for(int i = 0; i < jobLogEntities.size(); i++) {
-            entity = jobLogEntities.get(i);
-            project = projectFacade.findById(context, entity.getProjectId());
-            person = personFacade.findById(context, entity.getPersonId());
-            taskType = taskTypeFacade.findById(context, entity.getTaskTypeId());
+        if(null != jobLogEntities) {
+            final List<JobLog> jobLogs = new ArrayList<>(jobLogEntities.size());
+            final JobLog jobLog = new JobLog();
+            JobLogEntity entity;
+            Project project;
+            Person person;
+            TaskType taskType;
 
-            jobLog.setId(entity.getJobLogId())
-                  .setProject(project)
-                  .setPerson(person)
-                  .setTaskType(taskType)
-                  .setSolicitude(entity.getSolicitude())
-                  .setHours(entity.getHours())
-                  .setObservations(entity.getObservations())
-                  .setWorkDate(entity.getWorkDate());
+            for (int i = 0; i < jobLogEntities.size(); i++) {
+                entity = jobLogEntities.get(i);
+                project = projectFacade.findById(context, entity.getProjectId());
+                person = personFacade.findById(context, entity.getPersonId());
+                taskType = taskTypeFacade.findById(context, entity.getTaskTypeId());
 
-            jobLogs.add(jobLog);
+                jobLog.setId(entity.getJobLogId())
+                        .setProject(project)
+                        .setPerson(person)
+                        .setTaskType(taskType)
+                        .setSolicitude(entity.getSolicitude())
+                        .setHours(entity.getHours())
+                        .setObservations(entity.getObservations())
+                        .setWorkDate(entity.getWorkDate());
+
+                jobLogs.add(jobLog);
+            }
+
+            return jobLogs;
         }
 
-        return jobLogs;
+        return null;
     }
 
     @Override

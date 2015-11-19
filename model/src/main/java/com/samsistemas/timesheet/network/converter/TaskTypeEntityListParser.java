@@ -25,11 +25,11 @@ public class TaskTypeEntityListParser implements JsonParser<List<TaskTypeEntity>
     @Override
     public List<TaskTypeEntity> convert(@NonNull Context context, @NonNull JSONArray jsonArray) throws JSONException {
         final List<TaskTypeEntity> taskTypeEntities = new ArrayList<>(jsonArray.length());
-        final TaskTypeEntity taskTypeEntity = new TaskTypeEntity();
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonTaskType = jsonArray.getJSONObject(i);
 
+            TaskTypeEntity taskTypeEntity = new TaskTypeEntity();
             taskTypeEntity.setTaskTypeId(jsonTaskType.getLong(context.getString(R.string.id)))
                           .setName(jsonTaskType.getString(context.getString(R.string.name)))
                           .setEnabled(true);

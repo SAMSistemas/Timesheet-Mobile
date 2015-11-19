@@ -18,8 +18,8 @@ public class TaskTypeEntityMapper implements EntityMapper<TaskTypeEntity, Cursor
 
     @Override
     public ContentValues asContentValues(@NonNull Context context, @NonNull TaskTypeEntity taskTypeEntity) {
-        final ContentValues values = new ContentValues(3);
-        final int taskTypeEnabled = ConversionUtil.booleanToInt(taskTypeEntity.isEnabled());
+        ContentValues values = new ContentValues(3);
+        int taskTypeEnabled = ConversionUtil.booleanToInt(taskTypeEntity.isEnabled());
 
         values.put(context.getString(R.string.task_type_id), taskTypeEntity.getTaskTypeId());
         values.put(context.getString(R.string.task_type_name), taskTypeEntity.getName());

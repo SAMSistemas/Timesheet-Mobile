@@ -82,4 +82,13 @@
 
     <string name="preference_filename">timesheet_prefs</string>
     <string name="user_id">user_id</string>
+
+    <!-- Error messages -->
+    <string name="error_no_available_job_logs">It seems that you haven\'t load any jobLog</string>
+
+    <string name="hour_prompt">Select worked Hours: </string>
+    <string name="client_prompt">Select a Client: </string>
+    <string name="project_prompt">Select a Project: </string>
+    <string name="task_type_prompt">Select a Task Type: </string>
+
 </resources>

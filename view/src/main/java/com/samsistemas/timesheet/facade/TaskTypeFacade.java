@@ -38,13 +38,13 @@ public class TaskTypeFacade implements Facade<TaskType> {
     @Override
     public List<TaskType> findAll(@NonNull Context context) {
         final List<TaskTypeEntity> taskTypeEntities = taskTypeController.listAll(context);
-        final List<TaskType> taskTypes = new ArrayList<>(taskTypeEntities.size());
-        final TaskType taskType = new TaskType();
+        List<TaskType> taskTypes = new ArrayList<>(taskTypeEntities.size());
         TaskTypeEntity entity;
 
         for(int i = 0; i < taskTypeEntities.size(); i++) {
             entity = taskTypeEntities.get(i);
 
+            TaskType taskType = new TaskType();
             taskType.setId(entity.getTaskTypeId())
                     .setName(entity.getName())
                     .setEnabled(entity.isEnabled());

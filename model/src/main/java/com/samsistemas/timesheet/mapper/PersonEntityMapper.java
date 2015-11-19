@@ -19,9 +19,9 @@ public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
 
     @Override
     public ContentValues asContentValues(@NonNull Context context, @NonNull PersonEntity personEntity) {
-        final ContentValues values = new ContentValues(7);
-        final int personEnabled = ConversionUtil.booleanToInt(personEntity.isEnabled());
-        final byte[] personPicture = ConversionUtil.drawableToByteArray(personEntity.getPicture());
+        ContentValues values = new ContentValues(7);
+        int personEnabled = ConversionUtil.booleanToInt(personEntity.isEnabled());
+        byte[] personPicture = ConversionUtil.drawableToByteArray(personEntity.getPicture());
 
         values.put(context.getString(R.string.person_id), personEntity.getPersonId());
         values.put(context.getString(R.string.person_name), personEntity.getName());

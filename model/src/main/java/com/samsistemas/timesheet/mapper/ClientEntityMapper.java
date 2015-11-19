@@ -18,8 +18,8 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
 
     @Override
     public ContentValues asContentValues(@NonNull Context context, @NonNull ClientEntity clientEntity) {
-        final ContentValues values = new ContentValues(4);
-        final int clientEnabled = ConversionUtil.booleanToInt(clientEntity.isEnabled());
+        ContentValues values = new ContentValues(4);
+        int clientEnabled = ConversionUtil.booleanToInt(clientEntity.isEnabled());
 
         values.put(context.getString(R.string.client_id), clientEntity.getClientId());
         values.put(context.getString(R.string.client_name), clientEntity.getName());

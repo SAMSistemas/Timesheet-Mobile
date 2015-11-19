@@ -14,7 +14,6 @@ import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 import com.samsistemas.timesheet.util.CursorUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,7 +57,7 @@ public class PersonController implements BaseController<PersonEntity> {
     @Override
     public PersonEntity get(@NonNull Context context, long id) {
         final Uri personUri = UriHelper.buildPersonUriWithId(context, id);
-        final Cursor personCursor = context.getContentResolver().query(personUri, null, null, null, null);
+        Cursor personCursor = context.getContentResolver().query(personUri, null, null, null, null);
         final PersonEntity personEntity = personMapper.asEntity(context, personCursor);
 
         if(null != personCursor && !personCursor.isClosed())
@@ -70,7 +69,7 @@ public class PersonController implements BaseController<PersonEntity> {
     @Override
     public List<PersonEntity> listAll(@NonNull Context context) {
         final Uri personUri = UriHelper.buildPersonUri(context);
-        final Cursor personsCursor = context.getContentResolver().query(personUri, null, null, null, null);
+        Cursor personsCursor = context.getContentResolver().query(personUri, null, null, null, null);
 
         return CursorUtil.asEntityList(context, personsCursor, personMapper);
     }

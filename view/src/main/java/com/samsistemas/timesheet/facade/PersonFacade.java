@@ -28,19 +28,22 @@ public class PersonFacade implements Facade<Person> {
 
     @Override
     public Person findById(@NonNull Context context, long id) {
-        final PersonEntity entity = personController.get(context, id);
-        final WorkPosition workPosition = workPositionFacade.findById(context, entity.getWorkPositionId());
         final Person person = new Person();
+        final PersonEntity entity = personController.get(context, id);
 
-        person.setId(entity.getPersonId())
-              .setName(entity.getName())
-              .setLastName(entity.getLastName())
-              .setUsername(entity.getUsername())
-              .setPassword(entity.getPassword())
-              .setWorkPosition(workPosition)
-              .setPicture(entity.getPicture())
-              .setWorkHours(entity.getWorkHours())
-              .setEnabled(entity.isEnabled());
+        if (null != entity) {
+            final WorkPosition workPosition = workPositionFacade.findById(context, entity.getWorkPositionId());
+
+            person.setId(entity.getPersonId())
+                    .setName(entity.getName())
+                    .setLastName(entity.getLastName())
+                    .setUsername(entity.getUsername())
+                    .setPassword(entity.getPassword())
+                    .setWorkPosition(workPosition)
+                    .setPicture(entity.getPicture())
+                    .setWorkHours(entity.getWorkHours())
+                    .setEnabled(entity.isEnabled());
+        }
 
         return person;
     }

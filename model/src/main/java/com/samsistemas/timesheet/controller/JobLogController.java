@@ -14,7 +14,6 @@ import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 import com.samsistemas.timesheet.util.CursorUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +58,7 @@ public class JobLogController implements BaseController<JobLogEntity> {
     @Override
     public JobLogEntity get(@NonNull Context context, long id) {
         final Uri jobLogUri = UriHelper.buildJobLogUriWithId(context, id);
-        final Cursor jobLogCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
+        Cursor jobLogCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
         final JobLogEntity jobLogEntity = joblogMapper.asEntity(context, jobLogCursor);
 
         if(null != jobLogCursor && !jobLogCursor.isClosed())
@@ -71,7 +70,7 @@ public class JobLogController implements BaseController<JobLogEntity> {
     @Override
     public List<JobLogEntity> listAll(@NonNull Context context) {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
-        final Cursor jobLogsCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
+        Cursor jobLogsCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
 
         return CursorUtil.asEntityList(context, jobLogsCursor, joblogMapper);
     }

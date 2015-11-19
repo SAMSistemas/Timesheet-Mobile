@@ -14,7 +14,6 @@ import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 import com.samsistemas.timesheet.util.CursorUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +56,7 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
     @Override
     public WorkPositionEntity get(@NonNull Context context, long id) {
         final Uri workPositionUri = UriHelper.buildWorkPositionUriWithId(context, id);
-        final Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
+        Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
         final WorkPositionEntity workPositionEntity = workPositionMapper.asEntity(context, workPositionCursor);
 
         if(null != workPositionCursor && !workPositionCursor.isClosed())
@@ -69,7 +68,7 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
     @Override
     public List<WorkPositionEntity> listAll(@NonNull Context context) {
         final Uri workPositionUri = UriHelper.buildWorkPositionUri(context);
-        final Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
+        Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
 
         return CursorUtil.asEntityList(context, workPositionCursor, workPositionMapper);
     }

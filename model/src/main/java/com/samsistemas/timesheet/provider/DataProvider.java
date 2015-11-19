@@ -458,9 +458,4 @@ public class DataProvider extends ContentProvider implements ContentUri {
 
         return deletedRows;
     }
-
-    public void resetDatabase() {
-        mDatabase.close();
-        mDatabase = new Database(mContext);
-    }
 }

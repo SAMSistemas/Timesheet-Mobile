@@ -19,7 +19,7 @@ public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
 
     @Override
     public ContentValues asContentValues(@NonNull Context context, @NonNull JobLogEntity objectToMap) {
-        final ContentValues values = new ContentValues(8);
+        ContentValues values = new ContentValues(8);
 
         values.put(context.getString(R.string.job_log_id), objectToMap.getJobLogId());
         values.put(context.getString(R.string.job_log_project_id), objectToMap.getProjectId());

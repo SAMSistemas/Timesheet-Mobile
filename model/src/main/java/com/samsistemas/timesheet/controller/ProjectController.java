@@ -14,7 +14,6 @@ import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 import com.samsistemas.timesheet.util.CursorUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +58,7 @@ public class ProjectController implements BaseController<ProjectEntity> {
     @Override
     public ProjectEntity get(@NonNull Context context, long id) {
         final Uri projectUri = UriHelper.buildProjectUriWithId(context, id);
-        final Cursor projectCursor = context.getContentResolver().query(projectUri, null, null, null, null);
+        Cursor projectCursor = context.getContentResolver().query(projectUri, null, null, null, null);
         final ProjectEntity projectEntity = projectMapper.asEntity(context, projectCursor);
 
         if(null != projectCursor && !projectCursor.isClosed())
@@ -71,7 +70,7 @@ public class ProjectController implements BaseController<ProjectEntity> {
     @Override
     public List<ProjectEntity> listAll(@NonNull Context context) {
         final Uri projectsUri = UriHelper.buildProjectUri(context);
-        final Cursor projectsCursor = context.getContentResolver().query(projectsUri, null, null, null, null);
+        Cursor projectsCursor = context.getContentResolver().query(projectsUri, null, null, null, null);
 
         return CursorUtil.asEntityList(context, projectsCursor, projectMapper);
     }

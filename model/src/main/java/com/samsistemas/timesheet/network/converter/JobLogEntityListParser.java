@@ -32,7 +32,6 @@ public class JobLogEntityListParser implements JsonParser<List<JobLogEntity>, JS
     @Override
     public List<JobLogEntity> convert(@NonNull Context context, @NonNull JSONArray jsonArray) throws JSONException {
         final List<JobLogEntity> jobLogEntities = new ArrayList<>(jsonArray.length());
-        final JobLogEntity jobLogEntity = new JobLogEntity();
 
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonJobLog = jsonArray.getJSONObject(i);
@@ -49,6 +48,7 @@ public class JobLogEntityListParser implements JsonParser<List<JobLogEntity>, JS
                 Log.e(TAG, ex.getMessage(), ex.getCause());
             }
 
+            JobLogEntity jobLogEntity = new JobLogEntity();
             jobLogEntity.setJobLogId(jsonJobLog.getLong(context.getString(R.string.id)))
                         .setPersonId(jsonPerson.getLong(context.getString(R.string.id)))
                         .setProjectId(jsonProject.getLong(context.getString(R.string.id)))

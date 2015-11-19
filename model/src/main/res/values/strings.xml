@@ -1,129 +1,128 @@
 <resources>
-    <string name="app_name">Data</string>
+    <string name="app_name" translatable="false">Data</string>
 
     <!-- Database info -->
-    <string name="database_version">1</string>
-    <string name="database_name">timesheet.db</string>
+    <string name="database_version" translatable="false">1</string>
+    <string name="database_name" translatable="false">timesheet.db</string>
 
     <!-- Content Provider info -->
-    <string name="content_authority">com.samsistemas.timesheet.provider</string>
-    <string name="base_content_uri">content://com.samsistemas.timesheet.provider</string>
+    <string name="content_authority" translatable="false">com.samsistemas.timesheet.provider</string>
+    <string name="base_content_uri" translatable="false">content://com.samsistemas.timesheet.provider</string>
 
     <!-- Client Table name and columns -->
-    <string name="client_table">client</string>
-    <string name="client_id">id_client</string>
-    <string name="client_name">name</string>
-    <string name="client_short_name">short_name</string>
-    <string name="client_enabled">enabled</string>
-    <string name="client_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/client</string>
-    <string name="client_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/client</string>
-    <string name="client_content_uri">content://com.samsistemas.timesheet.provider/client</string>
+    <string name="client_table" translatable="false">client</string>
+    <string name="client_id" translatable="false">id_client</string>
+    <string name="client_name" translatable="false">name</string>
+    <string name="client_short_name" translatable="false">short_name</string>
+    <string name="client_enabled" translatable="false">enabled</string>
+    <string name="client_content_type" translatable="false">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/client</string>
+    <string name="client_content_item_type" translatable="false">vnd.android.cursor.item/com.samsistemas.timesheet.provider/client</string>
+    <string name="client_content_uri" translatable="false">content://com.samsistemas.timesheet.provider/client</string>
 
     <!-- Work Position Table name and columns -->
-    <string name="work_position_table">workposition</string>
-    <string name="work_position_id">id_workposition</string>
-    <string name="work_position_description">description</string>
-    <string name="work_position_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/workposition</string>
-    <string name="work_position_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/workposition</string>
-    <string name="work_position_content_uri">content://com.samsistemas.timesheet.provider/workposition</string>
+    <string name="work_position_table" translatable="false">workposition</string>
+    <string name="work_position_id" translatable="false">id_workposition</string>
+    <string name="work_position_description" translatable="false">description</string>
+    <string name="work_position_content_type" translatable="false">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/workposition</string>
+    <string name="work_position_content_item_type" translatable="false">vnd.android.cursor.item/com.samsistemas.timesheet.provider/workposition</string>
+    <string name="work_position_content_uri" translatable="false">content://com.samsistemas.timesheet.provider/workposition</string>
 
     <!-- Person Table name and columns -->
-    <string name="person_table">person</string>
-    <string name="person_id">id_person</string>
-    <string name="person_name">name</string>
-    <string name="person_last_name">lastname</string>
-    <string name="person_user_name">username</string>
-    <string name="person_password">password</string>
-    <string name="person_work_position_id">id_workposition</string>
-    <string name="person_work_hours">work_hours</string>
-    <string name="person_picture">picture</string>
-    <string name="person_enabled">enabled</string>
-    <string name="person_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/person</string>
-    <string name="person_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/person</string>
-    <string name="person_content_uri">content://com.samsistemas.timesheet.provider/person</string>
+    <string name="person_table" translatable="false">person</string>
+    <string name="person_id" translatable="false">id_person</string>
+    <string name="person_name" translatable="false">name</string>
+    <string name="person_last_name" translatable="false">lastname</string>
+    <string name="person_user_name" translatable="false">username</string>
+    <string name="person_password" translatable="false">password</string>
+    <string name="person_work_position_id" translatable="false">id_workposition</string>
+    <string name="person_work_hours" translatable="false">work_hours</string>
+    <string name="person_picture" translatable="false">picture</string>
+    <string name="person_enabled" translatable="false">enabled</string>
+    <string name="person_content_type" translatable="false">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/person</string>
+    <string name="person_content_item_type" translatable="false">vnd.android.cursor.item/com.samsistemas.timesheet.provider/person</string>
+    <string name="person_content_uri" translatable="false">content://com.samsistemas.timesheet.provider/person</string>
 
     <!-- TaskType Table name and columns -->
-    <string name="task_type_table">tasktype</string>
-    <string name="task_type_id">id_tasktype</string>
-    <string name="task_type_name">name</string>
-    <string name="task_type_enabled">enabled</string>
-    <string name="task_type_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/tasktype</string>
-    <string name="task_type_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/tasktype</string>
-    <string name="task_type_content_uri">content://com.samsistemas.timesheet.provider/tasktype</string>
+    <string name="task_type_table" translatable="false">tasktype</string>
+    <string name="task_type_id" translatable="false">id_tasktype</string>
+    <string name="task_type_name" translatable="false">name</string>
+    <string name="task_type_enabled" translatable="false">enabled</string>
+    <string name="task_type_content_type" translatable="false">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/tasktype</string>
+    <string name="task_type_content_item_type" translatable="false">vnd.android.cursor.item/com.samsistemas.timesheet.provider/tasktype</string>
+    <string name="task_type_content_uri" translatable="false">content://com.samsistemas.timesheet.provider/tasktype</string>
 
     <!-- Project Table name and columns -->
-    <string name="project_table">project</string>
-    <string name="project_client_id">id_client</string>
-    <string name="project_id">id_project</string>
-    <string name="project_name">name</string>
-    <string name="project_short_name">short_name</string>
-    <string name="project_start_date">start_date</string>
-    <string name="project_enabled">enabled</string>
-    <string name="project_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/project</string>
-    <string name="project_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/project</string>
-    <string name="project_content_uri">content://com.samsistemas.timesheet.provider/project</string>
+    <string name="project_table" translatable="false">project</string>
+    <string name="project_client_id" translatable="false">id_client</string>
+    <string name="project_id" translatable="false">id_project</string>
+    <string name="project_name" translatable="false">name</string>
+    <string name="project_short_name" translatable="false">short_name</string>
+    <string name="project_start_date" translatable="false">start_date</string>
+    <string name="project_enabled" translatable="false">enabled</string>
+    <string name="project_content_type" translatable="false">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/project</string>
+    <string name="project_content_item_type" translatable="false">vnd.android.cursor.item/com.samsistemas.timesheet.provider/project</string>
+    <string name="project_content_uri" translatable="false">content://com.samsistemas.timesheet.provider/project</string>
 
     <!-- JobLog Table name and columns -->
-    <string name="job_log_table">joblog</string>
-    <string name="job_log_id">id_joblog</string>
-    <string name="job_log_project_id">id_project</string>
-    <string name="job_log_person_id">id_person</string>
-    <string name="job_log_task_type_id">id_tasktype</string>
-    <string name="job_log_hours">hours</string>
-    <string name="job_log_work_date">work_date</string>
-    <string name="job_log_solicitude">solicitude_number</string>
-    <string name="job_log_observations">observations</string>
-    <string name="job_log_content_type">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/joblog</string>
-    <string name="job_log_content_item_type">vnd.android.cursor.item/com.samsistemas.timesheet.provider/joblog</string>
-    <string name="job_log_content_uri">content://com.samsistemas.timesheet.provider/joblog</string>
+    <string name="job_log_table" translatable="false">joblog</string>
+    <string name="job_log_id" translatable="false">id_joblog</string>
+    <string name="job_log_project_id" translatable="false">id_project</string>
+    <string name="job_log_person_id" translatable="false">id_person</string>
+    <string name="job_log_task_type_id" translatable="false">id_tasktype</string>
+    <string name="job_log_hours" translatable="false">hours</string>
+    <string name="job_log_work_date" translatable="false">work_date</string>
+    <string name="job_log_solicitude" translatable="false">solicitude_number</string>
+    <string name="job_log_observations" translatable="false">observations</string>
+    <string name="job_log_content_type" translatable="false">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/joblog</string>
+    <string name="job_log_content_item_type" translatable="false">vnd.android.cursor.item/com.samsistemas.timesheet.provider/joblog</string>
+    <string name="job_log_content_uri" translatable="false">content://com.samsistemas.timesheet.provider/joblog</string>
 
     <!-- Create Table strings -->
-    <string name="create_table_client">CREATE TABLE client(id_client INTEGER NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
-    <string name="create_table_work_position">CREATE TABLE workposition(id_workposition INTEGER NOT NULL PRIMARY KEY, description TEXT NOT NULL);</string>
-    <string name="create_table_person">CREATE TABLE person(id_person INTEGER NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, id_workposition INTEGER NOT NULL, work_hours INTEGER, picture BLOB, enabled INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition));</string>
-    <string name="create_table_task_type">CREATE TABLE tasktype(id_tasktype INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
-    <string name="create_table_task_type_x_work_position">CREATE TABLE tasktypexworkposition(id_workposition INTEGER NOT NULL, id_tasktype INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
-    <string name="create_table_project">CREATE TABLE project(id_client INTEGER NOT NULL, id_project INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, start_date INTEGER NOT NULL, enabled INTEGER NOT NULL, FOREIGN KEY(id_client) REFERENCES client(id_client));</string>
-    <string name="create_table_job_log">CREATE TABLE joblog(id_joblog INTEGER PRIMARY KEY NOT NULL, id_project INTEGER NOT NULL, id_person INTEGER NOT NULL, id_tasktype INTEGER NOT NULL,  hours TEXT NOT NULL, work_date INTEGER NOT NULL, solicitude_number INTEGER NOT NULL, observations TEXT NOT NULL, FOREIGN KEY(id_project) REFERENCES project(id_project), FOREIGN KEY(id_person) REFERENCES person(id_person), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
+    <string name="create_table_client" translatable="false">CREATE TABLE client(id_client INTEGER NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_work_position" translatable="false">CREATE TABLE workposition(id_workposition INTEGER NOT NULL PRIMARY KEY, description TEXT NOT NULL);</string>
+    <string name="create_table_person" translatable="false">CREATE TABLE person(id_person INTEGER NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, id_workposition INTEGER NOT NULL, work_hours INTEGER, picture BLOB, enabled INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition));</string>
+    <string name="create_table_task_type" translatable="false">CREATE TABLE tasktype(id_tasktype INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_task_type_x_work_position" translatable="false">CREATE TABLE tasktypexworkposition(id_workposition INTEGER NOT NULL, id_tasktype INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
+    <string name="create_table_project" translatable="false">CREATE TABLE project(id_client INTEGER NOT NULL, id_project INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, start_date INTEGER NOT NULL, enabled INTEGER NOT NULL, FOREIGN KEY(id_client) REFERENCES client(id_client));</string>
+    <string name="create_table_job_log" translatable="false">CREATE TABLE joblog(id_joblog INTEGER PRIMARY KEY NOT NULL, id_project INTEGER NOT NULL, id_person INTEGER NOT NULL, id_tasktype INTEGER NOT NULL,  hours TEXT NOT NULL, work_date INTEGER NOT NULL, solicitude_number INTEGER NOT NULL, observations TEXT NOT NULL, FOREIGN KEY(id_project) REFERENCES project(id_project), FOREIGN KEY(id_person) REFERENCES person(id_person), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
 
     <!-- Drop Table strings -->
-    <string name="drop_table_client">DROP TABLE IF EXISTS client;</string>
-    <string name="drop_table_work_position">DROP TABLE IF EXISTS workposition;</string>
-    <string name="drop_table_person">DROP TABLE IF EXISTS person;</string>
-    <string name="drop_table_task_type">DROP TABLE IF EXISTS taskType;</string>
-    <string name="drop_table_task_type_x_work_position">DROP TABLE IF EXISTS tasktypexworkposition;</string>
-    <string name="drop_table_project">DROP TABLE IF EXISTS project;</string>
-    <string name="drop_table_job_log">DROP TABLE IF EXISTS joblog;</string>
+    <string name="drop_table_client" translatable="false">DROP TABLE IF EXISTS client;</string>
+    <string name="drop_table_work_position" translatable="false">DROP TABLE IF EXISTS workposition;</string>
+    <string name="drop_table_person" translatable="false">DROP TABLE IF EXISTS person;</string>
+    <string name="drop_table_task_type" translatable="false">DROP TABLE IF EXISTS taskType;</string>
+    <string name="drop_table_task_type_x_work_position" translatable="false">DROP TABLE IF EXISTS tasktypexworkposition;</string>
+    <string name="drop_table_project" translatable="false">DROP TABLE IF EXISTS project;</string>
+    <string name="drop_table_job_log" translatable="false">DROP TABLE IF EXISTS joblog;</string>
 
     <!-- Shared Preferences Keys -->
-    <string name="key_email">email</string>
-    <string name="is_logged_in">logged_in</string>
-    <string name="preference_filename">timesheet_prefs</string>
+    <string name="key_email" translatable="false">email</string>
+    <string name="is_logged_in" translatable="false">logged_in</string>
+    <string name="preference_filename" translatable="false">timesheet_prefs</string>
 
-    <string name="session_id">session_id</string>
-    <string name="user_id">user_id</string>
-    <string name="username">username</string>
-    <string name="password">password</string>
-    <string name="auth_header">auth_header</string>
-    <string name="logged_in">logged_in</string>
+    <string name="session_id" translatable="false">session_id</string>
+    <string name="user_id" translatable="false">user_id</string>
+    <string name="username" translatable="false">username</string>
+    <string name="password" translatable="false">password</string>
+    <string name="auth_header" translatable="false">auth_header</string>
+    <string name="logged_in" translatable="false">logged_in</string>
 
     <!-- Json keys -->
-    <string name="work_position">work_position</string>
-    <string name="id">id</string>
-    <string name="name">name</string>
-    <string name="last_name">lastname</string>
-    <string name="description">description</string>
-    <string name="task_types">task_types</string>
-    <string name="enabled">enabled</string>
-    <string name="short_name">short_name</string>
-    <string name="start_date">start_date</string>
-    <string name="date">date</string>
-    <string name="hours">hours</string>
-    <string name="observation">observation</string>
-    <string name="solicitude">solicitude</string>
-    <string name="person">person</string>
-    <string name="project">project</string>
-    <string name="task_type">task_type</string>
-    <string name="client">client</string>
-
+    <string name="work_position" translatable="false">work_position</string>
+    <string name="id" translatable="false">id</string>
+    <string name="name" translatable="false">name</string>
+    <string name="last_name" translatable="false">lastname</string>
+    <string name="description" translatable="false">description</string>
+    <string name="task_types" translatable="false">task_types</string>
+    <string name="enabled" translatable="false">enabled</string>
+    <string name="short_name" translatable="false">short_name</string>
+    <string name="start_date" translatable="false">start_date</string>
+    <string name="date" translatable="false">date</string>
+    <string name="hours" translatable="false">hours</string>
+    <string name="observation" translatable="false">observation</string>
+    <string name="solicitude" translatable="false">solicitude</string>
+    <string name="person" translatable="false">person</string>
+    <string name="project" translatable="false">project</string>
+    <string name="task_type" translatable="false">task_type</string>
+    <string name="client" translatable="false">client</string>
 </resources>
