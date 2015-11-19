@@ -71,11 +71,6 @@ public class AccountActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    protected void fetchData() {
-        final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
-        new FetchPersonTask(getApplicationContext()).execute(prefs.getLong(getString(R.string.user_id), 1));
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_accounts, menu);
@@ -103,6 +98,11 @@ public class AccountActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         MenuNavigator.newInstance().navigate(this);
+    }
+
+    protected void fetchData() {
+        final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
+        new FetchPersonTask(getApplicationContext()).execute(prefs.getLong(getString(R.string.user_id), 1));
     }
 
     protected Drawable getCustomDrawable(@DrawableRes int id) {
@@ -141,7 +141,7 @@ public class AccountActivity extends AppCompatActivity {
                     mToolbarLayout.setTitle(fullName);
 
                 mUsername.setText(person.getUsername());
-                final String emailString = fullName + "@samsistemas.com.ar";
+                final String emailString = person.getUsername() + mContext.getString(R.string.domain);
                 mEmail.setText(emailString);
                 mWork.setText(person.getWorkPosition().getDescription());
             }

@@ -275,8 +275,9 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         @Override
         protected void onPostExecute(Person person) {
             final String fullName = person.getName() + " " + person.getLastName();
+            final String fullUsername = person.getUsername() + mContext.getString(R.string.domain);
             mFullName.setText(fullName);
-            mUsername.setText(person.getUsername());
+            mUsername.setText(fullUsername);
         }
     }
 }
