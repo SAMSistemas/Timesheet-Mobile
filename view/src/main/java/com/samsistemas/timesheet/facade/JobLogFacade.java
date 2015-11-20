@@ -11,7 +11,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
@@ -20,6 +19,7 @@ import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
+import com.samsistemas.timesheet.network.service.JobLogNetworkService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +42,8 @@ public class JobLogFacade implements Facade<JobLog> {
     protected Facade<Project> projectFacade;
     protected Facade<Person> personFacade;
     protected Facade<TaskType> taskTypeFacade;
+
+    boolean result = false;
 
     protected JobLogFacade() {
         this.jobLogController = ControllerFactory.getJobLogController();
@@ -108,12 +110,16 @@ public class JobLogFacade implements Facade<JobLog> {
     }
 
     @Override
-    public boolean insert(@NonNull final Context context, final JobLog jobLog) {
-        final JobLogEntity entity = new JobLogEntity();
+    public boolean insert(@NonNull final Context context, JobLog jobLog) {
         final String baseUrl = context.getString(com.samsistemas.timesheet.data.R.string.base_url);
         final String jobLogCreateUrl = baseUrl + "/jobLog/create";
+        String dateString = "";
 
-        String dateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(jobLog.getWorkDate());
+        try {
+            dateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(jobLog.getWorkDate());
+        } catch (Exception ex) {
+            Log.e(TAG, ex.getMessage(), ex.getCause());
+        }
 
         JSONObject jobLogToSend = new JSONObject();
 
@@ -139,15 +145,8 @@ public class JobLogFacade implements Facade<JobLog> {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            entity.setJobLogId(response.getLong(context.getString(com.samsistemas.timesheet.data.R.string.id)))
-                                  .setPersonId(response.getJSONObject("person").getLong(context.getString(R.string.id)))
-                                  .setProjectId(response.getJSONObject("project").getLong(context.getString(R.string.id)))
-                                  .setTaskTypeId(response.getJSONObject("task_type").getLong(context.getString(R.string.id)))
-                                  .setSolicitude(jobLog.getSolicitude())
-                                  .setHours(jobLog.getHours())
-                                  .setObservations(jobLog.getObservations())
-                                  .setWorkDate(jobLog.getWorkDate());
-
+                            JobLogNetworkService jobLogNetworkService = new JobLogNetworkService();
+                            result = (boolean) jobLogNetworkService.parseNetworkResponse(context, response, null);
                         } catch (JSONException ex) {
                             Log.e(TAG, ex.getMessage(), ex.getCause());
                         }
@@ -162,7 +161,8 @@ public class JobLogFacade implements Facade<JobLog> {
         );
 
         requestQueue.add(jsonRequest);
-        return jobLogController.insert(context, entity);
+
+        return result;
     }
 
     @Override

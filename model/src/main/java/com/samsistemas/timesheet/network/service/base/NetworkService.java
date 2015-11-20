@@ -16,5 +16,5 @@ public interface NetworkService<T, U> {
      * @param response
      * @param customArgs
      */
-    void parseNetworkResponse(@NonNull Context context, T response, U customArgs) throws JSONException;
+    U parseNetworkResponse(@NonNull Context context, T response, U customArgs) throws JSONException;
 }

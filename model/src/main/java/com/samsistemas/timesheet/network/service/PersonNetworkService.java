@@ -29,7 +29,7 @@ import java.util.List;
 public class PersonNetworkService implements NetworkService<JSONObject, String[]> {
 
     @Override
-    public void parseNetworkResponse(@NonNull Context context, JSONObject response, String[] credentials) throws JSONException {
+    public String[] parseNetworkResponse(@NonNull Context context, JSONObject response, String[] credentials) throws JSONException {
         final String username = credentials[0];
         final String password = credentials[1];
 
@@ -55,6 +55,8 @@ public class PersonNetworkService implements NetworkService<JSONObject, String[]
         personController.insert(context.getApplicationContext(), personEntity);
 
         initUserSession(context, credentials, personEntity.getPersonId());
+
+        return null;
     }
 
     protected void initUserSession(@NonNull Context context, String[] credentials, long id) {

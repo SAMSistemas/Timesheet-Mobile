@@ -3,7 +3,6 @@ package com.samsistemas.timesheet.controller;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -17,7 +16,7 @@ import com.android.volley.toolbox.Volley;
 import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.controller.base.BaseLoginController;
 import com.samsistemas.timesheet.network.request.BasicAuthRequest;
-import com.samsistemas.timesheet.network.service.JobLogNetworkService;
+import com.samsistemas.timesheet.network.service.JobLogsNetworkService;
 import com.samsistemas.timesheet.network.service.PersonNetworkService;
 import com.samsistemas.timesheet.network.service.ProjectNetworkService;
 import com.samsistemas.timesheet.util.AuthUtil;
@@ -141,8 +140,8 @@ public class LoginController implements BaseLoginController {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            final JobLogNetworkService jobLogNetworkService = new JobLogNetworkService();
-                            jobLogNetworkService.parseNetworkResponse(context, response, null);
+                            final JobLogsNetworkService jobLogsNetworkService = new JobLogsNetworkService();
+                            jobLogsNetworkService.parseNetworkResponse(context, response, null);
                         } catch (JSONException ex) {
                             Log.e(TAG, ex.getMessage(), ex.getCause());
                         }

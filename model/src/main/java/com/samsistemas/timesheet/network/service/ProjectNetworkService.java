@@ -22,7 +22,7 @@ import java.util.List;
 public class ProjectNetworkService implements NetworkService<JSONArray, Object> {
 
     @Override
-    public void parseNetworkResponse(@NonNull Context context, JSONArray response, Object customArgs) throws JSONException {
+    public Object parseNetworkResponse(@NonNull Context context, JSONArray response, Object customArgs) throws JSONException {
         final BaseController<ProjectEntity> projectController = ControllerFactory.getProjectController();
         final BaseController<ClientEntity> clientController = ControllerFactory.getClientController();
 
@@ -34,6 +34,6 @@ public class ProjectNetworkService implements NetworkService<JSONArray, Object> 
         final ClientEntityListParser clientEntityListParser = ClientEntityListParser.newInstance();
         final List<ClientEntity> clientEntities = clientEntityListParser.convert(context.getApplicationContext(), response);
 
-        clientController.bulkInsert(context.getApplicationContext(), clientEntities);
+        return clientController.bulkInsert(context.getApplicationContext(), clientEntities);
     }
 }
