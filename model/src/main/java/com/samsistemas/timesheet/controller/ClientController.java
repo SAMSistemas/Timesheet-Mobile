@@ -59,6 +59,9 @@ public class ClientController implements BaseController<ClientEntity> {
     public ClientEntity get(@NonNull Context context, long id) {
         final Uri clientUri = UriHelper.buildClientUriWithId(context, id);
         Cursor clientCursor = context.getContentResolver().query(clientUri, null, null, null, null);
+        if(null != clientCursor)
+            clientCursor.moveToFirst();
+
         final ClientEntity clientEntity = clientMapper.asEntity(context, clientCursor);
 
         if(null != clientCursor && !clientCursor.isClosed())

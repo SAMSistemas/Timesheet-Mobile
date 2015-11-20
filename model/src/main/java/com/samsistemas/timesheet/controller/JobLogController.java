@@ -59,6 +59,9 @@ public class JobLogController implements BaseController<JobLogEntity> {
     public JobLogEntity get(@NonNull Context context, long id) {
         final Uri jobLogUri = UriHelper.buildJobLogUriWithId(context, id);
         Cursor jobLogCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
+        if(null != jobLogCursor)
+            jobLogCursor.moveToFirst();
+
         final JobLogEntity jobLogEntity = joblogMapper.asEntity(context, jobLogCursor);
 
         if(null != jobLogCursor && !jobLogCursor.isClosed())

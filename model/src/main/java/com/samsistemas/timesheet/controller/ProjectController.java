@@ -59,6 +59,9 @@ public class ProjectController implements BaseController<ProjectEntity> {
     public ProjectEntity get(@NonNull Context context, long id) {
         final Uri projectUri = UriHelper.buildProjectUriWithId(context, id);
         Cursor projectCursor = context.getContentResolver().query(projectUri, null, null, null, null);
+        if(null != projectCursor)
+            projectCursor.moveToFirst();
+
         final ProjectEntity projectEntity = projectMapper.asEntity(context, projectCursor);
 
         if(null != projectCursor && !projectCursor.isClosed())

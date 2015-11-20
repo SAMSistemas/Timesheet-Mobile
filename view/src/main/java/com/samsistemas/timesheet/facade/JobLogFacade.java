@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
@@ -107,7 +108,7 @@ public class JobLogFacade implements Facade<JobLog> {
     }
 
     @Override
-    public boolean insert(@NonNull final Context context, JobLog jobLog) {
+    public boolean insert(@NonNull final Context context, final JobLog jobLog) {
         final JobLogEntity entity = new JobLogEntity();
         final String baseUrl = context.getString(com.samsistemas.timesheet.data.R.string.base_url);
         final String jobLogCreateUrl = baseUrl + "/jobLog/create";
@@ -117,10 +118,9 @@ public class JobLogFacade implements Facade<JobLog> {
         JSONObject jobLogToSend = new JSONObject();
 
         try {
-
             jobLogToSend.put("date", dateString)
                         .put("hours", jobLog.getHours())
-                        .put("solicitude", jobLog.getSolicitude())
+                        .put("solicitude", String.valueOf(jobLog.getSolicitude()))
                         .put("observation", jobLog.getObservations())
                         .put("project_name", jobLog.getProject().getName())
                         .put("username", jobLog.getPerson().getUsername())
@@ -139,7 +139,15 @@ public class JobLogFacade implements Facade<JobLog> {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            entity.setJobLogId(response.getLong(context.getString(com.samsistemas.timesheet.data.R.string.id)));
+                            entity.setJobLogId(response.getLong(context.getString(com.samsistemas.timesheet.data.R.string.id)))
+                                  .setPersonId(response.getJSONObject("person").getLong(context.getString(R.string.id)))
+                                  .setProjectId(response.getJSONObject("project").getLong(context.getString(R.string.id)))
+                                  .setTaskTypeId(response.getJSONObject("task_type").getLong(context.getString(R.string.id)))
+                                  .setSolicitude(jobLog.getSolicitude())
+                                  .setHours(jobLog.getHours())
+                                  .setObservations(jobLog.getObservations())
+                                  .setWorkDate(jobLog.getWorkDate());
+
                         } catch (JSONException ex) {
                             Log.e(TAG, ex.getMessage(), ex.getCause());
                         }
@@ -154,15 +162,6 @@ public class JobLogFacade implements Facade<JobLog> {
         );
 
         requestQueue.add(jsonRequest);
-
-        entity.setProjectId(jobLog.getProject().getId())
-              .setPersonId(jobLog.getPerson().getId())
-              .setTaskTypeId(jobLog.getTaskType().getId())
-              .setSolicitude(jobLog.getSolicitude())
-              .setHours(jobLog.getHours())
-              .setObservations(jobLog.getObservations())
-              .setWorkDate(jobLog.getWorkDate());
-
         return jobLogController.insert(context, entity);
     }
 

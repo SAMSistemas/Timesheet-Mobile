@@ -1,10 +1,13 @@
 package com.samsistemas.timesheet.activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,20 +15,26 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.facade.ClientFacade;
+import com.samsistemas.timesheet.facade.JobLogFacade;
 import com.samsistemas.timesheet.facade.ProjectFacade;
 import com.samsistemas.timesheet.facade.TaskTypeFacade;
 import com.samsistemas.timesheet.model.Client;
+import com.samsistemas.timesheet.model.JobLog;
+import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,54 +42,62 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class AddHoursActivity extends AppCompatActivity {
-    Spinner mTaskSpinner;
-    Spinner mClientSpinner;
-    Spinner mHourSpinner;
-    Spinner mProjectSpinner;
+    private Spinner mTaskSpinner;
+    private Spinner mClientSpinner;
+    private Spinner mHourSpinner;
+    private Spinner mProjectSpinner;
+    private EditText mDescription;
+    private EditText mSolicitudeNumber;
+
+    private Person person = new Person();
+    private Project project = new Project();
+    private TaskType taskType = new TaskType();
+    private Client client = new Client();
+    private JobLog jobLogToSave = new JobLog();
+
+    private CharSequence hours;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_hours);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        final ActionBar actionBar = getSupportActionBar();
-        if(null != actionBar)
-            ToolbarUtil.styleWithBackButton(actionBar, getString(R.string.action_add_hour));
-
-        CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        toolbarLayout.setTitleEnabled(false);
-
-        mTaskSpinner = (Spinner) findViewById(R.id.task_spinner);
-        mTaskSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-
-        mClientSpinner = (Spinner) findViewById(R.id.client_spinner);
-        mClientSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-
-        mProjectSpinner = (Spinner) findViewById(R.id.project_spinner);
-        mProjectSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-
+        setToolbar();
+        setTaskSpinner();
+        setHourSpinner();
+        setProjectSpinner();
+        setClientSpinner();
         fetchData();
 
-        ArrayAdapter<String> hoursArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, getHours());
-        mHourSpinner = (Spinner) findViewById(R.id.hours_spinner);
-        mHourSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        mHourSpinner.setAdapter(hoursArrayAdapter);
+        final EditText descriptionEditText = (EditText) findViewById(R.id.description);
+        final EditText solicitudeNumberEditText = (EditText) findViewById(R.id.solicitude_number_input);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO JS: perform joblog Save
+                final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
+                final String userName = prefs.getString(getString(R.string.username), "");
+
+                String description = descriptionEditText.getText().toString().trim();
+                int solicitudeNumber = Integer.valueOf(solicitudeNumberEditText.getText().toString().trim());
+
+                jobLogToSave.setHours(hours.toString());
+                jobLogToSave.setObservations(description);
+                jobLogToSave.setSolicitude(solicitudeNumber);
+                jobLogToSave.setWorkDate(new Date(System.currentTimeMillis()));
+                jobLogToSave.setPerson(person.setUsername(userName));
+                jobLogToSave.setProject(project);
+                jobLogToSave.setTaskType(taskType);
+
+                new SaveJobLogOnServerTask(getApplicationContext()).execute(jobLogToSave);
             }
         });
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_accounts, menu);
-        return super.onCreateOptionsMenu(menu);
+    protected void onResume() {
+        fetchData();
+        super.onResume();
     }
 
     @Override
@@ -90,8 +107,6 @@ public class AddHoursActivity extends AppCompatActivity {
         switch (id) {
             case android.R.id.home:
                 onBackPressed();
-                break;
-            case R.id.action_mode_edit:
                 break;
         }
 
@@ -109,30 +124,87 @@ public class AddHoursActivity extends AppCompatActivity {
         new FetchProjectAdapterTask().execute();
     }
 
-    protected List<String> getHours() {
-        final List<String> stringList = new ArrayList<>();
+    protected void setToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        stringList.add("0.5");
-        stringList.add("1.0");
-        stringList.add("1.5");
-        stringList.add("2.0");
-        stringList.add("2.5");
-        stringList.add("3.0");
-        stringList.add("3.5");
-        stringList.add("4.0");
-        stringList.add("4.5");
-        stringList.add("5.0");
-        stringList.add("5.5");
-        stringList.add("6.0");
-        stringList.add("6.5");
-        stringList.add("7.0");
-        stringList.add("7.5");
-        stringList.add("8.0");
-        stringList.add("8.5");
-        stringList.add("9.0");
+        final ActionBar actionBar = getSupportActionBar();
+        if(null != actionBar)
+            ToolbarUtil.styleWithBackButton(actionBar, getString(R.string.action_add_hour));
 
-        return stringList;
+        CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        toolbarLayout.setTitleEnabled(false);
+    }
 
+    protected void setTaskSpinner() {
+        mTaskSpinner = (Spinner) findViewById(R.id.task_spinner);
+        mTaskSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        mTaskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String name = (String) parent.getAdapter().getItem(position);
+                taskType.setName(name);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    protected void setHourSpinner() {
+        ArrayAdapter<CharSequence> hoursArrayAdapter = ArrayAdapter.createFromResource(getApplication(), R.array.hours, android.R.layout.simple_spinner_dropdown_item);
+        hoursArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mHourSpinner = (Spinner) findViewById(R.id.hours_spinner);
+        mHourSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        mHourSpinner.setAdapter(hoursArrayAdapter);
+        mHourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                hours = (CharSequence) parent.getAdapter().getItem(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    protected void setClientSpinner() {
+        mClientSpinner = (Spinner) findViewById(R.id.client_spinner);
+        mClientSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        mClientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String name = (String) parent.getAdapter().getItem(position);
+                client.setName(name);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    protected void setProjectSpinner() {
+        mProjectSpinner = (Spinner) findViewById(R.id.project_spinner);
+        mProjectSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        mProjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String name = (String) parent.getAdapter().getItem(position);
+                project.setName(name);
+                project.setClient(client);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public class FetchClientAdapterTask extends AsyncTask<Void, Void, List<String>> {
@@ -151,6 +223,7 @@ public class AddHoursActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<String> clients) {
             ArrayAdapter<String> clientArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, clients);
+            clientArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mClientSpinner.setAdapter(clientArrayAdapter);
             clientArrayAdapter.notifyDataSetChanged();
         }
@@ -172,6 +245,7 @@ public class AddHoursActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<String> taskTypes) {
             ArrayAdapter<String> taskArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, taskTypes);
+            taskArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mTaskSpinner.setAdapter(taskArrayAdapter);
             taskArrayAdapter.notifyDataSetChanged();
         }
@@ -194,8 +268,30 @@ public class AddHoursActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<String> projects) {
             ArrayAdapter<String> projectArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, projects);
+            projectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mProjectSpinner.setAdapter(projectArrayAdapter);
             projectArrayAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public class SaveJobLogOnServerTask extends AsyncTask<JobLog, Void, Boolean> {
+        protected Context mContext;
+
+        public SaveJobLogOnServerTask(Context context) {
+            this.mContext = context;
+        }
+
+        @Override
+        protected Boolean doInBackground(JobLog... params) {
+            return JobLogFacade.newInstance().insert(mContext, params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if(result)
+                Snackbar.make(mTaskSpinner, "Good luck, joblog saved!!", Snackbar.LENGTH_SHORT).show();
+            else
+                Snackbar.make(mTaskSpinner, "Bad luck, joblog not saved!!", Snackbar.LENGTH_SHORT).show();
         }
     }
 }

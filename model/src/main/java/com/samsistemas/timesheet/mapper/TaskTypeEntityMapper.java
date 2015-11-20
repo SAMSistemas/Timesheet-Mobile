@@ -30,7 +30,7 @@ public class TaskTypeEntityMapper implements EntityMapper<TaskTypeEntity, Cursor
 
     @Override
     public TaskTypeEntity asEntity(@NonNull Context context, @Nullable Cursor cursor) {
-        if (null != cursor && cursor.moveToFirst()) {
+        if (null != cursor) {
             final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.task_type_enabled)));
             final boolean taskTypeEnabled = ConversionUtil.intToBoolean(available);
 

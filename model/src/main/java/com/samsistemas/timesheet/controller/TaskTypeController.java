@@ -60,6 +60,10 @@ public class TaskTypeController implements BaseController<TaskTypeEntity> {
     public TaskTypeEntity get(@NonNull Context context, long id) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUriWithId(context, id);
         Cursor taskTypeCursor = context.getContentResolver().query(taskTypeUri, null, null, null, null);
+
+        if(null != taskTypeCursor)
+            taskTypeCursor.moveToFirst();
+
         final TaskTypeEntity taskTypeEntity = taskTypeMapper.asEntity(context, taskTypeCursor);
 
         if(null != taskTypeCursor && taskTypeCursor.isClosed())

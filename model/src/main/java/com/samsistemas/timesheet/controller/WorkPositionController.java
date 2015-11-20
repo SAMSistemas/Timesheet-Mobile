@@ -57,6 +57,10 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
     public WorkPositionEntity get(@NonNull Context context, long id) {
         final Uri workPositionUri = UriHelper.buildWorkPositionUriWithId(context, id);
         Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
+
+        if(null != workPositionCursor)
+            workPositionCursor.moveToFirst();
+
         final WorkPositionEntity workPositionEntity = workPositionMapper.asEntity(context, workPositionCursor);
 
         if(null != workPositionCursor && !workPositionCursor.isClosed())

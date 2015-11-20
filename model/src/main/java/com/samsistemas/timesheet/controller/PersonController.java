@@ -58,6 +58,9 @@ public class PersonController implements BaseController<PersonEntity> {
     public PersonEntity get(@NonNull Context context, long id) {
         final Uri personUri = UriHelper.buildPersonUriWithId(context, id);
         Cursor personCursor = context.getContentResolver().query(personUri, null, null, null, null);
+        if(null != personCursor)
+            personCursor.moveToFirst();
+
         final PersonEntity personEntity = personMapper.asEntity(context, personCursor);
 
         if(null != personCursor && !personCursor.isClosed())
