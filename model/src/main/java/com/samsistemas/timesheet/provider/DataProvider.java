@@ -268,10 +268,11 @@ public class DataProvider extends ContentProvider implements ContentUri {
         long id = -1;
 
         if (!writableDatabase.isReadOnly()) {
-            id = writableDatabase.insert(
+            id = writableDatabase.insertWithOnConflict(
                     mContext.getString(tableName),
                     null,
-                    values
+                    values,
+                    SQLiteDatabase.CONFLICT_IGNORE
             );
         }
 
@@ -319,10 +320,11 @@ public class DataProvider extends ContentProvider implements ContentUri {
 
         try {
             for(ContentValues value: values) {
-                long id = writableDatabase.insert(
+                long id = writableDatabase.insertWithOnConflict(
                         mContext.getString(tableName),
                         null,
-                        value
+                        value,
+                        SQLiteDatabase.CONFLICT_IGNORE
                 );
 
                 if(-1 != id) {

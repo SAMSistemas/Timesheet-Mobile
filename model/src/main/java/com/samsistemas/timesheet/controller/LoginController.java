@@ -44,7 +44,7 @@ public class LoginController implements BaseLoginController {
         final RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
 
         final BasicAuthRequest loginRequest = new BasicAuthRequest(
-                Request.Method.POST,
+                Request.Method.GET,
                 getLoginUrl(context),
                 new Response.Listener<String>() {
                     @Override
