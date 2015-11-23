@@ -46,8 +46,8 @@ public class PersonController implements BaseController<PersonEntity> {
     public boolean bulkInsert(@NonNull Context context, @NonNull List<PersonEntity> personEntities) {
         int count = 0;
 
-        for(PersonEntity entity: personEntities) {
-            boolean inserted = insert(context, entity);
+        for(int i = 0; i < personEntities.size(); i++) {
+            boolean inserted = insert(context, personEntities.get(i));
             if(inserted)
                 count++;
         }

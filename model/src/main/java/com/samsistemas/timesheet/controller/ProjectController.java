@@ -46,8 +46,8 @@ public class ProjectController implements BaseController<ProjectEntity> {
     public boolean bulkInsert(@NonNull Context context, @NonNull List<ProjectEntity> projectEntities) {
         int count = 0;
 
-        for(ProjectEntity entity: projectEntities) {
-            boolean inserted = insert(context, entity);
+        for(int i = 0; i < projectEntities.size(); i++) {
+            boolean inserted = insert(context, projectEntities.get(i));
             if(inserted)
                 count++;
         }

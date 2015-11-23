@@ -54,7 +54,7 @@ public class ChangePasswordFragment extends DialogFragment implements DialogInte
      * @param builder
      */
     private void prepare(AlertDialog.Builder builder) {
-        builder.setIcon(getIcon(R.drawable.ic_person_white))
+        builder.setIcon(getIcon(R.drawable.ic_person_white_24dp))
                 .setTitle(R.string.password_dialog_title)
                 .setView(getContentView(R.layout.edit_password_content))
                 .setPositiveButton(R.string.password_dialog_positive_button, this)

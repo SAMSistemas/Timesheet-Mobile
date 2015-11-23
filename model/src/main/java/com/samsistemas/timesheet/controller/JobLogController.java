@@ -46,8 +46,8 @@ public class JobLogController implements BaseController<JobLogEntity> {
     public boolean bulkInsert(@NonNull Context context, @NonNull List<JobLogEntity> jobLogEntities) {
         int count = 0;
 
-        for(JobLogEntity entity: jobLogEntities) {
-            boolean inserted = insert(context, entity);
+        for(int i = 0; i < jobLogEntities.size(); i++) {
+            boolean inserted = insert(context, jobLogEntities.get(i));
             if(inserted)
                 count++;
         }

@@ -46,8 +46,8 @@ public class ClientController implements BaseController<ClientEntity> {
     public boolean bulkInsert(@NonNull Context context, @NonNull List<ClientEntity> clientEntities) {
         int count = 0;
 
-        for(ClientEntity entity: clientEntities) {
-            boolean inserted = insert(context, entity);
+        for(int i = 0; i < clientEntities.size(); i++) {
+            boolean inserted = insert(context, clientEntities.get(i));
             if(inserted)
                 count++;
         }

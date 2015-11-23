@@ -44,8 +44,8 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
     public boolean bulkInsert(@NonNull Context context, @NonNull List<WorkPositionEntity> workPositionEntities) {
         int count = 0;
 
-        for(WorkPositionEntity entity: workPositionEntities) {
-            boolean inserted = insert(context, entity);
+        for(int i = 0; i < workPositionEntities.size(); i++) {
+            boolean inserted = insert(context, workPositionEntities.get(i));
             if(inserted)
                 count++;
         }
