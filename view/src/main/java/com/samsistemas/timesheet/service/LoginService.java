@@ -59,16 +59,13 @@ public class LoginService extends AsyncTask<String[], Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String[]... params) {
-        boolean isLogged = false;
-
         try {
             Thread.sleep(1000);
-            isLogged = loginController.performLogin(mContext.getApplicationContext(), params[0]);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return isLogged;
+        return loginController.performLogin(mContext.getApplicationContext(), params[0]);
     }
 
     @UiThread
