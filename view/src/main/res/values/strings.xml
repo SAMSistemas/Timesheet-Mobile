@@ -115,4 +115,7 @@
     <string name="user_name">Usuario</string>
     <string name="pass_word">Contraseña</string>
 
+    <string name="description">Description</string>
+    <string name="solicitude_number">Solicitude Number</string>
+
 </resources>

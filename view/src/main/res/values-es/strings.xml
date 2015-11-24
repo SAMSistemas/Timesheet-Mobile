@@ -58,6 +58,8 @@
 
     <string name="no_date_selected">No hay una fecha seleccionada</string>
     <string name="no_job_logs">No hay Tareas registradas</string>
+    <string name="description">Descripción</string>
+    <string name="solicitude_number">Número de Solicitud</string>
 
     <string name="error_no_available_job_logs">Parece que aún no cargaste el registro de tus tareas</string>
 </resources>
