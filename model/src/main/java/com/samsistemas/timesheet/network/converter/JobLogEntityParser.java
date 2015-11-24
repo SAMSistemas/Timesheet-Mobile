@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.constant.JSONConstants;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -19,7 +19,7 @@ import java.util.Locale;
 /**
  * @author jonatan.salas
  */
-public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject> {
+public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject>, JSONConstants {
     protected static final String TAG = JobLogEntityParser.class.getSimpleName();
     protected static final String DATE_TEMPLATE = "dd-MM-yyyy";
 
@@ -29,11 +29,11 @@ public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject> 
 
     @Override
     public JobLogEntity convert(@NonNull Context context, @NonNull JSONObject json) throws JSONException {
-        JSONObject jsonPerson = json.getJSONObject(context.getString(R.string.person));
-        JSONObject jsonProject = json.getJSONObject(context.getString(R.string.project));
-        JSONObject jsonTaskType = json.getJSONObject(context.getString(R.string.task_type));
+        JSONObject jsonPerson = json.getJSONObject(PERSON);
+        JSONObject jsonProject = json.getJSONObject(PROJECT);
+        JSONObject jsonTaskType = json.getJSONObject(TASK_TYPE);
 
-        String dateString = json.getString(context.getString(R.string.date));
+        String dateString = json.getString(DATE);
         Date date = new Date();
 
         try {
@@ -43,13 +43,13 @@ public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject> 
         }
 
         JobLogEntity jobLogEntity = new JobLogEntity();
-        jobLogEntity.setJobLogId(json.getLong(context.getString(R.string.id)))
-                .setPersonId(jsonPerson.getLong(context.getString(R.string.id)))
-                .setProjectId(jsonProject.getLong(context.getString(R.string.id)))
-                .setTaskTypeId(jsonTaskType.getLong(context.getString(R.string.id)))
-                .setHours(json.getString(context.getString(R.string.hours)))
-                .setObservations(json.getString(context.getString(R.string.observation)))
-                .setSolicitude(json.getInt(context.getString(R.string.solicitude)))
+        jobLogEntity.setJobLogId(json.getLong(ID))
+                .setPersonId(jsonPerson.getLong(ID))
+                .setProjectId(jsonProject.getLong(ID))
+                .setTaskTypeId(jsonTaskType.getLong(ID))
+                .setHours(json.getString(HOURS))
+                .setObservations(json.getString(OBSERVATION))
+                .setSolicitude(json.getInt(SOLICITUDE))
                 .setWorkDate(date);
 
         return jobLogEntity;

@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.network.converter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.constant.JSONConstants;
 import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class ClientEntityListParser implements JsonParser<List<ClientEntity>, JSONArray> {
+public class ClientEntityListParser implements JsonParser<List<ClientEntity>, JSONArray>, JSONConstants {
     protected static ClientEntityListParser instance = null;
 
     protected ClientEntityListParser() {}
@@ -28,13 +28,13 @@ public class ClientEntityListParser implements JsonParser<List<ClientEntity>, JS
 
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonProject = jsonArray.getJSONObject(i);
-            JSONObject jsonClient = jsonProject.getJSONObject(context.getString(R.string.client));
+            JSONObject jsonClient = jsonProject.getJSONObject(CLIENT);
 
             ClientEntity clientEntity = new ClientEntity();
-            clientEntity.setClientId(jsonClient.getLong(context.getString(R.string.id)))
-                        .setName(jsonClient.getString(context.getString(R.string.name)))
-                        .setShortName(jsonClient.getString(context.getString(R.string.short_name)))
-                        .setEnabled(jsonClient.getBoolean(context.getString(R.string.enabled)));
+            clientEntity.setClientId(jsonClient.getLong(ID))
+                        .setName(jsonClient.getString(NAME))
+                        .setShortName(jsonClient.getString(SHORT_NAME))
+                        .setEnabled(jsonClient.getBoolean(ENABLED));
 
             clientEntities.add(i, clientEntity);
         }

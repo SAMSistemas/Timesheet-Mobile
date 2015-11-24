@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.network.converter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.constant.JSONConstants;
 import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -13,7 +13,7 @@ import org.json.JSONObject;
 /**
  * @author jonatan.salas
  */
-public class PersonEntityParser implements JsonParser<PersonEntity, JSONObject> {
+public class PersonEntityParser implements JsonParser<PersonEntity, JSONObject>, JSONConstants {
     protected static PersonEntityParser instance = null;
 
     protected PersonEntityParser() {}
@@ -21,12 +21,12 @@ public class PersonEntityParser implements JsonParser<PersonEntity, JSONObject> 
     @Override
     public PersonEntity convert(@NonNull Context context, @NonNull JSONObject jsonObject) throws JSONException {
         final PersonEntity personEntity = new PersonEntity();
-        final JSONObject jsonWorkPosition = jsonObject.getJSONObject(context.getString(R.string.work_position));
+        final JSONObject jsonWorkPosition = jsonObject.getJSONObject(WORK_POSITION);
 
-        personEntity.setPersonId(jsonObject.getLong(context.getString(R.string.id)))
-                    .setName(jsonObject.getString(context.getString(R.string.name)))
-                    .setLastName(jsonObject.getString(context.getString(R.string.last_name)))
-                    .setWorkPositionId(jsonWorkPosition.getLong(context.getString(R.string.id)))
+        personEntity.setPersonId(jsonObject.getLong(ID))
+                    .setName(jsonObject.getString(NAME))
+                    .setLastName(jsonObject.getString(LAST_NAME))
+                    .setWorkPositionId(jsonWorkPosition.getLong(ID))
                     .setPicture(null)
                     .setEnabled(true);
 

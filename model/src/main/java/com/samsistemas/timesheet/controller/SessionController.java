@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.samsistemas.timesheet.constant.SessionConstants;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.entity.SessionEntity;
@@ -14,18 +15,18 @@ import com.samsistemas.timesheet.entity.SessionEntity;
  *
  * @author jonatan.salas
  */
-public class SessionController implements BaseSessionController<SessionEntity> {
+public class SessionController implements BaseSessionController<SessionEntity>, SessionConstants {
 
     @Override
     public void createUserSession(@NonNull Context context, @NonNull SessionEntity entity) {
         final SharedPreferences.Editor editor = getSharedPreferences(context).edit();
 
-        editor.putLong(context.getString(R.string.session_id), entity.getSessionId())
-              .putLong(context.getString(R.string.user_id), entity.getUserId())
-              .putString(context.getString(R.string.username), entity.getUsername())
-              .putString(context.getString(R.string.password), entity.getPassword())
-              .putString(context.getString(R.string.auth_header), entity.getAuthHeader())
-              .putBoolean(context.getString(R.string.logged_in), entity.isLogged())
+        editor.putLong(SESSION_ID, entity.getSessionId())
+              .putLong(USER_ID, entity.getUserId())
+              .putString(USERNAME, entity.getUsername())
+              .putString(PASSWORD, entity.getPassword())
+              .putString(AUTH_HEADER, entity.getAuthHeader())
+              .putBoolean(LOGGED_IN, entity.isLogged())
               .apply();
     }
 
@@ -60,7 +61,7 @@ public class SessionController implements BaseSessionController<SessionEntity> {
 
     @Override
     public boolean isLoggedIn(@NonNull Context context) {
-        return getSharedPreferences(context).getBoolean(context.getString(R.string.is_logged_in), false);
+        return getSharedPreferences(context).getBoolean(LOGGED_IN, false);
     }
 
     /**
@@ -71,7 +72,7 @@ public class SessionController implements BaseSessionController<SessionEntity> {
      */
     protected SharedPreferences getSharedPreferences(@NonNull Context context) {
         return context.getSharedPreferences(
-                context.getString(R.string.preference_filename),
+                FILENAME,
                 Context.MODE_PRIVATE
         );
     }

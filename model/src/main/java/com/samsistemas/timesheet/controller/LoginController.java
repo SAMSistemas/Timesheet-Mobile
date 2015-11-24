@@ -43,7 +43,7 @@ public class LoginController implements BaseLoginController {
     public boolean performLogin(@NonNull final Context context, @NonNull final String[] credentials) {
         final RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
 
-        final BasicAuthRequest loginRequest = new BasicAuthRequest(
+        BasicAuthRequest loginRequest = new BasicAuthRequest(
                 Request.Method.GET,
                 getLoginUrl(context),
                 new Response.Listener<String>() {
@@ -62,7 +62,7 @@ public class LoginController implements BaseLoginController {
                 credentials
         );
 
-        final JsonObjectRequest personJsonRequest = new JsonObjectRequest(
+        JsonObjectRequest personJsonRequest = new JsonObjectRequest(
                 Request.Method.GET,
                 getPersonUrl(context) + credentials[0],
                 new JSONObject(),
@@ -89,7 +89,7 @@ public class LoginController implements BaseLoginController {
             }
         };
 
-        final JsonArrayRequest projectRequest = new JsonArrayRequest(
+        JsonArrayRequest projectRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 getProjectUrl(context) + credentials[0],
                 new JSONObject(),
@@ -132,7 +132,7 @@ public class LoginController implements BaseLoginController {
             Log.e(TAG, ex.getMessage(), ex.getCause());
         }
 
-        final JsonArrayRequest jobLogRequest = new JsonArrayRequest(
+        JsonArrayRequest jobLogRequest = new JsonArrayRequest(
                 Request.Method.POST,
                 getJobLogUrl(context),
                 jobLog,

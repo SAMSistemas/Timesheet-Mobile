@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.constant.SessionConstants;
 import com.samsistemas.timesheet.facade.PersonFacade;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
@@ -30,7 +31,7 @@ import java.lang.ref.WeakReference;
  *
  * @author jonatan.salas
  */
-public class AccountActivity extends AppCompatActivity {
+public class AccountActivity extends AppCompatActivity implements SessionConstants {
     private CollapsingToolbarLayout mToolbarLayout;
     private ActionBar mActionBar;
     private TextView mUsername;
@@ -100,8 +101,8 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     protected void fetchData() {
-        final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
-        new FetchPersonTask(getApplicationContext()).execute(prefs.getLong(getString(R.string.user_id), 1));
+        final SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+        new FetchPersonTask(getApplicationContext()).execute(prefs.getLong(USER_ID, 1));
     }
 
     protected Drawable getCustomDrawable(@DrawableRes int id) {

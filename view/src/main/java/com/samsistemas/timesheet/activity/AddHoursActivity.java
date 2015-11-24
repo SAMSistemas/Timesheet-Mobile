@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.constant.SessionConstants;
 import com.samsistemas.timesheet.facade.ClientFacade;
 import com.samsistemas.timesheet.facade.JobLogFacade;
 import com.samsistemas.timesheet.facade.ProjectFacade;
@@ -40,13 +41,10 @@ import java.util.List;
  *
  * @author jonatan.salas
  */
-public class AddHoursActivity extends AppCompatActivity {
+public class AddHoursActivity extends AppCompatActivity implements SessionConstants {
     private Spinner mTaskSpinner;
     private Spinner mClientSpinner;
-    private Spinner mHourSpinner;
     private Spinner mProjectSpinner;
-    private EditText mDescription;
-    private EditText mSolicitudeNumber;
 
     private Person person = new Person();
     private Project project = new Project();
@@ -66,33 +64,7 @@ public class AddHoursActivity extends AppCompatActivity {
         setProjectSpinner();
         setClientSpinner();
         fetchData();
-
-        final EditText descriptionEditText = (EditText) findViewById(R.id.description);
-        final EditText solicitudeNumberEditText = (EditText) findViewById(R.id.solicitude);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
-                final String username = prefs.getString(getString(R.string.user_name), "");
-                final String password = prefs.getString(getString(R.string.pass_word), "");
-
-                String description = descriptionEditText.getText().toString().trim();
-                int solicitudeNumber = Integer.valueOf(solicitudeNumberEditText.getText().toString().trim());
-
-                jobLogToSave.setHours(hours.toString())
-                            .setObservations(description)
-                            .setSolicitude(solicitudeNumber)
-                            .setWorkDate(new Date(System.currentTimeMillis()))
-                            .setPerson(person.setUsername(username)
-                                             .setPassword(password))
-                            .setProject(project)
-                            .setTaskType(taskType);
-
-                new SaveJobLogOnServerTask(getApplicationContext()).execute(jobLogToSave);
-            }
-        });
+        saveJobLog();
     }
 
     @Override
@@ -157,10 +129,10 @@ public class AddHoursActivity extends AppCompatActivity {
     protected void setHourSpinner() {
         ArrayAdapter<CharSequence> hoursArrayAdapter = ArrayAdapter.createFromResource(getApplication(), R.array.hours, android.R.layout.simple_spinner_dropdown_item);
         hoursArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mHourSpinner = (Spinner) findViewById(R.id.hours_spinner);
-        mHourSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        mHourSpinner.setAdapter(hoursArrayAdapter);
-        mHourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        Spinner hourSpinner = (Spinner) findViewById(R.id.hours_spinner);
+        hourSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        hourSpinner.setAdapter(hoursArrayAdapter);
+        hourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 hours = (CharSequence) parent.getAdapter().getItem(position);
@@ -204,6 +176,35 @@ public class AddHoursActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+    }
+
+    protected void saveJobLog() {
+        final EditText descriptionEditText = (EditText) findViewById(R.id.description);
+        final EditText solicitudeNumberEditText = (EditText) findViewById(R.id.solicitude);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                final String username = prefs.getString(USERNAME, "");
+                final String password = prefs.getString(PASSWORD, "");
+
+                String description = descriptionEditText.getText().toString().trim();
+                int solicitudeNumber = Integer.valueOf(solicitudeNumberEditText.getText().toString().trim());
+
+                jobLogToSave.setHours(hours.toString())
+                        .setObservations(description)
+                        .setSolicitude(solicitudeNumber)
+                        .setWorkDate(new Date(System.currentTimeMillis()))
+                        .setPerson(person.setUsername(username)
+                                .setPassword(password))
+                        .setProject(project)
+                        .setTaskType(taskType);
+
+                new SaveJobLogOnServerTask(getApplicationContext()).execute(jobLogToSave);
             }
         });
     }

@@ -1,23 +1,20 @@
 package com.samsistemas.timesheet.fragment;
 
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.constant.SessionConstants;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.navigation.LoginNavigator;
-import com.samsistemas.timesheet.provider.DataProvider;
 
 /**
  * @author jonatan.salas
  */
-public class SettingsFragment extends PreferenceFragmentCompat implements BaseSessionController.OnSessionDeleted {
+public class SettingsFragment extends PreferenceFragmentCompat implements BaseSessionController.OnSessionDeleted, SessionConstants {
 
     public SettingsFragment() {
         setHasOptionsMenu(false);
@@ -30,11 +27,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements BaseSe
 
     @Override
     public boolean onPreferenceTreeClick(@NonNull Preference preference) {
-        final BaseSessionController sessionController = getSessionController();
+        final BaseSessionController sessionController = ControllerFactory.getSessionController();
         final String key = preference.getKey();
 
-        if(key.equals(getString(R.string.is_logged_in))) {
-            sessionController.deleteUserSession(getApplicationContext(), this);
+        if(key.equals(LOGGED_IN)) {
+            sessionController.deleteUserSession(getContext(), this);
             return true;
         }
 
@@ -44,21 +41,5 @@ public class SettingsFragment extends PreferenceFragmentCompat implements BaseSe
     @Override
     public void delete() {
         LoginNavigator.newInstance().navigate(getActivity());
-    }
-
-    /**
-     *
-     * @return
-     */
-    private Context getApplicationContext() {
-        return getContext().getApplicationContext();
-    }
-
-    /**
-     *
-     * @return
-     */
-    protected BaseSessionController getSessionController() {
-        return ControllerFactory.getSessionController();
     }
 }

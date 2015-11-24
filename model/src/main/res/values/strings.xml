@@ -94,35 +94,4 @@
     <string name="drop_table_task_type_x_work_position" translatable="false">DROP TABLE IF EXISTS tasktypexworkposition;</string>
     <string name="drop_table_project" translatable="false">DROP TABLE IF EXISTS project;</string>
     <string name="drop_table_job_log" translatable="false">DROP TABLE IF EXISTS joblog;</string>
-
-    <!-- Shared Preferences Keys -->
-    <string name="key_email" translatable="false">email</string>
-    <string name="is_logged_in" translatable="false">logged_in</string>
-    <string name="preference_filename" translatable="false">timesheet_prefs</string>
-
-    <string name="session_id" translatable="false">session_id</string>
-    <string name="user_id" translatable="false">user_id</string>
-    <string name="username" translatable="false">username</string>
-    <string name="password" translatable="false">password</string>
-    <string name="auth_header" translatable="false">auth_header</string>
-    <string name="logged_in" translatable="false">logged_in</string>
-
-    <!-- Json keys -->
-    <string name="work_position" translatable="false">work_position</string>
-    <string name="id" translatable="false">id</string>
-    <string name="name" translatable="false">name</string>
-    <string name="last_name" translatable="false">lastname</string>
-    <string name="description" translatable="false">description</string>
-    <string name="task_types" translatable="false">task_types</string>
-    <string name="enabled" translatable="false">enabled</string>
-    <string name="short_name" translatable="false">short_name</string>
-    <string name="start_date" translatable="false">start_date</string>
-    <string name="date" translatable="false">date</string>
-    <string name="hours" translatable="false">hours</string>
-    <string name="observation" translatable="false">observation</string>
-    <string name="solicitude" translatable="false">solicitude</string>
-    <string name="person" translatable="false">person</string>
-    <string name="project" translatable="false">project</string>
-    <string name="task_type" translatable="false">task_type</string>
-    <string name="client" translatable="false">client</string>
 </resources>

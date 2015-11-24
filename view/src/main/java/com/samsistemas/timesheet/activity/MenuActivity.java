@@ -21,15 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
 import com.samsistemas.calendarview.util.CalendarUtil;
 import com.samsistemas.calendarview.util.TypefaceUtil;
 import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
+import com.samsistemas.timesheet.constant.SessionConstants;
 import com.samsistemas.timesheet.facade.JobLogFacade;
 import com.samsistemas.timesheet.facade.PersonFacade;
 import com.samsistemas.timesheet.model.JobLog;
@@ -50,8 +48,7 @@ import java.util.Locale;
  *
  * @author jonatan.salas
  */
-public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener {
-    private RequestQueue mRequestQueue;
+public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener, SessionConstants {
     private JobLogAdapter mAdapter;
 
     private TextView mFullName;
@@ -71,7 +68,6 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         setCalendarView();
         setRecyclerView();
 
-        mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         mDateTitle = (TextView) findViewById(R.id.date);
         mDateTitle.setTypeface(getRobotoMediumTypeface());
         mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
@@ -272,8 +268,8 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     }
 
     protected void fetchData() {
-        final SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_filename), Context.MODE_PRIVATE);
-        final long id = prefs.getLong(getString(R.string.user_id), 0);
+        final SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+        final long id = prefs.getLong(USER_ID, 0);
         new FetchPersonTask(getApplicationContext()).execute(id);
         //new FetchJobLogTask(getApplicationContext()).execute();
     }

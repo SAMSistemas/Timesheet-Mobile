@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.constant.JSONConstants;
 import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -22,7 +22,7 @@ import java.util.Locale;
 /**
  * @author jonatan.salas
  */
-public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, JSONArray> {
+public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, JSONArray>, JSONConstants {
     protected static final String TAG = ProjectEntityListParser.class.getSimpleName();
     protected static final String DATE_TEMPLATE = "dd-MM-yyyy";
     protected static ProjectEntityListParser instance = null;
@@ -35,9 +35,9 @@ public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, 
 
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonProject = jsonArray.getJSONObject(i);
-            JSONObject jsonClient = jsonProject.getJSONObject(context.getString(R.string.client));
+            JSONObject jsonClient = jsonProject.getJSONObject(CLIENT);
 
-            String dateString = jsonProject.getString(context.getString(R.string.start_date));
+            String dateString = jsonProject.getString(START_DATE);
             Date date = new Date();
 
             try {
@@ -47,12 +47,12 @@ public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, 
             }
 
             ProjectEntity projectEntity = new ProjectEntity();
-            projectEntity.setProjectId(jsonProject.getLong(context.getString(R.string.id)))
-                         .setClientId(jsonClient.getLong(context.getString(R.string.id)))
-                         .setName(jsonProject.getString(context.getString(R.string.name)))
-                         .setShortName(jsonProject.getString(context.getString(R.string.short_name)))
-                         .setStartDate(date)
-                         .setEnabled(jsonProject.getBoolean(context.getString(R.string.enabled)));
+            projectEntity.setProjectId(jsonProject.getLong(ID))
+                         .setClientId(jsonClient.getLong(ID))
+                         .setName(jsonProject.getString(NAME))
+                         .setShortName(jsonProject.getString(SHORT_NAME))
+                    .setStartDate(date)
+                         .setEnabled(jsonProject.getBoolean(ENABLED));
 
             projectEntities.add(i, projectEntity);
         }

@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.network.converter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.data.R;
+import com.samsistemas.timesheet.constant.JSONConstants;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -13,7 +13,7 @@ import org.json.JSONObject;
 /**
  * @author jonatan.salas
  */
-public class WorkPositionEntityParser implements JsonParser<WorkPositionEntity, JSONObject> {
+public class WorkPositionEntityParser implements JsonParser<WorkPositionEntity, JSONObject>, JSONConstants {
     protected static WorkPositionEntityParser instance = null;
 
     protected WorkPositionEntityParser() {}
@@ -21,10 +21,10 @@ public class WorkPositionEntityParser implements JsonParser<WorkPositionEntity, 
     @Override
     public WorkPositionEntity convert(@NonNull Context context, @NonNull JSONObject jsonObject) throws JSONException {
         final WorkPositionEntity workPositionEntity = new WorkPositionEntity();
-        final JSONObject jsonWorkPosition = jsonObject.getJSONObject(context.getString(R.string.work_position));
+        final JSONObject jsonWorkPosition = jsonObject.getJSONObject(WORK_POSITION);
 
-        workPositionEntity.setWorkPositionId(jsonWorkPosition.getLong(context.getString(R.string.id)))
-                          .setDescription(jsonWorkPosition.getString(context.getString(R.string.description)));
+        workPositionEntity.setWorkPositionId(jsonWorkPosition.getLong(ID))
+                          .setDescription(jsonWorkPosition.getString(DESCRIPTION));
 
         return workPositionEntity;
     }
