@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.constant;
 /**
  * @author jonatan.salas
  */
-public interface JSONConstants {
+public interface JSONConst {
     String ID = "id";
     String NAME = "name";
     String SHORT_NAME = "short_name";

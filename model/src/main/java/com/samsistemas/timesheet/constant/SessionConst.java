@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.constant;
 /**
  * @author jonatan.salas
  */
-public interface SessionConstants {
+public interface SessionConst {
     String SESSION_ID = "session_id";
     String USER_ID = "user_id";
     String USERNAME = "username";

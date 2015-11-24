@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.constant.SessionConstants;
+import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.facade.PersonFacade;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
@@ -31,7 +31,7 @@ import java.lang.ref.WeakReference;
  *
  * @author jonatan.salas
  */
-public class AccountActivity extends AppCompatActivity implements SessionConstants {
+public class AccountActivity extends AppCompatActivity implements SessionConst {
     private CollapsingToolbarLayout mToolbarLayout;
     private ActionBar mActionBar;
     private TextView mUsername;

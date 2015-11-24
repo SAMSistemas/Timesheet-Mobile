@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.samsistemas.timesheet.constant.JSONConstants;
+import com.samsistemas.timesheet.constant.JSONConst;
 import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -22,7 +22,7 @@ import java.util.Locale;
 /**
  * @author jonatan.salas
  */
-public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, JSONArray>, JSONConstants {
+public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, JSONArray>, JSONConst {
     protected static final String TAG = ProjectEntityListParser.class.getSimpleName();
     protected static final String DATE_TEMPLATE = "dd-MM-yyyy";
     protected static ProjectEntityListParser instance = null;

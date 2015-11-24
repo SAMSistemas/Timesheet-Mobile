@@ -6,7 +6,6 @@ import android.view.MenuItem;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
-import com.samsistemas.timesheet.constant.SessionConstants;
 import com.samsistemas.timesheet.fragment.SettingsFragment;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 import com.samsistemas.timesheet.navigation.MenuNavigator;

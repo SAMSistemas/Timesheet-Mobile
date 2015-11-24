@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.samsistemas.timesheet.constant.JSONConstants;
+import com.samsistemas.timesheet.constant.JSONConst;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -19,7 +19,7 @@ import java.util.Locale;
 /**
  * @author jonatan.salas
  */
-public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject>, JSONConstants {
+public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject>, JSONConst {
     protected static final String TAG = JobLogEntityParser.class.getSimpleName();
     protected static final String DATE_TEMPLATE = "dd-MM-yyyy";
 

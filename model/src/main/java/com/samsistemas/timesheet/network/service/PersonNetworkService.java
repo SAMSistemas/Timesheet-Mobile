@@ -3,10 +3,9 @@ package com.samsistemas.timesheet.network.service;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.constant.JSONConstants;
+import com.samsistemas.timesheet.constant.JSONConst;
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
-import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.entity.SessionEntity;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class PersonNetworkService implements NetworkService<JSONObject, String[]>, JSONConstants {
+public class PersonNetworkService implements NetworkService<JSONObject, String[]>, JSONConst {
 
     @Override
     public String[] parseNetworkResponse(@NonNull Context context, JSONObject response, String[] credentials) throws JSONException {

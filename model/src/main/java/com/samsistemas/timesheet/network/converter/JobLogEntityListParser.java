@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.network.converter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.constant.JSONConstants;
+import com.samsistemas.timesheet.constant.JSONConst;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class JobLogEntityListParser implements JsonParser<List<JobLogEntity>, JSONArray>, JSONConstants {
+public class JobLogEntityListParser implements JsonParser<List<JobLogEntity>, JSONArray>, JSONConst {
     protected static JobLogEntityListParser instance = null;
     protected JobLogEntityParser parser;
 

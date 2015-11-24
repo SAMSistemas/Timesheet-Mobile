@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.constant.SessionConstants;
+import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.facade.ClientFacade;
 import com.samsistemas.timesheet.facade.JobLogFacade;
 import com.samsistemas.timesheet.facade.ProjectFacade;
@@ -41,7 +41,7 @@ import java.util.List;
  *
  * @author jonatan.salas
  */
-public class AddHoursActivity extends AppCompatActivity implements SessionConstants {
+public class AddHoursActivity extends AppCompatActivity implements SessionConst {
     private Spinner mTaskSpinner;
     private Spinner mClientSpinner;
     private Spinner mProjectSpinner;
