@@ -9,7 +9,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:fitsSystemWindows="true"
-        android:layout_height="@dimen/calendar_app_bar_height"
+        android:layout_height="350dp"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -70,7 +70,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout android:layout_marginTop="@dimen/calendar_app_bar_height"
+    <LinearLayout android:layout_marginTop="350dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -96,27 +96,25 @@
 
         </android.support.design.widget.TextInputLayout>
 
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:fillViewport="true"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:layout_weight="2">
 
-        <TextView android:id="@+id/solicitude_number"
-            android:layout_width="wrap_content"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/solicitude_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.35"
-            android:text="Solicitude number: "/>
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin" >
 
-        <EditText android:id="@+id/solicitude_number_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.65"
-            android:inputType="number"/>
+            <EditText android:id="@+id/solicitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="Solicitude Number"
+                android:ems="10" />
 
-    </LinearLayout>
-
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton android:id="@+id/fab"

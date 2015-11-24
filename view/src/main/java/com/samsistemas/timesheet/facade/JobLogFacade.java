@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,6 +21,7 @@ import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.network.service.JobLogNetworkService;
+import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * @author jonatan.salas
@@ -110,7 +113,7 @@ public class JobLogFacade implements Facade<JobLog> {
     }
 
     @Override
-    public boolean insert(@NonNull final Context context, JobLog jobLog) {
+    public boolean insert(@NonNull final Context context, final JobLog jobLog) {
         final String baseUrl = context.getString(com.samsistemas.timesheet.data.R.string.base_url);
         final String jobLogCreateUrl = baseUrl + "/jobLog/create";
         String dateString = "";
@@ -158,7 +161,15 @@ public class JobLogFacade implements Facade<JobLog> {
                         Log.e(TAG, error.getMessage(), error.getCause());
                     }
                 }
-        );
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return AuthUtil.getAuthHeaders(new String[] {
+                        jobLog.getPerson().getUsername(),
+                        jobLog.getPerson().getPassword()
+                });
+            }
+        };
 
         requestQueue.add(jsonRequest);
 

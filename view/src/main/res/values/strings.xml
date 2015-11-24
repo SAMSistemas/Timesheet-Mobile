@@ -112,4 +112,7 @@
         <item>9</item>
      </string-array>
 
+    <string name="user_name">Usuario</string>
+    <string name="pass_word">Contraseña</string>
+
 </resources>
