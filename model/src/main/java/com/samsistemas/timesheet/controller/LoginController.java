@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.samsistemas.timesheet.constant.JSONConst;
 import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.controller.base.BaseLoginController;
 import com.samsistemas.timesheet.network.request.BasicAuthRequest;
@@ -35,7 +36,7 @@ import java.util.Map;
  *
  * @author jonatan.salas
  */
-public class LoginController implements BaseLoginController {
+public class LoginController implements BaseLoginController, JSONConst {
     protected static final String TAG = LoginController.class.getSimpleName();
     private boolean isLogged = false;
 
@@ -124,9 +125,9 @@ public class LoginController implements BaseLoginController {
 
         try {
             jobLog = new JSONObject();
-            jobLog.put("username", credentials[0])
-                  .put("month", calendar.get(Calendar.MONTH))
-                  .put("year", calendar.get(Calendar.YEAR));
+            jobLog.put(USERNAME, credentials[0])
+                  .put(MONTH, calendar.get(Calendar.MONTH))
+                  .put(YEAR, calendar.get(Calendar.YEAR));
 
         } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage(), ex.getCause());
@@ -177,14 +178,14 @@ public class LoginController implements BaseLoginController {
     }
 
     protected String getPersonUrl(@NonNull Context context) {
-        return getBaseUrl(context) + context.getString(R.string.person_url);
+        return getBaseUrl(context) + context.getString(R.string.person_show);
     }
 
     protected String getProjectUrl(@NonNull Context context) {
-        return getBaseUrl(context) + context.getString(R.string.project_url);
+        return getBaseUrl(context) + context.getString(R.string.project_all);
     }
 
     protected String getJobLogUrl(@NonNull Context context) {
-        return getBaseUrl(context) + context.getString(R.string.job_log_url);
+        return getBaseUrl(context) + context.getString(R.string.job_log_all);
     }
 }

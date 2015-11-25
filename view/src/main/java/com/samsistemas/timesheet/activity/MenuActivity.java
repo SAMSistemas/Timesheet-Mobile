@@ -2,6 +2,7 @@ package com.samsistemas.timesheet.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -10,6 +11,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,8 +31,8 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
 import com.samsistemas.timesheet.constant.SessionConst;
-import com.samsistemas.timesheet.facade.JobLogFacade;
-import com.samsistemas.timesheet.facade.PersonFacade;
+import com.samsistemas.timesheet.loader.JobLogsLoader;
+import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
@@ -49,6 +52,9 @@ import java.util.Locale;
  * @author jonatan.salas
  */
 public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener, SessionConst {
+    private static final int PERSON_LOADER_ID = 0;
+    private static final int JOBLOG_LOADER_ID = 1;
+
     private JobLogAdapter mAdapter;
 
     private TextView mFullName;
@@ -79,18 +85,22 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
                 AddHoursNavigator.newInstance().navigateWithAnimation(MenuActivity.this, view);
             }
         });
+
+        //TODO JONATAN.SALAS: Uncomment when all changes and server is available.
+        initPersonLoader();
+        initJobLogLoader();
     }
 
     @Override
     protected void onStart() {
-        fetchData();
         super.onStart();
+        initPersonLoader();
     }
 
     @Override
     protected void onResume() {
-        fetchData();
         super.onResume();
+        initPersonLoader();
         //When Current View is resumed we come to initial status. We expect the user to follow today job logs.
         //resetAdapter(getCurrentDate());
     }
@@ -209,8 +219,6 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.addHeaderView(headerView);
         navigationView.setNavigationItemSelectedListener(this);
-
-        fetchData();
     }
 
     protected void setCalendarView() {
@@ -267,57 +275,54 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         return TypefaceUtil.getCustomTypeface(getApplicationContext(), R.string.roboto_medium);
     }
 
-    protected void fetchData() {
-        final SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-        final long id = prefs.getLong(USER_ID, 0);
-        new FetchPersonTask(getApplicationContext()).execute(id);
-        //new FetchJobLogTask(getApplicationContext()).execute();
+    protected void initPersonLoader() {
+        getSupportLoaderManager().initLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
+
+            @Override
+            public Loader<Person> onCreateLoader(int id, Bundle args) {
+                SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                return new PersonLoader(getApplicationContext()).setPersonId(prefs.getLong(USER_ID, 1));
+            }
+
+            @Override
+            public void onLoadFinished(Loader<Person> loader, Person data) {
+                if (null != data) {
+                    final String fullName = data.getName() + " " + data.getLastName();
+                    final String fullUsername = data.getUsername() + getApplicationContext().getString(R.string.domain);
+                    mFullName.setText(fullName);
+                    mUsername.setText(fullUsername);
+                } else {
+                    loader.reset();
+                    Snackbar.make(mRecyclerView, "Ops, we can't load your data now..", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<Person> loader) {
+                loader.reset();
+            }
+
+        }).forceLoad();
     }
 
-    public class FetchPersonTask extends AsyncTask<Long, Void, Person> {
-        protected Context mContext;
-
-        public FetchPersonTask(Context context) {
-            this.mContext = context;
-        }
-
-        @Override
-        protected Person doInBackground(Long... params) {
-            return PersonFacade.newInstance().findById(mContext, params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Person person) {
-            if (null != person) {
-                final String fullName = person.getName() + " " + person.getLastName();
-                final String fullUsername = person.getUsername() + mContext.getString(R.string.domain);
-                mFullName.setText(fullName);
-                mUsername.setText(fullUsername);
+    protected void initJobLogLoader() {
+        getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<JobLog>>() {
+            @Override
+            public Loader<List<JobLog>> onCreateLoader(int id, Bundle args) {
+                return new JobLogsLoader(getApplicationContext());
             }
-        }
-    }
 
-    public class FetchJobLogTask extends AsyncTask<Void, Void, List<JobLog>> {
-        protected Context mContext;
-
-        public FetchJobLogTask(Context context) {
-            this.mContext = context;
-        }
-
-        @Override
-        protected List<JobLog> doInBackground(Void... params) {
-            return JobLogFacade.newInstance().findAll(mContext);
-        }
-
-        @Override
-        protected void onPostExecute(List<JobLog> jobLogs) {
-            if (null == jobLogs || jobLogs.isEmpty()) {
-                Snackbar.make(mRecyclerView, mContext.getString(R.string.error_no_available_job_logs), Snackbar.LENGTH_SHORT).show();
-            } else {
-                mAdapter = new JobLogAdapter(mContext, jobLogs);
-                mRecyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
+            @Override
+            public void onLoadFinished(Loader<List<JobLog>> loader, List<JobLog> data) {
+                if(null != data && data.size() > 0) {
+                    //TODO JONATAN.SALAS: DO STUFF..
+                }
             }
-        }
+
+            @Override
+            public void onLoaderReset(Loader<List<JobLog>> loader) {
+                loader.reset();
+            }
+        }).forceLoad();
     }
 }

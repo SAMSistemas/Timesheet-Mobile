@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +20,7 @@ import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.constant.SessionConst;
-import com.samsistemas.timesheet.facade.PersonFacade;
+import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.util.DrawableUtil;
@@ -32,13 +34,13 @@ import java.lang.ref.WeakReference;
  * @author jonatan.salas
  */
 public class AccountActivity extends AppCompatActivity implements SessionConst {
+    private static final int PERSON_LOADER_ID = 0;
+
     private CollapsingToolbarLayout mToolbarLayout;
     private ActionBar mActionBar;
     private TextView mUsername;
     private TextView mEmail;
     private TextView mWork;
-    private TextView mEnterprise;
-    private TextView mLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,22 +55,22 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
         mUsername = (TextView) findViewById(R.id.username_textview);
         mEmail = (TextView) findViewById(R.id.email_textview);
         mWork = (TextView) findViewById(R.id.work_textview);
-        mEnterprise = (TextView) findViewById(R.id.enterprise_textview);
-        mLocation = (TextView) findViewById(R.id.location_textview);
+        TextView enterprise = (TextView) findViewById(R.id.enterprise_textview);
+        TextView location = (TextView) findViewById(R.id.location_textview);
 
-        fetchData();
+        initPersonLoader();
 
         mUsername.setCompoundDrawables(getCustomDrawable(R.drawable.ic_account_box_black), null, null, null);
         mEmail.setCompoundDrawables(getCustomDrawable(R.drawable.ic_email_black), null, null, null);
         mWork.setCompoundDrawables(getCustomDrawable(R.drawable.ic_work_black), null, null, null);
-        mEnterprise.setCompoundDrawables(getCustomDrawable(R.drawable.ic_domain_black), null, null, null);
-        mLocation.setCompoundDrawables(getCustomDrawable(R.drawable.ic_location_city_black), null, null, null);
+        enterprise.setCompoundDrawables(getCustomDrawable(R.drawable.ic_domain_black), null, null, null);
+        location.setCompoundDrawables(getCustomDrawable(R.drawable.ic_location_city_black), null, null, null);
     }
 
     @Override
     protected void onResume() {
-        fetchData();
         super.onResume();
+        initPersonLoader();
     }
 
     @Override
@@ -100,11 +102,6 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
         MenuNavigator.newInstance().navigate(this);
     }
 
-    protected void fetchData() {
-        final SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-        new FetchPersonTask(getApplicationContext()).execute(prefs.getLong(USER_ID, 1));
-    }
-
     protected Drawable getCustomDrawable(@DrawableRes int id) {
         Drawable drawable = DrawableUtil.modifyDrawableColor(
                 getApplicationContext(),
@@ -118,33 +115,39 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
         return drawable;
     }
 
-    public class FetchPersonTask extends AsyncTask<Long, Void, Person> {
-        protected Context mContext;
+    protected void initPersonLoader() {
+        getSupportLoaderManager().initLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
 
-        public FetchPersonTask(Context context) {
-            this.mContext = context;
-        }
+            @Override
+            public Loader<Person> onCreateLoader(int id, Bundle args) {
+                SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                return new PersonLoader(getApplicationContext()).setPersonId(prefs.getLong(USER_ID, 1));
+            }
 
-        @Override
-        protected Person doInBackground(Long... params) {
-            final PersonFacade personFacade = PersonFacade.newInstance();
-            return personFacade.findById(mContext, params[0]);
-        }
+            @Override
+            public void onLoadFinished(Loader<Person> loader, Person data) {
+                if (null != data) {
+                    String fullName = data.getName() + " " + data.getLastName();
 
-        @Override
-        protected void onPostExecute(Person person) {
-            if(null != person) {
-                String fullName = person.getName() + " " + person.getLastName();
-
-                if (null != mActionBar)
-                    ToolbarUtil.styleWithBackButton(mActionBar, "");
+                    if (null != mActionBar)
+                        ToolbarUtil.styleWithBackButton(mActionBar, "");
                     mToolbarLayout.setTitle(fullName);
 
-                mUsername.setText(person.getUsername());
-                final String emailString = person.getUsername() + mContext.getString(R.string.domain);
-                mEmail.setText(emailString);
-                mWork.setText(person.getWorkPosition().getDescription());
+                    mUsername.setText(data.getUsername());
+                    final String emailString = data.getUsername() + getApplicationContext().getString(R.string.domain);
+                    mEmail.setText(emailString);
+                    mWork.setText(data.getWorkPosition().getDescription());
+                } else {
+                    loader.reset();
+                    Snackbar.make(mToolbarLayout, "Ops, we can't load your data now..", Snackbar.LENGTH_SHORT).show();
+                }
             }
-        }
+
+            @Override
+            public void onLoaderReset(Loader<Person> loader) {
+                loader.reset();
+            }
+
+        }).forceLoad();
     }
 }

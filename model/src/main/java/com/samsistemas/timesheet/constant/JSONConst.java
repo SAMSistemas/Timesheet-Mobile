@@ -21,4 +21,7 @@ public interface JSONConst {
     String OBSERVATION = "observation";
     String SOLICITUDE = "solicitude";
     String TASK_TYPES = "task_types";
+    String USERNAME = "username";
+    String MONTH = "month";
+    String YEAR = "year";
 }
