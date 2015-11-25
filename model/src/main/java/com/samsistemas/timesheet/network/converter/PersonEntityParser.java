@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.network.converter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.constant.JSONConst;
@@ -19,7 +18,7 @@ public class PersonEntityParser implements JsonParser<PersonEntity, JSONObject>,
     protected PersonEntityParser() {}
 
     @Override
-    public PersonEntity convert(@NonNull Context context, @NonNull JSONObject jsonObject) throws JSONException {
+    public PersonEntity convert(@NonNull JSONObject jsonObject) throws JSONException {
         final PersonEntity personEntity = new PersonEntity();
         final JSONObject jsonWorkPosition = jsonObject.getJSONObject(WORK_POSITION);
 

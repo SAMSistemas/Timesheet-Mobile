@@ -9,6 +9,7 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.service.NetworkStateService;
+import com.samsistemas.timesheet.util.DevUtil;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.fragment.VerifyConnectionFragment;
@@ -26,6 +27,8 @@ public class LoginActivity extends BaseAppCompatActivity implements BaseSessionC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Use this to check troubles
+        //DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_login);
         final ActionBar actionBar = getSupportActionBar();
 

@@ -31,27 +31,23 @@ public class PersonController implements BaseController<PersonEntity> {
     @Override
     public boolean insert(@NonNull Context context, @NonNull PersonEntity personEntity) {
         final Uri personUri = UriHelper.buildPersonUri(context);
-        final ContentValues personValues = personMapper.asContentValues(context, personEntity);
-        final PersonEntity entity = get(context, personEntity.getPersonId());
-
-        if (null != entity) {
-            return false;
-        } else {
-            final Uri resultUri = context.getContentResolver().insert(personUri, personValues);
-            return (null != resultUri);
-        }
+        final ContentValues personValues = personMapper.asContentValues(personEntity);
+        final Uri resultUri = context.getContentResolver().insert(personUri, personValues);
+        return (null != resultUri);
     }
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<PersonEntity> personEntities) {
-        int count = 0;
+        final Uri personUri = UriHelper.buildPersonUri(context);
+        final ContentValues[] personValues = new ContentValues[personEntities.size()];
 
         for(int i = 0; i < personEntities.size(); i++) {
-            boolean inserted = insert(context, personEntities.get(i));
-            if(inserted)
-                count++;
+            personValues[i] = personMapper.asContentValues(personEntities.get(i));
         }
-        return (count == personEntities.size());
+
+        int count = context.getContentResolver().bulkInsert(personUri, personValues);
+
+        return (count != 0);
     }
 
     @Override
@@ -61,7 +57,7 @@ public class PersonController implements BaseController<PersonEntity> {
         if(null != personCursor)
             personCursor.moveToFirst();
 
-        final PersonEntity personEntity = personMapper.asEntity(context, personCursor);
+        final PersonEntity personEntity = personMapper.asEntity(personCursor);
 
         if(null != personCursor && !personCursor.isClosed())
             personCursor.close();
@@ -80,7 +76,7 @@ public class PersonController implements BaseController<PersonEntity> {
     @Override
     public boolean update(@NonNull Context context, @NonNull PersonEntity personEntity) {
         final Uri personUri = UriHelper.buildPersonUri(context);
-        final ContentValues personValues = personMapper.asContentValues(context, personEntity);
+        final ContentValues personValues = personMapper.asContentValues(personEntity);
         final String whereClause = context.getString(R.string.person_id) + " =? ";
         final String[] whereArgs = new String[] { String.valueOf(personEntity.getPersonId()) };
 

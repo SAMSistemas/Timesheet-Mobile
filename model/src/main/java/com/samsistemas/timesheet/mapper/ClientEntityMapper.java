@@ -1,12 +1,10 @@
 package com.samsistemas.timesheet.mapper;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.util.ConversionUtil;
@@ -15,32 +13,36 @@ import com.samsistemas.timesheet.util.ConversionUtil;
  * @author jonatan.salas
  */
 public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
+    private static final String ID_CLIENT = "id_client";
+    private static final String NAME = "name";
+    private static final String SHORT_NAME = "short_name";
+    private static final String ENABLED = "enabled";
 
     @Override
-    public ContentValues asContentValues(@NonNull Context context, @NonNull ClientEntity clientEntity) {
+    public ContentValues asContentValues(@NonNull ClientEntity clientEntity) {
         ContentValues values = new ContentValues(4);
         int clientEnabled = ConversionUtil.booleanToInt(clientEntity.isEnabled());
 
-        values.put(context.getString(R.string.client_id), clientEntity.getClientId());
-        values.put(context.getString(R.string.client_name), clientEntity.getName());
-        values.put(context.getString(R.string.client_short_name), clientEntity.getShortName());
-        values.put(context.getString(R.string.client_enabled), clientEnabled);
+        values.put(ID_CLIENT, clientEntity.getClientId());
+        values.put(NAME, clientEntity.getName());
+        values.put(SHORT_NAME, clientEntity.getShortName());
+        values.put(ENABLED, clientEnabled);
 
         return values;
     }
 
     @Override
-    public ClientEntity asEntity(@NonNull Context context, @Nullable Cursor cursor) {
+    public ClientEntity asEntity(@Nullable Cursor cursor) {
         if (null != cursor && cursor.moveToFirst()) {
 
-            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(context.getString(R.string.client_enabled)));
+            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
             final boolean clientEnabled = ConversionUtil.intToBoolean(available);
 
             final ClientEntity clientEntity = new ClientEntity();
 
-            clientEntity.setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(context.getString(R.string.client_id))))
-                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.client_name))))
-                    .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(context.getString(R.string.client_short_name))))
+            clientEntity.setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
+                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                    .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
                     .setEnabled(clientEnabled);
 
             return clientEntity;

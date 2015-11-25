@@ -27,12 +27,12 @@ public class ProjectNetworkService implements NetworkService<JSONArray, Object> 
         final BaseController<ClientEntity> clientController = ControllerFactory.getClientController();
 
         final ProjectEntityListParser projectEntityListParser = ProjectEntityListParser.newInstance();
-        final List<ProjectEntity> projectEntities = projectEntityListParser.convert(context.getApplicationContext(), response);
+        final List<ProjectEntity> projectEntities = projectEntityListParser.convert(response);
 
         projectController.bulkInsert(context.getApplicationContext(), projectEntities);
 
         final ClientEntityListParser clientEntityListParser = ClientEntityListParser.newInstance();
-        final List<ClientEntity> clientEntities = clientEntityListParser.convert(context.getApplicationContext(), response);
+        final List<ClientEntity> clientEntities = clientEntityListParser.convert(response);
 
         return clientController.bulkInsert(context.getApplicationContext(), clientEntities);
     }

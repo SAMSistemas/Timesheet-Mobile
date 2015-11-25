@@ -22,7 +22,7 @@ public class JobLogNetworkService implements NetworkService<JSONObject, Object> 
         final BaseController<JobLogEntity> jobLogController = ControllerFactory.getJobLogController();
 
         final JobLogEntityParser jobLogEntityParser = JobLogEntityParser.newInstance();
-        final JobLogEntity jobLogEntity= jobLogEntityParser.convert(context.getApplicationContext(), response);
+        final JobLogEntity jobLogEntity= jobLogEntityParser.convert(response);
 
         return jobLogController.insert(context.getApplicationContext(), jobLogEntity);
     }

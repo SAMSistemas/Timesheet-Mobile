@@ -20,6 +20,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Use this to check troubles
+        //DevUtil.enableStrictModeChecker();
         final ActionBar actionBar = getSupportActionBar();
         if(null != actionBar)
             ToolbarUtil.styleWithBackButton(actionBar, R.string.action_settings);

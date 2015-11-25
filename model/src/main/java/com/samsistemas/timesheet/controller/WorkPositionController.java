@@ -29,28 +29,23 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
     @Override
     public boolean insert(@NonNull Context context, @NonNull WorkPositionEntity workPositionEntity) {
         final Uri workPositionUri = UriHelper.buildWorkPositionUri(context);
-        final ContentValues workPositionValues = workPositionMapper.asContentValues(context, workPositionEntity);
-        final WorkPositionEntity entity = get(context, workPositionEntity.getWorkPositionId());
-
-        if (null != entity) {
-            return false;
-        } else {
-            final Uri resultUri = context.getContentResolver().insert(workPositionUri, workPositionValues);
-            return (null != resultUri);
-        }
+        final ContentValues workPositionValues = workPositionMapper.asContentValues(workPositionEntity);
+        final Uri resultUri = context.getContentResolver().insert(workPositionUri, workPositionValues);
+        return (null != resultUri);
     }
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<WorkPositionEntity> workPositionEntities) {
-        int count = 0;
+        final Uri workPositionUri = UriHelper.buildWorkPositionUri(context);
+        final ContentValues[] workPositionValues = new ContentValues[workPositionEntities.size()];
 
         for(int i = 0; i < workPositionEntities.size(); i++) {
-            boolean inserted = insert(context, workPositionEntities.get(i));
-            if(inserted)
-                count++;
+            workPositionValues[i] = workPositionMapper.asContentValues(workPositionEntities.get(i));
         }
 
-        return (count == workPositionEntities.size());
+        int count = context.getContentResolver().bulkInsert(workPositionUri, workPositionValues);
+
+        return (count != 0);
     }
 
     @Override
@@ -58,15 +53,17 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
         final Uri workPositionUri = UriHelper.buildWorkPositionUriWithId(context, id);
         Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
 
-        if(null != workPositionCursor)
-            workPositionCursor.moveToFirst();
+        try {
+            return workPositionMapper.asEntity(workPositionCursor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(workPositionCursor!= null && !workPositionCursor.isClosed()){
+                workPositionCursor.close();
+            }
+        }
 
-        final WorkPositionEntity workPositionEntity = workPositionMapper.asEntity(context, workPositionCursor);
-
-        if(null != workPositionCursor && !workPositionCursor.isClosed())
-            workPositionCursor.isClosed();
-
-        return workPositionEntity;
+        return new WorkPositionEntity();
     }
 
     @Override
@@ -80,7 +77,7 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
     @Override
     public boolean update(@NonNull Context context, @NonNull WorkPositionEntity workPositionEntity) {
         final Uri workPositionUri = UriHelper.buildWorkPositionUri(context);
-        final ContentValues workPositionValues = workPositionMapper.asContentValues(context, workPositionEntity);
+        final ContentValues workPositionValues = workPositionMapper.asContentValues(workPositionEntity);
         final String whereClause = context.getString(R.string.work_position_id) + " =? ";
         final String[] whereArgs = new String[] { String.valueOf(workPositionEntity.getWorkPositionId()) };
 

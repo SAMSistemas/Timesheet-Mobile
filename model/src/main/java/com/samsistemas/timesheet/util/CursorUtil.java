@@ -26,7 +26,7 @@ public class CursorUtil {
 
             if (null != cursor && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
-                    entityList.add(mapper.asEntity(context, cursor));
+                    entityList.add(mapper.asEntity(cursor));
                     cursor.moveToNext();
                 }
             }

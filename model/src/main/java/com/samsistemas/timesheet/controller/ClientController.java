@@ -31,28 +31,23 @@ public class ClientController implements BaseController<ClientEntity> {
     @Override
     public boolean insert(@NonNull Context context, @NonNull ClientEntity clientEntity) {
         final Uri clientUri = UriHelper.buildClientUri(context);
-        final ContentValues clientValues = clientMapper.asContentValues(context, clientEntity);
-        final ClientEntity entity = get(context, clientEntity.getClientId());
-
-        if (null != entity) {
-            return false;
-        } else {
-            final Uri resultUri = context.getContentResolver().insert(clientUri, clientValues);
-            return (null != resultUri);
-        }
+        final ContentValues clientValues = clientMapper.asContentValues(clientEntity);
+        final Uri resultUri = context.getContentResolver().insert(clientUri, clientValues);
+        return (null != resultUri);
     }
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<ClientEntity> clientEntities) {
-        int count = 0;
+        final Uri clientUri = UriHelper.buildClientUri(context);
+        final ContentValues[] clientValues = new ContentValues[clientEntities.size()];
 
         for(int i = 0; i < clientEntities.size(); i++) {
-            boolean inserted = insert(context, clientEntities.get(i));
-            if(inserted)
-                count++;
+            clientValues[i] = clientMapper.asContentValues(clientEntities.get(i));
         }
 
-        return (count == clientEntities.size());
+        int count = context.getContentResolver().bulkInsert(clientUri, clientValues);
+
+        return (count != 0);
     }
 
     @Override
@@ -62,7 +57,7 @@ public class ClientController implements BaseController<ClientEntity> {
         if(null != clientCursor)
             clientCursor.moveToFirst();
 
-        final ClientEntity clientEntity = clientMapper.asEntity(context, clientCursor);
+        final ClientEntity clientEntity = clientMapper.asEntity(clientCursor);
 
         if(null != clientCursor && !clientCursor.isClosed())
             clientCursor.close();
@@ -81,7 +76,7 @@ public class ClientController implements BaseController<ClientEntity> {
     @Override
     public boolean update(@NonNull Context context, @NonNull ClientEntity clientEntity) {
         final Uri clientUri = UriHelper.buildClientUri(context);
-        final ContentValues clientValues = clientMapper.asContentValues(context, clientEntity);
+        final ContentValues clientValues = clientMapper.asContentValues(clientEntity);
         final String whereClause = context.getString(R.string.client_id) + " =? ";
         final String[] whereArgs = new String[] { String.valueOf(clientEntity.getClientId()) };
 

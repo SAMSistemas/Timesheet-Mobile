@@ -31,27 +31,21 @@ public class TaskTypeController implements BaseController<TaskTypeEntity> {
     @Override
     public boolean insert(@NonNull Context context, @NonNull TaskTypeEntity taskTypeEntity) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUri(context);
-        final ContentValues taskTypeValues = taskTypeMapper.asContentValues(context, taskTypeEntity);
-        final TaskTypeEntity entity = get(context, taskTypeEntity.getTaskTypeId());
-
-        if (null != entity && entity.getTaskTypeId() == taskTypeEntity.getTaskTypeId()) {
-            return false;
-        } else {
-            final Uri resultUri = context.getContentResolver().insert(taskTypeUri, taskTypeValues);
-            return (null != resultUri);
-        }
+        final ContentValues taskTypeValues = taskTypeMapper.asContentValues(taskTypeEntity);
+        final Uri resultUri = context.getContentResolver().insert(taskTypeUri, taskTypeValues);
+        return (null != resultUri);
     }
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<TaskTypeEntity> taskTypeEntities) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUri(context);
-        final ContentValues[] values = new ContentValues[taskTypeEntities.size()];
+        final ContentValues[] taskTypeValues = new ContentValues[taskTypeEntities.size()];
 
         for(int i = 0; i < taskTypeEntities.size(); i++) {
-            values[i] = taskTypeMapper.asContentValues(context, taskTypeEntities.get(i));
+            taskTypeValues[i] = taskTypeMapper.asContentValues(taskTypeEntities.get(i));
         }
 
-        int count = context.getContentResolver().bulkInsert(taskTypeUri, values);
+        int count = context.getContentResolver().bulkInsert(taskTypeUri, taskTypeValues);
 
         return (count != 0);
     }
@@ -64,7 +58,7 @@ public class TaskTypeController implements BaseController<TaskTypeEntity> {
         if(null != taskTypeCursor)
             taskTypeCursor.moveToFirst();
 
-        final TaskTypeEntity taskTypeEntity = taskTypeMapper.asEntity(context, taskTypeCursor);
+        final TaskTypeEntity taskTypeEntity = taskTypeMapper.asEntity(taskTypeCursor);
 
         if(null != taskTypeCursor && taskTypeCursor.isClosed())
             taskTypeCursor.close();
@@ -83,7 +77,7 @@ public class TaskTypeController implements BaseController<TaskTypeEntity> {
     @Override
     public boolean update(@NonNull Context context, @NonNull TaskTypeEntity taskTypeEntity) {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUri(context);
-        final ContentValues taskTypeValues = taskTypeMapper.asContentValues(context, taskTypeEntity);
+        final ContentValues taskTypeValues = taskTypeMapper.asContentValues(taskTypeEntity);
         final String whereClause = context.getString(R.string.task_type_id) + " =? ";
         final String[] whereArgs = new String[] { String.valueOf(taskTypeEntity.getTaskTypeId()) };
 

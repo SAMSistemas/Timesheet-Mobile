@@ -38,17 +38,17 @@ public class PersonNetworkService implements NetworkService<JSONObject, String[]
         final BaseController<TaskTypeEntity> taskTypeController = ControllerFactory.getTaskTypeController();
 
         final WorkPositionEntityParser workPositionParser = WorkPositionEntityParser.newInstance();
-        final WorkPositionEntity workPositionEntity = workPositionParser.convert(context.getApplicationContext(), response);
+        final WorkPositionEntity workPositionEntity = workPositionParser.convert(response);
 
         final PersonEntityParser personEntityParser = PersonEntityParser.newInstance();
-        final PersonEntity personEntity = personEntityParser.convert(context.getApplicationContext(), response);
+        final PersonEntity personEntity = personEntityParser.convert(response);
 
         personEntity.setUsername(username)
                     .setPassword(password);
 
         final JSONArray jsonTaskTypeArray = response.getJSONArray(TASK_TYPES);
         final TaskTypeEntityListParser taskTypeEntityListParser = TaskTypeEntityListParser.newInstance();
-        List<TaskTypeEntity> taskTypeEntities = taskTypeEntityListParser.convert(context.getApplicationContext(), jsonTaskTypeArray);
+        List<TaskTypeEntity> taskTypeEntities = taskTypeEntityListParser.convert(jsonTaskTypeArray);
 
         taskTypeController.bulkInsert(context.getApplicationContext(), taskTypeEntities);
         workPositionController.insert(context.getApplicationContext(), workPositionEntity);

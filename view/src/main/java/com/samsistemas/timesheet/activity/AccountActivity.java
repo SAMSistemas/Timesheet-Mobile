@@ -23,6 +23,7 @@ import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
+import com.samsistemas.timesheet.util.DevUtil;
 import com.samsistemas.timesheet.util.DrawableUtil;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 import com.samsistemas.timesheet.fragment.ChangePasswordFragment;
@@ -37,7 +38,6 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
     private static final int PERSON_LOADER_ID = 0;
 
     private CollapsingToolbarLayout mToolbarLayout;
-    private ActionBar mActionBar;
     private TextView mUsername;
     private TextView mEmail;
     private TextView mWork;
@@ -45,11 +45,15 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Use this to check troubles
+        //DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_accounts);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mActionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
+        if (null != actionBar)
+            ToolbarUtil.styleWithBackButton(actionBar, "");
 
         mToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         mUsername = (TextView) findViewById(R.id.username_textview);
@@ -65,12 +69,6 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
         mWork.setCompoundDrawables(getCustomDrawable(R.drawable.ic_work_black), null, null, null);
         enterprise.setCompoundDrawables(getCustomDrawable(R.drawable.ic_domain_black), null, null, null);
         location.setCompoundDrawables(getCustomDrawable(R.drawable.ic_location_city_black), null, null, null);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initPersonLoader();
     }
 
     @Override
@@ -128,9 +126,6 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
             public void onLoadFinished(Loader<Person> loader, Person data) {
                 if (null != data) {
                     String fullName = data.getName() + " " + data.getLastName();
-
-                    if (null != mActionBar)
-                        ToolbarUtil.styleWithBackButton(mActionBar, "");
                     mToolbarLayout.setTitle(fullName);
 
                     mUsername.setText(data.getUsername());

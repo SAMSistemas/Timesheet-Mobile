@@ -31,28 +31,23 @@ public class JobLogController implements BaseController<JobLogEntity> {
     @Override
     public boolean insert(@NonNull Context context, @NonNull JobLogEntity jobLogEntity) {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
-        final ContentValues jobLogValues = joblogMapper.asContentValues(context, jobLogEntity);
-        final JobLogEntity entity = get(context, jobLogEntity.getJobLogId());
-
-        if (null != entity) {
-            return false;
-        } else {
-            final Uri resultUri = context.getContentResolver().insert(jobLogUri, jobLogValues);
-            return (null != resultUri);
-        }
+        final ContentValues jobLogValues = joblogMapper.asContentValues(jobLogEntity);
+        final Uri resultUri = context.getContentResolver().insert(jobLogUri, jobLogValues);
+        return (null != resultUri);
     }
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<JobLogEntity> jobLogEntities) {
-        int count = 0;
+        final Uri jobLogUri = UriHelper.buildJobLogUri(context);
+        final ContentValues[] jobLogValues = new ContentValues[jobLogEntities.size()];
 
         for(int i = 0; i < jobLogEntities.size(); i++) {
-            boolean inserted = insert(context, jobLogEntities.get(i));
-            if(inserted)
-                count++;
+            jobLogValues[i] = joblogMapper.asContentValues(jobLogEntities.get(i));
         }
 
-        return (count == jobLogEntities.size());
+        int count = context.getContentResolver().bulkInsert(jobLogUri, jobLogValues);
+
+        return (count != 0);
     }
 
     @Override
@@ -62,7 +57,7 @@ public class JobLogController implements BaseController<JobLogEntity> {
         if(null != jobLogCursor)
             jobLogCursor.moveToFirst();
 
-        final JobLogEntity jobLogEntity = joblogMapper.asEntity(context, jobLogCursor);
+        final JobLogEntity jobLogEntity = joblogMapper.asEntity(jobLogCursor);
 
         if(null != jobLogCursor && !jobLogCursor.isClosed())
             jobLogCursor.close();
@@ -81,7 +76,7 @@ public class JobLogController implements BaseController<JobLogEntity> {
     @Override
     public boolean update(@NonNull Context context, @NonNull JobLogEntity jobLogEntity) {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
-        final ContentValues jobLogValues = joblogMapper.asContentValues(context, jobLogEntity);
+        final ContentValues jobLogValues = joblogMapper.asContentValues(jobLogEntity);
         final String whereClause = context.getString(R.string.job_log_id) + " =? ";
         final String[] whereArgs = new String[] { String.valueOf(jobLogEntity.getJobLogId()) };
 

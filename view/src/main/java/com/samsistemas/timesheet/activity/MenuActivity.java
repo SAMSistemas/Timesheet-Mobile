@@ -2,9 +2,7 @@ package com.samsistemas.timesheet.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -39,6 +37,7 @@ import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
+import com.samsistemas.timesheet.util.DevUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -67,6 +66,8 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Use this to check troubles
+        //DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_menu);
         setTitle(R.string.action_view_calendar);
         setToolbar();
@@ -86,21 +87,19 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
             }
         });
 
-        //TODO JONATAN.SALAS: Uncomment when all changes and server is available.
         initPersonLoader();
         initJobLogLoader();
     }
 
     @Override
     protected void onStart() {
+        restartPersonLoader();
         super.onStart();
-        initPersonLoader();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initPersonLoader();
         //When Current View is resumed we come to initial status. We expect the user to follow today job logs.
         //resetAdapter(getCurrentDate());
     }
@@ -302,6 +301,34 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
                 loader.reset();
             }
 
+        }).forceLoad();
+    }
+
+    protected void restartPersonLoader() {
+        getSupportLoaderManager().restartLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
+            @Override
+            public Loader<Person> onCreateLoader(int id, Bundle args) {
+                SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+                return new PersonLoader(getApplicationContext()).setPersonId(prefs.getLong(USER_ID, 1));
+            }
+
+            @Override
+            public void onLoadFinished(Loader<Person> loader, Person data) {
+                if (null != data) {
+                    final String fullName = data.getName() + " " + data.getLastName();
+                    final String fullUsername = data.getUsername() + getApplicationContext().getString(R.string.domain);
+                    mFullName.setText(fullName);
+                    mUsername.setText(fullUsername);
+                } else {
+                    loader.reset();
+                    Snackbar.make(mRecyclerView, "Ops, we can't load your data now..", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<Person> loader) {
+                loader.reset();
+            }
         }).forceLoad();
     }
 

@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.network.converter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -28,7 +27,7 @@ public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject>,
     protected JobLogEntityParser() {}
 
     @Override
-    public JobLogEntity convert(@NonNull Context context, @NonNull JSONObject json) throws JSONException {
+    public JobLogEntity convert(@NonNull JSONObject json) throws JSONException {
         JSONObject jsonPerson = json.getJSONObject(PERSON);
         JSONObject jsonProject = json.getJSONObject(PROJECT);
         JSONObject jsonTaskType = json.getJSONObject(TASK_TYPE);

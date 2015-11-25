@@ -31,6 +31,7 @@ import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
+import com.samsistemas.timesheet.util.DevUtil;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Use this to check troubles
+        //DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_add_hours);
         setToolbar();
         setTaskSpinner();

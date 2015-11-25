@@ -8,7 +8,7 @@
         android:supportsRtl="true">
 
         <provider android:authorities="com.samsistemas.timesheet.provider"
-            android:name="com.samsistemas.timesheet.provider.DataProvider"
+            android:name="com.samsistemas.timesheet.provider.DatabaseProvider"
             android:enabled="true"
             android:exported="false"/>
 

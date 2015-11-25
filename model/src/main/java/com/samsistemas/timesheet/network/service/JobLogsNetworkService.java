@@ -24,7 +24,7 @@ public class JobLogsNetworkService implements NetworkService<JSONArray, Object> 
         final BaseController<JobLogEntity> jobLogController = ControllerFactory.getJobLogController();
 
         final JobLogEntityListParser jobLogEntityListParser = JobLogEntityListParser.newInstance();
-        final List<JobLogEntity> jobLogEntities = jobLogEntityListParser.convert(context.getApplicationContext(), response);
+        final List<JobLogEntity> jobLogEntities = jobLogEntityListParser.convert(response);
 
         return jobLogController.bulkInsert(context.getApplicationContext(), jobLogEntities);
     }

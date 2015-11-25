@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.network.converter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.constant.JSONConst;
@@ -26,12 +25,12 @@ public class JobLogEntityListParser implements JsonParser<List<JobLogEntity>, JS
     }
 
     @Override
-    public List<JobLogEntity> convert(@NonNull Context context, @NonNull JSONArray jsonArray) throws JSONException {
+    public List<JobLogEntity> convert(@NonNull JSONArray jsonArray) throws JSONException {
         final List<JobLogEntity> jobLogEntities = new ArrayList<>(jsonArray.length());
 
         for(int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonJobLog = jsonArray.getJSONObject(i);
-            JobLogEntity jobLogEntity = parser.convert(context, jsonJobLog);
+            JobLogEntity jobLogEntity = parser.convert(jsonJobLog);
             jobLogEntities.add(i, jobLogEntity);
         }
 

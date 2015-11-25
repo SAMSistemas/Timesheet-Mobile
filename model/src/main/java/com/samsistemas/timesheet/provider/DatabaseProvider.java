@@ -22,7 +22,7 @@ import com.samsistemas.timesheet.helper.UriHelper;
  *
  * @author jonatan.salas
  */
-public class DataProvider extends ContentProvider implements ContentUri {
+public class DatabaseProvider extends ContentProvider implements ContentUri {
     private UriMatcher mUriMatcher;
     private Database mDatabase;
     private Context mContext;
@@ -272,7 +272,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
                     mContext.getString(tableName),
                     null,
                     values,
-                    SQLiteDatabase.CONFLICT_IGNORE
+                    SQLiteDatabase.CONFLICT_REPLACE
             );
         }
 
@@ -324,7 +324,7 @@ public class DataProvider extends ContentProvider implements ContentUri {
                         mContext.getString(tableName),
                         null,
                         value,
-                        SQLiteDatabase.CONFLICT_IGNORE
+                        SQLiteDatabase.CONFLICT_REPLACE
                 );
 
                 if(-1 != id) {

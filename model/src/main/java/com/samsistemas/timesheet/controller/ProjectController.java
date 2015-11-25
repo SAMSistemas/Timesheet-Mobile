@@ -31,43 +31,41 @@ public class ProjectController implements BaseController<ProjectEntity> {
     @Override
     public boolean insert(@NonNull Context context, @NonNull ProjectEntity projectEntity) {
         final Uri projectUri = UriHelper.buildProjectUri(context);
-        final ContentValues projectValues = projectMapper.asContentValues(context, projectEntity);
-        final ProjectEntity entity = get(context, projectEntity.getProjectId());
-
-        if (null != entity) {
-            return false;
-        } else {
-            final Uri resultUri = context.getContentResolver().insert(projectUri, projectValues);
-            return (null != resultUri);
-        }
+        final ContentValues projectValues = projectMapper.asContentValues(projectEntity);
+        final Uri resultUri = context.getContentResolver().insert(projectUri, projectValues);
+        return (null != resultUri);
     }
 
     @Override
     public boolean bulkInsert(@NonNull Context context, @NonNull List<ProjectEntity> projectEntities) {
-        int count = 0;
+        final Uri projectUri = UriHelper.buildProjectUri(context);
+        ContentValues[] projectValues = new ContentValues[projectEntities.size()];
 
         for(int i = 0; i < projectEntities.size(); i++) {
-            boolean inserted = insert(context, projectEntities.get(i));
-            if(inserted)
-                count++;
+            projectValues[i] = projectMapper.asContentValues(projectEntities.get(i));
         }
 
-        return (count == projectEntities.size());
+        int count = context.getContentResolver().bulkInsert(projectUri, projectValues);
+
+        return (count != 0);
     }
 
     @Override
     public ProjectEntity get(@NonNull Context context, long id) {
         final Uri projectUri = UriHelper.buildProjectUriWithId(context, id);
         Cursor projectCursor = context.getContentResolver().query(projectUri, null, null, null, null);
-        if(null != projectCursor)
-            projectCursor.moveToFirst();
 
-        final ProjectEntity projectEntity = projectMapper.asEntity(context, projectCursor);
+        try {
+            return projectMapper.asEntity(projectCursor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(projectCursor!= null && !projectCursor.isClosed()){
+                projectCursor.close();
+            }
+        }
 
-        if(null != projectCursor && !projectCursor.isClosed())
-            projectCursor.isClosed();
-
-        return projectEntity;
+        return new ProjectEntity();
     }
 
     @Override
@@ -81,7 +79,7 @@ public class ProjectController implements BaseController<ProjectEntity> {
     @Override
     public boolean update(@NonNull Context context, @NonNull ProjectEntity projectEntity) {
         final Uri projectUri = UriHelper.buildProjectUri(context);
-        final ContentValues projectValues = projectMapper.asContentValues(context, projectEntity);
+        final ContentValues projectValues = projectMapper.asContentValues(projectEntity);
         final String whereClause = context.getString(R.string.project_id) + " =? ";
         final String[] whereArgs = new String[] { String.valueOf(projectEntity.getProjectId()) };
 

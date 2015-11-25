@@ -65,7 +65,6 @@ public class TestUtilities {
     public static ContentValues getClient(@NonNull Context context) {
         final EntityMapper<ClientEntity, Cursor> mapper = new ClientEntityMapper();
         return mapper.asContentValues(
-                context,
                 new ClientEntity()
                 .setClientId(1)
                 .setName("fulanito")
@@ -81,7 +80,6 @@ public class TestUtilities {
     public static ContentValues getWorkPosition(@NonNull Context context) {
         final EntityMapper<WorkPositionEntity, Cursor> mapper = new WorkPositionEntityMapper();
         return mapper.asContentValues(
-                context,
                 new WorkPositionEntity()
                 .setWorkPositionId(1)
                 .setDescription("Developer")
@@ -95,7 +93,6 @@ public class TestUtilities {
     public static ContentValues getPerson(@NonNull Context context, long id) {
         final EntityMapper<PersonEntity, Cursor> mapper = new PersonEntityMapper();
         return mapper.asContentValues(
-                context,
                 new PersonEntity()
                 .setPersonId(1)
                 .setName("Jonatan")
@@ -116,7 +113,6 @@ public class TestUtilities {
     public static ContentValues getTaskType(@NonNull Context context) {
         final EntityMapper<TaskTypeEntity, Cursor> mapper = new TaskTypeEntityMapper();
         return mapper.asContentValues(
-                context,
                 new TaskTypeEntity()
                 .setTaskTypeId(1)
                 .setName("Programación")
@@ -132,7 +128,6 @@ public class TestUtilities {
     public static ContentValues getProject(@NonNull Context context, long clientId) {
         final EntityMapper<ProjectEntity, Cursor> mapper = new ProjectEntityMapper();
         return  mapper.asContentValues(
-                context,
                 new ProjectEntity()
                 .setProjectId(1)
                 .setClientId(clientId)
@@ -152,7 +147,7 @@ public class TestUtilities {
      */
     public static ContentValues getJobLog(@NonNull Context context, long projectId, long personId, long taskTypeId) {
         final EntityMapper<JobLogEntity, Cursor> mapper = new JobLogEntityMapper();
-        return  mapper.asContentValues(context,
+        return  mapper.asContentValues(
                 new JobLogEntity()
                 .setJobLogId(1)
                 .setProjectId(projectId)

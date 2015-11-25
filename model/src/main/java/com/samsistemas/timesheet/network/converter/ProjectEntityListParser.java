@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.network.converter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -30,7 +29,7 @@ public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, 
     protected ProjectEntityListParser() {}
 
     @Override
-    public List<ProjectEntity> convert(@NonNull Context context, @NonNull JSONArray jsonArray) throws JSONException {
+    public List<ProjectEntity> convert(@NonNull JSONArray jsonArray) throws JSONException {
         final List<ProjectEntity> projectEntities = new ArrayList<>(jsonArray.length());
 
         for(int i = 0; i < jsonArray.length(); i++) {
@@ -51,7 +50,7 @@ public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, 
                          .setClientId(jsonClient.getLong(ID))
                          .setName(jsonProject.getString(NAME))
                          .setShortName(jsonProject.getString(SHORT_NAME))
-                    .setStartDate(date)
+                         .setStartDate(date)
                          .setEnabled(jsonProject.getBoolean(ENABLED));
 
             projectEntities.add(i, projectEntity);
