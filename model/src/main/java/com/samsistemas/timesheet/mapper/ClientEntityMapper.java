@@ -38,14 +38,11 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
             final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
             final boolean clientEnabled = ConversionUtil.intToBoolean(available);
 
-            final ClientEntity clientEntity = new ClientEntity();
-
-            clientEntity.setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
+            return new ClientEntity()
+                    .setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
                     .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
                     .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
                     .setEnabled(clientEnabled);
-
-            return clientEntity;
         }
 
         return null;

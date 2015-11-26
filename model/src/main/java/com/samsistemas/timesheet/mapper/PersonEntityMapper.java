@@ -24,7 +24,7 @@ public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
     private static final String PICTURE = "picture";
     private static final String ENABLED = "enabled";
 
-    @Override
+   @Override
     public ContentValues asContentValues(@NonNull PersonEntity personEntity) {
         ContentValues values = new ContentValues(7);
         int personEnabled = ConversionUtil.booleanToInt(personEntity.isEnabled());
@@ -52,9 +52,8 @@ public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
             final Drawable personPicture = ConversionUtil.byteArrayToDrawable(profile);
             final boolean personEnabled = ConversionUtil.intToBoolean(available);
 
-            final PersonEntity personEntity = new PersonEntity();
-
-            personEntity.setPersonId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_PERSON)))
+            return  new PersonEntity()
+                    .setPersonId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_PERSON)))
                     .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
                     .setLastName(cursor.getString(cursor.getColumnIndexOrThrow(LAST_NAME)))
                     .setUsername(cursor.getString(cursor.getColumnIndexOrThrow(USERNAME)))
@@ -63,8 +62,6 @@ public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
                     .setWorkHours(cursor.getInt(cursor.getColumnIndexOrThrow(WORK_HOURS)))
                     .setPicture(personPicture)
                     .setEnabled(personEnabled);
-
-            return personEntity;
         }
 
         return null;

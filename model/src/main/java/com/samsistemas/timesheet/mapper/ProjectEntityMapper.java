@@ -39,21 +39,18 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
 
     @Override
     public ProjectEntity asEntity(@Nullable Cursor cursor) {
-        if (null != cursor && cursor.moveToFirst()) {
+        if (null != cursor) {
             final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
             final long millis = cursor.getLong(cursor.getColumnIndexOrThrow(START_DATE));
             final boolean projectEnabled = ConversionUtil.intToBoolean(available);
 
-            final ProjectEntity projectEntity = new ProjectEntity();
-
-            projectEntity.setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)))
+            return  new ProjectEntity()
+                    .setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)))
                     .setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
                     .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
                     .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
                     .setStartDate(new Date(millis))
                     .setEnabled(projectEnabled);
-
-            return projectEntity;
         }
 
         return null;

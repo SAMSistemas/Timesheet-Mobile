@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.util;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +16,7 @@ import java.util.List;
 public class CursorUtil {
     private static final String LOG_TAG = CursorUtil.class.getSimpleName();
 
-    public static <T> List<T> asEntityList(@NonNull Context context, @Nullable Cursor cursor, @NonNull EntityMapper<T, Cursor> mapper) {
+    public static <T> List<T> asEntityList(@Nullable Cursor cursor, @NonNull EntityMapper<T, Cursor> mapper) {
         List<T> entityList = new ArrayList<>();
 
         try {

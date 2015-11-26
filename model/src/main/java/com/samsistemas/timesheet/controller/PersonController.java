@@ -70,7 +70,7 @@ public class PersonController implements BaseController<PersonEntity> {
         final Uri personUri = UriHelper.buildPersonUri(context);
         Cursor personsCursor = context.getContentResolver().query(personUri, null, null, null, null);
 
-        return CursorUtil.asEntityList(context, personsCursor, personMapper);
+        return CursorUtil.asEntityList(personsCursor, personMapper);
     }
 
     @Override

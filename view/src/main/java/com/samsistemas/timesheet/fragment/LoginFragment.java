@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -200,32 +201,45 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Vie
             Snackbar.make(view, context.getString(R.string.password_error), Snackbar.LENGTH_LONG).show();
         } else {
             final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            NetworkRequest networkRequest = new NetworkRequest(
-                    Request.Method.GET,
-                    URLHelper.buildLoginUrl(getApplicationContext()),
-                    new Response.Listener<NetworkResponse>() {
-                        @Override
-                        public void onResponse(NetworkResponse response) {
-                            if(response.statusCode == 200) {
-                                MenuNavigator.newInstance().navigateWithAnimation(getActivity(), view);
-                                fetchWorkingData(requestQueue, view, credentials);
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e(TAG, error.getMessage(), error.getCause());
-                            final int statusCode = error.networkResponse.statusCode;
-                            if(statusCode == 401) {
-                                Snackbar.make(view, "Invalid credentials!!", Snackbar.LENGTH_SHORT).show();
-                            }
-                        }
-                    },
-                    credentials
-            );
+            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AppTheme_Dialog);
+            builder.setView(R.layout.authentication_dialog);
+            builder.setCancelable(true);
 
-            requestQueue.add(networkRequest);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+
+            try {
+                Thread.sleep(1500);
+                NetworkRequest networkRequest = new NetworkRequest(
+                        Request.Method.GET,
+                        URLHelper.buildLoginUrl(getApplicationContext()),
+                        new Response.Listener<NetworkResponse>() {
+                            @Override
+                            public void onResponse(NetworkResponse response) {
+                                if (response.statusCode == 200) {
+                                    alertDialog.dismiss();
+                                    MenuNavigator.newInstance().navigateWithAnimation(getActivity(), view);
+                                    fetchWorkingData(requestQueue, view, credentials);
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e(TAG, error.getMessage(), error.getCause());
+                                final int statusCode = error.networkResponse.statusCode;
+                                if (statusCode == 401) {
+                                    alertDialog.dismiss();
+                                    Snackbar.make(view, "Invalid credentials!!", Snackbar.LENGTH_SHORT).show();
+                                }
+                            }
+                        },
+                        credentials
+                );
+
+                requestQueue.add(networkRequest);
+            } catch (InterruptedException ex) {
+                Log.e(TAG, ex.getMessage(), ex.getCause());            }
         }
     }
 
@@ -354,10 +368,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Vie
         requestQueue.add(jobLogRequest);
     }
 
-    /**
-     *
-     * @param enabled
-     */
     protected void checkNullability(@NonNull final Boolean enabled) {
         if(null != mUsernameInput) {
             mUsernameInput.setFocusable(enabled);

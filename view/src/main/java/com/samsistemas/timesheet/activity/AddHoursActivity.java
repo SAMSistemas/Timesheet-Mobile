@@ -59,7 +59,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Use this to check troubles
-        //DevUtil.enableStrictModeChecker();
+        DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_add_hours);
         setToolbar();
         setTaskSpinner();
@@ -68,12 +68,6 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         setClientSpinner();
         fetchData();
         saveJobLog();
-    }
-
-    @Override
-    protected void onResume() {
-        fetchData();
-        super.onResume();
     }
 
     @Override
@@ -203,7 +197,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
                         .setSolicitude(solicitudeNumber)
                         .setWorkDate(new Date(System.currentTimeMillis()))
                         .setPerson(person.setUsername(username)
-                                .setPassword(password))
+                                         .setPassword(password))
                         .setProject(project)
                         .setTaskType(taskType);
 

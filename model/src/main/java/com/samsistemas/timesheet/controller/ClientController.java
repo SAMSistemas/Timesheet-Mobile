@@ -70,7 +70,7 @@ public class ClientController implements BaseController<ClientEntity> {
         final Uri clientUri = UriHelper.buildClientUri(context);
         Cursor clientsCursor = context.getContentResolver().query(clientUri, null, null, null, null);
 
-        return CursorUtil.asEntityList(context, clientsCursor, clientMapper);
+        return CursorUtil.asEntityList(clientsCursor, clientMapper);
     }
 
     @Override

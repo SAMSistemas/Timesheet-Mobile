@@ -44,9 +44,8 @@ public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
         if(null != cursor && cursor.moveToFirst()) {
             long millis = cursor.getLong(cursor.getColumnIndexOrThrow(WORK_DATE));
 
-            final JobLogEntity jobLogEntity = new JobLogEntity();
-
-            jobLogEntity.setJobLogId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_JOBLOG)))
+            new JobLogEntity()
+                    .setJobLogId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_JOBLOG)))
                     .setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)))
                     .setPersonId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PERSON)))
                     .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)))
@@ -54,8 +53,6 @@ public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
                     .setWorkDate(new Date(millis))
                     .setSolicitude(cursor.getInt(cursor.getColumnIndexOrThrow(SOLICITUDE_NUMBER)))
                     .setObservations(cursor.getString(cursor.getColumnIndexOrThrow(OBSERVATIONS)));
-
-            return jobLogEntity;
         }
 
         return null;

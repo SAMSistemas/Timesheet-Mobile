@@ -71,7 +71,7 @@ public class TaskTypeController implements BaseController<TaskTypeEntity> {
         final Uri taskTypeUri = UriHelper.buildTaskTypeUri(context);
         Cursor taskTypeCursor = context.getContentResolver().query(taskTypeUri, null, null, null, null);
 
-        return CursorUtil.asEntityList(context, taskTypeCursor, taskTypeMapper);
+        return CursorUtil.asEntityList(taskTypeCursor, taskTypeMapper);
     }
 
     @Override

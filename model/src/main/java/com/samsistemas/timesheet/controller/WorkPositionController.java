@@ -71,7 +71,7 @@ public class WorkPositionController implements BaseController<WorkPositionEntity
         final Uri workPositionUri = UriHelper.buildWorkPositionUri(context);
         Cursor workPositionCursor = context.getContentResolver().query(workPositionUri, null, null, null, null);
 
-        return CursorUtil.asEntityList(context, workPositionCursor, workPositionMapper);
+        return CursorUtil.asEntityList(workPositionCursor, workPositionMapper);
     }
 
     @Override

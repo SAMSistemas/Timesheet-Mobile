@@ -73,7 +73,7 @@ public class ProjectController implements BaseController<ProjectEntity> {
         final Uri projectsUri = UriHelper.buildProjectUri(context);
         Cursor projectsCursor = context.getContentResolver().query(projectsUri, null, null, null, null);
 
-        return CursorUtil.asEntityList(context, projectsCursor, projectMapper);
+        return CursorUtil.asEntityList(projectsCursor, projectMapper);
     }
 
     @Override

@@ -70,7 +70,7 @@ public class JobLogController implements BaseController<JobLogEntity> {
         final Uri jobLogUri = UriHelper.buildJobLogUri(context);
         Cursor jobLogsCursor = context.getContentResolver().query(jobLogUri, null, null, null, null);
 
-        return CursorUtil.asEntityList(context, jobLogsCursor, joblogMapper);
+        return CursorUtil.asEntityList(jobLogsCursor, joblogMapper);
     }
 
     @Override

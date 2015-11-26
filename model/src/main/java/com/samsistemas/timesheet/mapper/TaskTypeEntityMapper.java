@@ -35,13 +35,10 @@ public class TaskTypeEntityMapper implements EntityMapper<TaskTypeEntity, Cursor
             final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
             final boolean taskTypeEnabled = ConversionUtil.intToBoolean(available);
 
-            final TaskTypeEntity taskTypeEntity = new TaskTypeEntity();
-
-            taskTypeEntity.setTaskTypeId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)))
+            return new TaskTypeEntity()
+                    .setTaskTypeId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)))
                     .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
                     .setEnabled(taskTypeEnabled);
-
-            return taskTypeEntity;
         }
 
         return null;
