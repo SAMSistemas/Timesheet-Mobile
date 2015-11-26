@@ -9,8 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.controller.base.BaseLoginController;
-import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.util.NetworkUtil;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 
@@ -20,8 +18,8 @@ import com.samsistemas.timesheet.navigation.MenuNavigator;
  *
  * @author jonatan.salas
  */
+//TODO JS: extract alert dialog from here.
 public class LoginService extends AsyncTask<String[], Void, Boolean> {
-    protected BaseLoginController loginController;
     private AlertDialog mDialog;
     private Activity mContext;
     private View mView;
@@ -34,7 +32,6 @@ public class LoginService extends AsyncTask<String[], Void, Boolean> {
      */
     public LoginService(@NonNull Activity context,
                         @NonNull final View view) {
-        this.loginController = ControllerFactory.getLoginController();
         this.mContext = context;
         this.mView = view;
     }
@@ -65,7 +62,7 @@ public class LoginService extends AsyncTask<String[], Void, Boolean> {
             ex.printStackTrace();
         }
 
-        return loginController.performLogin(mContext.getApplicationContext(), params[0]);
+        return false;
     }
 
     @UiThread

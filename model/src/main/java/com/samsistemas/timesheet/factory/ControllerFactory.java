@@ -2,15 +2,14 @@ package com.samsistemas.timesheet.factory;
 
 import com.samsistemas.timesheet.controller.ClientController;
 import com.samsistemas.timesheet.controller.JobLogController;
-import com.samsistemas.timesheet.controller.LoginController;
 import com.samsistemas.timesheet.controller.PersonController;
 import com.samsistemas.timesheet.controller.ProjectController;
 import com.samsistemas.timesheet.controller.SessionController;
 import com.samsistemas.timesheet.controller.TaskTypeController;
 import com.samsistemas.timesheet.controller.WorkPositionController;
 import com.samsistemas.timesheet.controller.base.BaseController;
-import com.samsistemas.timesheet.controller.base.BaseLoginController;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
+
 import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.entity.PersonEntity;
@@ -32,8 +31,6 @@ public class ControllerFactory {
     private static BaseController<TaskTypeEntity> taskTypeBaseController = null;
     private static BaseController<WorkPositionEntity> workPositionBaseController = null;
     private static BaseSessionController<SessionEntity> sessionController = null;
-    private static BaseLoginController loginController = null;
-
 
     /**
      * Method that gets a singleton instance.
@@ -98,17 +95,6 @@ public class ControllerFactory {
         if(null == workPositionBaseController)
             workPositionBaseController = new WorkPositionController();
         return workPositionBaseController;
-    }
-
-    /**
-     * Method that gets a singleton instance.
-     *
-     * @return a singleton object.
-     */
-    public static synchronized BaseLoginController getLoginController() {
-        if(null == loginController)
-            loginController = new LoginController();
-        return loginController;
     }
 
     /**

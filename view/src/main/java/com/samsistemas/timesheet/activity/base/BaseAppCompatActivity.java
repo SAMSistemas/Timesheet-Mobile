@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.samsistemas.timesheet.controller.base.BaseLoginController;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.service.NetworkStateService;
@@ -15,14 +14,6 @@ import com.samsistemas.timesheet.service.NetworkStateService;
  */
 //TODO JS: Delete unused methods.
 public class BaseAppCompatActivity extends AppCompatActivity {
-
-    /**
-     *
-     * @return
-     */
-    public BaseLoginController getLoginController() {
-        return ControllerFactory.getLoginController();
-    }
 
     /**
      *
