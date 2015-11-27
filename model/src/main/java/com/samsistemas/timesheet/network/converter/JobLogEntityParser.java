@@ -42,14 +42,14 @@ public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject>,
         }
 
         JobLogEntity jobLogEntity = new JobLogEntity();
-        jobLogEntity.setJobLogId(json.getLong(ID))
-                .setPersonId(jsonPerson.getLong(ID))
-                .setProjectId(jsonProject.getLong(ID))
-                .setTaskTypeId(jsonTaskType.getLong(ID))
-                .setHours(json.getString(HOURS))
-                .setObservations(json.getString(OBSERVATION))
-                .setSolicitude(json.getInt(SOLICITUDE))
-                .setWorkDate(date);
+        jobLogEntity.setId(json.getLong(ID));
+        jobLogEntity.setPersonId(jsonPerson.getLong(ID))
+                    .setProjectId(jsonProject.getLong(ID))
+                    .setTaskTypeId(jsonTaskType.getLong(ID))
+                    .setHours(json.getString(HOURS))
+                    .setObservations(json.getString(OBSERVATION))
+                    .setSolicitude(json.getInt(SOLICITUDE))
+                    .setWorkDate(date);
 
         return jobLogEntity;
     }

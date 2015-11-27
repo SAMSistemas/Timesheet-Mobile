@@ -1,9 +1,7 @@
 package com.samsistemas.timesheet.util;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.entity.JobLogEntity;
@@ -11,13 +9,7 @@ import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
-import com.samsistemas.timesheet.mapper.ClientEntityMapper;
-import com.samsistemas.timesheet.mapper.JobLogEntityMapper;
-import com.samsistemas.timesheet.mapper.PersonEntityMapper;
-import com.samsistemas.timesheet.mapper.ProjectEntityMapper;
-import com.samsistemas.timesheet.mapper.TaskTypeEntityMapper;
-import com.samsistemas.timesheet.mapper.WorkPositionEntityMapper;
-import com.samsistemas.timesheet.mapper.base.EntityMapper;
+import com.samsistemas.timesheet.factory.MapperFactory;
 
 import junit.framework.Assert;
 
@@ -30,11 +22,6 @@ import java.util.Set;
  */
 public class TestUtilities {
 
-    /**
-     *
-     * @param expectedValues
-     * @param valueCursor
-     */
     public static void validateCursor(ContentValues expectedValues, Cursor valueCursor) {
         Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
 
@@ -58,137 +45,54 @@ public class TestUtilities {
         }
     }
 
-    /**
-     * @param context
-     * @return
-     */
-    public static ContentValues getClient(@NonNull Context context) {
-        final EntityMapper<ClientEntity, Cursor> mapper = new ClientEntityMapper();
-        return mapper.asContentValues(
-                new ClientEntity()
-                .setClientId(1)
-                .setName("fulanito")
-                .setShortName("fn")
-                .setEnabled(true)
-        );
+    public static ContentValues getClientValues() {
+        return MapperFactory.getClientMapper().asContentValues(getClient());
     }
 
-    /**
-     * @param context
-     * @return
-     */
-    public static ContentValues getWorkPosition(@NonNull Context context) {
-        final EntityMapper<WorkPositionEntity, Cursor> mapper = new WorkPositionEntityMapper();
-        return mapper.asContentValues(
-                new WorkPositionEntity()
-                .setWorkPositionId(1)
-                .setDescription("Developer")
-        );
+    public static ContentValues getWorkPositionValues() {
+        return MapperFactory.getWorkPositionMapper().asContentValues(getWorkPosition());
     }
 
-    /**
-     * @param context
-     * @return
-     */
-    public static ContentValues getPerson(@NonNull Context context, long id) {
-        final EntityMapper<PersonEntity, Cursor> mapper = new PersonEntityMapper();
-        return mapper.asContentValues(
-                new PersonEntity()
-                .setPersonId(1)
-                .setName("Jonatan")
-                .setLastName("Salas")
-                .setUsername("JONATANS")
-                .setPassword("JONATANS")
-                .setWorkPositionId(id)
-                .setWorkHours(6)
-                .setPicture(null)
-                .setEnabled(true)
-        );
+    public static ContentValues getPersonValues(long id) {
+        return MapperFactory.getPersonMapper().asContentValues(getPerson(id));
     }
 
-    /**
-     * @param context
-     * @return
-     */
-    public static ContentValues getTaskType(@NonNull Context context) {
-        final EntityMapper<TaskTypeEntity, Cursor> mapper = new TaskTypeEntityMapper();
-        return mapper.asContentValues(
-                new TaskTypeEntity()
-                .setTaskTypeId(1)
-                .setName("Programación")
-                .setEnabled(true)
-        );
+    public static ContentValues getTaskTypeValues() {
+        return MapperFactory.getTaskTypeMapper().asContentValues(getTaskType());
     }
 
-    /**
-     * @param context
-     * @param clientId
-     * @return
-     */
-    public static ContentValues getProject(@NonNull Context context, long clientId) {
-        final EntityMapper<ProjectEntity, Cursor> mapper = new ProjectEntityMapper();
-        return  mapper.asContentValues(
-                new ProjectEntity()
-                .setProjectId(1)
-                .setClientId(clientId)
-                .setName("Timesheet - carga de horas")
-                .setShortName("cdh")
-                .setStartDate(new Date(System.currentTimeMillis()))
-                .setEnabled(true)
-        );
+    public static ContentValues getProjectValues(long clientId) {
+        return MapperFactory.getProjectMapper().asContentValues(getProject(clientId));
     }
 
-    /**
-     * @param context
-     * @param projectId
-     * @param personId
-     * @param taskTypeId
-     * @return
-     */
-    public static ContentValues getJobLog(@NonNull Context context, long projectId, long personId, long taskTypeId) {
-        final EntityMapper<JobLogEntity, Cursor> mapper = new JobLogEntityMapper();
-        return  mapper.asContentValues(
-                new JobLogEntity()
-                .setJobLogId(1)
-                .setProjectId(projectId)
-                .setPersonId(personId)
-                .setTaskTypeId(taskTypeId)
-                .setWorkDate(new Date(System.currentTimeMillis()))
-                .setHours("6")
-                .setSolicitude(33034)
-                .setObservations("lalala")
-        );
+    public static ContentValues getJobLogValues(long projectId, long personId, long taskTypeId) {
+        return MapperFactory.getJoblogMapper().asContentValues(getJobLog(projectId, personId, taskTypeId));
     }
 
-    /**
-     * @return
-     */
     public static ClientEntity getClient() {
-        return new ClientEntity()
-                .setClientId(1)
-                .setName("fulanito")
-                .setShortName("fn")
-                .setEnabled(true);
+        ClientEntity entity = new ClientEntity();
+        entity.setId(1);
+        entity.setName("fulanito")
+              .setShortName("fn")
+              .setEnabled(true);
+
+        return entity;
     }
 
-    /**
-     *
-     * @return
-     */
     public static WorkPositionEntity getWorkPosition() {
-        return new WorkPositionEntity()
-                .setWorkPositionId(0)
-                .setDescription("Developer");
+        WorkPositionEntity entity = new WorkPositionEntity();
+
+        entity.setId(0);
+        entity.setDescription("Developer");
+
+        return entity;
     }
 
-    /**
-     *
-     * @return
-     */
     public static PersonEntity getPerson(long workPositionId) {
-        return new PersonEntity()
-                .setPersonId(1)
-                .setName("Jonatan")
+        PersonEntity entity = new PersonEntity();
+
+        entity.setId(1);
+        entity.setName("Jonatan")
                 .setLastName("Salas")
                 .setUsername("JONATANS")
                 .setPassword("JONATANS")
@@ -196,51 +100,46 @@ public class TestUtilities {
                 .setWorkHours(6)
                 .setPicture(null)
                 .setEnabled(true);
+
+        return entity;
     }
 
-    /**
-     *
-     * @return
-     */
     public static TaskTypeEntity getTaskType() {
-        return new TaskTypeEntity()
-                .setTaskTypeId(1)
-                .setName("Programación")
-                .setEnabled(true);
+        TaskTypeEntity entity = new TaskTypeEntity();
+
+        entity.setId(1);
+        entity.setName("Programación")
+              .setEnabled(true);
+
+        return entity;
     }
 
-    /**
-     *
-     * @param clientId
-     * @return
-     */
     public static ProjectEntity getProject(long clientId) {
-        return new ProjectEntity()
-                .setProjectId(1)
-                .setClientId(clientId)
-                .setName("Timesheet - carga de horas")
-                .setShortName("cdh")
-                .setStartDate(new Date(System.currentTimeMillis()))
-                .setEnabled(true);
+        ProjectEntity entity = new ProjectEntity();
+
+        entity.setId(1);
+        entity.setClientId(clientId)
+              .setName("Timesheet - carga de horas")
+              .setShortName("cdh")
+              .setStartDate(new Date(System.currentTimeMillis()))
+              .setEnabled(true);
+
+        return entity;
     }
 
-    /**
-     *
-     * @param projectId
-     * @param personId
-     * @param taskTypeId
-     * @return
-     */
     public static JobLogEntity getJobLog(long projectId, long personId, long taskTypeId) {
-        return new JobLogEntity()
-                .setJobLogId(1)
-                .setProjectId(projectId)
-                .setPersonId(personId)
-                .setTaskTypeId(taskTypeId)
-                .setWorkDate(new Date(System.currentTimeMillis()))
-                .setHours("6")
-                .setSolicitude(33034)
-                .setObservations("lalala");
+        JobLogEntity entity = new JobLogEntity();
+
+        entity.setId(1);
+        entity.setProjectId(projectId)
+              .setPersonId(personId)
+              .setTaskTypeId(taskTypeId)
+              .setWorkDate(new Date(System.currentTimeMillis()))
+              .setHours("6")
+              .setSolicitude(33034)
+              .setObservations("lalala");
+
+        return entity;
     }
 }
 

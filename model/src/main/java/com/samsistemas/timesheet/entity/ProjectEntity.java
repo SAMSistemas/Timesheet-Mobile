@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.entity;
 
+import com.samsistemas.timesheet.entity.base.Entity;
+
 import java.util.Date;
 
 /**
@@ -7,8 +9,7 @@ import java.util.Date;
  *
  * @author jonatan.salas
  */
-public class ProjectEntity {
-    private long projectId;
+public class ProjectEntity extends Entity {
     private long clientId;
     private String name;
     private String shortName;
@@ -20,11 +21,6 @@ public class ProjectEntity {
     /**
      * Attribute setters and getters
      **/
-    public ProjectEntity setProjectId(long projectId) {
-        this.projectId = projectId;
-        return this;
-    }
-
     public ProjectEntity setClientId(long clientId) {
         this.clientId = clientId;
         return this;
@@ -48,10 +44,6 @@ public class ProjectEntity {
     public ProjectEntity setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
-    }
-
-    public long getProjectId() {
-        return projectId;
     }
 
     public long getClientId() {

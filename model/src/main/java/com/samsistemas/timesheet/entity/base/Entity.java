@@ -3,10 +3,10 @@ package com.samsistemas.timesheet.entity.base;
 /**
  * @author jonatan.salas
  */
-public class BaseEntity {
+public class Entity {
     protected long id;
 
-    public BaseEntity setId(long id) {
+    public Entity setId(long id) {
         this.id = id;
         return this;
     }

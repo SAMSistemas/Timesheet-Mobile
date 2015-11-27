@@ -2,13 +2,14 @@ package com.samsistemas.timesheet.entity;
 
 import android.graphics.drawable.Drawable;
 
+import com.samsistemas.timesheet.entity.base.Entity;
+
 /**
  * Domain class that represents the data contained in the table Person.
  *
  * @author jonatan.salas
  */
-public class PersonEntity {
-    private long personId;
+public class PersonEntity extends Entity {
     private String name;
     private String lastName;
     private String username;
@@ -21,11 +22,6 @@ public class PersonEntity {
     public PersonEntity() {}
 
     /** Attributes setters and getters **/
-    public PersonEntity setPersonId(long personId) {
-        this.personId = personId;
-        return this;
-    }
-
     public PersonEntity setName(String name) {
         this.name = name;
         return this;
@@ -64,10 +60,6 @@ public class PersonEntity {
     public PersonEntity setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
-    }
-
-    public long getPersonId() {
-        return personId;
     }
 
     public String getName() {

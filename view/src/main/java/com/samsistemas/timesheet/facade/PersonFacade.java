@@ -1,12 +1,14 @@
 package com.samsistemas.timesheet.facade;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.controller.base.BaseController;
+import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
 import com.samsistemas.timesheet.factory.ControllerFactory;
+import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.WorkPosition;
 
@@ -18,7 +20,7 @@ import java.util.List;
  */
 public class PersonFacade implements Facade<Person> {
     private static PersonFacade instance = null;
-    protected BaseController<PersonEntity> personController;
+    protected Controller<PersonEntity> personController;
     protected Facade<WorkPosition> workPositionFacade;
 
     protected PersonFacade() {
@@ -28,21 +30,22 @@ public class PersonFacade implements Facade<Person> {
 
     @Override
     public Person findById(@NonNull Context context, long id) {
+        final Uri uri = UriHelper.buildPersonUriWithId(context, id);
+        final PersonEntity entity = personController.get(context, uri);
         final Person person = new Person();
-        final PersonEntity entity = personController.get(context, id);
 
         if (null != entity) {
             final WorkPosition workPosition = workPositionFacade.findById(context, entity.getWorkPositionId());
 
-            person.setId(entity.getPersonId())
-                    .setName(entity.getName())
-                    .setLastName(entity.getLastName())
-                    .setUsername(entity.getUsername())
-                    .setPassword(entity.getPassword())
-                    .setWorkPosition(workPosition)
-                    .setPicture(entity.getPicture())
-                    .setWorkHours(entity.getWorkHours())
-                    .setEnabled(entity.isEnabled());
+            person.setId(entity.getId())
+                  .setName(entity.getName())
+                  .setLastName(entity.getLastName())
+                  .setUsername(entity.getUsername())
+                  .setPassword(entity.getPassword())
+                  .setWorkPosition(workPosition)
+                  .setPicture(entity.getPicture())
+                  .setWorkHours(entity.getWorkHours())
+                  .setEnabled(entity.isEnabled());
         }
 
         return person;
@@ -50,7 +53,8 @@ public class PersonFacade implements Facade<Person> {
 
     @Override
     public List<Person> findAll(@NonNull Context context) {
-        final List<PersonEntity> personEntities = personController.listAll(context);
+        final Uri uri = UriHelper.buildPersonUri(context);
+        final List<PersonEntity> personEntities = personController.listAll(context, uri);
         final List<Person> persons = new ArrayList<>(personEntities.size());
         final Person person = new Person();
         WorkPosition workPosition;
@@ -60,7 +64,7 @@ public class PersonFacade implements Facade<Person> {
             entity = personEntities.get(i);
             workPosition = workPositionFacade.findById(context, entity.getWorkPositionId());
 
-            person.setId(entity.getPersonId())
+            person.setId(entity.getId())
                   .setName(entity.getName())
                   .setLastName(entity.getLastName())
                   .setUsername(entity.getUsername())
@@ -78,10 +82,11 @@ public class PersonFacade implements Facade<Person> {
 
     @Override
     public boolean insert(@NonNull Context context, Person person) {
+        final Uri uri = UriHelper.buildPersonUri(context);
         final PersonEntity entity = new PersonEntity();
 
-        entity.setPersonId(person.getId())
-              .setName(person.getName())
+        entity.setId(person.getId());
+        entity.setName(person.getName())
               .setLastName(person.getLastName())
               .setUsername(person.getUsername())
               .setPassword(person.getPassword())
@@ -90,15 +95,16 @@ public class PersonFacade implements Facade<Person> {
               .setWorkPositionId(person.getWorkPosition().getId())
               .setEnabled(person.isEnabled());
 
-        return personController.insert(context, entity);
+        return personController.insert(context, entity, uri);
     }
 
     @Override
     public boolean update(@NonNull Context context, Person person) {
+        final Uri uri = UriHelper.buildPersonUri(context);
         final PersonEntity entity = new PersonEntity();
 
-        entity.setPersonId(person.getId())
-              .setName(person.getName())
+        entity.setId(person.getId());
+        entity.setName(person.getName())
               .setLastName(person.getLastName())
               .setUsername(person.getUsername())
               .setPassword(person.getPassword())
@@ -107,12 +113,13 @@ public class PersonFacade implements Facade<Person> {
               .setWorkPositionId(person.getWorkPosition().getId())
               .setEnabled(person.isEnabled());
 
-        return personController.update(context, entity);
+        return personController.update(context, entity, uri);
     }
 
     @Override
     public boolean deleteById(@NonNull Context context, long id) {
-        return personController.delete(context, id);
+        final Uri uri = UriHelper.buildPersonUri(context);
+        return personController.delete(context, uri, id);
     }
 
     public static PersonFacade newInstance() {

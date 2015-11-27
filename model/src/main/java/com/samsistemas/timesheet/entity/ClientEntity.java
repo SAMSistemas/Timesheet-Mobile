@@ -1,12 +1,13 @@
 package com.samsistemas.timesheet.entity;
 
+import com.samsistemas.timesheet.entity.base.Entity;
+
 /**
  * Domain class that represents the data contained in the table Client.
  *
  * @author jonatan.salas
  */
-public class ClientEntity {
-    private long clientId;
+public class ClientEntity extends Entity {
     private String name;
     private String shortName;
     private boolean enabled;
@@ -14,11 +15,6 @@ public class ClientEntity {
     public ClientEntity() {}
 
     /** Attributes setters and getters **/
-    public ClientEntity setClientId(long clientId) {
-        this.clientId = clientId;
-        return this;
-    }
-
     public ClientEntity setName(String name) {
         this.name = name;
         return this;
@@ -32,10 +28,6 @@ public class ClientEntity {
     public ClientEntity setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
-    }
-
-    public long getClientId() {
-        return clientId;
     }
 
     public String getName() {

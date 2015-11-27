@@ -22,8 +22,8 @@ public class PersonEntityParser implements JsonParser<PersonEntity, JSONObject>,
         final PersonEntity personEntity = new PersonEntity();
         final JSONObject jsonWorkPosition = jsonObject.getJSONObject(WORK_POSITION);
 
-        personEntity.setPersonId(jsonObject.getLong(ID))
-                    .setName(jsonObject.getString(NAME))
+        personEntity.setId(jsonObject.getLong(ID));
+        personEntity.setName(jsonObject.getString(NAME))
                     .setLastName(jsonObject.getString(LAST_NAME))
                     .setWorkPositionId(jsonWorkPosition.getLong(ID))
                     .setPicture(null)

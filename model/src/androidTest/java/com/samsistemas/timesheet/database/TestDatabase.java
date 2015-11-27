@@ -9,9 +9,6 @@ import android.util.Log;
 import com.samsistemas.timesheet.util.TestUtilities;
 import com.samsistemas.timesheet.data.R;
 
-import java.util.Map;
-import java.util.Set;
-
 /**
  * @author jonatan.salas
  */
@@ -40,7 +37,7 @@ public class TestDatabase extends AndroidTestCase {
         //                          INSERTS TEST PART                              //
         //-------------------------------------------------------------------------//
         //Test insert on Client Table..
-        final ContentValues clientValues = TestUtilities.getClient(mContext);
+        final ContentValues clientValues = TestUtilities.getClientValues();
         long clientRowId = database.insert(mContext.getString(R.string.client_table), null, clientValues);
 
         assertTrue(clientRowId != -1);
@@ -49,7 +46,7 @@ public class TestDatabase extends AndroidTestCase {
 
         //-------------------------------------------------------------------------//
         //Test insert on WorkPosition Table..
-        final ContentValues workPositionValues = TestUtilities.getWorkPosition(mContext);
+        final ContentValues workPositionValues = TestUtilities.getWorkPositionValues();
         long workPositionRowId = database.insert(mContext.getString(R.string.work_position_table), null, workPositionValues);
 
         assertTrue(workPositionRowId != -1);
@@ -57,7 +54,7 @@ public class TestDatabase extends AndroidTestCase {
 
         //-------------------------------------------------------------------------//
         //Test insert on Person Table..
-        final ContentValues personValues = TestUtilities.getPerson(mContext, workPositionRowId);
+        final ContentValues personValues = TestUtilities.getPersonValues(workPositionRowId);
         long personRowId = database.insert(mContext.getString(R.string.person_table), null, personValues);
 
         assertTrue(personRowId != -1);
@@ -65,14 +62,14 @@ public class TestDatabase extends AndroidTestCase {
 
         //-------------------------------------------------------------------------//
         //Test insert on TaskType Table..
-        final ContentValues taskTypeValues = TestUtilities.getTaskType(mContext);
+        final ContentValues taskTypeValues = TestUtilities.getTaskTypeValues();
         long taskTypeRowId = database.insert(mContext.getString(R.string.task_type_table), null, taskTypeValues);
 
         assertTrue(taskTypeRowId != -1);
         Log.d(LOG_TAG, "New row id for task type table: " + taskTypeRowId);
         //--------------------------------------------------------------------------//
         //Test insert on Project Table..
-        final ContentValues projectValues = TestUtilities.getProject(mContext, clientRowId);
+        final ContentValues projectValues = TestUtilities.getProjectValues(clientRowId);
         long projectRowId = database.insert(mContext.getString(R.string.project_table), null, projectValues);
 
         assertTrue(projectRowId != -1);
@@ -80,7 +77,7 @@ public class TestDatabase extends AndroidTestCase {
 
         //--------------------------------------------------------------------------//
         //Test insert on JobLog Table..
-        final ContentValues jobLogValues = TestUtilities.getJobLog(mContext, projectRowId, personRowId, taskTypeRowId);
+        final ContentValues jobLogValues = TestUtilities.getJobLogValues(projectRowId, personRowId, taskTypeRowId);
         long jobLogRowId = database.insert(mContext.getString(R.string.job_log_table), null, jobLogValues);
 
         assertTrue(jobLogRowId != -1);

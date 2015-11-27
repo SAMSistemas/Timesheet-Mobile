@@ -14,7 +14,7 @@ import com.samsistemas.timesheet.util.ConversionUtil;
  * @author jonatan.salas
  */
 public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
-    private static final String ID_PERSON = "id_person";
+    private static final String ID_PERSON = "id";
     private static final String NAME = "name";
     private static final String LAST_NAME = "lastname";
     private static final String USERNAME = "username";
@@ -30,7 +30,7 @@ public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
         int personEnabled = ConversionUtil.booleanToInt(personEntity.isEnabled());
         byte[] personPicture = ConversionUtil.drawableToByteArray(personEntity.getPicture());
 
-        values.put(ID_PERSON, personEntity.getPersonId());
+        values.put(ID_PERSON, personEntity.getId());
         values.put(NAME, personEntity.getName());
         values.put(LAST_NAME, personEntity.getLastName());
         values.put(USERNAME, personEntity.getUsername());
@@ -52,16 +52,18 @@ public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
             final Drawable personPicture = ConversionUtil.byteArrayToDrawable(profile);
             final boolean personEnabled = ConversionUtil.intToBoolean(available);
 
-            return  new PersonEntity()
-                    .setPersonId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_PERSON)))
-                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
-                    .setLastName(cursor.getString(cursor.getColumnIndexOrThrow(LAST_NAME)))
-                    .setUsername(cursor.getString(cursor.getColumnIndexOrThrow(USERNAME)))
-                    .setPassword(cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD)))
-                    .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_WORK_POSITION)))
-                    .setWorkHours(cursor.getInt(cursor.getColumnIndexOrThrow(WORK_HOURS)))
-                    .setPicture(personPicture)
-                    .setEnabled(personEnabled);
+            PersonEntity entity = new PersonEntity();
+            entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_PERSON)));
+            entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                  .setLastName(cursor.getString(cursor.getColumnIndexOrThrow(LAST_NAME)))
+                  .setUsername(cursor.getString(cursor.getColumnIndexOrThrow(USERNAME)))
+                  .setPassword(cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD)))
+                  .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_WORK_POSITION)))
+                  .setWorkHours(cursor.getInt(cursor.getColumnIndexOrThrow(WORK_HOURS)))
+                  .setPicture(personPicture)
+                  .setEnabled(personEnabled);
+
+            return entity;
         }
 
         return null;

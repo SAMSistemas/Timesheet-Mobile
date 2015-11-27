@@ -1,13 +1,7 @@
 package com.samsistemas.timesheet.factory;
 
-import com.samsistemas.timesheet.controller.ClientController;
-import com.samsistemas.timesheet.controller.JobLogController;
-import com.samsistemas.timesheet.controller.PersonController;
-import com.samsistemas.timesheet.controller.ProjectController;
+import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.controller.SessionController;
-import com.samsistemas.timesheet.controller.TaskTypeController;
-import com.samsistemas.timesheet.controller.WorkPositionController;
-import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 
 import com.samsistemas.timesheet.entity.ClientEntity;
@@ -24,12 +18,12 @@ import com.samsistemas.timesheet.entity.WorkPositionEntity;
  * @author jonatan.salas
  */
 public class ControllerFactory {
-    private static BaseController<ClientEntity> clientBaseController = null;
-    private static BaseController<JobLogEntity> jobLogBaseController = null;
-    private static BaseController<PersonEntity> personBaseController = null;
-    private static BaseController<ProjectEntity> projectBaseController = null;
-    private static BaseController<TaskTypeEntity> taskTypeBaseController = null;
-    private static BaseController<WorkPositionEntity> workPositionBaseController = null;
+    private static Controller<ClientEntity> clientController = null;
+    private static Controller<JobLogEntity> jobLogController = null;
+    private static Controller<PersonEntity> personController = null;
+    private static Controller<ProjectEntity> projectController = null;
+    private static Controller<TaskTypeEntity> taskTypeController = null;
+    private static Controller<WorkPositionEntity> workPositionController = null;
     private static BaseSessionController<SessionEntity> sessionController = null;
 
     /**
@@ -37,10 +31,10 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<ClientEntity> getClientController() {
-        if(null == clientBaseController)
-            clientBaseController = new ClientController();
-        return clientBaseController;
+    public static synchronized Controller<ClientEntity> getClientController() {
+        if(null == clientController)
+            clientController = new Controller<>(MapperFactory.getClientMapper());
+        return clientController;
     }
 
     /**
@@ -48,10 +42,10 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<JobLogEntity> getJobLogController() {
-        if(null == jobLogBaseController)
-            jobLogBaseController = new JobLogController();
-        return jobLogBaseController;
+    public static synchronized Controller<JobLogEntity> getJobLogController() {
+        if(null == jobLogController)
+            jobLogController = new Controller<>(MapperFactory.getJoblogMapper());
+        return jobLogController;
     }
 
     /**
@@ -59,10 +53,10 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<PersonEntity> getPersonController() {
-        if(null == personBaseController)
-            personBaseController = new PersonController();
-        return personBaseController;
+    public static synchronized Controller<PersonEntity> getPersonController() {
+        if(null == personController)
+            personController = new Controller<>(MapperFactory.getPersonMapper());
+        return personController;
     }
 
     /**
@@ -70,10 +64,10 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<ProjectEntity> getProjectController() {
-        if(null == projectBaseController)
-            projectBaseController = new ProjectController();
-        return projectBaseController;
+    public static synchronized Controller<ProjectEntity> getProjectController() {
+        if(null == projectController)
+            projectController = new Controller<>(MapperFactory.getProjectMapper());
+        return projectController;
     }
 
     /**
@@ -81,20 +75,20 @@ public class ControllerFactory {
      *
      * @return a singleton object.
      */
-    public static synchronized BaseController<TaskTypeEntity> getTaskTypeController() {
-        if(null == taskTypeBaseController)
-            taskTypeBaseController = new TaskTypeController();
-        return taskTypeBaseController;
+    public static synchronized Controller<TaskTypeEntity> getTaskTypeController() {
+        if(null == taskTypeController)
+            taskTypeController = new Controller<>(MapperFactory.getTaskTypeMapper());
+        return taskTypeController;
     }
 
     /**
      *
      * @return
      */
-    public static synchronized BaseController<WorkPositionEntity> getWorkPositionController() {
-        if(null == workPositionBaseController)
-            workPositionBaseController = new WorkPositionController();
-        return workPositionBaseController;
+    public static synchronized Controller<WorkPositionEntity> getWorkPositionController() {
+        if(null == workPositionController)
+            workPositionController = new Controller<>(MapperFactory.getWorkPositionMapper());
+        return workPositionController;
     }
 
     /**

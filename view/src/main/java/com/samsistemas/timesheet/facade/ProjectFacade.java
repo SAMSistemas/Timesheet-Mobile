@@ -1,12 +1,14 @@
 package com.samsistemas.timesheet.facade;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.controller.base.BaseController;
+import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
 import com.samsistemas.timesheet.factory.ControllerFactory;
+import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.model.Client;
 import com.samsistemas.timesheet.model.Project;
 
@@ -18,7 +20,7 @@ import java.util.List;
  */
 public class ProjectFacade implements Facade<Project> {
     private static ProjectFacade instance = null;
-    protected BaseController<ProjectEntity> projectController;
+    protected Controller<ProjectEntity> projectController;
     protected Facade<Client> clientFacade;
 
     protected ProjectFacade() {
@@ -28,11 +30,12 @@ public class ProjectFacade implements Facade<Project> {
 
     @Override
     public Project findById(@NonNull Context context, long id) {
-        final ProjectEntity entity = projectController.get(context, id);
+        final Uri uri = UriHelper.buildProjectUriWithId(context, id);
+        final ProjectEntity entity = projectController.get(context, uri);
         final Client client = clientFacade.findById(context, entity.getClientId());
         final Project project = new Project();
 
-        project.setId(entity.getProjectId())
+        project.setId(entity.getId())
                .setClient(client)
                .setName(entity.getName())
                .setShortName(entity.getShortName())
@@ -44,7 +47,8 @@ public class ProjectFacade implements Facade<Project> {
 
     @Override
     public List<Project> findAll(@NonNull Context context) {
-        final List<ProjectEntity> projectEntities = projectController.listAll(context);
+        final Uri uri = UriHelper.buildProjectUri(context);
+        final List<ProjectEntity> projectEntities = projectController.listAll(context, uri);
         final List<Project> projects = new ArrayList<>(projectEntities.size());
         final Project project = new Project();
         ProjectEntity entity;
@@ -54,7 +58,7 @@ public class ProjectFacade implements Facade<Project> {
             entity = projectEntities.get(i);
             client = clientFacade.findById(context, entity.getClientId());
 
-            project.setId(entity.getProjectId())
+            project.setId(entity.getId())
                    .setClient(client)
                    .setName(entity.getName())
                    .setShortName(entity.getShortName())
@@ -69,35 +73,38 @@ public class ProjectFacade implements Facade<Project> {
 
     @Override
     public boolean insert(@NonNull Context context, Project project) {
+        final Uri uri = UriHelper.buildProjectUri(context);
         final ProjectEntity entity = new ProjectEntity();
 
-        entity.setProjectId(project.getId())
-              .setClientId(project.getClient().getId())
+        entity.setId(project.getId());
+        entity.setClientId(project.getClient().getId())
               .setName(project.getName())
               .setShortName(project.getShortName())
               .setStartDate(project.getStartDate())
               .setEnabled(project.isEnabled());
 
-        return projectController.insert(context, entity);
+        return projectController.insert(context, entity, uri);
     }
 
     @Override
     public boolean update(@NonNull Context context, Project project) {
+        final Uri uri = UriHelper.buildProjectUri(context);
         final ProjectEntity entity = new ProjectEntity();
 
-        entity.setProjectId(project.getId())
-                .setClientId(project.getClient().getId())
-                .setName(project.getName())
-                .setShortName(project.getShortName())
-                .setStartDate(project.getStartDate())
-                .setEnabled(project.isEnabled());
+        entity.setId(project.getId());
+        entity.setClientId(project.getClient().getId())
+              .setName(project.getName())
+              .setShortName(project.getShortName())
+              .setStartDate(project.getStartDate())
+              .setEnabled(project.isEnabled());
 
-        return projectController.update(context, entity);
+        return projectController.update(context, entity, uri);
     }
 
     @Override
     public boolean deleteById(@NonNull Context context, long id) {
-        return projectController.delete(context, id);
+        Uri uri = UriHelper.buildProjectUri(context);
+        return projectController.delete(context, uri, id);
     }
 
     public static ProjectFacade newInstance() {

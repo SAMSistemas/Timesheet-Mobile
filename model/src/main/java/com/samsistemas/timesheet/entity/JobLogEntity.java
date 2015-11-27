@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.entity;
 
+import com.samsistemas.timesheet.entity.base.Entity;
+
 import java.util.Date;
 
 /**
@@ -7,8 +9,7 @@ import java.util.Date;
  *
  * @author jonatan.salas
  */
-public class JobLogEntity {
-    private long jobLogId;
+public class JobLogEntity extends Entity {
     private long projectId;
     private long personId;
     private long taskTypeId;
@@ -22,11 +23,6 @@ public class JobLogEntity {
     /**
      * Attributes setters and getters
      **/
-    public JobLogEntity setJobLogId(long jobLogId) {
-        this.jobLogId = jobLogId;
-        return this;
-    }
-
     public JobLogEntity setProjectId(long projectId) {
         this.projectId = projectId;
         return this;
@@ -60,10 +56,6 @@ public class JobLogEntity {
     public JobLogEntity setObservations(String observations) {
         this.observations = observations;
         return this;
-    }
-
-    public long getJobLogId() {
-        return jobLogId;
     }
 
     public long getProjectId() {

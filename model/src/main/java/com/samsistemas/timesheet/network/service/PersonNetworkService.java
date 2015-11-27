@@ -4,13 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.constant.JSONConst;
-import com.samsistemas.timesheet.controller.base.BaseController;
+import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.entity.SessionEntity;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
+import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.network.converter.PersonEntityParser;
 import com.samsistemas.timesheet.network.converter.TaskTypeEntityListParser;
 import com.samsistemas.timesheet.network.converter.WorkPositionEntityParser;
@@ -33,9 +34,9 @@ public class PersonNetworkService implements NetworkService<JSONObject, String[]
         final String username = credentials[0];
         final String password = credentials[1];
 
-        final BaseController<PersonEntity> personController = ControllerFactory.getPersonController();
-        final BaseController<WorkPositionEntity> workPositionController = ControllerFactory.getWorkPositionController();
-        final BaseController<TaskTypeEntity> taskTypeController = ControllerFactory.getTaskTypeController();
+        final Controller<PersonEntity> personController = ControllerFactory.getPersonController();
+        final Controller<WorkPositionEntity> workPositionController = ControllerFactory.getWorkPositionController();
+        final Controller<TaskTypeEntity> taskTypeController = ControllerFactory.getTaskTypeController();
 
         final WorkPositionEntityParser workPositionParser = WorkPositionEntityParser.newInstance();
         final WorkPositionEntity workPositionEntity = workPositionParser.convert(response);
@@ -50,11 +51,11 @@ public class PersonNetworkService implements NetworkService<JSONObject, String[]
         final TaskTypeEntityListParser taskTypeEntityListParser = TaskTypeEntityListParser.newInstance();
         List<TaskTypeEntity> taskTypeEntities = taskTypeEntityListParser.convert(jsonTaskTypeArray);
 
-        taskTypeController.bulkInsert(context.getApplicationContext(), taskTypeEntities);
-        workPositionController.insert(context.getApplicationContext(), workPositionEntity);
-        personController.insert(context.getApplicationContext(), personEntity);
+        taskTypeController.bulkInsert(context.getApplicationContext(), taskTypeEntities, UriHelper.buildTaskTypeUri(context));
+        workPositionController.insert(context.getApplicationContext(), workPositionEntity, UriHelper.buildWorkPositionUri(context));
+        personController.insert(context.getApplicationContext(), personEntity, UriHelper.buildPersonUri(context));
 
-        initUserSession(context, credentials, personEntity.getPersonId());
+        initUserSession(context, credentials, personEntity.getId());
 
         return null;
     }

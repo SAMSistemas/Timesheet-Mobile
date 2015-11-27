@@ -22,8 +22,8 @@ public class WorkPositionEntityParser implements JsonParser<WorkPositionEntity, 
         final WorkPositionEntity workPositionEntity = new WorkPositionEntity();
         final JSONObject jsonWorkPosition = jsonObject.getJSONObject(WORK_POSITION);
 
-        workPositionEntity.setWorkPositionId(jsonWorkPosition.getLong(ID))
-                          .setDescription(jsonWorkPosition.getString(DESCRIPTION));
+        workPositionEntity.setId(jsonWorkPosition.getLong(ID));
+        workPositionEntity.setDescription(jsonWorkPosition.getString(DESCRIPTION));
 
         return workPositionEntity;
     }

@@ -13,7 +13,7 @@ import com.samsistemas.timesheet.util.ConversionUtil;
  * @author jonatan.salas
  */
 public class TaskTypeEntityMapper implements EntityMapper<TaskTypeEntity, Cursor> {
-    private static final String ID_TASK_TYPE = "id_tasktype";
+    private static final String ID_TASK_TYPE = "id";
     private static final String NAME = "name";
     private static final String ENABLED = "enabled";
 
@@ -22,7 +22,7 @@ public class TaskTypeEntityMapper implements EntityMapper<TaskTypeEntity, Cursor
         ContentValues values = new ContentValues(3);
         int taskTypeEnabled = ConversionUtil.booleanToInt(taskTypeEntity.isEnabled());
 
-        values.put(ID_TASK_TYPE, taskTypeEntity.getTaskTypeId());
+        values.put(ID_TASK_TYPE, taskTypeEntity.getId());
         values.put(NAME, taskTypeEntity.getName());
         values.put(ENABLED, taskTypeEnabled);
 
@@ -35,10 +35,13 @@ public class TaskTypeEntityMapper implements EntityMapper<TaskTypeEntity, Cursor
             final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
             final boolean taskTypeEnabled = ConversionUtil.intToBoolean(available);
 
-            return new TaskTypeEntity()
-                    .setTaskTypeId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)))
-                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
-                    .setEnabled(taskTypeEnabled);
+            TaskTypeEntity entity = new TaskTypeEntity();
+
+            entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)));
+            entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                  .setEnabled(taskTypeEnabled);
+
+            return entity;
         }
 
         return null;

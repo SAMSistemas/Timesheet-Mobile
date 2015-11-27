@@ -15,7 +15,7 @@ import java.util.Date;
  * @author jonatan.salas
  */
 public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> {
-    private static final String ID_PROJECT = "id_project";
+    private static final String ID_PROJECT = "id";
     private static final String ID_CLIENT = "id_client";
     private static final String NAME = "name";
     private static final String SHORT_NAME = "short_name";
@@ -27,7 +27,7 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
         ContentValues values = new ContentValues(6);
         int projectEnabled = ConversionUtil.booleanToInt(projectEntity.isEnabled());
 
-        values.put(ID_PROJECT, projectEntity.getProjectId());
+        values.put(ID_PROJECT, projectEntity.getId());
         values.put(ID_CLIENT, projectEntity.getClientId());
         values.put(NAME, projectEntity.getName());
         values.put(SHORT_NAME, projectEntity.getShortName());
@@ -44,13 +44,16 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
             final long millis = cursor.getLong(cursor.getColumnIndexOrThrow(START_DATE));
             final boolean projectEnabled = ConversionUtil.intToBoolean(available);
 
-            return  new ProjectEntity()
-                    .setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)))
-                    .setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
-                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
-                    .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
-                    .setStartDate(new Date(millis))
-                    .setEnabled(projectEnabled);
+            ProjectEntity entity = new ProjectEntity();
+
+            entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)));
+            entity.setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
+                  .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                  .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
+                  .setStartDate(new Date(millis))
+                  .setEnabled(projectEnabled);
+
+            return entity;
         }
 
         return null;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.entity.base.BaseEntity;
+import com.samsistemas.timesheet.entity.base.Entity;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public interface BasicController<T extends BaseEntity> {
+public interface BasicController<T extends Entity> {
     /**
      * Method that insert one object in the ContentProvider.
      *

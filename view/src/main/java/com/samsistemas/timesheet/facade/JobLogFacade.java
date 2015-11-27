@@ -1,6 +1,7 @@
 package com.samsistemas.timesheet.facade;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -12,10 +13,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.samsistemas.timesheet.controller.base.BaseController;
+import com.samsistemas.timesheet.constant.JSONConst;
+import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
 import com.samsistemas.timesheet.factory.ControllerFactory;
+import com.samsistemas.timesheet.helper.URLHelper;
+import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
@@ -35,13 +39,13 @@ import java.util.Map;
 /**
  * @author jonatan.salas
  */
-public class JobLogFacade implements Facade<JobLog> {
+public class JobLogFacade implements Facade<JobLog>, JSONConst {
     protected static final String TAG = JobLogFacade.class.getSimpleName();
     protected static final String DATE_TEMPLATE = "dd-MM-yyyy";
 
     private static JobLogFacade instance = null;
 
-    protected BaseController<JobLogEntity> jobLogController;
+    protected Controller<JobLogEntity> jobLogController;
     protected Facade<Project> projectFacade;
     protected Facade<Person> personFacade;
     protected Facade<TaskType> taskTypeFacade;
@@ -57,14 +61,15 @@ public class JobLogFacade implements Facade<JobLog> {
 
     @Override
     public JobLog findById(@NonNull Context context, long id) {
-        final JobLogEntity entity = jobLogController.get(context, id);
+        final Uri uri = UriHelper.buildJobLogUriWithId(context, id);
+        final JobLogEntity entity = jobLogController.get(context, uri);
         final Project project = projectFacade.findById(context, entity.getProjectId());
         final Person person = personFacade.findById(context, entity.getPersonId());
         final TaskType taskType = taskTypeFacade.findById(context, entity.getTaskTypeId());
 
         final JobLog jobLog = new JobLog();
 
-        jobLog.setId(entity.getJobLogId())
+        jobLog.setId(entity.getId())
               .setProject(project)
               .setPerson(person)
               .setTaskType(taskType)
@@ -78,7 +83,8 @@ public class JobLogFacade implements Facade<JobLog> {
 
     @Override
     public List<JobLog> findAll(@NonNull Context context) {
-        final List<JobLogEntity> jobLogEntities = jobLogController.listAll(context);
+        final Uri uri = UriHelper.buildJobLogUri(context);
+        final List<JobLogEntity> jobLogEntities = jobLogController.listAll(context, uri);
 
         if(null != jobLogEntities) {
             final List<JobLog> jobLogs = new ArrayList<>(jobLogEntities.size());
@@ -94,14 +100,14 @@ public class JobLogFacade implements Facade<JobLog> {
                 person = personFacade.findById(context, entity.getPersonId());
                 taskType = taskTypeFacade.findById(context, entity.getTaskTypeId());
 
-                jobLog.setId(entity.getJobLogId())
-                        .setProject(project)
-                        .setPerson(person)
-                        .setTaskType(taskType)
-                        .setSolicitude(entity.getSolicitude())
-                        .setHours(entity.getHours())
-                        .setObservations(entity.getObservations())
-                        .setWorkDate(entity.getWorkDate());
+                jobLog.setId(entity.getId())
+                      .setProject(project)
+                      .setPerson(person)
+                      .setTaskType(taskType)
+                      .setSolicitude(entity.getSolicitude())
+                      .setHours(entity.getHours())
+                      .setObservations(entity.getObservations())
+                      .setWorkDate(entity.getWorkDate());
 
                 jobLogs.add(jobLog);
             }
@@ -114,8 +120,6 @@ public class JobLogFacade implements Facade<JobLog> {
 
     @Override
     public boolean insert(@NonNull final Context context, final JobLog jobLog) {
-        final String baseUrl = context.getString(com.samsistemas.timesheet.data.R.string.base_url);
-        final String jobLogCreateUrl = baseUrl + "/jobLog/create";
         String dateString = "";
 
         try {
@@ -127,13 +131,13 @@ public class JobLogFacade implements Facade<JobLog> {
         JSONObject jobLogToSend = new JSONObject();
 
         try {
-            jobLogToSend.put("date", dateString)
-                        .put("hours", jobLog.getHours())
-                        .put("solicitude", String.valueOf(jobLog.getSolicitude()))
-                        .put("observation", jobLog.getObservations())
-                        .put("project_name", jobLog.getProject().getName())
-                        .put("username", jobLog.getPerson().getUsername())
-                        .put("task_type_name", jobLog.getTaskType().getName());
+            jobLogToSend.put(DATE, dateString)
+                        .put(HOURS, jobLog.getHours())
+                        .put(SOLICITUDE, String.valueOf(jobLog.getSolicitude()))
+                        .put(OBSERVATION, jobLog.getObservations())
+                        .put(PROJECT_NAME, jobLog.getProject().getName())
+                        .put(USERNAME, jobLog.getPerson().getUsername())
+                        .put(TASK_TYPE_NAME, jobLog.getTaskType().getName());
 
         } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage(), ex.getCause());
@@ -142,7 +146,7 @@ public class JobLogFacade implements Facade<JobLog> {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest jsonRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                jobLogCreateUrl,
+                URLHelper.buildCreateJobLogUrl(context),
                 jobLogToSend,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -178,23 +182,25 @@ public class JobLogFacade implements Facade<JobLog> {
 
     @Override
     public boolean update(@NonNull Context context, JobLog jobLog) {
+        final Uri uri = UriHelper.buildJobLogUri(context);
         final JobLogEntity entity = new JobLogEntity();
 
-        entity.setJobLogId(jobLog.getId())
-                .setProjectId(jobLog.getProject().getId())
-                .setPersonId(jobLog.getPerson().getId())
-                .setTaskTypeId(jobLog.getTaskType().getId())
-                .setSolicitude(jobLog.getSolicitude())
-                .setHours(jobLog.getHours())
-                .setObservations(jobLog.getObservations())
-                .setWorkDate(jobLog.getWorkDate());
+        entity.setId(jobLog.getId());
+        entity.setProjectId(jobLog.getProject().getId())
+              .setPersonId(jobLog.getPerson().getId())
+              .setTaskTypeId(jobLog.getTaskType().getId())
+              .setSolicitude(jobLog.getSolicitude())
+              .setHours(jobLog.getHours())
+              .setObservations(jobLog.getObservations())
+              .setWorkDate(jobLog.getWorkDate());
 
-        return jobLogController.update(context, entity);
+        return jobLogController.update(context, entity, uri);
     }
 
     @Override
     public boolean deleteById(@NonNull Context context, long id) {
-        return jobLogController.delete(context, id);
+        final Uri uri = UriHelper.buildJobLogUri(context);
+        return jobLogController.delete(context, uri, id);
     }
 
     public static JobLogFacade newInstance() {

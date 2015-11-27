@@ -46,8 +46,9 @@ public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, 
             }
 
             ProjectEntity projectEntity = new ProjectEntity();
-            projectEntity.setProjectId(jsonProject.getLong(ID))
-                         .setClientId(jsonClient.getLong(ID))
+
+            projectEntity.setId(jsonProject.getLong(ID));
+            projectEntity.setClientId(jsonClient.getLong(ID))
                          .setName(jsonProject.getString(NAME))
                          .setShortName(jsonProject.getString(SHORT_NAME))
                          .setStartDate(date)

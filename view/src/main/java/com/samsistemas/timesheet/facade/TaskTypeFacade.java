@@ -1,12 +1,14 @@
 package com.samsistemas.timesheet.facade;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.controller.base.BaseController;
+import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
 import com.samsistemas.timesheet.factory.ControllerFactory;
+import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.model.TaskType;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import java.util.List;
  */
 public class TaskTypeFacade implements Facade<TaskType> {
     private static TaskTypeFacade instance = null;
-    protected BaseController<TaskTypeEntity> taskTypeController;
+    protected Controller<TaskTypeEntity> taskTypeController;
 
     protected TaskTypeFacade() {
         this.taskTypeController = ControllerFactory.getTaskTypeController();
@@ -25,10 +27,11 @@ public class TaskTypeFacade implements Facade<TaskType> {
 
     @Override
     public TaskType findById(@NonNull Context context, long id) {
-        final TaskTypeEntity entity = taskTypeController.get(context, id);
+        final Uri uri = UriHelper.buildTaskTypeUriWithId(context, id);
+        final TaskTypeEntity entity = taskTypeController.get(context, uri);
         final TaskType taskType = new TaskType();
 
-        taskType.setId(entity.getTaskTypeId())
+        taskType.setId(entity.getId())
                 .setName(entity.getName())
                 .setEnabled(entity.isEnabled());
 
@@ -37,7 +40,8 @@ public class TaskTypeFacade implements Facade<TaskType> {
 
     @Override
     public List<TaskType> findAll(@NonNull Context context) {
-        final List<TaskTypeEntity> taskTypeEntities = taskTypeController.listAll(context);
+        final Uri uri = UriHelper.buildTaskTypeUri(context);
+        final List<TaskTypeEntity> taskTypeEntities = taskTypeController.listAll(context, uri);
         List<TaskType> taskTypes = new ArrayList<>(taskTypeEntities.size());
         TaskTypeEntity entity;
 
@@ -45,7 +49,7 @@ public class TaskTypeFacade implements Facade<TaskType> {
             entity = taskTypeEntities.get(i);
 
             TaskType taskType = new TaskType();
-            taskType.setId(entity.getTaskTypeId())
+            taskType.setId(entity.getId())
                     .setName(entity.getName())
                     .setEnabled(entity.isEnabled());
 
@@ -57,29 +61,32 @@ public class TaskTypeFacade implements Facade<TaskType> {
 
     @Override
     public boolean insert(@NonNull Context context, TaskType taskType) {
+        final Uri uri = UriHelper.buildTaskTypeUri(context);
         final TaskTypeEntity entity = new TaskTypeEntity();
 
-        entity.setTaskTypeId(taskType.getId())
-              .setName(taskType.getName())
+        entity.setId(taskType.getId());
+        entity.setName(taskType.getName())
               .setEnabled(taskType.isEnabled());
 
-        return taskTypeController.insert(context, entity);
+        return taskTypeController.insert(context, entity, uri);
     }
 
     @Override
     public boolean update(@NonNull Context context, TaskType taskType) {
+        final Uri uri = UriHelper.buildTaskTypeUri(context);
         final TaskTypeEntity entity = new TaskTypeEntity();
 
-        entity.setTaskTypeId(taskType.getId())
-              .setName(taskType.getName())
+        entity.setId(taskType.getId());
+        entity.setName(taskType.getName())
               .setEnabled(taskType.isEnabled());
 
-        return taskTypeController.update(context, entity);
+        return taskTypeController.update(context, entity, uri);
     }
 
     @Override
     public boolean deleteById(@NonNull Context context, long id) {
-        return taskTypeController.delete(context, id);
+        final Uri uri = UriHelper.buildTaskTypeUri(context);
+        return taskTypeController.delete(context, uri, id);
     }
 
     public static TaskTypeFacade newInstance() {

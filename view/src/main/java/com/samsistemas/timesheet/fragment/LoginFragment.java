@@ -209,17 +209,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Vie
             alertDialog.show();
 
             try {
-                Thread.sleep(1500);
+                Thread.sleep(2000);
                 NetworkRequest networkRequest = new NetworkRequest(
                         Request.Method.GET,
                         URLHelper.buildLoginUrl(getApplicationContext()),
                         new Response.Listener<NetworkResponse>() {
                             @Override
                             public void onResponse(NetworkResponse response) {
-                                if (response.statusCode == 200) {
-                                    alertDialog.dismiss();
-                                    MenuNavigator.newInstance().navigateWithAnimation(getActivity(), view);
-                                    fetchWorkingData(requestQueue, view, credentials);
+                                if(null != response) {
+                                    if (response.statusCode == 200) {
+                                        alertDialog.dismiss();
+                                        fetchWorkingData(requestQueue, view, credentials);
+                                        MenuNavigator.newInstance().navigateWithAnimation(getActivity(), view);
+                                    }
                                 }
                             }
                         },
@@ -227,10 +229,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Vie
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Log.e(TAG, error.getMessage(), error.getCause());
-                                final int statusCode = error.networkResponse.statusCode;
-                                if (statusCode == 401) {
-                                    alertDialog.dismiss();
-                                    Snackbar.make(view, "Invalid credentials!!", Snackbar.LENGTH_SHORT).show();
+                                if (null != error.networkResponse) {
+                                    final int statusCode = error.networkResponse.statusCode;
+
+                                    if (statusCode == 401) {
+                                        alertDialog.dismiss();
+                                        Snackbar.make(view, "Invalid credentials!!", Snackbar.LENGTH_SHORT).show();
+                                    }
                                 }
                             }
                         },

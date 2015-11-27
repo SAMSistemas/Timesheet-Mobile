@@ -13,7 +13,7 @@ import com.samsistemas.timesheet.util.ConversionUtil;
  * @author jonatan.salas
  */
 public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
-    private static final String ID_CLIENT = "id_client";
+    private static final String ID_CLIENT = "id";
     private static final String NAME = "name";
     private static final String SHORT_NAME = "short_name";
     private static final String ENABLED = "enabled";
@@ -23,7 +23,7 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
         ContentValues values = new ContentValues(4);
         int clientEnabled = ConversionUtil.booleanToInt(clientEntity.isEnabled());
 
-        values.put(ID_CLIENT, clientEntity.getClientId());
+        values.put(ID_CLIENT, clientEntity.getId());
         values.put(NAME, clientEntity.getName());
         values.put(SHORT_NAME, clientEntity.getShortName());
         values.put(ENABLED, clientEnabled);
@@ -38,11 +38,14 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
             final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
             final boolean clientEnabled = ConversionUtil.intToBoolean(available);
 
-            return new ClientEntity()
-                    .setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
-                    .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
-                    .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
-                    .setEnabled(clientEnabled);
+            ClientEntity entity = new ClientEntity();
+
+            entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)));
+            entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                  .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
+                  .setEnabled(clientEnabled);
+
+            return entity;
         }
 
         return null;

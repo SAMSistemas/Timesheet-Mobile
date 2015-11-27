@@ -1,12 +1,14 @@
 package com.samsistemas.timesheet.facade;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.controller.base.BaseController;
+import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
 import com.samsistemas.timesheet.factory.ControllerFactory;
+import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.model.Client;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import java.util.List;
  */
 public class ClientFacade implements Facade<Client> {
     private static ClientFacade instance = null;
-    protected BaseController<ClientEntity> clientController;
+    protected Controller<ClientEntity> clientController;
 
     protected ClientFacade() {
         this.clientController = ControllerFactory.getClientController();
@@ -25,10 +27,11 @@ public class ClientFacade implements Facade<Client> {
 
     @Override
     public Client findById(@NonNull Context context, long id) {
-        final ClientEntity entity = clientController.get(context, id);
+        final Uri uri = UriHelper.buildClientUriWithId(context, id);
+        final ClientEntity entity = clientController.get(context, uri);
         final Client client = new Client();
 
-        client.setId(entity.getClientId())
+        client.setId(entity.getId())
               .setName(entity.getName())
               .setShortName(entity.getShortName())
               .setEnabled(entity.isEnabled());
@@ -38,7 +41,8 @@ public class ClientFacade implements Facade<Client> {
 
     @Override
     public List<Client> findAll(@NonNull Context context) {
-        final List<ClientEntity> clientEntities = clientController.listAll(context);
+        final Uri uri = UriHelper.buildClientUri(context);
+        final List<ClientEntity> clientEntities = clientController.listAll(context, uri);
         final List<Client> clients = new ArrayList<>(clientEntities.size());
         final Client client = new Client();
         ClientEntity entity;
@@ -46,7 +50,7 @@ public class ClientFacade implements Facade<Client> {
         for(int i = 0; i < clientEntities.size(); i++) {
             entity = clientEntities.get(i);
 
-            client.setId(entity.getClientId())
+            client.setId(entity.getId())
                     .setName(entity.getName())
                     .setShortName(entity.getShortName())
                     .setEnabled(entity.isEnabled());
@@ -59,31 +63,34 @@ public class ClientFacade implements Facade<Client> {
 
     @Override
     public boolean insert(@NonNull Context context, Client client) {
+        final Uri uri = UriHelper.buildClientUri(context);
         final ClientEntity entity = new ClientEntity();
 
-        entity.setClientId(client.getId())
-              .setName(client.getName())
+        entity.setId(client.getId());
+        entity.setName(client.getName())
               .setShortName(client.getShortName())
               .setEnabled(client.isEnabled());
 
-        return clientController.insert(context, entity);
+        return clientController.insert(context, entity, uri);
     }
 
     @Override
     public boolean update(@NonNull Context context, Client client) {
+        final Uri uri = UriHelper.buildClientUri(context);
         final ClientEntity entity = new ClientEntity();
 
-        entity.setClientId(client.getId())
-                .setName(client.getName())
-                .setShortName(client.getShortName())
-                .setEnabled(client.isEnabled());
+        entity.setId(client.getId());
+        entity.setName(client.getName())
+              .setShortName(client.getShortName())
+              .setEnabled(client.isEnabled());
 
-        return clientController.update(context, entity);
+        return clientController.update(context, entity, uri);
     }
 
     @Override
     public boolean deleteById(@NonNull Context context, long id) {
-        return clientController.delete(context, id);
+        final Uri uri = UriHelper.buildClientUri(context);
+        return clientController.delete(context, uri, id);
     }
 
     public static ClientFacade newInstance() {

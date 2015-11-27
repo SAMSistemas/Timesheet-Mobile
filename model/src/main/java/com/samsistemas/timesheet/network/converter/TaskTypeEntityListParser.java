@@ -29,8 +29,8 @@ public class TaskTypeEntityListParser implements JsonParser<List<TaskTypeEntity>
             JSONObject jsonTaskType = jsonArray.getJSONObject(i);
 
             TaskTypeEntity taskTypeEntity = new TaskTypeEntity();
-            taskTypeEntity.setTaskTypeId(jsonTaskType.getLong(ID))
-                          .setName(jsonTaskType.getString(NAME))
+            taskTypeEntity.setId(jsonTaskType.getLong(ID));
+            taskTypeEntity.setName(jsonTaskType.getString(NAME))
                           .setEnabled(true);
 
             taskTypeEntities.add(i, taskTypeEntity);

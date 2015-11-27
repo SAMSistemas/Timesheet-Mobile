@@ -14,7 +14,7 @@ import java.util.Date;
  * @author jonatan.salas
  */
 public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
-    private static final String ID_JOBLOG = "id_joblog";
+    private static final String ID_JOBLOG = "id";
     private static final String ID_PROJECT = "id_project";
     private static final String ID_PERSON = "id_person";
     private static final String ID_TASK_TYPE = "id_tasktype";
@@ -27,7 +27,7 @@ public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
     public ContentValues asContentValues(@NonNull JobLogEntity objectToMap) {
         ContentValues values = new ContentValues(8);
 
-        values.put(ID_JOBLOG, objectToMap.getJobLogId());
+        values.put(ID_JOBLOG, objectToMap.getId());
         values.put(ID_PROJECT, objectToMap.getProjectId());
         values.put(ID_PERSON, objectToMap.getPersonId());
         values.put(ID_TASK_TYPE, objectToMap.getTaskTypeId());
@@ -44,15 +44,18 @@ public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
         if(null != cursor && cursor.moveToFirst()) {
             long millis = cursor.getLong(cursor.getColumnIndexOrThrow(WORK_DATE));
 
-            new JobLogEntity()
-                    .setJobLogId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_JOBLOG)))
-                    .setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)))
-                    .setPersonId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PERSON)))
-                    .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)))
-                    .setHours(cursor.getString(cursor.getColumnIndexOrThrow(HOURS)))
-                    .setWorkDate(new Date(millis))
-                    .setSolicitude(cursor.getInt(cursor.getColumnIndexOrThrow(SOLICITUDE_NUMBER)))
-                    .setObservations(cursor.getString(cursor.getColumnIndexOrThrow(OBSERVATIONS)));
+            JobLogEntity entity = new JobLogEntity();
+
+            entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_JOBLOG)));
+            entity.setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)))
+                  .setPersonId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PERSON)))
+                  .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)))
+                  .setHours(cursor.getString(cursor.getColumnIndexOrThrow(HOURS)))
+                  .setWorkDate(new Date(millis))
+                  .setSolicitude(cursor.getInt(cursor.getColumnIndexOrThrow(SOLICITUDE_NUMBER)))
+                  .setObservations(cursor.getString(cursor.getColumnIndexOrThrow(OBSERVATIONS)));
+
+            return entity;
         }
 
         return null;
