@@ -11,6 +11,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+
+import com.samsistemas.timesheet.constant.JSONConst;
 import com.samsistemas.timesheet.network.service.ProjectNetworkService;
 import com.samsistemas.timesheet.util.AuthUtil;
 
@@ -23,14 +25,11 @@ import java.util.Map;
 /**
  * @author jonatan.salas
  */
-public class FetchProjectDataService extends IntentService {
+public class FetchProjectDataService extends IntentService implements JSONConst {
     protected static final String TAG = FetchProjectDataService.class.getSimpleName();
 //    public static final int STATUS_RUNNING = 0;
 //    public static final int STATUS_FINISHED = 1;
 //    public static final int STATUS_ERROR = 2;
-    public static final String URL = "url";
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
     private ProjectNetworkService mService;
     private RequestQueue mRequestQueue;
 

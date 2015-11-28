@@ -26,13 +26,7 @@ public interface JSONConst {
     String YEAR = "year";
     String PROJECT_NAME = "project_name";
     String TASK_TYPE_NAME = "task_type_name";
-
-    //put("date", dateString)
-    //.put("hours", jobLog.getHours())
-    //        .put("solicitude", String.valueOf(jobLog.getSolicitude()))
-    //        .put("observation", jobLog.getObservations())
-    //        .put("project_name", jobLog.getProject().getName())
-    //        .put("username", jobLog.getPerson().getUsername())
-    //        .put("task_type_name", jobLog.getTaskType().getName());
+    String URL = "url";
+    String PASSWORD = "password";
 
 }
