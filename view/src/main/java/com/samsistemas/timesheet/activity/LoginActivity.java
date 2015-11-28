@@ -66,6 +66,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_Dark_NoActionBar);
         super.onCreate(savedInstanceState);
+        sleep();
+        restore();
         setContentView(R.layout.activity_login);
 
         TextInputLayout usernameInput = (TextInputLayout) findViewById(R.id.username_layout);
@@ -97,8 +99,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mNetworkStateService = new NetworkStateService(this);
         final IntentFilter filter = new IntentFilter(NetworkStateService.CONNECTIVITY_CHANGE_ACTION);
         registerReceiver(mNetworkStateService, filter);
-
-        restore();
     }
 
     @Override
@@ -165,6 +165,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         BaseSessionController<SessionEntity> sessionController = ControllerFactory.getSessionController();
         if (sessionController.isLoggedIn(getApplicationContext())) {
             MenuNavigator.newInstance().navigate(this);
+        }
+    }
+
+    protected void sleep() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Log.e(TAG, ex.getMessage(), ex.getCause());
         }
     }
 
