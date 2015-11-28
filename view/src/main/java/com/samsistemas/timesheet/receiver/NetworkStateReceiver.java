@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.service;
+package com.samsistemas.timesheet.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,11 +11,11 @@ import com.samsistemas.timesheet.util.NetworkUtil;
 /**
  * @author jonatan.salas
  */
-public class NetworkStateService extends BroadcastReceiver {
+public class NetworkStateReceiver extends BroadcastReceiver {
     public static final String CONNECTIVITY_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     private OnNetworkStateReceived mNetworkStateReceived;
 
-    public NetworkStateService(@NonNull OnNetworkStateReceived networkStateReceived) {
+    public NetworkStateReceiver(@NonNull OnNetworkStateReceived networkStateReceived) {
         this.mNetworkStateReceived = networkStateReceived;
     }
 

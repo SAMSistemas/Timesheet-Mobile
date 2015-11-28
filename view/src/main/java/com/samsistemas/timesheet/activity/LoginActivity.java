@@ -36,7 +36,7 @@ import com.samsistemas.timesheet.network.request.NetworkRequest;
 import com.samsistemas.timesheet.network.service.JobLogsNetworkService;
 import com.samsistemas.timesheet.network.service.PersonNetworkService;
 import com.samsistemas.timesheet.network.service.ProjectNetworkService;
-import com.samsistemas.timesheet.service.NetworkStateService;
+import com.samsistemas.timesheet.receiver.NetworkStateReceiver;
 import com.samsistemas.timesheet.util.AuthUtil;
 import com.samsistemas.timesheet.util.InputUtil;
 import com.samsistemas.timesheet.util.TypefaceUtil;
@@ -56,9 +56,9 @@ import java.util.Map;
 /**
  * @author jonatan.salas
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, NetworkStateService.OnNetworkStateReceived, BaseSessionController.OnSessionRestored, JSONConst {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, NetworkStateReceiver.OnNetworkStateReceived, BaseSessionController.OnSessionRestored, JSONConst {
     protected static final String TAG = LoginActivity.class.getSimpleName();
-    private NetworkStateService mNetworkStateService;
+    private NetworkStateReceiver mNetworkStateReceiver;
     private EditText mUsernameEditText;
     private EditText mPasswordEditText;
 
@@ -96,9 +96,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         usernameInput.setOnFocusChangeListener(this);
         loginButton.setOnClickListener(this);
 
-        mNetworkStateService = new NetworkStateService(this);
-        final IntentFilter filter = new IntentFilter(NetworkStateService.CONNECTIVITY_CHANGE_ACTION);
-        registerReceiver(mNetworkStateService, filter);
+        mNetworkStateReceiver = new NetworkStateReceiver(this);
+        final IntentFilter filter = new IntentFilter(NetworkStateReceiver.CONNECTIVITY_CHANGE_ACTION);
+        registerReceiver(mNetworkStateReceiver, filter);
     }
 
     @Override
@@ -110,8 +110,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(null != mNetworkStateService)
-            unregisterReceiver(mNetworkStateService);
+        if(null != mNetworkStateReceiver)
+            unregisterReceiver(mNetworkStateReceiver);
     }
 
     @Override
