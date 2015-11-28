@@ -12,7 +12,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import com.samsistemas.timesheet.constant.JSONConst;
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.JobLogEntity;

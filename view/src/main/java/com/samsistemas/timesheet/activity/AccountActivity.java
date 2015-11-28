@@ -1,8 +1,6 @@
 package com.samsistemas.timesheet.activity;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -46,7 +44,7 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Use this to check troubles
-        //DevUtil.enableStrictModeChecker();
+        DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_accounts);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -118,8 +116,7 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
 
             @Override
             public Loader<Person> onCreateLoader(int id, Bundle args) {
-                SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-                return new PersonLoader(getApplicationContext()).setPersonId(prefs.getLong(USER_ID, 1));
+                return new PersonLoader(getApplicationContext());
             }
 
             @Override

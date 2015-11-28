@@ -67,7 +67,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Use this to check troubles
-        //DevUtil.enableStrictModeChecker();
+        DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_menu);
         setTitle(R.string.action_view_calendar);
         setToolbar();
@@ -279,8 +279,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
 
             @Override
             public Loader<Person> onCreateLoader(int id, Bundle args) {
-                SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-                return new PersonLoader(getApplicationContext()).setPersonId(prefs.getLong(USER_ID, 1));
+                return new PersonLoader(getApplicationContext());
             }
 
             @Override
@@ -308,8 +307,7 @@ public class MenuActivity extends BaseAppCompatActivity implements NavigationVie
         getSupportLoaderManager().restartLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
             @Override
             public Loader<Person> onCreateLoader(int id, Bundle args) {
-                SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-                return new PersonLoader(getApplicationContext()).setPersonId(prefs.getLong(USER_ID, 1));
+                return new PersonLoader(getApplicationContext());
             }
 
             @Override
