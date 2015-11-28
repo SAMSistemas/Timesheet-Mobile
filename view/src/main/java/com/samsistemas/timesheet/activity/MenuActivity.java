@@ -1,7 +1,5 @@
 package com.samsistemas.timesheet.activity;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -14,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import com.samsistemas.calendarview.util.CalendarUtil;
 import com.samsistemas.calendarview.util.TypefaceUtil;
 import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
 import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.loader.JobLogsLoader;
@@ -50,7 +48,7 @@ import java.util.Locale;
  *
  * @author jonatan.salas
  */
-public class MenuActivity extends BaseAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener, SessionConst {
+public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener, SessionConst {
     private static final int PERSON_LOADER_ID = 0;
     private static final int JOBLOG_LOADER_ID = 1;
 
