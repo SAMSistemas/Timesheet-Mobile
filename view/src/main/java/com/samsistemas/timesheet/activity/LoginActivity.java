@@ -96,6 +96,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mNetworkStateService = new NetworkStateService(this);
         final IntentFilter filter = new IntentFilter(NetworkStateService.CONNECTIVITY_CHANGE_ACTION);
         registerReceiver(mNetworkStateService, filter);
+
+        restore();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        restore();
     }
 
     @Override

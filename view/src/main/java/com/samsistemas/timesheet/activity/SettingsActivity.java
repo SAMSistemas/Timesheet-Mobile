@@ -2,10 +2,10 @@ package com.samsistemas.timesheet.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.fragment.SettingsFragment;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
@@ -15,7 +15,7 @@ import com.samsistemas.timesheet.navigation.MenuNavigator;
  *
  * @author jonatan.salas
  */
-public class SettingsActivity extends BaseAppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,10 @@ public class SettingsActivity extends BaseAppCompatActivity {
             ToolbarUtil.styleWithBackButton(actionBar, R.string.action_settings);
 
         if(null == savedInstanceState) {
-            addFragment(new SettingsFragment());
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(android.R.id.content, new SettingsFragment())
+                    .commit();
         }
     }
 
