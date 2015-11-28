@@ -23,7 +23,7 @@
             android:theme="@style/AppTheme.Launcher" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -47,6 +47,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-    </application>
 
+        <service android:name=".service.FetchPersonDataService"
+            android:exported="false" />
+
+        <service android:name=".service.FetchProjectDataService"
+            android:exported="false" />
+
+        <service android:name=".service.FetchJobLogDataService"
+            android:exported="false" />
+
+    </application>
 </manifest>

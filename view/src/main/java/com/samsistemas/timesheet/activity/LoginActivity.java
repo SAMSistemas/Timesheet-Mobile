@@ -2,6 +2,7 @@ package com.samsistemas.timesheet.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -15,15 +16,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.constant.JSONConst;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
@@ -33,25 +32,18 @@ import com.samsistemas.timesheet.fragment.VerifyConnectionFragment;
 import com.samsistemas.timesheet.helper.URLHelper;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.network.request.NetworkRequest;
-import com.samsistemas.timesheet.network.service.JobLogsNetworkService;
-import com.samsistemas.timesheet.network.service.PersonNetworkService;
-import com.samsistemas.timesheet.network.service.ProjectNetworkService;
 import com.samsistemas.timesheet.receiver.NetworkStateReceiver;
-import com.samsistemas.timesheet.util.AuthUtil;
+import com.samsistemas.timesheet.service.FetchJobLogDataService;
+import com.samsistemas.timesheet.service.FetchPersonDataService;
+import com.samsistemas.timesheet.service.FetchProjectDataService;
 import com.samsistemas.timesheet.util.InputUtil;
 import com.samsistemas.timesheet.util.TypefaceUtil;
 import com.samsistemas.timesheet.validation.EmailValidator;
 import com.samsistemas.timesheet.validation.PasswordValidator;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * @author jonatan.salas
@@ -219,7 +211,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 if(null != response) {
                                     if (response.statusCode == 200) {
                                         alertDialog.dismiss();
-                                        fetchWorkingData(requestQueue, view, credentials);
+
+                                        final Calendar calendar = Calendar.getInstance(Locale.getDefault());
+                                        final String month = String.valueOf(calendar.get(Calendar.MONTH));
+                                        final String year = String.valueOf(calendar.get(Calendar.YEAR));
+
+                                        startFetchPersonService(credentials[0], credentials[1]);
+                                        startFetchProjectService(credentials[0], credentials[1]);
+                                        startFetchJobLogService(credentials[0], credentials[1], month, year);
+
+                                        //fetchWorkingData(requestQueue, view, credentials);
                                         MenuNavigator.newInstance().navigateWithAnimation(LoginActivity.this, view);
                                     }
                                 }
@@ -248,110 +249,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    protected void fetchWorkingData(RequestQueue requestQueue, final View view, final String[] credentials) {
-        JsonObjectRequest personJsonRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                URLHelper.buildShowPersonUrl(getApplicationContext(), credentials[0]),
-                new JSONObject(),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            final PersonNetworkService personNetworkService = new PersonNetworkService();
-                            personNetworkService.parseNetworkResponse(getApplicationContext(), response, credentials);
-                        } catch (JSONException ex) {
-                            Snackbar.make(view, "Error Parsing data!", Snackbar.LENGTH_SHORT).show();
-                            Log.e(TAG, ex.getMessage(), ex.getCause());
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, error.getMessage(), error.getCause());
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return AuthUtil.getAuthHeaders(credentials);
-            }
-        };
+    protected void startFetchPersonService(String username, String password) {
+        Intent intentService = new Intent(Intent.ACTION_SYNC, null, this, FetchPersonDataService.class);
 
-        JsonArrayRequest projectRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                URLHelper.buildAllProjectsByUsernameUrl(getApplicationContext(), credentials[0]),
-                new JSONObject(),
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            final ProjectNetworkService projectNetworkService = new ProjectNetworkService();
-                            projectNetworkService.parseNetworkResponse(getApplicationContext(), response, null);
-                        } catch (JSONException ex) {
-                            Snackbar.make(view, "Error Parsing data!", Snackbar.LENGTH_SHORT).show();
-                            Log.e(TAG, ex.getMessage(), ex.getCause());
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, error.getMessage(), error.getCause());
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return AuthUtil.getAuthHeaders(credentials);
-            }
-        };
+        intentService.putExtra(URL, URLHelper.buildShowPersonUrl(getApplicationContext(), username))
+                     .putExtra(USERNAME, username)
+                     .putExtra(PASSWORD, password);
 
-        JSONObject jobLog = null;
-        Date date = new Date(System.currentTimeMillis());
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.setTime(date);
+        startService(intentService);
+    }
 
-        try {
-            jobLog = new JSONObject();
-            jobLog.put(USERNAME, credentials[0])
-                    .put(MONTH, calendar.get(Calendar.MONTH))
-                    .put(YEAR, calendar.get(Calendar.YEAR));
+    protected void startFetchProjectService(String username, String password) {
+        Intent intentService = new Intent(Intent.ACTION_SYNC, null, this, FetchProjectDataService.class);
 
-        } catch (JSONException ex) {
-            Log.e(TAG, ex.getMessage(), ex.getCause());
-        }
+        intentService.putExtra(URL, URLHelper.buildAllProjectsByUsernameUrl(getApplicationContext(), username))
+                     .putExtra(USERNAME, username)
+                     .putExtra(PASSWORD, password);
 
-        JsonArrayRequest jobLogRequest = new JsonArrayRequest(
-                Request.Method.POST,
-                URLHelper.buildAllJobLogsUrl(getApplicationContext()),
-                jobLog,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            final JobLogsNetworkService jobLogsNetworkService = new JobLogsNetworkService();
-                            jobLogsNetworkService.parseNetworkResponse(getApplicationContext(), response, null);
-                        } catch (JSONException ex) {
-                            Snackbar.make(view, "Error Parsing data!", Snackbar.LENGTH_SHORT).show();
-                            Log.e(TAG, ex.getMessage(), ex.getCause());
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, error.getMessage(), error.getCause());
-                    }
-                }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return AuthUtil.getAuthHeaders(credentials);
-            }
-        };
+        startService(intentService);
+    }
 
-        requestQueue.add(personJsonRequest);
-        requestQueue.add(projectRequest);
-        requestQueue.add(jobLogRequest);
+    protected void startFetchJobLogService(String username, String password, String month, String year) {
+        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, FetchJobLogDataService.class);
+
+        intent.putExtra(URL, URLHelper.buildAllJobLogsUrl(getApplicationContext()))
+              .putExtra(USERNAME, username)
+              .putExtra(PASSWORD, password)
+              .putExtra(MONTH, month)
+              .putExtra(YEAR, year);
+
+        startService(intent);
     }
 }

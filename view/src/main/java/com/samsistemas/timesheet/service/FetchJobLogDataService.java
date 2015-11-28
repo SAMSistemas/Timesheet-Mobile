@@ -35,8 +35,14 @@ public class FetchJobLogDataService extends IntentService implements JSONConst {
 
     public FetchJobLogDataService() {
         super(TAG);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         this.mService = new JobLogsNetworkService();
-        this.mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        //TODO JS: make requestQueue object as singleton instance.
+        this.mRequestQueue = Volley.newRequestQueue(this);
     }
 
     @Override

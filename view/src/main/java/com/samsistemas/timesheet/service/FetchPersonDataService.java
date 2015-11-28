@@ -35,8 +35,13 @@ public class FetchPersonDataService extends IntentService implements JSONConst {
 
     public FetchPersonDataService() {
         super(TAG);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         this.mService = new PersonNetworkService();
-        this.mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        this.mRequestQueue = Volley.newRequestQueue(this);
     }
 
     @Override

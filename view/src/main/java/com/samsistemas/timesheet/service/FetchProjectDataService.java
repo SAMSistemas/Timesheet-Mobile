@@ -36,8 +36,13 @@ public class FetchProjectDataService extends IntentService implements JSONConst 
 
     public FetchProjectDataService() {
         super(TAG);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
         this.mService = new ProjectNetworkService();
-        this.mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+        this.mRequestQueue = Volley.newRequestQueue(this);
     }
 
     @Override
