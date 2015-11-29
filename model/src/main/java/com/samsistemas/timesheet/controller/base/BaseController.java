@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public interface BasicController<T extends Entity> {
+public interface BaseController<T extends Entity> {
     /**
      * Method that insert one object in the ContentProvider.
      *

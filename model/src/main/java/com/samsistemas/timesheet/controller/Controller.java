@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.samsistemas.timesheet.controller.base.BasicController;
+import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.entity.base.Entity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
@@ -19,15 +19,11 @@ import java.util.List;
  * @author jonatan.salas
  * @param <T>
  */
-public class Controller<T extends Entity> implements BasicController<T> {
+public class Controller<T extends Entity> implements BaseController<T> {
     protected static final String LOG_TAG = Controller.class.getSimpleName();
     private static final String CLAUSE = " id =? ";
     private EntityMapper<T, Cursor> entityMapper;
 
-    /**
-     *
-     * @param mapper
-     */
     public Controller(EntityMapper<T, Cursor> mapper) {
         this.entityMapper = mapper;
     }
