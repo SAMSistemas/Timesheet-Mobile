@@ -17,9 +17,9 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class ClientEntityListParser implements JsonParser<List<ClientEntity>, JSONArray>, JSONConst {
-    protected static ClientEntityListParser instance = null;
+    private static ClientEntityListParser instance = null;
 
-    protected ClientEntityListParser() {}
+    private ClientEntityListParser() {}
 
     @Override
     public List<ClientEntity> convert(@NonNull JSONArray jsonArray) throws JSONException {

@@ -71,7 +71,7 @@ public class ChangePasswordFragment extends DialogFragment implements DialogInte
      * @param id
      * @return
      */
-    public Drawable getIcon(@DrawableRes int id) {
+    private Drawable getIcon(@DrawableRes int id) {
         return DrawableUtil.modifyDrawableColor(
                 getContext(),
                 id,

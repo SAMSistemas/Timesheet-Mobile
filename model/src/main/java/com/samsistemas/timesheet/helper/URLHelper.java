@@ -30,7 +30,7 @@ public class URLHelper {
         return getBaseUrl(context) + context.getString(R.string.project_all) + username;
     }
 
-    protected static String getBaseUrl(Context context) {
+    private static String getBaseUrl(Context context) {
         return context.getString(R.string.base_url);
     }
 }

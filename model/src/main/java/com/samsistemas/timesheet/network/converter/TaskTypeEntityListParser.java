@@ -17,9 +17,9 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class TaskTypeEntityListParser implements JsonParser<List<TaskTypeEntity>, JSONArray>, JSONConst {
-    protected static TaskTypeEntityListParser instance = null;
+    private static TaskTypeEntityListParser instance = null;
 
-    protected TaskTypeEntityListParser() {}
+    private TaskTypeEntityListParser() {}
 
     @Override
     public List<TaskTypeEntity> convert(@NonNull JSONArray jsonArray) throws JSONException {

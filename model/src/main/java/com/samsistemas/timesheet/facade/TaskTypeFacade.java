@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class TaskTypeFacade implements Facade<TaskType> {
     private static TaskTypeFacade instance = null;
-    protected Controller<TaskTypeEntity> taskTypeController;
+    private final Controller<TaskTypeEntity> taskTypeController;
 
-    protected TaskTypeFacade() {
+    private TaskTypeFacade() {
         this.taskTypeController = ControllerFactory.getTaskTypeController();
     }
 

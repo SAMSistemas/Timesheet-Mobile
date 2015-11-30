@@ -49,7 +49,7 @@ import java.util.Locale;
  * @author jonatan.salas
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, NetworkStateReceiver.OnNetworkStateReceived, BaseSessionController.OnSessionRestored, JSONConst {
-    protected static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private NetworkStateReceiver mNetworkStateReceiver;
     private EditText mUsernameEditText;
     private EditText mPasswordEditText;
@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    protected void sleep() {
+    private void sleep() {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * @param credentials - the email and password as a String array.
      * @param view - the view used for animations.
      */
-    protected void doLogin(@NonNull Activity context,
+    private void doLogin(@NonNull Activity context,
                            @NonNull final String[] credentials,
                            @NonNull final View view) {
 
@@ -249,7 +249,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    protected void startFetchPersonService(String username, String password) {
+    private void startFetchPersonService(String username, String password) {
         Intent intentService = new Intent(Intent.ACTION_SYNC, null, this, FetchPersonDataService.class);
 
         intentService.putExtra(URL, URLHelper.buildShowPersonUrl(getApplicationContext(), username))
@@ -259,7 +259,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startService(intentService);
     }
 
-    protected void startFetchProjectService(String username, String password) {
+    private void startFetchProjectService(String username, String password) {
         Intent intentService = new Intent(Intent.ACTION_SYNC, null, this, FetchProjectDataService.class);
 
         intentService.putExtra(URL, URLHelper.buildAllProjectsByUsernameUrl(getApplicationContext(), username))
@@ -269,7 +269,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startService(intentService);
     }
 
-    protected void startFetchJobLogService(String username, String password, String month, String year) {
+    private void startFetchJobLogService(String username, String password, String month, String year) {
         Intent intent = new Intent(Intent.ACTION_SYNC, null, this, FetchJobLogDataService.class);
 
         intent.putExtra(URL, URLHelper.buildAllJobLogsUrl(getApplicationContext()))

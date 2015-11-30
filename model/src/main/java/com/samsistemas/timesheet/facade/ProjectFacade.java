@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class ProjectFacade implements Facade<Project> {
     private static ProjectFacade instance = null;
-    protected Controller<ProjectEntity> projectController;
-    protected Facade<Client> clientFacade;
+    private final Controller<ProjectEntity> projectController;
+    private final Facade<Client> clientFacade;
 
-    protected ProjectFacade() {
+    private ProjectFacade() {
         this.projectController = ControllerFactory.getProjectController();
         this.clientFacade = ClientFacade.newInstance();
     }

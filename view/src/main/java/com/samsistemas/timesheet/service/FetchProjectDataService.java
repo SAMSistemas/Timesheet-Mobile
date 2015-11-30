@@ -26,7 +26,7 @@ import java.util.Map;
  * @author jonatan.salas
  */
 public class FetchProjectDataService extends IntentService implements JSONConst {
-    protected static final String TAG = FetchProjectDataService.class.getSimpleName();
+    private static final String TAG = FetchProjectDataService.class.getSimpleName();
 //    public static final int STATUS_RUNNING = 0;
 //    public static final int STATUS_FINISHED = 1;
 //    public static final int STATUS_ERROR = 2;

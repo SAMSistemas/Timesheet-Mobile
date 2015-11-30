@@ -60,7 +60,7 @@ public class PersonNetworkService implements NetworkService<JSONObject, String[]
         return null;
     }
 
-    protected void initUserSession(@NonNull Context context, String[] credentials, long id) {
+    private void initUserSession(@NonNull Context context, String[] credentials, long id) {
         final BaseSessionController<SessionEntity> sessionController = ControllerFactory.getSessionController();
         final String authCredential = AuthUtil.getAuthCredential(credentials[0], credentials[1]);
         final SessionEntity entity = new SessionEntity();

@@ -12,9 +12,8 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class ClientsLoader extends AsyncTaskLoader<List<Client>> {
-    protected ClientFacade mFacade;
-    protected Context mContext;
-    protected List<Client> mClientList;
+    private final ClientFacade mFacade;
+    private final Context mContext;
 
     public ClientsLoader(Context context) {
         super(context);
@@ -24,7 +23,7 @@ public class ClientsLoader extends AsyncTaskLoader<List<Client>> {
 
     @Override
     public List<Client> loadInBackground() {
-        mClientList = mFacade.findAll(mContext);
-        return (null != mClientList && mClientList.size() > 0)? mClientList : null;
+        List<Client> clientList = mFacade.findAll(mContext);
+        return (null != clientList && clientList.size() > 0)? clientList : null;
     }
 }

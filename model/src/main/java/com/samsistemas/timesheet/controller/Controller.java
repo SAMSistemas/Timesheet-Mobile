@@ -20,9 +20,9 @@ import java.util.List;
  * @param <T>
  */
 public class Controller<T extends Entity> implements BaseController<T> {
-    protected static final String LOG_TAG = Controller.class.getSimpleName();
+    private static final String LOG_TAG = Controller.class.getSimpleName();
     private static final String CLAUSE = " id =? ";
-    private EntityMapper<T, Cursor> entityMapper;
+    private final EntityMapper<T, Cursor> entityMapper;
 
     public Controller(EntityMapper<T, Cursor> mapper) {
         this.entityMapper = mapper;

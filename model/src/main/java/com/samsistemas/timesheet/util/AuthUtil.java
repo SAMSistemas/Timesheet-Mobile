@@ -3,7 +3,6 @@ package com.samsistemas.timesheet.util;
 import android.support.annotation.NonNull;
 import android.util.Base64;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class ClientFacade implements Facade<Client> {
     private static ClientFacade instance = null;
-    protected Controller<ClientEntity> clientController;
+    private final Controller<ClientEntity> clientController;
 
-    protected ClientFacade() {
+    private ClientFacade() {
         this.clientController = ControllerFactory.getClientController();
     }
 

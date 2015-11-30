@@ -71,7 +71,7 @@ public class VerifyConnectionFragment extends DialogFragment implements DialogIn
      * @param id
      * @return
      */
-    public Drawable getIcon(@DrawableRes int id) {
+    private Drawable getIcon(@DrawableRes int id) {
         return DrawableUtil.modifyDrawableColor(
                 getContext(),
                 id,

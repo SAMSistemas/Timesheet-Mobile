@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class WorkPositionFacade implements Facade<WorkPosition> {
     private static WorkPositionFacade instance = null;
-    protected Controller<WorkPositionEntity> workPositionController;
+    private final Controller<WorkPositionEntity> workPositionController;
 
-    protected WorkPositionFacade() {
+    private WorkPositionFacade() {
         this.workPositionController = ControllerFactory.getWorkPositionController();
     }
 

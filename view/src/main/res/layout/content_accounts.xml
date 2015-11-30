@@ -16,8 +16,8 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_default_height"
-            android:layout_margin="@dimen/cardview_default_margin"
+            android:layout_height="@dimen/card_view_default_height"
+            android:layout_margin="@dimen/card_view_default_margin"
             app:cardCornerRadius="@dimen/cardview_default_radius"
             app:cardElevation="@dimen/cardview_default_elevation"
             app:cardMaxElevation="@dimen/cardview_default_elevation"

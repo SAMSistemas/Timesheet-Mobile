@@ -4,7 +4,7 @@ package com.samsistemas.timesheet.entity.base;
  * @author jonatan.salas
  */
 public class Entity {
-    protected long id;
+    private long id;
 
     public Entity setId(long id) {
         this.id = id;

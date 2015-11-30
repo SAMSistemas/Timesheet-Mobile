@@ -68,7 +68,7 @@ public class SessionController implements BaseSessionController<SessionEntity>, 
      * @param context - the context used to get the SharedPreferences.
      * @return a SharedPreferences singleton object.
      */
-    protected SharedPreferences getSharedPreferences(@NonNull Context context) {
+    private SharedPreferences getSharedPreferences(@NonNull Context context) {
         return context.getSharedPreferences(
                 FILENAME,
                 Context.MODE_PRIVATE

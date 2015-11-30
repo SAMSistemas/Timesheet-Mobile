@@ -39,19 +39,19 @@ import java.util.Map;
  * @author jonatan.salas
  */
 public class JobLogFacade implements Facade<JobLog>, JSONConst {
-    protected static final String TAG = JobLogFacade.class.getSimpleName();
-    protected static final String DATE_TEMPLATE = "dd-MM-yyyy";
+    private static final String TAG = JobLogFacade.class.getSimpleName();
+    private static final String DATE_TEMPLATE = "dd-MM-yyyy";
 
     private static JobLogFacade instance = null;
 
-    protected Controller<JobLogEntity> jobLogController;
-    protected Facade<Project> projectFacade;
-    protected Facade<Person> personFacade;
-    protected Facade<TaskType> taskTypeFacade;
+    private final Controller<JobLogEntity> jobLogController;
+    private final Facade<Project> projectFacade;
+    private final Facade<Person> personFacade;
+    private final Facade<TaskType> taskTypeFacade;
 
-    boolean result = false;
+    private boolean result = false;
 
-    protected JobLogFacade() {
+    private JobLogFacade() {
         this.jobLogController = ControllerFactory.getJobLogController();
         this.projectFacade = ProjectFacade.newInstance();
         this.personFacade = PersonFacade.newInstance();

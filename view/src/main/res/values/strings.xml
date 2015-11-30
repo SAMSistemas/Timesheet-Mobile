@@ -80,18 +80,13 @@
     <string name="no_date_selected">No date selected yet</string>
     <string name="no_job_logs">No upcoming Job Logs</string>
 
-    <string name="preference_filename">timesheet_prefs</string>
-    <string name="user_id">user_id</string>
+    <string name="preference_filename" translatable="false">timesheet_prefs</string>
+    <string name="user_id" translatable="false">user_id</string>
 
     <!-- Error messages -->
     <string name="error_no_available_job_logs">It seems that you haven\'t load any jobLog</string>
 
-    <string name="hour_prompt">Select worked Hours: </string>
-    <string name="client_prompt">Select a Client: </string>
-    <string name="project_prompt">Select a Project: </string>
-    <string name="task_type_prompt">Select a Task Type: </string>
-
-    <string-array name="hours">
+    <string-array name="hours" translatable="false">
         <item>0.5</item>
         <item>1.0</item>
         <item>1.5</item>
@@ -112,7 +107,7 @@
         <item>9.0</item>
      </string-array>
 
-    <string name="user_name">Usuario</string>
+    <string name="user_name" >Usuario</string>
     <string name="pass_word">Contraseña</string>
 
     <string name="description">Description</string>

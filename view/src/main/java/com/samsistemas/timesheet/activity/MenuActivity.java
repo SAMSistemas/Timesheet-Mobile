@@ -35,7 +35,6 @@ import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
-import com.samsistemas.timesheet.util.DevUtil;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -65,7 +64,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Use this to check troubles
-        DevUtil.enableStrictModeChecker();
+        //DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_menu);
         setTitle(R.string.action_view_calendar);
         setToolbar();
@@ -191,18 +190,18 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    protected void setToolbar() {
+    private void setToolbar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setNavigationDrawer(toolbar);
     }
 
-    protected void setCollapsingToolbarLayout() {
+    private void setCollapsingToolbarLayout() {
         final CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         toolbarLayout.setTitleEnabled(false);
     }
 
-    protected void setNavigationDrawer(@NonNull Toolbar toolbar) {
+    private void setNavigationDrawer(@NonNull Toolbar toolbar) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0);
         drawer.setDrawerListener(toggle);
@@ -218,7 +217,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    protected void setCalendarView() {
+    private void setCalendarView() {
         mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
 
         mCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
@@ -233,7 +232,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         //paintCalendarByMonth(getCurrentDate());
     }
 
-    protected void setRecyclerView() {
+    private void setRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     }
 //        //mAdapter = new JobLogAdapter(getApplicationContext(), getListFilteredByDate(getCurrentDate()));
@@ -272,7 +271,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         return TypefaceUtil.getCustomTypeface(getApplicationContext(), R.string.roboto_medium);
     }
 
-    protected void initPersonLoader() {
+    private void initPersonLoader() {
         getSupportLoaderManager().initLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
 
             @Override
@@ -301,7 +300,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }).forceLoad();
     }
 
-    protected void restartPersonLoader() {
+    private void restartPersonLoader() {
         getSupportLoaderManager().restartLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
             @Override
             public Loader<Person> onCreateLoader(int id, Bundle args) {
@@ -328,7 +327,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }).forceLoad();
     }
 
-    protected void initJobLogLoader() {
+    private void initJobLogLoader() {
         getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<JobLog>>() {
             @Override
             public Loader<List<JobLog>> onCreateLoader(int id, Bundle args) {

@@ -31,7 +31,6 @@ import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
-import com.samsistemas.timesheet.util.DevUtil;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 
 import java.util.ArrayList;
@@ -47,11 +46,11 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
     private Spinner mClientSpinner;
     private Spinner mProjectSpinner;
 
-    private Person person = new Person();
-    private Project project = new Project();
-    private TaskType taskType = new TaskType();
-    private Client client = new Client();
-    private JobLog jobLogToSave = new JobLog();
+    private final Person person = new Person();
+    private final Project project = new Project();
+    private final TaskType taskType = new TaskType();
+    private final Client client = new Client();
+    private final JobLog jobLogToSave = new JobLog();
 
     private CharSequence hours;
 
@@ -59,7 +58,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Use this to check troubles
-        DevUtil.enableStrictModeChecker();
+        //DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_add_hours);
         setToolbar();
         setTaskSpinner();
@@ -88,13 +87,13 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         MenuNavigator.newInstance().navigate(this);
     }
 
-    protected void fetchData() {
+    private void fetchData() {
         new FetchTaskTypeAdapterTask().execute();
         new FetchClientAdapterTask().execute();
         new FetchProjectAdapterTask().execute();
     }
 
-    protected void setToolbar() {
+    private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -106,7 +105,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         toolbarLayout.setTitleEnabled(false);
     }
 
-    protected void setTaskSpinner() {
+    private void setTaskSpinner() {
         mTaskSpinner = (Spinner) findViewById(R.id.task_spinner);
         mTaskSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
         mTaskSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -123,7 +122,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         });
     }
 
-    protected void setHourSpinner() {
+    private void setHourSpinner() {
         ArrayAdapter<CharSequence> hoursArrayAdapter = ArrayAdapter.createFromResource(getApplication(), R.array.hours, android.R.layout.simple_spinner_dropdown_item);
         hoursArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner hourSpinner = (Spinner) findViewById(R.id.hours_spinner);
@@ -142,7 +141,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         });
     }
 
-    protected void setClientSpinner() {
+    private void setClientSpinner() {
         mClientSpinner = (Spinner) findViewById(R.id.client_spinner);
         mClientSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
         mClientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -159,7 +158,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         });
     }
 
-    protected void setProjectSpinner() {
+    private void setProjectSpinner() {
         mProjectSpinner = (Spinner) findViewById(R.id.project_spinner);
         mProjectSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
         mProjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -177,7 +176,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         });
     }
 
-    protected void saveJobLog() {
+    private void saveJobLog() {
         final EditText descriptionEditText = (EditText) findViewById(R.id.description);
         final EditText solicitudeNumberEditText = (EditText) findViewById(R.id.solicitude);
 
@@ -206,7 +205,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         });
     }
 
-    public class FetchClientAdapterTask extends AsyncTask<Void, Void, List<String>> {
+    private class FetchClientAdapterTask extends AsyncTask<Void, Void, List<String>> {
         @Override
         protected List<String> doInBackground(Void... params) {
             final List<Client> clients = ClientFacade.newInstance().findAll(getApplicationContext());
@@ -228,7 +227,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         }
     }
 
-    public class FetchTaskTypeAdapterTask extends AsyncTask<Void, Void, List<String>> {
+    private class FetchTaskTypeAdapterTask extends AsyncTask<Void, Void, List<String>> {
         @Override
         protected List<String> doInBackground(Void... params) {
             final List<TaskType> taskTypes = TaskTypeFacade.newInstance().findAll(getApplicationContext());
@@ -250,7 +249,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
         }
     }
 
-    public class FetchProjectAdapterTask extends AsyncTask<Void, Void, List<String>> {
+    private class FetchProjectAdapterTask extends AsyncTask<Void, Void, List<String>> {
 
         @Override
         protected List<String> doInBackground(Void... params) {
@@ -274,7 +273,7 @@ public class AddHoursActivity extends AppCompatActivity implements SessionConst 
     }
 
     public class SaveJobLogOnServerTask extends AsyncTask<JobLog, Void, Boolean> {
-        protected Context mContext;
+        private final Context mContext;
 
         public SaveJobLogOnServerTask(Context context) {
             this.mContext = context;

@@ -13,9 +13,9 @@ import org.json.JSONObject;
  * @author jonatan.salas
  */
 public class PersonEntityParser implements JsonParser<PersonEntity, JSONObject>, JSONConst {
-    protected static PersonEntityParser instance = null;
+    private static PersonEntityParser instance = null;
 
-    protected PersonEntityParser() {}
+    private PersonEntityParser() {}
 
     @Override
     public PersonEntity convert(@NonNull JSONObject jsonObject) throws JSONException {

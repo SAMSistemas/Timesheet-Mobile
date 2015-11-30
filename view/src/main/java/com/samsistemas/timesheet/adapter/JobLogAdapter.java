@@ -22,17 +22,17 @@ import java.util.List;
  */
 public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<JobLog> mItems;
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * @author jonatan.salas
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        View mItemView;
-        TextView mJobLogTask;
-        TextView mJobLogDescription;
-        TextView mJobLogHours;
-        ImageView mIcon;
+        final View mItemView;
+        final TextView mJobLogTask;
+        final TextView mJobLogDescription;
+        final TextView mJobLogHours;
+        final ImageView mIcon;
 
         public ViewHolder(View v) {
             super(v);

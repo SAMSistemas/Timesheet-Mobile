@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class PersonFacade implements Facade<Person> {
     private static PersonFacade instance = null;
-    protected Controller<PersonEntity> personController;
-    protected Facade<WorkPosition> workPositionFacade;
+    private final Controller<PersonEntity> personController;
+    private final Facade<WorkPosition> workPositionFacade;
 
-    protected PersonFacade() {
+    private PersonFacade() {
         this.personController = ControllerFactory.getPersonController();
         this.workPositionFacade = WorkPositionFacade.newInstance();
     }

@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.IntentCompat;
 import android.view.View;
 
-import com.samsistemas.timesheet.activity.AccountActivity;
 import com.samsistemas.timesheet.activity.AddHoursActivity;
 import com.samsistemas.timesheet.animation.ScaleUpAnimator;
 

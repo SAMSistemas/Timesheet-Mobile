@@ -21,7 +21,6 @@ import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
-import com.samsistemas.timesheet.util.DevUtil;
 import com.samsistemas.timesheet.util.DrawableUtil;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 import com.samsistemas.timesheet.fragment.ChangePasswordFragment;
@@ -44,7 +43,7 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Use this to check troubles
-        DevUtil.enableStrictModeChecker();
+        //DevUtil.enableStrictModeChecker();
         setContentView(R.layout.activity_accounts);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,7 +97,7 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
         MenuNavigator.newInstance().navigate(this);
     }
 
-    protected Drawable getCustomDrawable(@DrawableRes int id) {
+    private Drawable getCustomDrawable(@DrawableRes int id) {
         Drawable drawable = DrawableUtil.modifyDrawableColor(
                 getApplicationContext(),
                 id,
@@ -111,7 +110,7 @@ public class AccountActivity extends AppCompatActivity implements SessionConst {
         return drawable;
     }
 
-    protected void initPersonLoader() {
+    private void initPersonLoader() {
         getSupportLoaderManager().initLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
 
             @Override

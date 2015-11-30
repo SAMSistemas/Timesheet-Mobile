@@ -13,9 +13,9 @@ import org.json.JSONObject;
  * @author jonatan.salas
  */
 public class WorkPositionEntityParser implements JsonParser<WorkPositionEntity, JSONObject>, JSONConst {
-    protected static WorkPositionEntityParser instance = null;
+    private static WorkPositionEntityParser instance = null;
 
-    protected WorkPositionEntityParser() {}
+    private WorkPositionEntityParser() {}
 
     @Override
     public WorkPositionEntity convert(@NonNull JSONObject jsonObject) throws JSONException {

@@ -14,7 +14,7 @@ import com.samsistemas.timesheet.data.R;
  */
 public class Database extends SQLiteOpenHelper {
     private static Database instance = null;
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * Constructor using parameters. It receives the worker application context

@@ -17,10 +17,10 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class JobLogEntityListParser implements JsonParser<List<JobLogEntity>, JSONArray>, JSONConst {
-    protected static JobLogEntityListParser instance = null;
-    protected JobLogEntityParser parser;
+    private static JobLogEntityListParser instance = null;
+    private final JobLogEntityParser parser;
 
-    protected JobLogEntityListParser() {
+    private JobLogEntityListParser() {
         this.parser = JobLogEntityParser.newInstance();
     }
 

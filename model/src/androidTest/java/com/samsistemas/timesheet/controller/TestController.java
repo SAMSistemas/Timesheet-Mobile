@@ -20,19 +20,19 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class TestController extends AndroidTestCase {
-    private static Controller<ClientEntity> clientBaseController = ControllerFactory.getClientController();
-    private static Controller<WorkPositionEntity> workPositionBaseController = ControllerFactory.getWorkPositionController();
-    private static Controller<PersonEntity> personBaseController = ControllerFactory.getPersonController();
-    private static Controller<TaskTypeEntity> taskTypeBaseController = ControllerFactory.getTaskTypeController();
-    private static Controller<ProjectEntity> projectBaseController = ControllerFactory.getProjectController();
-    private static Controller<JobLogEntity> jobLogBaseController = ControllerFactory.getJobLogController();
+    private static final Controller<ClientEntity> clientBaseController = ControllerFactory.getClientController();
+    private static final Controller<WorkPositionEntity> workPositionBaseController = ControllerFactory.getWorkPositionController();
+    private static final Controller<PersonEntity> personBaseController = ControllerFactory.getPersonController();
+    private static final Controller<TaskTypeEntity> taskTypeBaseController = ControllerFactory.getTaskTypeController();
+    private static final Controller<ProjectEntity> projectBaseController = ControllerFactory.getProjectController();
+    private static final Controller<JobLogEntity> jobLogBaseController = ControllerFactory.getJobLogController();
 
-    private static ClientEntity expectedClientEntity = TestUtilities.getClient();
-    private static WorkPositionEntity expectedWorkPositionEntity = TestUtilities.getWorkPosition();
-    private static PersonEntity expectedPersonEntity = TestUtilities.getPerson(expectedWorkPositionEntity.getId());
-    private static TaskTypeEntity expectedTaskTypeEntity = TestUtilities.getTaskType();
-    private static ProjectEntity expectedProjectEntity = TestUtilities.getProject(expectedClientEntity.getId());
-    private static JobLogEntity expectedJobLogEntity = TestUtilities.getJobLog(expectedProjectEntity.getId(), expectedPersonEntity.getId(), expectedTaskTypeEntity.getId());
+    private static final ClientEntity expectedClientEntity = TestUtilities.getClient();
+    private static final WorkPositionEntity expectedWorkPositionEntity = TestUtilities.getWorkPosition();
+    private static final PersonEntity expectedPersonEntity = TestUtilities.getPerson(expectedWorkPositionEntity.getId());
+    private static final TaskTypeEntity expectedTaskTypeEntity = TestUtilities.getTaskType();
+    private static final ProjectEntity expectedProjectEntity = TestUtilities.getProject(expectedClientEntity.getId());
+    private static final JobLogEntity expectedJobLogEntity = TestUtilities.getJobLog(expectedProjectEntity.getId(), expectedPersonEntity.getId(), expectedTaskTypeEntity.getId());
 
     public void testDeleteDb() {
         mContext.deleteDatabase(mContext.getString(R.string.database_name));

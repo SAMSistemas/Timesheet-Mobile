@@ -13,8 +13,8 @@ import java.util.Map;
  * @author jonatan.salas
  */
 public class NetworkRequest extends Request<NetworkResponse> {
-    protected Response.Listener<NetworkResponse> mListener;
-    protected String[] mCredentials;
+    private final Response.Listener<NetworkResponse> mListener;
+    private final String[] mCredentials;
 
     public NetworkRequest(int method, String url, Response.Listener<NetworkResponse> listener, Response.ErrorListener errorListener, String[] credentials) {
         super(method, url, errorListener);

@@ -261,7 +261,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
      * @param tableName - the table name as resource id.
      * @return a uri that notifies the inserted id.
      */
-    protected Uri insert(@NonNull Uri uri, @NonNull ContentValues values, @StringRes int tableName) {
+    private Uri insert(@NonNull Uri uri, @NonNull ContentValues values, @StringRes int tableName) {
         SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         Uri returnUri;
 
@@ -313,7 +313,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
      * @param tableName - the table name as a Resource id.
      * @return an int representing the count of inserted rows.
      */
-    protected int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values, @StringRes int tableName) {
+    private int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values, @StringRes int tableName) {
         SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         writableDatabase.beginTransaction();
         int returnCount = 0;

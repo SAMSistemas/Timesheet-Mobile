@@ -13,9 +13,8 @@ import com.samsistemas.timesheet.model.Person;
  */
 public class PersonLoader extends AsyncTaskLoader<Person> implements SessionConst {
 //    protected static final String TAG = PersonLoader.class.getSimpleName();
-    protected PersonFacade mFacade;
-    protected Context mContext;
-    protected Person mPerson;
+    private final PersonFacade mFacade;
+    private final Context mContext;
 
     public PersonLoader(Context context) {
         super(context);
@@ -26,13 +25,13 @@ public class PersonLoader extends AsyncTaskLoader<Person> implements SessionCons
     @Override
     public Person loadInBackground() {
         final SharedPreferences prefs = mContext.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-        mPerson = mFacade.findById(mContext, prefs.getLong(USER_ID, 0));
+        Person person = mFacade.findById(mContext, prefs.getLong(USER_ID, 0));
 
-        if((null != mPerson) &&
-           (null != mPerson.getName()) &&
-           (null != mPerson.getLastName()) &&
-           (null != mPerson.getUsername())) {
-            return mPerson;
+        if((null != person) &&
+           (null != person.getName()) &&
+           (null != person.getLastName()) &&
+           (null != person.getUsername())) {
+            return person;
         } else {
             return loadInBackground();
         }

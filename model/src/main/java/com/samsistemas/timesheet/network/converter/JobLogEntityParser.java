@@ -19,12 +19,12 @@ import java.util.Locale;
  * @author jonatan.salas
  */
 public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject>, JSONConst {
-    protected static final String TAG = JobLogEntityParser.class.getSimpleName();
-    protected static final String DATE_TEMPLATE = "dd-MM-yyyy";
+    private static final String TAG = JobLogEntityParser.class.getSimpleName();
+    private static final String DATE_TEMPLATE = "dd-MM-yyyy";
 
     private static JobLogEntityParser instance = null;
 
-    protected JobLogEntityParser() {}
+    private JobLogEntityParser() {}
 
     @Override
     public JobLogEntity convert(@NonNull JSONObject json) throws JSONException {

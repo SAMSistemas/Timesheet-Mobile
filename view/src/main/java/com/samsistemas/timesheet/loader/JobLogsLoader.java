@@ -12,9 +12,8 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class JobLogsLoader extends AsyncTaskLoader<List<JobLog>> {
-    protected Context mContext;
-    protected JobLogFacade mFacade;
-    protected List<JobLog> mJobLogList;
+    private final Context mContext;
+    private final JobLogFacade mFacade;
 
     public JobLogsLoader(Context context) {
         super(context);
@@ -24,7 +23,8 @@ public class JobLogsLoader extends AsyncTaskLoader<List<JobLog>> {
 
     @Override
     public List<JobLog> loadInBackground() {
-        mJobLogList = mFacade.findAll(mContext);
-        return (null != mJobLogList && mJobLogList.size() > 0)? mJobLogList : null;
+//        List<JobLog> jobLogList = mFacade.findAll(mContext);
+//        return (null != jobLogList && jobLogList.size() > 0)? jobLogList : null;
+        return null;
     }
 }
