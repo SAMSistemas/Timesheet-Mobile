@@ -10,6 +10,8 @@ import com.samsistemas.timesheet.data.R;
  */
 public class URLHelper {
 
+    private URLHelper() { }
+
     public static String buildLoginUrl(Context context) {
         return getBaseUrl(context) + context.getString(R.string.login_url);
     }

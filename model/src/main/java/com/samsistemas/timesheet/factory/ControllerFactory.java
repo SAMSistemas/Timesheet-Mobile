@@ -26,14 +26,17 @@ public class ControllerFactory {
     private static Controller<WorkPositionEntity> workPositionController = null;
     private static BaseSessionController<SessionEntity> sessionController = null;
 
+    private ControllerFactory() { }
+
     /**
      * Method that gets a singleton instance.
      *
      * @return a singleton object.
      */
     public static synchronized Controller<ClientEntity> getClientController() {
-        if(null == clientController)
+        if (null == clientController) {
             clientController = new Controller<>(MapperFactory.getClientMapper());
+        }
         return clientController;
     }
 
@@ -43,8 +46,9 @@ public class ControllerFactory {
      * @return a singleton object.
      */
     public static synchronized Controller<JobLogEntity> getJobLogController() {
-        if(null == jobLogController)
+        if (null == jobLogController) {
             jobLogController = new Controller<>(MapperFactory.getJoblogMapper());
+        }
         return jobLogController;
     }
 
@@ -54,8 +58,9 @@ public class ControllerFactory {
      * @return a singleton object.
      */
     public static synchronized Controller<PersonEntity> getPersonController() {
-        if(null == personController)
+        if (null == personController) {
             personController = new Controller<>(MapperFactory.getPersonMapper());
+        }
         return personController;
     }
 
@@ -65,8 +70,9 @@ public class ControllerFactory {
      * @return a singleton object.
      */
     public static synchronized Controller<ProjectEntity> getProjectController() {
-        if(null == projectController)
+        if (null == projectController) {
             projectController = new Controller<>(MapperFactory.getProjectMapper());
+        }
         return projectController;
     }
 
@@ -76,8 +82,9 @@ public class ControllerFactory {
      * @return a singleton object.
      */
     public static synchronized Controller<TaskTypeEntity> getTaskTypeController() {
-        if(null == taskTypeController)
+        if (null == taskTypeController) {
             taskTypeController = new Controller<>(MapperFactory.getTaskTypeMapper());
+        }
         return taskTypeController;
     }
 
@@ -86,8 +93,9 @@ public class ControllerFactory {
      * @return
      */
     public static synchronized Controller<WorkPositionEntity> getWorkPositionController() {
-        if(null == workPositionController)
+        if (null == workPositionController) {
             workPositionController = new Controller<>(MapperFactory.getWorkPositionMapper());
+        }
         return workPositionController;
     }
 
@@ -97,8 +105,9 @@ public class ControllerFactory {
      * @return a singleton object.
      */
     public static synchronized BaseSessionController<SessionEntity> getSessionController() {
-        if(null == sessionController)
+        if (null == sessionController) {
             sessionController = new SessionController();
+        }
         return sessionController;
     }
 }

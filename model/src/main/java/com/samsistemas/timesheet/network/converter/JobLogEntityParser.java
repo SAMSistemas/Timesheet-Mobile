@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.network.converter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.samsistemas.timesheet.constant.JSONConst;
+import static com.samsistemas.timesheet.constant.JSONConst.*;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -18,13 +18,13 @@ import java.util.Locale;
 /**
  * @author jonatan.salas
  */
-public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject>, JSONConst {
+public final class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject> {
     private static final String TAG = JobLogEntityParser.class.getSimpleName();
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
 
     private static JobLogEntityParser instance = null;
 
-    private JobLogEntityParser() {}
+    private JobLogEntityParser() { }
 
     @Override
     public JobLogEntity convert(@NonNull JSONObject json) throws JSONException {
@@ -55,8 +55,9 @@ public class JobLogEntityParser implements JsonParser<JobLogEntity, JSONObject>,
     }
 
     public static JobLogEntityParser newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new JobLogEntityParser();
+        }
         return instance;
     }
 }

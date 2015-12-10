@@ -9,7 +9,7 @@ public class Client {
     private String shortName;
     private boolean enabled;
 
-    public Client() {}
+    public Client() { }
 
     public Client setId(long id) {
         this.id = id;

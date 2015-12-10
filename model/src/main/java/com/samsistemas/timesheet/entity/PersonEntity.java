@@ -19,7 +19,7 @@ public class PersonEntity extends Entity {
     private Drawable picture;
     private boolean enabled;
 
-    public PersonEntity() {}
+    public PersonEntity() { }
 
     /** Attributes setters and getters **/
     public PersonEntity setName(String name) {

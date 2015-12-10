@@ -22,7 +22,7 @@ import com.samsistemas.timesheet.helper.UriHelper;
  *
  * @author jonatan.salas
  */
-public class DatabaseProvider extends ContentProvider implements ContentUri {
+public class DatabaseProvider extends ContentProvider {
     private UriMatcher mUriMatcher;
     private Database mDatabase;
     private Context mContext;
@@ -31,8 +31,8 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
     public boolean onCreate() {
         mContext = getContext();
 
-        if(null != mContext) {
-            mDatabase = Database.getInstance(mContext);
+        if (null != mContext) {
+            mDatabase = Database.newInstance(mContext);
             mUriMatcher = UriHelper.buildUriMatcher(mContext);
         }
 
@@ -41,12 +41,17 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(@NonNull Uri uri,
+        String[] projection,
+        String selection,
+        String[] selectionArgs,
+        String sortOrder) {
+
         SQLiteDatabase readableDatabase = mDatabase.getReadableDatabase();
         Cursor retCursor;
 
         switch(mUriMatcher.match(uri)) {
-            case CLIENTS:
+            case ContentUri.CLIENTS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.client_table),
                         projection,
@@ -57,7 +62,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case CLIENT_ID:
+            case ContentUri.CLIENT_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.client_table),
                         projection,
@@ -68,7 +73,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case WORK_POSITION:
+            case ContentUri.WORK_POSITION:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.work_position_table),
                         projection,
@@ -79,7 +84,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case WORK_POSITION_ID:
+            case ContentUri.WORK_POSITION_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.work_position_table),
                         projection,
@@ -90,7 +95,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case PERSONS:
+            case ContentUri.PERSONS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.person_table),
                         projection,
@@ -101,7 +106,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case PERSON_ID:
+            case ContentUri.PERSON_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.person_table),
                         projection,
@@ -112,7 +117,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case TASK_TYPES:
+            case ContentUri.TASK_TYPES:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.task_type_table),
                         projection,
@@ -123,7 +128,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case TASKTYPE_ID:
+            case ContentUri.TASKTYPE_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.task_type_table),
                         projection,
@@ -134,7 +139,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case PROJECTS:
+            case ContentUri.PROJECTS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.project_table),
                         projection,
@@ -145,7 +150,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case PROJECT_ID:
+            case ContentUri.PROJECT_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.project_table),
                         projection,
@@ -156,7 +161,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case JOB_LOGS:
+            case ContentUri.JOB_LOGS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.job_log_table),
                         projection,
@@ -167,7 +172,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         sortOrder
                 );
                 break;
-            case JOBLOG_ID:
+            case ContentUri.JOBLOG_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.job_log_table),
                         projection,
@@ -191,29 +196,29 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
     @Override
     public String getType(@NonNull Uri uri) {
         switch (mUriMatcher.match(uri)) {
-            case CLIENTS:
+            case ContentUri.CLIENTS:
                 return mContext.getString(R.string.client_content_type);
-            case CLIENT_ID:
+            case ContentUri.CLIENT_ID:
                 return mContext.getString(R.string.client_content_item_type);
-            case WORK_POSITION:
+            case ContentUri.WORK_POSITION:
                 return mContext.getString(R.string.work_position_content_type);
-            case WORK_POSITION_ID:
+            case ContentUri.WORK_POSITION_ID:
                 return mContext.getString(R.string.work_position_content_item_type);
-            case PERSONS:
+            case ContentUri.PERSONS:
                 return mContext.getString(R.string.person_content_type);
-            case PERSON_ID:
+            case ContentUri.PERSON_ID:
                 return mContext.getString(R.string.person_content_item_type);
-            case TASK_TYPES:
+            case ContentUri.TASK_TYPES:
                 return mContext.getString(R.string.task_type_content_type);
-            case TASKTYPE_ID:
+            case ContentUri.TASKTYPE_ID:
                 return mContext.getString(R.string.task_type_content_item_type);
-            case PROJECTS:
+            case ContentUri.PROJECTS:
                 return mContext.getString(R.string.project_content_type);
-            case PROJECT_ID:
+            case ContentUri.PROJECT_ID:
                 return mContext.getString(R.string.project_content_item_type);
-            case JOB_LOGS:
+            case ContentUri.JOB_LOGS:
                 return mContext.getString(R.string.job_log_content_type);
-            case JOBLOG_ID:
+            case ContentUri.JOBLOG_ID:
                 return mContext.getString(R.string.job_log_content_item_type);
             default:
                 throw new UnsupportedOperationException("unknown uri: " + uri);
@@ -226,22 +231,22 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
         Uri returnUri;
 
         switch(mUriMatcher.match(uri)) {
-            case CLIENTS:
+            case ContentUri.CLIENTS:
                 returnUri = insert(uri, values, R.string.client_table);
                 break;
-            case WORK_POSITION:
+            case ContentUri.WORK_POSITION:
                 returnUri = insert(uri, values, R.string.work_position_table);
                 break;
-            case PERSONS:
+            case ContentUri.PERSONS:
                 returnUri = insert(uri, values, R.string.person_table);
                 break;
-            case TASK_TYPES:
+            case ContentUri.TASK_TYPES:
                 returnUri = insert(uri, values, R.string.task_type_table);
                 break;
-            case PROJECTS:
+            case ContentUri.PROJECTS:
                 returnUri = insert(uri, values, R.string.project_table);
                 break;
-            case JOB_LOGS:
+            case ContentUri.JOB_LOGS:
                 returnUri = insert(uri, values, R.string.job_log_table);
                 break;
             default:
@@ -276,7 +281,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
             );
         }
 
-        if(id < 0) {
+        if (id < 0) {
             throw new SQLException("failed to insert row in Uri: " + uri);
         } else {
             returnUri = ContentUris.withAppendedId(uri, id);
@@ -288,17 +293,17 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
     @Override
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         switch(mUriMatcher.match(uri)) {
-            case CLIENTS:
+            case ContentUri.CLIENTS:
                 return bulkInsert(uri, values, R.string.client_table);
-            case WORK_POSITION:
+            case ContentUri.WORK_POSITION:
                 return bulkInsert(uri, values, R.string.work_position_table);
-            case PERSONS:
+            case ContentUri.PERSONS:
                 return bulkInsert(uri, values, R.string.person_table);
-            case TASK_TYPES:
+            case ContentUri.TASK_TYPES:
                 return bulkInsert(uri, values, R.string.task_type_table);
-            case PROJECTS:
+            case ContentUri.PROJECTS:
                 return bulkInsert(uri, values, R.string.project_table);
-            case JOB_LOGS:
+            case ContentUri.JOB_LOGS:
                 return bulkInsert(uri, values, R.string.job_log_table);
 
             default: return super.bulkInsert(uri, values);
@@ -319,7 +324,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
         int returnCount = 0;
 
         try {
-            for(ContentValues value: values) {
+            for (ContentValues value: values) {
                 long id = writableDatabase.insertWithOnConflict(
                         mContext.getString(tableName),
                         null,
@@ -327,7 +332,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         SQLiteDatabase.CONFLICT_REPLACE
                 );
 
-                if(-1 != id) {
+                if (-1 != id) {
                     returnCount++;
                 }
             }
@@ -347,7 +352,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
         int updatedRows;
 
         switch(mUriMatcher.match(uri)) {
-            case CLIENTS:
+            case ContentUri.CLIENTS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.client_table),
                         values,
@@ -355,7 +360,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         selectionArgs
                 );
                 break;
-            case WORK_POSITION:
+            case ContentUri.WORK_POSITION:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.work_position_table),
                         values,
@@ -363,7 +368,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         selectionArgs
                 );
                 break;
-            case PERSONS:
+            case ContentUri.PERSONS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.person_table),
                         values,
@@ -371,7 +376,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         selectionArgs
                 );
                 break;
-            case TASK_TYPES:
+            case ContentUri.TASK_TYPES:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.task_type_table),
                         values,
@@ -379,7 +384,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         selectionArgs
                 );
                 break;
-            case PROJECTS:
+            case ContentUri.PROJECTS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.project_table),
                         values,
@@ -387,7 +392,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         selectionArgs
                 );
                 break;
-            case JOB_LOGS:
+            case ContentUri.JOB_LOGS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.job_log_table),
                         values,
@@ -398,7 +403,9 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
-        if(0 != updatedRows) mContext.getContentResolver().notifyChange(uri, null);
+        if (0 != updatedRows) {
+            mContext.getContentResolver().notifyChange(uri, null);
+        }
 
         return updatedRows;
     }
@@ -409,42 +416,42 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
         int deletedRows;
 
         switch(mUriMatcher.match(uri)) {
-            case CLIENTS:
+            case ContentUri.CLIENTS:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.client_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case WORK_POSITION:
+            case ContentUri.WORK_POSITION:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.work_position_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case PERSONS:
+            case ContentUri.PERSONS:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.person_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case TASK_TYPES:
+            case ContentUri.TASK_TYPES:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.task_type_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case PROJECTS:
+            case ContentUri.PROJECTS:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.project_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case JOB_LOGS:
+            case ContentUri.JOB_LOGS:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.job_log_table),
                         selection,
@@ -456,7 +463,9 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
         }
 
         //if selection is null, database.delete() method deletes all rows.
-        if(null == selection || 0 != deletedRows) mContext.getContentResolver().notifyChange(uri, null);
+        if (null == selection || 0 != deletedRows) {
+            mContext.getContentResolver().notifyChange(uri, null);
+        }
 
         return deletedRows;
     }

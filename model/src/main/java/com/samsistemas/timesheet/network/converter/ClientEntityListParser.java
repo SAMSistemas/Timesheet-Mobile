@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.network.converter;
 
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.constant.JSONConst;
+import static com.samsistemas.timesheet.constant.JSONConst.*;
 import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -16,16 +16,16 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class ClientEntityListParser implements JsonParser<List<ClientEntity>, JSONArray>, JSONConst {
+public final class ClientEntityListParser implements JsonParser<List<ClientEntity>, JSONArray> {
     private static ClientEntityListParser instance = null;
 
-    private ClientEntityListParser() {}
+    private ClientEntityListParser() { }
 
     @Override
     public List<ClientEntity> convert(@NonNull JSONArray jsonArray) throws JSONException {
         final List<ClientEntity> clientEntities = new ArrayList<>(jsonArray.length());
 
-        for(int i = 0; i < jsonArray.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonProject = jsonArray.getJSONObject(i);
             JSONObject jsonClient = jsonProject.getJSONObject(CLIENT);
 
@@ -43,8 +43,9 @@ public class ClientEntityListParser implements JsonParser<List<ClientEntity>, JS
     }
 
     public static ClientEntityListParser newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new ClientEntityListParser();
+        }
         return instance;
     }
 }

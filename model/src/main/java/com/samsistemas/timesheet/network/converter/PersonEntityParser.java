@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.network.converter;
 
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.constant.JSONConst;
+import static com.samsistemas.timesheet.constant.JSONConst.*;
 import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -12,10 +12,10 @@ import org.json.JSONObject;
 /**
  * @author jonatan.salas
  */
-public class PersonEntityParser implements JsonParser<PersonEntity, JSONObject>, JSONConst {
+public final class PersonEntityParser implements JsonParser<PersonEntity, JSONObject> {
     private static PersonEntityParser instance = null;
 
-    private PersonEntityParser() {}
+    private PersonEntityParser() { }
 
     @Override
     public PersonEntity convert(@NonNull JSONObject jsonObject) throws JSONException {
@@ -33,8 +33,9 @@ public class PersonEntityParser implements JsonParser<PersonEntity, JSONObject>,
     }
 
     public static PersonEntityParser newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new PersonEntityParser();
+        }
         return instance;
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class ClientFacade implements Facade<Client> {
+public final class ClientFacade implements Facade<Client> {
     private static ClientFacade instance = null;
     private final Controller<ClientEntity> clientController;
 
@@ -47,7 +47,7 @@ public class ClientFacade implements Facade<Client> {
         final Client client = new Client();
         ClientEntity entity;
 
-        for(int i = 0; i < clientEntities.size(); i++) {
+        for (int i = 0; i < clientEntities.size(); i++) {
             entity = clientEntities.get(i);
 
             client.setId(entity.getId())
@@ -94,8 +94,9 @@ public class ClientFacade implements Facade<Client> {
     }
 
     public static ClientFacade newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new ClientFacade();
+        }
         return instance;
     }
 }

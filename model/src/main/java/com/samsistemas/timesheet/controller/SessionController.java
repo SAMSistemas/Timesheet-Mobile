@@ -4,16 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.entity.SessionEntity;
+
+import static com.samsistemas.timesheet.constant.SessionConst.*;
 
 /**
  * Session MainController implementation.
  *
  * @author jonatan.salas
  */
-public class SessionController implements BaseSessionController<SessionEntity>, SessionConst {
+public class SessionController implements BaseSessionController<SessionEntity> {
 
     @Override
     public void createUserSession(@NonNull Context context, @NonNull SessionEntity entity) {

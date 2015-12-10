@@ -41,7 +41,7 @@ public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
 
     @Override
     public JobLogEntity asEntity(@Nullable Cursor cursor) {
-        if(null != cursor && cursor.moveToFirst()) {
+        if (null != cursor && cursor.moveToFirst()) {
             long millis = cursor.getLong(cursor.getColumnIndexOrThrow(WORK_DATE));
 
             JobLogEntity entity = new JobLogEntity();

@@ -15,7 +15,7 @@ public class JobLog {
     private int solicitude;
     private String observations;
 
-    public JobLog() {}
+    public JobLog() { }
 
     public JobLog setId(long id) {
         this.id = id;

@@ -8,7 +8,7 @@ public class TaskType {
     private String name;
     private boolean enabled;
 
-    public TaskType() {}
+    public TaskType() { }
 
     public TaskType setId(long id) {
         this.id = id;

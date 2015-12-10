@@ -11,7 +11,7 @@ public class SessionEntity {
     private String authCredential;
     private boolean logged;
 
-    public SessionEntity() {}
+    public SessionEntity() { }
 
     public SessionEntity setSessionId(long sessionId) {
         this.sessionId = sessionId;

@@ -7,7 +7,7 @@ public class WorkPosition {
     private long id;
     private String description;
 
-    public WorkPosition() {}
+    public WorkPosition() { }
 
     public WorkPosition setId(long id) {
         this.id = id;

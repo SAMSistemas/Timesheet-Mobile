@@ -60,7 +60,7 @@ public class PersonFacade implements Facade<Person> {
         WorkPosition workPosition;
         PersonEntity entity;
 
-        for(int i = 0; i < personEntities.size(); i++) {
+        for (int i = 0; i < personEntities.size(); i++) {
             entity = personEntities.get(i);
             workPosition = workPositionFacade.findById(context, entity.getWorkPositionId());
 
@@ -123,8 +123,9 @@ public class PersonFacade implements Facade<Person> {
     }
 
     public static PersonFacade newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new PersonFacade();
+        }
         return instance;
     }
 }

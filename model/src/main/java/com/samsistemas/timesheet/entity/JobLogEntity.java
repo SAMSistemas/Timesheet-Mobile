@@ -18,7 +18,7 @@ public class JobLogEntity extends Entity {
     private int solicitude;
     private String observations;
 
-    public JobLogEntity() {}
+    public JobLogEntity() { }
 
     /**
      * Attributes setters and getters

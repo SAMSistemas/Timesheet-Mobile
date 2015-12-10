@@ -45,7 +45,7 @@ public class TaskTypeFacade implements Facade<TaskType> {
         List<TaskType> taskTypes = new ArrayList<>(taskTypeEntities.size());
         TaskTypeEntity entity;
 
-        for(int i = 0; i < taskTypeEntities.size(); i++) {
+        for (int i = 0; i < taskTypeEntities.size(); i++) {
             entity = taskTypeEntities.get(i);
 
             TaskType taskType = new TaskType();
@@ -90,8 +90,9 @@ public class TaskTypeFacade implements Facade<TaskType> {
     }
 
     public static TaskTypeFacade newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new TaskTypeFacade();
+        }
         return instance;
     }
 }

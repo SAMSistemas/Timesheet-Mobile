@@ -24,7 +24,7 @@ public class NetworkRequest extends Request<NetworkResponse> {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        return (null != mCredentials)? AuthUtil.getAuthHeaders(mCredentials) : super.getHeaders();
+        return (null != mCredentials) ? AuthUtil.getAuthHeaders(mCredentials) : super.getHeaders();
     }
 
     @Override

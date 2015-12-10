@@ -13,7 +13,7 @@ public class Project {
     private Date startDate;
     private boolean enabled;
 
-    public Project() {}
+    public Project() { }
 
     public Project setId(long id) {
         this.id = id;

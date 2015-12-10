@@ -39,7 +39,7 @@ public class Controller<T extends Entity> implements BaseController<T> {
     public boolean bulkInsert(@NonNull Context context, @NonNull List<T> toInserts, @NonNull Uri uri) {
         final ContentValues[] values = new ContentValues[toInserts.size()];
 
-        for(int i = 0; i < toInserts.size(); i++) {
+        for (int i = 0; i < toInserts.size(); i++) {
             values[i] = entityMapper.asContentValues(toInserts.get(i));
         }
 
@@ -51,13 +51,16 @@ public class Controller<T extends Entity> implements BaseController<T> {
     @Override
     public T get(@NonNull Context context, @NonNull Uri uri) {
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-        if(null != cursor)
+
+        if (null != cursor) {
             cursor.moveToFirst();
+        }
 
         final T entity = entityMapper.asEntity(cursor);
 
-        if(null != cursor && !cursor.isClosed())
+        if (null != cursor && !cursor.isClosed()) {
             cursor.close();
+        }
 
         return entity;
     }
@@ -68,8 +71,9 @@ public class Controller<T extends Entity> implements BaseController<T> {
         List<T> entityList = new ArrayList<>();
 
         try {
-            if (null != cursor && cursor.getCount() == 0)
+            if (null != cursor && cursor.getCount() == 0) {
                 return entityList;
+            }
 
             if (null != cursor && cursor.moveToFirst()) {
                 while (!cursor.isAfterLast()) {
@@ -80,8 +84,9 @@ public class Controller<T extends Entity> implements BaseController<T> {
         } catch (Exception ex) {
             Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
         } finally {
-            if(null != cursor && !cursor.isClosed())
+            if (null != cursor && !cursor.isClosed()) {
                 cursor.close();
+            }
         }
 
         return entityList;
@@ -99,7 +104,7 @@ public class Controller<T extends Entity> implements BaseController<T> {
 
     @Override
     public boolean delete(@NonNull Context context, @NonNull Uri uri, long id) {
-        int deletedRows = context.getContentResolver().delete(uri, CLAUSE, new String[] { String.valueOf(id) });
+        int deletedRows = context.getContentResolver().delete(uri, CLAUSE, new String[] { String.valueOf(id) } );
 
         return (0 != deletedRows);
     }

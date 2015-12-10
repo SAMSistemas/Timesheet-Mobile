@@ -50,14 +50,10 @@ public class Database extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    /**
-     *
-     * @param context
-     * @return
-     */
-    public static Database getInstance(@NonNull Context context) {
-        if(null == instance)
+    public static Database newInstance(@NonNull Context context) {
+        if (null == instance) {
             instance = new Database(context);
+        }
         return instance;
     }
 

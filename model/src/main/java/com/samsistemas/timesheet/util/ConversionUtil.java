@@ -12,7 +12,9 @@ import java.io.ByteArrayOutputStream;
  *
  * @author jonatan.salas
  */
-public class ConversionUtil {
+public final class ConversionUtil {
+
+    private ConversionUtil() { }
 
     /**
      * Method that converts a boolean value to its int representation.
@@ -21,7 +23,7 @@ public class ConversionUtil {
      * @return 1 or 0, depending the value of the boolean var.
      */
     public static int booleanToInt(boolean value) {
-        return value ? 1:0;
+        return value ? 1 : 0;
     }
 
     /**
@@ -32,11 +34,11 @@ public class ConversionUtil {
      */
     public static boolean intToBoolean(int value) {
         switch (value) {
-            case 1:
+            case 1 :
                 return true;
-            case 0:
+            case 0 :
                 return false;
-            default:
+            default :
                 return false;
         }
     }
@@ -67,7 +69,7 @@ public class ConversionUtil {
      * @return a drawable ready to use or null.
      */
     public static Drawable byteArrayToDrawable(byte[] stream) {
-        if(null != stream) {
+        if (null != stream) {
             final Bitmap bitmap = BitmapFactory.decodeByteArray(stream, 0, stream.length);
             return new BitmapDrawable(null, bitmap);
         }

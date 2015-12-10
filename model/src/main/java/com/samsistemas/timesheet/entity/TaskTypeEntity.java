@@ -11,7 +11,7 @@ public class TaskTypeEntity extends Entity {
     private String name;
     private boolean enabled;
 
-    public TaskTypeEntity() {}
+    public TaskTypeEntity() { }
 
     /** Attribute setters and getters **/
     public TaskTypeEntity setName(String name) {

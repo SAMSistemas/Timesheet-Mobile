@@ -8,7 +8,7 @@ import com.samsistemas.timesheet.entity.base.Entity;
 public class WorkPositionEntity extends Entity {
     private String description;
 
-    public WorkPositionEntity() {}
+    public WorkPositionEntity() { }
 
     /** Attributes setters and getters **/
     public WorkPositionEntity setDescription(String description) {

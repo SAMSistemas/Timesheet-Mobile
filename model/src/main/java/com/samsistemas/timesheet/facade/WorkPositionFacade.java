@@ -45,7 +45,7 @@ public class WorkPositionFacade implements Facade<WorkPosition> {
         final WorkPosition workPosition = new WorkPosition();
         WorkPositionEntity entity;
 
-        for(int i = 0; i < workPositionEntities.size(); i++) {
+        for (int i = 0; i < workPositionEntities.size(); i++) {
             entity = workPositionEntities.get(i);
 
             workPosition.setId(entity.getId())
@@ -86,8 +86,9 @@ public class WorkPositionFacade implements Facade<WorkPosition> {
     }
 
     public static WorkPositionFacade newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new WorkPositionFacade();
+        }
         return instance;
     }
 }

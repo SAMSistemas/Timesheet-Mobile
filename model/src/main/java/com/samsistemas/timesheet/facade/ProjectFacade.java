@@ -54,7 +54,7 @@ public class ProjectFacade implements Facade<Project> {
         ProjectEntity entity;
         Client client;
 
-        for(int i = 0; i < projectEntities.size(); i++) {
+        for (int i = 0; i < projectEntities.size(); i++) {
             entity = projectEntities.get(i);
             client = clientFacade.findById(context, entity.getClientId());
 
@@ -108,8 +108,9 @@ public class ProjectFacade implements Facade<Project> {
     }
 
     public static ProjectFacade newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new ProjectFacade();
+        }
         return instance;
     }
 }

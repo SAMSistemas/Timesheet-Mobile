@@ -12,7 +12,7 @@ public class ClientEntity extends Entity {
     private String shortName;
     private boolean enabled;
 
-    public ClientEntity() {}
+    public ClientEntity() { }
 
     /** Attributes setters and getters **/
     public ClientEntity setName(String name) {

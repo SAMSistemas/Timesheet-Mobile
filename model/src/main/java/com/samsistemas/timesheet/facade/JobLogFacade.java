@@ -12,7 +12,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.samsistemas.timesheet.constant.JSONConst;
+
+import static com.samsistemas.timesheet.constant.JSONConst.*;
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
@@ -38,7 +39,7 @@ import java.util.Map;
 /**
  * @author jonatan.salas
  */
-public class JobLogFacade implements Facade<JobLog>, JSONConst {
+public final class JobLogFacade implements Facade<JobLog> {
     private static final String TAG = JobLogFacade.class.getSimpleName();
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
 
@@ -85,7 +86,7 @@ public class JobLogFacade implements Facade<JobLog>, JSONConst {
         final Uri uri = UriHelper.buildJobLogUri(context);
         final List<JobLogEntity> jobLogEntities = jobLogController.listAll(context, uri);
 
-        if(null != jobLogEntities) {
+        if (null != jobLogEntities) {
             final List<JobLog> jobLogs = new ArrayList<>(jobLogEntities.size());
             final JobLog jobLog = new JobLog();
             JobLogEntity entity;
@@ -203,8 +204,9 @@ public class JobLogFacade implements Facade<JobLog>, JSONConst {
     }
 
     public static JobLogFacade newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new JobLogFacade();
+        }
         return instance;
     }
 }

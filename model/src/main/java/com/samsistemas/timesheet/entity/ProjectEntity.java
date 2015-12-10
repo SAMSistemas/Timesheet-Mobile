@@ -16,7 +16,7 @@ public class ProjectEntity extends Entity {
     private Date startDate;
     private boolean enabled;
 
-    public ProjectEntity() {}
+    public ProjectEntity() { }
 
     /**
      * Attribute setters and getters

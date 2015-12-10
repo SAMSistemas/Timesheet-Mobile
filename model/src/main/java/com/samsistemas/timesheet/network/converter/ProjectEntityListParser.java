@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.network.converter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.samsistemas.timesheet.constant.JSONConst;
+import static com.samsistemas.timesheet.constant.JSONConst.*;
 import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -21,18 +21,18 @@ import java.util.Locale;
 /**
  * @author jonatan.salas
  */
-public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, JSONArray>, JSONConst {
+public final class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, JSONArray> {
     private static final String TAG = ProjectEntityListParser.class.getSimpleName();
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
     private static ProjectEntityListParser instance = null;
 
-    private ProjectEntityListParser() {}
+    private ProjectEntityListParser() { }
 
     @Override
     public List<ProjectEntity> convert(@NonNull JSONArray jsonArray) throws JSONException {
         final List<ProjectEntity> projectEntities = new ArrayList<>(jsonArray.length());
 
-        for(int i = 0; i < jsonArray.length(); i++) {
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonProject = jsonArray.getJSONObject(i);
             JSONObject jsonClient = jsonProject.getJSONObject(CLIENT);
 
@@ -61,8 +61,9 @@ public class ProjectEntityListParser implements JsonParser<List<ProjectEntity>, 
     }
 
     public static ProjectEntityListParser newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new ProjectEntityListParser();
+        }
         return instance;
     }
 }

@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.network.converter;
 
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.constant.JSONConst;
+import static com.samsistemas.timesheet.constant.JSONConst.*;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class TaskTypeEntityListParser implements JsonParser<List<TaskTypeEntity>, JSONArray>, JSONConst {
+public final class TaskTypeEntityListParser implements JsonParser<List<TaskTypeEntity>, JSONArray> {
     private static TaskTypeEntityListParser instance = null;
 
     private TaskTypeEntityListParser() {}
@@ -40,8 +40,9 @@ public class TaskTypeEntityListParser implements JsonParser<List<TaskTypeEntity>
     }
 
     public static TaskTypeEntityListParser newInstance() {
-        if(null == instance)
+        if (null == instance) {
             instance = new TaskTypeEntityListParser();
+        }
         return instance;
     }
 }

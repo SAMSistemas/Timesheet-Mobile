@@ -39,7 +39,7 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
 
     @Override
     public ProjectEntity asEntity(@Nullable Cursor cursor) {
-        if (null != cursor) {
+        if (null != cursor && cursor.moveToFirst()) {
             final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
             final long millis = cursor.getLong(cursor.getColumnIndexOrThrow(START_DATE));
             final boolean projectEnabled = ConversionUtil.intToBoolean(available);

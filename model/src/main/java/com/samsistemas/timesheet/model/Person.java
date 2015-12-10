@@ -16,7 +16,7 @@ public class Person {
     private Drawable picture;
     private boolean enabled;
 
-    public Person() {}
+    public Person() { }
 
     public Person setId(long id) {
         this.id = id;
