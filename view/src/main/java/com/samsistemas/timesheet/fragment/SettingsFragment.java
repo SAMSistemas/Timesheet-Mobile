@@ -6,7 +6,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.constant.SessionConst;
+import static com.samsistemas.timesheet.constant.SessionConst.*;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.navigation.LoginNavigator;
@@ -14,7 +14,7 @@ import com.samsistemas.timesheet.navigation.LoginNavigator;
 /**
  * @author jonatan.salas
  */
-public class SettingsFragment extends PreferenceFragmentCompat implements BaseSessionController.OnSessionDeleted, SessionConst {
+public class SettingsFragment extends PreferenceFragmentCompat implements BaseSessionController.OnSessionDeleted {
 
     public SettingsFragment() {
         setHasOptionsMenu(false);

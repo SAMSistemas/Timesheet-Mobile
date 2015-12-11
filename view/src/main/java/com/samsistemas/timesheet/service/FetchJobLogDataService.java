@@ -12,7 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.samsistemas.timesheet.constant.JSONConst;
+import static com.samsistemas.timesheet.constant.JSONConst.*;
 import com.samsistemas.timesheet.network.service.JobLogsNetworkService;
 import com.samsistemas.timesheet.util.AuthUtil;
 
@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * @author jonatan.salas
  */
-public class FetchJobLogDataService extends IntentService implements JSONConst {
+public class FetchJobLogDataService extends IntentService {
     private static final String TAG = FetchJobLogDataService.class.getSimpleName();
 //    public static final int STATUS_RUNNING = 0;
 //    public static final int STATUS_FINISHED = 1;

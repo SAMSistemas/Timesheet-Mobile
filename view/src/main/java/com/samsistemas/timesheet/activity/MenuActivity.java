@@ -26,7 +26,6 @@ import com.samsistemas.calendarview.util.TypefaceUtil;
 import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
-import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.loader.JobLogsLoader;
 import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.JobLog;
@@ -47,7 +46,7 @@ import java.util.Locale;
  *
  * @author jonatan.salas
  */
-public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener, SessionConst {
+public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnDateSelectedListener, CalendarView.OnMonthChangedListener {
     private static final int PERSON_LOADER_ID = 0;
     private static final int JOBLOG_LOADER_ID = 1;
 

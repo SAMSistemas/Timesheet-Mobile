@@ -24,7 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.constant.JSONConst;
+import static com.samsistemas.timesheet.constant.JSONConst.*;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.entity.SessionEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
@@ -48,7 +48,7 @@ import java.util.Locale;
 /**
  * @author jonatan.salas
  */
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, NetworkStateReceiver.OnNetworkStateReceived, BaseSessionController.OnSessionRestored, JSONConst {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, NetworkStateReceiver.OnNetworkStateReceived, BaseSessionController.OnSessionRestored {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private NetworkStateReceiver mNetworkStateReceiver;
     private EditText mUsernameEditText;

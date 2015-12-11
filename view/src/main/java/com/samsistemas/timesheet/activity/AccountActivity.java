@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
@@ -31,7 +30,7 @@ import java.lang.ref.WeakReference;
  *
  * @author jonatan.salas
  */
-public class AccountActivity extends AppCompatActivity implements SessionConst {
+public class AccountActivity extends AppCompatActivity {
     private static final int PERSON_LOADER_ID = 0;
 
     private CollapsingToolbarLayout mToolbarLayout;
