@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class ProjectFacade implements Facade<Project> {
+public final class ProjectFacade implements Facade<Project> {
     private static ProjectFacade instance = null;
     private final Controller<ProjectEntity> projectController;
     private final Facade<Client> clientFacade;
@@ -107,6 +107,11 @@ public class ProjectFacade implements Facade<Project> {
         return projectController.delete(context, uri, id);
     }
 
+    /**
+     * Method that gets a singleton instance.
+     *
+     * @return a singleton object.
+     */
     public static ProjectFacade newInstance() {
         if (null == instance) {
             instance = new ProjectFacade();

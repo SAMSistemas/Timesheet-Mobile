@@ -203,6 +203,11 @@ public final class JobLogFacade implements Facade<JobLog> {
         return jobLogController.delete(context, uri, id);
     }
 
+    /**
+     * Method that gets a singleton instance.
+     *
+     * @return a singleton object.
+     */
     public static JobLogFacade newInstance() {
         if (null == instance) {
             instance = new JobLogFacade();

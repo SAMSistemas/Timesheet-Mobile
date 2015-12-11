@@ -17,7 +17,7 @@ import com.samsistemas.timesheet.entity.WorkPositionEntity;
  *
  * @author jonatan.salas
  */
-public class ControllerFactory {
+public final class ControllerFactory {
     private static Controller<ClientEntity> clientController = null;
     private static Controller<JobLogEntity> jobLogController = null;
     private static Controller<PersonEntity> personController = null;
@@ -26,6 +26,9 @@ public class ControllerFactory {
     private static Controller<WorkPositionEntity> workPositionController = null;
     private static BaseSessionController<SessionEntity> sessionController = null;
 
+    /**
+     * Private Constructor
+     */
     private ControllerFactory() { }
 
     /**
@@ -89,8 +92,9 @@ public class ControllerFactory {
     }
 
     /**
+     * Method that gets a singleton instance.
      *
-     * @return
+     * @return a singleton object.
      */
     public static synchronized Controller<WorkPositionEntity> getWorkPositionController() {
         if (null == workPositionController) {

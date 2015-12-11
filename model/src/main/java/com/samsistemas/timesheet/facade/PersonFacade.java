@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class PersonFacade implements Facade<Person> {
+public final class PersonFacade implements Facade<Person> {
     private static PersonFacade instance = null;
     private final Controller<PersonEntity> personController;
     private final Facade<WorkPosition> workPositionFacade;
@@ -122,6 +122,11 @@ public class PersonFacade implements Facade<Person> {
         return personController.delete(context, uri, id);
     }
 
+    /**
+     * Method that gets a singleton instance.
+     *
+     * @return a singleton object.
+     */
     public static PersonFacade newInstance() {
         if (null == instance) {
             instance = new PersonFacade();

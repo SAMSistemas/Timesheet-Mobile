@@ -93,6 +93,11 @@ public final class ClientFacade implements Facade<Client> {
         return clientController.delete(context, uri, id);
     }
 
+    /**
+     * Method that gets a singleton instance.
+     *
+     * @return a singleton object.
+     */
     public static ClientFacade newInstance() {
         if (null == instance) {
             instance = new ClientFacade();

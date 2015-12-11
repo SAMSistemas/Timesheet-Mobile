@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class TaskTypeFacade implements Facade<TaskType> {
+public final class TaskTypeFacade implements Facade<TaskType> {
     private static TaskTypeFacade instance = null;
     private final Controller<TaskTypeEntity> taskTypeController;
 
@@ -89,6 +89,11 @@ public class TaskTypeFacade implements Facade<TaskType> {
         return taskTypeController.delete(context, uri, id);
     }
 
+    /**
+     * Method that gets a singleton instance.
+     *
+     * @return a singleton object.
+     */
     public static TaskTypeFacade newInstance() {
         if (null == instance) {
             instance = new TaskTypeFacade();

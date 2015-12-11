@@ -16,6 +16,7 @@ import android.support.annotation.StringRes;
 import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.database.Database;
 import com.samsistemas.timesheet.helper.UriHelper;
+import static com.samsistemas.timesheet.util.ContentUriKeys.*;
 
 /**
  * The content provider used to effectuate CRUD operations in the app.
@@ -39,9 +40,9 @@ public class DatabaseProvider extends ContentProvider {
         return true;
     }
 
-    @Nullable
-    @Override
-    public Cursor query(@NonNull Uri uri,
+    @Nullable @Override
+    public Cursor query(
+        @NonNull Uri uri,
         String[] projection,
         String selection,
         String[] selectionArgs,
@@ -51,7 +52,7 @@ public class DatabaseProvider extends ContentProvider {
         Cursor retCursor;
 
         switch(mUriMatcher.match(uri)) {
-            case ContentUri.CLIENTS:
+            case CLIENTS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.client_table),
                         projection,
@@ -62,7 +63,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.CLIENT_ID:
+            case CLIENT_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.client_table),
                         projection,
@@ -73,7 +74,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.WORK_POSITION:
+            case WORK_POSITION:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.work_position_table),
                         projection,
@@ -84,7 +85,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.WORK_POSITION_ID:
+            case WORK_POSITION_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.work_position_table),
                         projection,
@@ -95,7 +96,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.PERSONS:
+            case PERSONS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.person_table),
                         projection,
@@ -106,7 +107,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.PERSON_ID:
+            case PERSON_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.person_table),
                         projection,
@@ -117,7 +118,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.TASK_TYPES:
+            case TASK_TYPES:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.task_type_table),
                         projection,
@@ -128,7 +129,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.TASKTYPE_ID:
+            case TASKTYPE_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.task_type_table),
                         projection,
@@ -139,7 +140,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.PROJECTS:
+            case PROJECTS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.project_table),
                         projection,
@@ -150,7 +151,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.PROJECT_ID:
+            case PROJECT_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.project_table),
                         projection,
@@ -161,7 +162,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.JOB_LOGS:
+            case JOB_LOGS:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.job_log_table),
                         projection,
@@ -172,7 +173,7 @@ public class DatabaseProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case ContentUri.JOBLOG_ID:
+            case JOBLOG_ID:
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.job_log_table),
                         projection,
@@ -196,29 +197,29 @@ public class DatabaseProvider extends ContentProvider {
     @Override
     public String getType(@NonNull Uri uri) {
         switch (mUriMatcher.match(uri)) {
-            case ContentUri.CLIENTS:
+            case CLIENTS:
                 return mContext.getString(R.string.client_content_type);
-            case ContentUri.CLIENT_ID:
+            case CLIENT_ID:
                 return mContext.getString(R.string.client_content_item_type);
-            case ContentUri.WORK_POSITION:
+            case WORK_POSITION:
                 return mContext.getString(R.string.work_position_content_type);
-            case ContentUri.WORK_POSITION_ID:
+            case WORK_POSITION_ID:
                 return mContext.getString(R.string.work_position_content_item_type);
-            case ContentUri.PERSONS:
+            case PERSONS:
                 return mContext.getString(R.string.person_content_type);
-            case ContentUri.PERSON_ID:
+            case PERSON_ID:
                 return mContext.getString(R.string.person_content_item_type);
-            case ContentUri.TASK_TYPES:
+            case TASK_TYPES:
                 return mContext.getString(R.string.task_type_content_type);
-            case ContentUri.TASKTYPE_ID:
+            case TASKTYPE_ID:
                 return mContext.getString(R.string.task_type_content_item_type);
-            case ContentUri.PROJECTS:
+            case PROJECTS:
                 return mContext.getString(R.string.project_content_type);
-            case ContentUri.PROJECT_ID:
+            case PROJECT_ID:
                 return mContext.getString(R.string.project_content_item_type);
-            case ContentUri.JOB_LOGS:
+            case JOB_LOGS:
                 return mContext.getString(R.string.job_log_content_type);
-            case ContentUri.JOBLOG_ID:
+            case JOBLOG_ID:
                 return mContext.getString(R.string.job_log_content_item_type);
             default:
                 throw new UnsupportedOperationException("unknown uri: " + uri);
@@ -231,22 +232,22 @@ public class DatabaseProvider extends ContentProvider {
         Uri returnUri;
 
         switch(mUriMatcher.match(uri)) {
-            case ContentUri.CLIENTS:
+            case CLIENTS:
                 returnUri = insert(uri, values, R.string.client_table);
                 break;
-            case ContentUri.WORK_POSITION:
+            case WORK_POSITION:
                 returnUri = insert(uri, values, R.string.work_position_table);
                 break;
-            case ContentUri.PERSONS:
+            case PERSONS:
                 returnUri = insert(uri, values, R.string.person_table);
                 break;
-            case ContentUri.TASK_TYPES:
+            case TASK_TYPES:
                 returnUri = insert(uri, values, R.string.task_type_table);
                 break;
-            case ContentUri.PROJECTS:
+            case PROJECTS:
                 returnUri = insert(uri, values, R.string.project_table);
                 break;
-            case ContentUri.JOB_LOGS:
+            case JOB_LOGS:
                 returnUri = insert(uri, values, R.string.job_log_table);
                 break;
             default:
@@ -293,17 +294,17 @@ public class DatabaseProvider extends ContentProvider {
     @Override
     public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         switch(mUriMatcher.match(uri)) {
-            case ContentUri.CLIENTS:
+            case CLIENTS:
                 return bulkInsert(uri, values, R.string.client_table);
-            case ContentUri.WORK_POSITION:
+            case WORK_POSITION:
                 return bulkInsert(uri, values, R.string.work_position_table);
-            case ContentUri.PERSONS:
+            case PERSONS:
                 return bulkInsert(uri, values, R.string.person_table);
-            case ContentUri.TASK_TYPES:
+            case TASK_TYPES:
                 return bulkInsert(uri, values, R.string.task_type_table);
-            case ContentUri.PROJECTS:
+            case PROJECTS:
                 return bulkInsert(uri, values, R.string.project_table);
-            case ContentUri.JOB_LOGS:
+            case JOB_LOGS:
                 return bulkInsert(uri, values, R.string.job_log_table);
 
             default: return super.bulkInsert(uri, values);
@@ -318,7 +319,9 @@ public class DatabaseProvider extends ContentProvider {
      * @param tableName - the table name as a Resource id.
      * @return an int representing the count of inserted rows.
      */
-    private int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values, @StringRes int tableName) {
+    private int bulkInsert(@NonNull Uri uri,
+                           @NonNull ContentValues[] values,
+                           @StringRes int tableName) {
         SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         writableDatabase.beginTransaction();
         int returnCount = 0;
@@ -347,12 +350,15 @@ public class DatabaseProvider extends ContentProvider {
     }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri,
+                      ContentValues values,
+                      String selection,
+                      String[] selectionArgs) {
         SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         int updatedRows;
 
         switch(mUriMatcher.match(uri)) {
-            case ContentUri.CLIENTS:
+            case CLIENTS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.client_table),
                         values,
@@ -360,7 +366,7 @@ public class DatabaseProvider extends ContentProvider {
                         selectionArgs
                 );
                 break;
-            case ContentUri.WORK_POSITION:
+            case WORK_POSITION:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.work_position_table),
                         values,
@@ -368,7 +374,7 @@ public class DatabaseProvider extends ContentProvider {
                         selectionArgs
                 );
                 break;
-            case ContentUri.PERSONS:
+            case PERSONS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.person_table),
                         values,
@@ -376,7 +382,7 @@ public class DatabaseProvider extends ContentProvider {
                         selectionArgs
                 );
                 break;
-            case ContentUri.TASK_TYPES:
+            case TASK_TYPES:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.task_type_table),
                         values,
@@ -384,7 +390,7 @@ public class DatabaseProvider extends ContentProvider {
                         selectionArgs
                 );
                 break;
-            case ContentUri.PROJECTS:
+            case PROJECTS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.project_table),
                         values,
@@ -392,7 +398,7 @@ public class DatabaseProvider extends ContentProvider {
                         selectionArgs
                 );
                 break;
-            case ContentUri.JOB_LOGS:
+            case JOB_LOGS:
                 updatedRows = writableDatabase.update(
                         mContext.getString(R.string.job_log_table),
                         values,
@@ -416,42 +422,42 @@ public class DatabaseProvider extends ContentProvider {
         int deletedRows;
 
         switch(mUriMatcher.match(uri)) {
-            case ContentUri.CLIENTS:
+            case CLIENTS:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.client_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case ContentUri.WORK_POSITION:
+            case WORK_POSITION:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.work_position_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case ContentUri.PERSONS:
+            case PERSONS:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.person_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case ContentUri.TASK_TYPES:
+            case TASK_TYPES:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.task_type_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case ContentUri.PROJECTS:
+            case PROJECTS:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.project_table),
                         selection,
                         selectionArgs
                 );
                 break;
-            case ContentUri.JOB_LOGS:
+            case JOB_LOGS:
                 deletedRows = writableDatabase.delete(
                         mContext.getString(R.string.job_log_table),
                         selection,

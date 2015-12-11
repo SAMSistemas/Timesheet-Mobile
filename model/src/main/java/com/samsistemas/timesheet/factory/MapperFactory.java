@@ -19,7 +19,7 @@ import com.samsistemas.timesheet.mapper.base.EntityMapper;
 /**
  * @author jonatan.salas
  */
-public class MapperFactory {
+public final class MapperFactory {
     private static EntityMapper<ClientEntity, Cursor> clientEntityMapper = null;
     private static EntityMapper<JobLogEntity, Cursor> joblogEntityMapper = null;
     private static EntityMapper<PersonEntity, Cursor> personEntityMapper = null;
@@ -27,11 +27,15 @@ public class MapperFactory {
     private static EntityMapper<TaskTypeEntity, Cursor> taskTypeEntityMapper = null;
     private static EntityMapper<WorkPositionEntity, Cursor> workPositionEntityMapper = null;
 
+    /**
+     * Private Constructor
+     */
     private MapperFactory() { }
 
     /**
+     * Method that gets a singleton instance.
      *
-     * @return
+     * @return a singleton object.
      */
     public static EntityMapper<ClientEntity, Cursor> getClientMapper() {
         if (null == clientEntityMapper) {
@@ -41,8 +45,9 @@ public class MapperFactory {
     }
 
     /**
+     * Method that gets a singleton instance.
      *
-     * @return
+     * @return a singleton object.
      */
     public static EntityMapper<JobLogEntity, Cursor> getJoblogMapper() {
         if (null == joblogEntityMapper) {
@@ -52,8 +57,9 @@ public class MapperFactory {
     }
 
     /**
+     * Method that gets a singleton instance.
      *
-     * @return
+     * @return a singleton object.
      */
     public static EntityMapper<PersonEntity, Cursor> getPersonMapper() {
         if (null == personEntityMapper) {
@@ -63,8 +69,9 @@ public class MapperFactory {
     }
 
     /**
+     * Method that gets a singleton instance.
      *
-     * @return
+     * @return a singleton object.
      */
     public static EntityMapper<ProjectEntity, Cursor> getProjectMapper() {
         if (null == projectEntityMapper) {
@@ -74,8 +81,9 @@ public class MapperFactory {
     }
 
     /**
+     * Method that gets a singleton instance.
      *
-     * @return
+     * @return a singleton object.
      */
     public static EntityMapper<TaskTypeEntity, Cursor> getTaskTypeMapper() {
         if (null == taskTypeEntityMapper) {
@@ -85,8 +93,9 @@ public class MapperFactory {
     }
 
     /**
+     * Method that gets a singleton instance.
      *
-     * @return
+     * @return a singleton object.
      */
     public static EntityMapper<WorkPositionEntity, Cursor> getWorkPositionMapper() {
         if (null == workPositionEntityMapper) {
