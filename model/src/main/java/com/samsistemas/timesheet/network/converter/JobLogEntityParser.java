@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.network.converter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import static com.samsistemas.timesheet.constant.JSONConst.*;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 

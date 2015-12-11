@@ -13,7 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import static com.samsistemas.timesheet.constant.JSONConst.*;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.facade.base.Facade;

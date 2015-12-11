@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.content.AsyncTaskLoader;
 
-import static com.samsistemas.timesheet.constant.SessionConst.*;
+import static com.samsistemas.timesheet.util.SharedPreferenceKeys.*;
 import com.samsistemas.timesheet.facade.PersonFacade;
 import com.samsistemas.timesheet.model.Person;
 

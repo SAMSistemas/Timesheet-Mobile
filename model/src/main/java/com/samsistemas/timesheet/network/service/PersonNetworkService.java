@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.network.service;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import static com.samsistemas.timesheet.constant.JSONConst.*;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.entity.PersonEntity;

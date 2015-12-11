@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.entity.SessionEntity;
 
-import static com.samsistemas.timesheet.constant.SessionConst.*;
+import static com.samsistemas.timesheet.util.SharedPreferenceKeys.*;
 
 /**
  * Session MainController implementation.

@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.network.converter;
 
 import android.support.annotation.NonNull;
 
-import static com.samsistemas.timesheet.constant.JSONConst.*;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.network.converter.base.JsonParser;
 

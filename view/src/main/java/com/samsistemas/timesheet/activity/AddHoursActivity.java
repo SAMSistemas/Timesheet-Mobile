@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
-import static com.samsistemas.timesheet.constant.SessionConst.*;
+import static com.samsistemas.timesheet.util.SharedPreferenceKeys.*;
 import com.samsistemas.timesheet.facade.ClientFacade;
 import com.samsistemas.timesheet.facade.JobLogFacade;
 import com.samsistemas.timesheet.facade.ProjectFacade;

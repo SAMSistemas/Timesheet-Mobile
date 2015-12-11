@@ -24,7 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import com.samsistemas.timesheet.R;
-import static com.samsistemas.timesheet.constant.JSONConst.*;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.entity.SessionEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
