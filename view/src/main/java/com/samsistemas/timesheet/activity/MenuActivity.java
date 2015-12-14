@@ -13,6 +13,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -162,7 +164,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     public void onDateSelected(@NonNull Date selectedDate) {
         mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), selectedDate));
         //We call this in order to show the data available for the date user-selected.
-        //resetAdapter(selectedDate);
+        resetAdapter(selectedDate);
     }
 
     @Override
@@ -179,13 +181,13 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
             mCalendarView.setCurrentDay(getCurrentDate());
             mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
-            //resetAdapter(getCurrentDate());
+            resetAdapter(getCurrentDate());
         } else {
             //We want this to display an announce, telling the user that has not any date selected..
             mDateTitle.setText(getString(R.string.no_date_selected));
             //This remove old list by date showed.
             //Expecting the user to select a new one.
-            //deleteAdapterData();
+            deleteAdapterData();
         }
     }
 
@@ -233,30 +235,23 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     private void setRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setNestedScrollingEnabled(true);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
-//        //mAdapter = new JobLogAdapter(getApplicationContext(), getListFilteredByDate(getCurrentDate()));
-//
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerView.setNestedScrollingEnabled(true);
-//        mRecyclerView.setHasFixedSize(true);
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-//
-//        //After creating we set it, telling the observer to show the changes over RecyclerView.
-//        mRecyclerView.setAdapter(mAdapter);
-//        //mAdapter.notifyDataSetChanged();
-//    }
-//
-//    protected void resetAdapter(@NonNull Date date) {
-//        //mAdapter.setItems(getListFilteredByDate(date));
-//        mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.notifyDataSetChanged();
-//    }
-//
-//    protected void deleteAdapterData() {
-//        mAdapter.setItems(null);
-//        mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.notifyDataSetChanged();
-//    }
+
+    protected void resetAdapter(@NonNull Date date) {
+        //mAdapter.setItems(getListFilteredByDate(date));
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    protected void deleteAdapterData() {
+        mAdapter.setItems(null);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
 
     private Calendar getCalendar() {
         return Calendar.getInstance(Locale.getDefault());
@@ -336,7 +331,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onLoadFinished(Loader<List<JobLog>> loader, List<JobLog> data) {
                 if(null != data && data.size() > 0) {
-                    //TODO JONATAN.SALAS: DO STUFF..
+                    //After creating we set it, telling the observer to show the changes over RecyclerView.
+                    mAdapter = new JobLogAdapter(getApplicationContext(), data);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
                 }
             }
 
