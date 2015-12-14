@@ -7,13 +7,7 @@
     <string name="action_view_calendar">Ver calendario</string>
     <string name="action_logout">Cerrar sesión</string>
     <string name="password">Contraseña</string>
-    <string name="section_calendar">Calendario</string>
     <string name="username">Usuario</string>
-    <string name="setup_toolbar">Añadido la barra de herramientas al layout.</string>
-    <string name="config_changed">Detectado cambios de configuración en: </string>
-    <string name="logo_desc">logo de Sam Sistemas</string>
-    <string name="setup_drawer">Barra de navegación configurada correctamente.</string>
-    <string name="sign_in">SIGN IN</string>
     <string name="login">Iniciar Sesión</string>
     <string name="domain">\@samsistemas.com.ar</string>
     <string name="email">jonatan.salas@samsistemas.com.ar</string>
@@ -60,6 +54,5 @@
     <string name="no_job_logs">No hay Tareas registradas</string>
     <string name="description">Descripción</string>
     <string name="solicitude_number">Número de Solicitud</string>
-
     <string name="error_no_available_job_logs">Parece que aún no cargaste el registro de tus tareas</string>
 </resources>

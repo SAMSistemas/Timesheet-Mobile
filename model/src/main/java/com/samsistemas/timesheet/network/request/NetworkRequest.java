@@ -16,8 +16,8 @@ public class NetworkRequest extends Request<NetworkResponse> {
     private final Response.Listener<NetworkResponse> mListener;
     private final String[] mCredentials;
 
-    public NetworkRequest(int method, String url, Response.Listener<NetworkResponse> listener, Response.ErrorListener errorListener, String[] credentials) {
-        super(method, url, errorListener);
+    public NetworkRequest(String url, Response.Listener<NetworkResponse> listener, Response.ErrorListener errorListener, String[] credentials) {
+        super(Method.GET, url, errorListener);
         this.mListener = listener;
         this.mCredentials = credentials;
     }

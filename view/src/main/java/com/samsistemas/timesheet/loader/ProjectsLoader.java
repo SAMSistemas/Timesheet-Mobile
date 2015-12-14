@@ -14,7 +14,6 @@ import java.util.List;
 public class ProjectsLoader extends AsyncTaskLoader<List<Project>> {
     private final ProjectFacade mFacade;
     private final Context mContext;
-    private List<Project> mProjectList;
 
     public ProjectsLoader(Context context) {
         super(context);

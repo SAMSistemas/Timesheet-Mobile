@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -40,6 +39,7 @@ import com.samsistemas.timesheet.util.InputUtil;
 import com.samsistemas.timesheet.util.TypefaceUtil;
 import com.samsistemas.timesheet.validation.EmailValidator;
 import com.samsistemas.timesheet.validation.PasswordValidator;
+import com.samsistemas.timesheet.validation.base.Validator;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
@@ -182,8 +182,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         final String email = credentials[0];
         final String password = credentials[1];
 
-        final EmailValidator emailValidator = EmailValidator.newInstance();
-        final PasswordValidator passwordValidator = PasswordValidator.newInstance();
+        final Validator emailValidator = EmailValidator.newInstance();
+        final Validator passwordValidator = PasswordValidator.newInstance();
 
         if(!emailValidator.validate(email) && !passwordValidator.validate(password)) {
             Snackbar.make(view, context.getString(R.string.email_password_error), Snackbar.LENGTH_LONG).show();
@@ -203,7 +203,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             try {
                 Thread.sleep(2000);
                 NetworkRequest networkRequest = new NetworkRequest(
-                        Request.Method.GET,
                         URLHelper.buildLoginUrl(getApplicationContext()),
                         new Response.Listener<NetworkResponse>() {
                             @Override

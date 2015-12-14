@@ -1,7 +1,6 @@
 package com.samsistemas.timesheet.activity;
 
 import android.app.Activity;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
@@ -100,8 +99,7 @@ public class AccountActivity extends AppCompatActivity {
         Drawable drawable = DrawableUtil.modifyDrawableColor(
                 getApplicationContext(),
                 id,
-                R.color.primary,
-                PorterDuff.Mode.SRC_ATOP
+                R.color.primary
         );
 
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());

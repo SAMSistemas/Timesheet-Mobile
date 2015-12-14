@@ -68,7 +68,7 @@
                     android:gravity="end|center_vertical"
                     android:drawableLeft="@drawable/ic_domain_black"
                     android:drawableStart="@drawable/ic_domain_black"
-                    android:text="SAM Sistemas SRL"
+                    android:text="@string/sam_sistemas"
                     tools:text="SAM Sistemas SRL" />
 
                 <TextView android:id="@+id/location_textview"
@@ -78,7 +78,7 @@
                     android:gravity="end|center_vertical"
                     android:drawableLeft="@drawable/ic_location_city_black"
                     android:drawableStart="@drawable/ic_location_city_black"
-                    android:text="Recoleta, Capital Federal"
+                    android:text="@string/location_default"
                     tools:text="Recoleta, Capital Federal" />
             </LinearLayout>
 

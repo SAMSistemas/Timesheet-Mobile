@@ -14,7 +14,7 @@ public interface BaseSessionController<T> {
     /**
      *
      * @param context
-     * @param <T>
+     * @param object
      */
     void createUserSession(@NonNull Context context, @NonNull final T object);
 
