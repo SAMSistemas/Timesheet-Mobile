@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.List;
+
 /**
  * Interface used to map an Entity as ContentValues, and map a Custom object as an Entity.
  *
@@ -22,11 +24,18 @@ public interface EntityMapper<T, U> {
     ContentValues asContentValues(@NonNull T objectToMap);
 
     /**
-     * Method that puts a ContentValues object content inside a Model class to specify
+     * Method that puts a Cursor object content inside a Model class to specify
      * when implementing this interface.
      *
      * @param objectToMap - U class object to map as class T object.
      * @return a model class object ready for use.
      */
     T asEntity(@Nullable U objectToMap);
+
+    /**
+     *
+     * @param objectToMap
+     * @return
+     */
+    List<T> asEntityList(@Nullable U objectToMap);
 }

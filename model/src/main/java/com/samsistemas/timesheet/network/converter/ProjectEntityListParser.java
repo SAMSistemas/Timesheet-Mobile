@@ -30,7 +30,7 @@ public final class ProjectEntityListParser implements JsonParser<List<ProjectEnt
 
     @Override
     public List<ProjectEntity> convert(@NonNull JSONArray jsonArray) throws JSONException {
-        final List<ProjectEntity> projectEntities = new ArrayList<>(jsonArray.length());
+        List<ProjectEntity> projectEntities = new ArrayList<>(jsonArray.length());
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonProject = jsonArray.getJSONObject(i);
@@ -45,16 +45,16 @@ public final class ProjectEntityListParser implements JsonParser<List<ProjectEnt
                 Log.e(TAG, ex.getMessage(), ex.getCause());
             }
 
-            ProjectEntity projectEntity = new ProjectEntity();
+            ProjectEntity entity = new ProjectEntity();
 
-            projectEntity.setId(jsonProject.getLong(ID));
-            projectEntity.setClientId(jsonClient.getLong(ID))
+            entity.setId(jsonProject.getLong(ID));
+            entity.setClientId(jsonClient.getLong(ID))
                          .setName(jsonProject.getString(NAME))
                          .setShortName(jsonProject.getString(SHORT_NAME))
                          .setStartDate(date)
                          .setEnabled(jsonProject.getBoolean(ENABLED));
 
-            projectEntities.add(i, projectEntity);
+            projectEntities.add(entity);
         }
 
         return projectEntities;

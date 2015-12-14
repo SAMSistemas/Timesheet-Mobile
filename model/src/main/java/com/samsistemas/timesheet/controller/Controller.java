@@ -5,13 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.entity.base.Entity;
 import com.samsistemas.timesheet.mapper.base.EntityMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +18,6 @@ import java.util.List;
  * @param <T>
  */
 public class Controller<T extends Entity> implements BaseController<T> {
-    private static final String LOG_TAG = Controller.class.getSimpleName();
     private static final String CLAUSE = " id =? ";
     private final EntityMapper<T, Cursor> entityMapper;
 
@@ -29,18 +26,18 @@ public class Controller<T extends Entity> implements BaseController<T> {
     }
 
     @Override
-    public boolean insert(@NonNull Context context, @NonNull T toInsert, @NonNull Uri uri) {
-        final ContentValues values = entityMapper.asContentValues(toInsert);
+    public boolean insert(@NonNull Context context, @NonNull T object, @NonNull Uri uri) {
+        final ContentValues values = entityMapper.asContentValues(object);
         final Uri resultUri = context.getContentResolver().insert(uri, values);
         return (null != resultUri);
     }
 
     @Override
-    public boolean bulkInsert(@NonNull Context context, @NonNull List<T> toInserts, @NonNull Uri uri) {
-        final ContentValues[] values = new ContentValues[toInserts.size()];
+    public boolean bulkInsert(@NonNull Context context, @NonNull List<T> list, @NonNull Uri uri) {
+        final ContentValues[] values = new ContentValues[list.size()];
 
-        for (int i = 0; i < toInserts.size(); i++) {
-            values[i] = entityMapper.asContentValues(toInserts.get(i));
+        for (int i = 0; i < list.size(); i++) {
+            values[i] = entityMapper.asContentValues(list.get(i));
         }
 
         int count = context.getContentResolver().bulkInsert(uri, values);
@@ -68,28 +65,7 @@ public class Controller<T extends Entity> implements BaseController<T> {
     @Override
     public List<T> listAll(@NonNull Context context, @NonNull Uri uri) {
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-        List<T> entityList = new ArrayList<>();
-
-        try {
-            if (null != cursor && cursor.getCount() == 0) {
-                return entityList;
-            }
-
-            if (null != cursor && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()) {
-                    entityList.add(entityMapper.asEntity(cursor));
-                    cursor.moveToNext();
-                }
-            }
-        } catch (Exception ex) {
-            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
-        } finally {
-            if (null != cursor && !cursor.isClosed()) {
-                cursor.close();
-            }
-        }
-
-        return entityList;
+        return entityMapper.asEntityList(cursor);
     }
 
     @Override
@@ -105,7 +81,6 @@ public class Controller<T extends Entity> implements BaseController<T> {
     @Override
     public boolean delete(@NonNull Context context, @NonNull Uri uri, long id) {
         int deletedRows = context.getContentResolver().delete(uri, CLAUSE, new String[] { String.valueOf(id) } );
-
         return (0 != deletedRows);
     }
 }

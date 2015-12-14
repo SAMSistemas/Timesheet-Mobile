@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,10 +23,10 @@ import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
 import static com.samsistemas.timesheet.util.SharedPreferenceKeys.*;
-import com.samsistemas.timesheet.facade.ClientFacade;
 import com.samsistemas.timesheet.facade.JobLogFacade;
-import com.samsistemas.timesheet.facade.ProjectFacade;
-import com.samsistemas.timesheet.facade.TaskTypeFacade;
+import com.samsistemas.timesheet.loader.ClientsLoader;
+import com.samsistemas.timesheet.loader.ProjectsLoader;
+import com.samsistemas.timesheet.loader.TaskTypeLoader;
 import com.samsistemas.timesheet.model.Client;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
@@ -42,6 +44,10 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class AddHoursActivity extends AppCompatActivity {
+    private static final int TASK_TYPE_LOADER_ID = 0;
+    private static final int CLIENT_LOADER_ID = 1;
+    private static final int PROJECT_LOADER_ID = 2;
+
     private Spinner mTaskSpinner;
     private Spinner mClientSpinner;
     private Spinner mProjectSpinner;
@@ -65,7 +71,10 @@ public class AddHoursActivity extends AppCompatActivity {
         setHourSpinner();
         setProjectSpinner();
         setClientSpinner();
-        fetchData();
+//        fetchData();
+        initTaskTypeLoader();
+        initClientsLoader();
+        initProjectsLoader();
         saveJobLog();
     }
 
@@ -85,12 +94,6 @@ public class AddHoursActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         MenuNavigator.newInstance().navigate(this);
-    }
-
-    private void fetchData() {
-        new FetchTaskTypeAdapterTask().execute();
-        new FetchClientAdapterTask().execute();
-        new FetchProjectAdapterTask().execute();
     }
 
     private void setToolbar() {
@@ -205,71 +208,103 @@ public class AddHoursActivity extends AppCompatActivity {
         });
     }
 
-    private class FetchClientAdapterTask extends AsyncTask<Void, Void, List<String>> {
-        @Override
-        protected List<String> doInBackground(Void... params) {
-            final List<Client> clients = ClientFacade.newInstance().findAll(getApplicationContext());
-            final List<String> stringList = new ArrayList<>(clients.size());
+    private void initTaskTypeLoader() {
+        getSupportLoaderManager().initLoader(TASK_TYPE_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<TaskType>>() {
 
-            for(int i = 0; i < clients.size(); i++) {
-                stringList.add(i, clients.get(i).getName());
+            @Override
+            public Loader<List<TaskType>> onCreateLoader(int id, Bundle args) {
+                return new TaskTypeLoader(getApplicationContext());
             }
 
-            return stringList;
-        }
+            @Override
+            public void onLoadFinished(Loader<List<TaskType>> loader, List<TaskType> data) {
+                if (null != data) {
+                    final List<String> stringList = new ArrayList<>(data.size());
 
-        @Override
-        protected void onPostExecute(List<String> clients) {
-            ArrayAdapter<String> clientArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, clients);
-            clientArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mClientSpinner.setAdapter(clientArrayAdapter);
-            clientArrayAdapter.notifyDataSetChanged();
-        }
+                    for (int i = 0; i < data.size(); i++) {
+                        stringList.add(i, data.get(i).getName());
+                    }
+
+                    ArrayAdapter<String> taskArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, stringList);
+                    taskArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    mTaskSpinner.setAdapter(taskArrayAdapter);
+                    taskArrayAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<List<TaskType>> loader) {
+                if (!loader.isReset()) {
+                    loader.reset();
+                }
+            }
+        }).forceLoad();
     }
 
-    private class FetchTaskTypeAdapterTask extends AsyncTask<Void, Void, List<String>> {
-        @Override
-        protected List<String> doInBackground(Void... params) {
-            final List<TaskType> taskTypes = TaskTypeFacade.newInstance().findAll(getApplicationContext());
-            final List<String> stringList = new ArrayList<>(taskTypes.size());
+    private void initClientsLoader() {
+        getSupportLoaderManager().initLoader(CLIENT_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<Client>>() {
 
-            for(int i = 0; i < taskTypes.size(); i++) {
-                stringList.add(i, taskTypes.get(i).getName());
+            @Override
+            public Loader<List<Client>> onCreateLoader(int id, Bundle args) {
+                return new ClientsLoader(getApplicationContext());
             }
 
-            return stringList;
-        }
+            @Override
+            public void onLoadFinished(Loader<List<Client>> loader, List<Client> data) {
+                if (null != data) {
+                    final List<String> stringList = new ArrayList<>(data.size());
 
-        @Override
-        protected void onPostExecute(List<String> taskTypes) {
-            ArrayAdapter<String> taskArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, taskTypes);
-            taskArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mTaskSpinner.setAdapter(taskArrayAdapter);
-            taskArrayAdapter.notifyDataSetChanged();
-        }
+                    for (int i = 0; i < data.size(); i++) {
+                        stringList.add(i, data.get(i).getName());
+                    }
+
+                    ArrayAdapter<String> clientArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, stringList);
+                    clientArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    mClientSpinner.setAdapter(clientArrayAdapter);
+                    clientArrayAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<List<Client>> loader) {
+                if (!loader.isReset()) {
+                    loader.reset();
+                }
+            }
+        }).forceLoad();
     }
 
-    private class FetchProjectAdapterTask extends AsyncTask<Void, Void, List<String>> {
+    private void initProjectsLoader() {
+        getSupportLoaderManager().initLoader(PROJECT_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<Project>>() {
 
-        @Override
-        protected List<String> doInBackground(Void... params) {
-            final List<Project> projects = ProjectFacade.newInstance().findAll(getApplicationContext());
-            final List<String> stringList = new ArrayList<>(projects.size());
-
-            for(int i = 0; i < projects.size(); i++) {
-                stringList.add(i, projects.get(i).getName());
+            @Override
+            public Loader<List<Project>> onCreateLoader(int id, Bundle args) {
+                return new ProjectsLoader(getApplicationContext());
             }
 
-            return stringList;
-        }
+            @Override
+            public void onLoadFinished(Loader<List<Project>> loader, List<Project> data) {
+                if (null != data) {
+                    final List<String> stringList = new ArrayList<>(data.size());
 
-        @Override
-        protected void onPostExecute(List<String> projects) {
-            ArrayAdapter<String> projectArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, projects);
-            projectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mProjectSpinner.setAdapter(projectArrayAdapter);
-            projectArrayAdapter.notifyDataSetChanged();
-        }
+                    for (int i = 0; i < data.size(); i++) {
+                        stringList.add(i, data.get(i).getName());
+                    }
+
+                    ArrayAdapter<String> projectArrayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, stringList);
+                    projectArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    mProjectSpinner.setAdapter(projectArrayAdapter);
+                    projectArrayAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<List<Project>> loader) {
+                if (!loader.isReset()) {
+                    loader.reset();
+                }
+            }
+        }).forceLoad();
     }
 
     public class SaveJobLogOnServerTask extends AsyncTask<JobLog, Void, Boolean> {

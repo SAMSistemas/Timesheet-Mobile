@@ -23,20 +23,20 @@ public final class ClientEntityListParser implements JsonParser<List<ClientEntit
 
     @Override
     public List<ClientEntity> convert(@NonNull JSONArray jsonArray) throws JSONException {
-        final List<ClientEntity> clientEntities = new ArrayList<>(jsonArray.length());
+        List<ClientEntity> clientEntities = new ArrayList<>(jsonArray.length());
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonProject = jsonArray.getJSONObject(i);
             JSONObject jsonClient = jsonProject.getJSONObject(CLIENT);
 
-            ClientEntity clientEntity = new ClientEntity();
+            ClientEntity entity = new ClientEntity();
 
-            clientEntity.setId(jsonClient.getLong(ID));
-            clientEntity.setName(jsonClient.getString(NAME))
-                        .setShortName(jsonClient.getString(SHORT_NAME))
-                        .setEnabled(jsonClient.getBoolean(ENABLED));
+            entity.setId(jsonClient.getLong(ID));
+            entity.setName(jsonClient.getString(NAME))
+                  .setShortName(jsonClient.getString(SHORT_NAME))
+                  .setEnabled(jsonClient.getBoolean(ENABLED));
 
-            clientEntities.add(i, clientEntity);
+            clientEntities.add(entity);
         }
 
         return clientEntities;
