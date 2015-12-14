@@ -50,7 +50,6 @@ public final class ProjectFacade implements Facade<Project> {
         final Uri uri = UriHelper.buildProjectUri(context);
         final List<ProjectEntity> projectEntities = projectController.listAll(context, uri);
         final List<Project> projects = new ArrayList<>(projectEntities.size());
-        final Project project = new Project();
         ProjectEntity entity;
         Client client;
 
@@ -58,6 +57,7 @@ public final class ProjectFacade implements Facade<Project> {
             entity = projectEntities.get(i);
             client = clientFacade.findById(context, entity.getClientId());
 
+            Project project = new Project();
             project.setId(entity.getId())
                    .setClient(client)
                    .setName(entity.getName())

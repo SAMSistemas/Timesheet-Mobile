@@ -66,7 +66,7 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
             }
 
             if (null != cursor && cursor.moveToFirst()) {
-                do {
+                while (!cursor.isAfterLast()){
                     final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
                     final boolean clientEnabled = ConversionUtil.intToBoolean(available);
 
@@ -78,8 +78,8 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
                           .setEnabled(clientEnabled);
 
                     entityList.add(entity);
-
-                } while (cursor.moveToNext());
+                    cursor.moveToNext();
+                }
             }
         } catch (Exception ex) {
             Log.e(LOG_TAG, ex.getMessage(), ex.getCause());

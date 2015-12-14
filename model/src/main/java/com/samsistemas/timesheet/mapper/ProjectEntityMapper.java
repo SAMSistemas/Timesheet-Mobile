@@ -73,9 +73,7 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
             }
 
             if (null != cursor && cursor.moveToFirst()) {
-                for (int i = 0; i < cursor.getCount(); i++) {
-                    cursor.moveToPosition(i);
-
+                while (!cursor.isAfterLast()) {
                     final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
                     final long millis = cursor.getLong(cursor.getColumnIndexOrThrow(START_DATE));
                     final boolean projectEnabled = ConversionUtil.intToBoolean(available);
@@ -90,6 +88,7 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
                           .setEnabled(projectEnabled);
 
                     entityList.add(entity);
+                    cursor.moveToNext();
                 }
             }
         } catch (Exception ex) {

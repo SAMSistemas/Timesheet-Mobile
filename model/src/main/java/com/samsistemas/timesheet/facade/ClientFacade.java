@@ -44,12 +44,12 @@ public final class ClientFacade implements Facade<Client> {
         final Uri uri = UriHelper.buildClientUri(context);
         final List<ClientEntity> clientEntities = clientController.listAll(context, uri);
         final List<Client> clients = new ArrayList<>(clientEntities.size());
-        final Client client = new Client();
         ClientEntity entity;
 
         for (int i = 0; i < clientEntities.size(); i++) {
             entity = clientEntities.get(i);
 
+            Client client = new Client();
             client.setId(entity.getId())
                     .setName(entity.getName())
                     .setShortName(entity.getShortName())
