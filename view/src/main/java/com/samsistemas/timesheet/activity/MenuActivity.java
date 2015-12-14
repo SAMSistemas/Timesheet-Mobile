@@ -90,19 +90,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onStart() {
-        restartPersonLoader();
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //When Current View is resumed we come to initial status. We expect the user to follow today job logs.
-        //resetAdapter(getCurrentDate());
-    }
-
-    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -163,8 +150,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onDateSelected(@NonNull Date selectedDate) {
         mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), selectedDate));
-        //We call this in order to show the data available for the date user-selected.
-        resetAdapter(selectedDate);
+        //We call this in order to show the data available for the date user-selected
     }
 
     @Override
@@ -181,7 +167,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
             mCalendarView.setCurrentDay(getCurrentDate());
             mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
-            resetAdapter(getCurrentDate());
         } else {
             //We want this to display an announce, telling the user that has not any date selected..
             mDateTitle.setText(getString(R.string.no_date_selected));
@@ -239,12 +224,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerView.setNestedScrollingEnabled(true);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-    }
-
-    protected void resetAdapter(@NonNull Date date) {
-        //mAdapter.setItems(getListFilteredByDate(date));
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
     }
 
     protected void deleteAdapterData() {
@@ -331,7 +310,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onLoadFinished(Loader<List<JobLog>> loader, List<JobLog> data) {
                 if(null != data && data.size() > 0) {
-                    //After creating we set it, telling the observer to show the changes over RecyclerView.
                     mAdapter = new JobLogAdapter(getApplicationContext(), data);
                     mRecyclerView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
