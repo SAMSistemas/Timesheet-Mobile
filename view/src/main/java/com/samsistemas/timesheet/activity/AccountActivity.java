@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
+import com.samsistemas.timesheet.fragment.ChangePassword;
 import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
@@ -149,9 +150,9 @@ public class AccountActivity extends BaseAppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.action_mode_edit:
-                ChangePasswordFragment fragment = new ChangePasswordFragment();
-                fragment.setActivityReference(new WeakReference<Activity>(this));
-                fragment.show(getSupportFragmentManager(), ChangePasswordFragment.TAG);
+                ChangePassword fragment = new ChangePassword();
+                fragment.setContext(this);
+                fragment.show(getSupportFragmentManager(), ChangePassword.TAG);
                 break;
         }
 

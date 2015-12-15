@@ -1,11 +1,14 @@
 package com.samsistemas.timesheet.fragment.base;
 
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -14,18 +17,22 @@ import android.view.View;
 /**
  * @author jonatan.salas
  */
-public abstract class BaseDialogFragment extends DialogFragment {
-    protected Context mContext;
+public abstract class BaseDialogFragment extends DialogFragment implements DialogInterface.OnClickListener {
+    protected Activity mContext;
 
-    public BaseDialogFragment(Context context) {
-        this.mContext = context;
-    }
+    public BaseDialogFragment() { }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext, getThemeResourceId());
-        builder.setView(getDialogView(getLayoutResourceId()));
+
+        builder.setIcon(getIconDrawable())
+               .setTitle(getTitleResourceId())
+               .setView(getDialogView(getLayoutResourceId()))
+               .setPositiveButton(getPositiveButtonMessage(), this)
+               .setNegativeButton(getNegativeButtonMessage(), this);
+
         return buildDialog(builder);
     }
 
@@ -35,11 +42,29 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @StyleRes
     public abstract int getThemeResourceId();
 
+    @StringRes
+    public abstract int getTitleResourceId();
+
+    @NonNull
+    public abstract Drawable getIconDrawable();
+
+    @NonNull
     public abstract View getDialogView(@LayoutRes int id);
 
-    public abstract Dialog editViewParameters(Dialog dialog);
+    @StringRes
+    public abstract int getPositiveButtonMessage();
 
-    public Dialog buildDialog(AlertDialog.Builder builder) {
-        return editViewParameters(builder.create());
+    @StringRes
+    public abstract int getNegativeButtonMessage();
+
+    public abstract Dialog buildDialog(AlertDialog.Builder builder);
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+
+    }
+
+    public void setContext(Activity context) {
+        this.mContext = context;
     }
 }

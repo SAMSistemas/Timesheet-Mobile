@@ -58,7 +58,7 @@ public class DrawableUtil {
     }
 
     public static Drawable modifyDrawableColorWithBounds(@NonNull Context context, @DrawableRes int id) {
-        Drawable drawable = modifyDrawableColor(context, id, R.color.primary, PorterDuff.Mode.SRC_ATOP);
+        Drawable drawable = modifyDrawableColor(context, id, R.color.primary);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         return drawable;
     }
