@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.activity;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -16,15 +15,12 @@ import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
-import com.samsistemas.timesheet.fragment.ChangePassword;
+import com.samsistemas.timesheet.fragment.ChangePasswordFragment;
 import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.util.DrawableUtil;
 import com.samsistemas.timesheet.util.ToolbarUtil;
-import com.samsistemas.timesheet.fragment.ChangePasswordFragment;
-
-import java.lang.ref.WeakReference;
 
 /**
  * @author jonatan.salas
@@ -150,9 +146,9 @@ public class AccountActivity extends BaseAppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.action_mode_edit:
-                ChangePassword fragment = new ChangePassword();
+                ChangePasswordFragment fragment = new ChangePasswordFragment();
                 fragment.setContext(this);
-                fragment.show(getSupportFragmentManager(), ChangePassword.TAG);
+                fragment.show(getSupportFragmentManager(), ChangePasswordFragment.TAG);
                 break;
         }
 
