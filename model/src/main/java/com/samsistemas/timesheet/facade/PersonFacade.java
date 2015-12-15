@@ -56,7 +56,6 @@ public final class PersonFacade implements Facade<Person> {
         final Uri uri = UriHelper.buildPersonUri(context);
         final List<PersonEntity> personEntities = personController.listAll(context, uri);
         final List<Person> persons = new ArrayList<>(personEntities.size());
-        final Person person = new Person();
         WorkPosition workPosition;
         PersonEntity entity;
 
@@ -64,6 +63,7 @@ public final class PersonFacade implements Facade<Person> {
             entity = personEntities.get(i);
             workPosition = workPositionFacade.findById(context, entity.getWorkPositionId());
 
+            Person person = new Person();
             person.setId(entity.getId())
                   .setName(entity.getName())
                   .setLastName(entity.getLastName())

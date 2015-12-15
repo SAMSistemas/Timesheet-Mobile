@@ -213,7 +213,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         alertDialog.dismiss();
 
                                         final Calendar calendar = Calendar.getInstance(Locale.getDefault());
-                                        final String month = String.valueOf(calendar.get(Calendar.MONTH));
+                                        final String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
                                         final String year = String.valueOf(calendar.get(Calendar.YEAR));
 
                                         startFetchPersonService(credentials[0], credentials[1]);

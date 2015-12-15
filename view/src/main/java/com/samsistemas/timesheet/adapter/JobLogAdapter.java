@@ -3,7 +3,6 @@ package com.samsistemas.timesheet.adapter;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +19,7 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder> {
     private List<JobLog> mItems;
     private final Context mContext;
 
@@ -49,37 +48,36 @@ public class JobLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
      * @param context
      * @param items
      */
-    public JobLogAdapter(@NonNull Context context, @Nullable List<JobLog> items) {
+    public JobLogAdapter(@NonNull Context context, @NonNull List<JobLog> items) {
         this.mContext = context;
         this.mItems = items;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public JobLogAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.job_log_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        final ViewHolder viewHolder = (ViewHolder) holder;
+    public void onBindViewHolder(JobLogAdapter.ViewHolder holder, final int position) {
         final JobLog jobLog = mItems.get(position);
 
-        viewHolder.mItemView.setEnabled(true);
-        viewHolder.mItemView.setClickable(true);
-        viewHolder.mItemView.setOnClickListener(new View.OnClickListener() {
+        holder.mItemView.setEnabled(true);
+        holder.mItemView.setClickable(true);
+        holder.mItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO JS: add adapter.
             }
         });
 
-        viewHolder.mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.material_teal), PorterDuff.Mode.SRC_ATOP);
-        viewHolder.mJobLogTask.setText(jobLog.getTaskType().getName());
-        viewHolder.mJobLogDescription.setText(jobLog.getObservations());
+        holder.mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.material_teal), PorterDuff.Mode.SRC_ATOP);
+        holder.mJobLogTask.setText(jobLog.getTaskType().getName());
+        holder.mJobLogDescription.setText(jobLog.getObservations());
 
         final String workedHours = jobLog.getHours() + " hrs";
-        viewHolder.mJobLogHours.setText(workedHours);
+        holder.mJobLogHours.setText(workedHours);
     }
 
     @Override

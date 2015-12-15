@@ -23,8 +23,7 @@ public class JobLogsLoader extends AsyncTaskLoader<List<JobLog>> {
 
     @Override
     public List<JobLog> loadInBackground() {
-//        List<JobLog> jobLogList = mFacade.findAll(mContext);
-//        return (null != jobLogList && jobLogList.size() > 0)? jobLogList : null;
-        return null;
+        List<JobLog> jobLogList = mFacade.findAll(mContext);
+        return (null != jobLogList && jobLogList.size() > 0)? jobLogList : null;
     }
 }

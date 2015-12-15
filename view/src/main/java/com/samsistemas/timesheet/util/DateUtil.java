@@ -24,7 +24,7 @@ public class DateUtil {
 
         final String of = context.getString(R.string.of);
 
-        return day + SPACE + of + formatMonth(context, month) + SPACE + of + SPACE + year ;
+        return day + SPACE + of + SPACE + formatMonth(context, month) + SPACE + of + SPACE + year ;
     }
 
     private static String formatMonth(@NonNull Context context, int month) {

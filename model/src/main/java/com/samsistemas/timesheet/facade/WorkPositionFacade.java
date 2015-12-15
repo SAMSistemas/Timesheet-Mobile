@@ -42,11 +42,12 @@ public final class WorkPositionFacade implements Facade<WorkPosition> {
         final Uri uri = UriHelper.buildWorkPositionUri(context);
         final List<WorkPositionEntity> workPositionEntities = workPositionController.listAll(context, uri);
         final List<WorkPosition> workPositions = new ArrayList<>(workPositionEntities.size());
-        final WorkPosition workPosition = new WorkPosition();
         WorkPositionEntity entity;
 
         for (int i = 0; i < workPositionEntities.size(); i++) {
             entity = workPositionEntities.get(i);
+
+            WorkPosition workPosition = new WorkPosition();
 
             workPosition.setId(entity.getId())
                         .setDescription(entity.getDescription());

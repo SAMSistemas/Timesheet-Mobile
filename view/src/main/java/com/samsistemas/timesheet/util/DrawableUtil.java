@@ -8,6 +8,8 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
+import com.samsistemas.timesheet.R;
+
 /**
  * Utility class to work with drawables.
  *
@@ -54,6 +56,12 @@ public class DrawableUtil {
         //This is the better way to apply a particular color to a drawable.
         drawable.setColorFilter(color, mode);
 
+        return drawable;
+    }
+
+    public static Drawable modifyDrawableColorWithBounds(@NonNull Context context, @DrawableRes int id) {
+        Drawable drawable = modifyDrawableColor(context, id, R.color.primary, PorterDuff.Mode.SRC_ATOP);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         return drawable;
     }
 }

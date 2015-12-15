@@ -37,6 +37,7 @@ import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +76,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         mDateTitle = (TextView) findViewById(R.id.date);
         mDateTitle.setTypeface(getRobotoMediumTypeface());
-        mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
+        mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), new Date(System.currentTimeMillis())));
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -155,24 +156,18 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMonthChanged(@NonNull Date currentMonth) {
-        final Calendar nextCalendar = getCalendar();
+        final Calendar nextCalendar = Calendar.getInstance(Locale.getDefault());
         nextCalendar.setTime(currentMonth);
 
-        final Calendar todayCalendar = getCalendar();
-        todayCalendar.setTime(getCurrentDate());
-
-        //This method get All job logs for date, and paint calendar.
-        //paintCalendarByMonth(currentMonth);
+        final Calendar todayCalendar = Calendar.getInstance(Locale.getDefault());
+        todayCalendar.setTime(new Date(System.currentTimeMillis()));
 
         if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
-            mCalendarView.setCurrentDay(getCurrentDate());
-            mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), getCurrentDate()));
+            mCalendarView.setCurrentDay(new Date(System.currentTimeMillis()));
+            mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), new Date(System.currentTimeMillis())));
         } else {
             //We want this to display an announce, telling the user that has not any date selected..
             mDateTitle.setText(getString(R.string.no_date_selected));
-            //This remove old list by date showed.
-            //Expecting the user to select a new one.
-            deleteAdapterData();
         }
     }
 
@@ -205,17 +200,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     private void setCalendarView() {
         mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
-
         mCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         mCalendarView.setNextButtonColor(R.color.accent);
         mCalendarView.setBackButtonColor(R.color.accent);
-        mCalendarView.setCurrentDay(getCurrentDate());
+        mCalendarView.setCurrentDay(new Date(System.currentTimeMillis()));
         mCalendarView.setIsOverflowDateVisible(true);
-        mCalendarView.refreshCalendar(getCalendar());
+        mCalendarView.refreshCalendar(Calendar.getInstance(Locale.getDefault()));
         mCalendarView.setOnDateSelectedListener(this);
         mCalendarView.setOnMonthChangedListener(this);
-
-        //paintCalendarByMonth(getCurrentDate());
     }
 
     private void setRecyclerView() {
@@ -224,20 +216,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerView.setNestedScrollingEnabled(true);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-    }
-
-    protected void deleteAdapterData() {
-        mAdapter.setItems(null);
+        mAdapter = new JobLogAdapter(getApplicationContext(), new ArrayList<JobLog>());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-    }
-
-    private Calendar getCalendar() {
-        return Calendar.getInstance(Locale.getDefault());
-    }
-
-    private Date getCurrentDate() {
-        return new Date(System.currentTimeMillis());
     }
 
     private Typeface getRobotoMediumTypeface() {
@@ -249,7 +230,11 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public Loader<Person> onCreateLoader(int id, Bundle args) {
-                return new PersonLoader(getApplicationContext());
+                if (id == PERSON_LOADER_ID) {
+                    return new PersonLoader(getApplicationContext());
+                }
+
+                return null;
             }
 
             @Override
@@ -267,58 +252,43 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onLoaderReset(Loader<Person> loader) {
-                loader.reset();
-            }
-
-        }).forceLoad();
-    }
-
-    private void restartPersonLoader() {
-        getSupportLoaderManager().restartLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
-            @Override
-            public Loader<Person> onCreateLoader(int id, Bundle args) {
-                return new PersonLoader(getApplicationContext());
-            }
-
-            @Override
-            public void onLoadFinished(Loader<Person> loader, Person data) {
-                if (null != data) {
-                    final String fullName = data.getName() + " " + data.getLastName();
-                    final String fullUsername = data.getUsername() + getApplicationContext().getString(R.string.domain);
-                    mFullName.setText(fullName);
-                    mUsername.setText(fullUsername);
-                } else {
+                if (!loader.isReset()) {
                     loader.reset();
-                    Snackbar.make(mRecyclerView, "Ops, we can't load your data now..", Snackbar.LENGTH_SHORT).show();
                 }
             }
 
-            @Override
-            public void onLoaderReset(Loader<Person> loader) {
-                loader.reset();
-            }
         }).forceLoad();
     }
 
     private void initJobLogLoader() {
         getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<JobLog>>() {
+
             @Override
             public Loader<List<JobLog>> onCreateLoader(int id, Bundle args) {
-                return new JobLogsLoader(getApplicationContext());
+                if (id == JOBLOG_LOADER_ID) {
+                    return new JobLogsLoader(getApplicationContext());
+                }
+
+                return null;
             }
 
             @Override
             public void onLoadFinished(Loader<List<JobLog>> loader, List<JobLog> data) {
-                if(null != data && data.size() > 0) {
-                    mAdapter = new JobLogAdapter(getApplicationContext(), data);
+                if (null != data && !data.isEmpty()) {
+                    mAdapter.setItems(null);
+                    mAdapter.setItems(data);
                     mRecyclerView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
+                } else {
+                    Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog", Snackbar.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onLoaderReset(Loader<List<JobLog>> loader) {
-                loader.reset();
+                if (!loader.isReset()) {
+                    loader.reset();
+                }
             }
         }).forceLoad();
     }

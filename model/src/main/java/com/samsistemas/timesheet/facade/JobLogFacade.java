@@ -88,7 +88,6 @@ public final class JobLogFacade implements Facade<JobLog> {
 
         if (null != jobLogEntities) {
             final List<JobLog> jobLogs = new ArrayList<>(jobLogEntities.size());
-            final JobLog jobLog = new JobLog();
             JobLogEntity entity;
             Project project;
             Person person;
@@ -100,6 +99,7 @@ public final class JobLogFacade implements Facade<JobLog> {
                 person = personFacade.findById(context, entity.getPersonId());
                 taskType = taskTypeFacade.findById(context, entity.getTaskTypeId());
 
+                JobLog jobLog = new JobLog();
                 jobLog.setId(entity.getId())
                       .setProject(project)
                       .setPerson(person)
