@@ -27,14 +27,13 @@ public class DrawableUtil {
      */
     public static Drawable modifyDrawableColor(@NonNull final Context context,
                                                @DrawableRes final int drawableId,
-                                               @ColorRes final int colorId,
-                                               @NonNull PorterDuff.Mode mode) {
+                                               @ColorRes final int colorId) {
 
         Drawable coloredDrawable = ContextCompat.getDrawable(context, drawableId);
         final int color = ContextCompat.getColor(context, colorId);
 
         //This is the better way to apply a particular color to a drawable.
-        coloredDrawable.setColorFilter(color, mode);
+        coloredDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         return coloredDrawable;
     }
@@ -49,12 +48,11 @@ public class DrawableUtil {
      */
     public static Drawable modifyDrawableColor(@NonNull final Context context,
                                                @NonNull Drawable drawable,
-                                               @ColorRes final int colorId,
-                                               @NonNull PorterDuff.Mode mode) {
+                                               @ColorRes final int colorId) {
         final int color = ContextCompat.getColor(context, colorId);
 
         //This is the better way to apply a particular color to a drawable.
-        drawable.setColorFilter(color, mode);
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         return drawable;
     }

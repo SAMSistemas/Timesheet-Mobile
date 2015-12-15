@@ -3,12 +3,9 @@ package com.samsistemas.timesheet.fragment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
@@ -49,14 +46,15 @@ public class ChangePasswordFragment extends DialogFragment implements DialogInte
         return super.onCreateDialog(savedInstanceState);
     }
 
-    /**
-     *
-     * @param builder
-     */
     private void prepare(AlertDialog.Builder builder) {
-        builder.setIcon(getIcon(R.drawable.ic_person_white_24dp))
+        final Drawable drawable = DrawableUtil.modifyDrawableColor(
+                getContext(),
+                R.drawable.ic_person_white_24dp,
+                R.color.material_teal
+        );
+        builder.setIcon(drawable)
                 .setTitle(R.string.password_dialog_title)
-                .setView(getContentView(R.layout.edit_password_content))
+                .setView(styleView())
                 .setPositiveButton(R.string.password_dialog_positive_button, this)
                 .setNegativeButton(R.string.password_dialog_negative_button, this);
     }
@@ -66,41 +64,13 @@ public class ChangePasswordFragment extends DialogFragment implements DialogInte
 
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    private Drawable getIcon(@DrawableRes int id) {
-        return DrawableUtil.modifyDrawableColor(
-                getContext(),
-                id,
-                R.color.material_teal,
-                PorterDuff.Mode.SRC_ATOP
-        );
-    }
+    private View styleView() {
+        View content = LayoutInflater.from(getContext()).inflate(R.layout.edit_password_content, null, false);
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    private View getContentView(@LayoutRes int id) {
-        View content = LayoutInflater.from(getContext()).inflate(id, null, false);
-        styleView(content);
-
-        return content;
-    }
-
-    /**
-     *
-     * @param view
-     */
-    private void styleView(@NonNull View view) {
-        TextInputLayout latestLayout = (TextInputLayout) view.findViewById(R.id.latest_layout);
-        TextInputLayout newLayout = (TextInputLayout) view.findViewById(R.id.new_layout);
-        EditText latestPassword = (EditText) view.findViewById(R.id.latest_password);
-        EditText newPassword = (EditText) view.findViewById(R.id.new_password);
+        TextInputLayout latestLayout = (TextInputLayout) content.findViewById(R.id.latest_layout);
+        TextInputLayout newLayout = (TextInputLayout) content.findViewById(R.id.new_layout);
+        EditText latestPassword = (EditText) content.findViewById(R.id.latest_password);
+        EditText newPassword = (EditText) content.findViewById(R.id.new_password);
 
         Typeface roboto = TypefaceUtil.getCustomTypeface(getContext(), R.string.roboto_light);
 
@@ -108,13 +78,10 @@ public class ChangePasswordFragment extends DialogFragment implements DialogInte
         latestPassword.setTypeface(roboto);
         newLayout.setTypeface(roboto);
         newPassword.setTypeface(roboto);
+
+        return content;
     }
 
-    /**
-     *
-     * @param dialog
-     * @return
-     */
     private Dialog setDialogParams(Dialog dialog) {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         Activity activity = mActivityReference.get();

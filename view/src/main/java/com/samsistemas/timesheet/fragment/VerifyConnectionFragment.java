@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -41,12 +39,13 @@ public class VerifyConnectionFragment extends DialogFragment implements DialogIn
         return super.onCreateDialog(savedInstanceState);
     }
 
-    /**
-     *
-     * @param builder
-     */
     private void prepare(AlertDialog.Builder builder) {
-        builder.setIcon(getIcon(R.drawable.ic_signal_wifi_off_white))
+        final Drawable drawable = DrawableUtil.modifyDrawableColor(
+                getContext(),
+                R.drawable.ic_signal_wifi_off_white,
+                R.color.material_teal
+        );
+        builder.setIcon(drawable)
                 .setTitle(R.string.internet_dialog_title)
                 .setMessage(R.string.internet_dialog_message)
                 .setPositiveButton(R.string.internet_dialog_positive_button, this)
@@ -66,26 +65,8 @@ public class VerifyConnectionFragment extends DialogFragment implements DialogIn
         }
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    private Drawable getIcon(@DrawableRes int id) {
-        return DrawableUtil.modifyDrawableColor(
-                getContext(),
-                id,
-                R.color.material_teal,
-                PorterDuff.Mode.SRC_ATOP
-        );
-    }
-
     /** Attributes setters and getters **/
     public void setActivityReference(WeakReference<Activity> activityReference) {
         this.mActivityReference = activityReference;
-    }
-
-    public WeakReference<Activity> getActivityReference() {
-        return mActivityReference;
     }
 }

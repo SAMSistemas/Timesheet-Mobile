@@ -5,7 +5,6 @@
     <color name="primary_dark">#0d47a1</color>
     <color name="accent">#2dc899</color>
     <color name="gray_light">#e0e0e0</color>
-    <color name="material_red">#d32f2f</color>
     <color name="material_teal">#009688</color>
 
     <color name="preference_fallback_accent_color">@color/material_teal</color>

@@ -10,25 +10,15 @@
     <string name="action_mode_edit" translatable="false">Edit</string>
     <string name="action_logout">Logout</string>
 
-    <!-- Navigation Drawer Menu Section Strings -->
-    <string name="section_calendar">Calendar</string>
-
-    <!-- Log Strings -->
-    <string name="setup_toolbar">Adding ToolBar to the Layout.</string>
-    <string name="setup_drawer">Correctly configured Navigation Drawer.</string>
-    <string name="config_changed">Detected configuration change on: </string>
-
     <!-- Fake Data Strings -->
     <string name="full_name">Jonatan E. Salas</string>
     <string name="email">jonatan.salas@samsistemas.com.ar</string>
 
     <string name="login">Login</string>
-    <string name="sign_in">SIGN IN</string>
     <string name="username">Email</string>
     <string name="password">Password</string>
 
     <string name="sam">Building Software®</string>
-    <string name="logo_desc">Logo image</string>
 
     <string name="domain">\@samsistemas.com.ar</string>
     <string name="enterprise_name" translatable="false">by SAM Sistemas</string>
@@ -55,14 +45,6 @@
     <string name="password_dialog_negative_button">Cancel</string>
     <string name="password_dialog_positive_button">Save</string>
 
-    <array name="dialog_array">
-        <item>@drawable/ic_signal_wifi_off_white</item>
-        <item>@string/internet_dialog_title</item>
-        <item>@string/internet_dialog_message</item>
-        <item>@string/internet_dialog_negative_button</item>
-        <item>@string/internet_dialog_positive_button</item>
-    </array>
-
     <string name="of">of</string>
     <string name="january">January</string>
     <string name="february">February</string>
@@ -79,9 +61,6 @@
 
     <string name="no_date_selected">No date selected yet</string>
     <string name="no_job_logs">No upcoming Job Logs</string>
-
-    <string name="preference_filename" translatable="false">timesheet_prefs</string>
-    <string name="user_id" translatable="false">user_id</string>
 
     <!-- Error messages -->
     <string name="error_no_available_job_logs">It seems that you haven\'t load any jobLog</string>
@@ -107,10 +86,8 @@
         <item>9.0</item>
      </string-array>
 
-    <string name="user_name" >Usuario</string>
-    <string name="pass_word">Contraseña</string>
-
     <string name="description">Description</string>
     <string name="solicitude_number">Solicitude Number</string>
-
+    <string name="sam_sistemas" translatable="false">SAM Sistemas SRL.</string>
+    <string name="location_default" translatable="false">Recoleta, Capital Federal</string>
 </resources>
