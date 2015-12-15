@@ -87,7 +87,6 @@ public class ChangePasswordFragment extends DialogFragment implements DialogInte
         Activity activity = mActivityReference.get();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-        //Hacemos que el width del dialog tenga un tamaño del 95% de la pantalla en modo portrait.
         int width = (int) (displaymetrics.widthPixels * 0.95);
 
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();

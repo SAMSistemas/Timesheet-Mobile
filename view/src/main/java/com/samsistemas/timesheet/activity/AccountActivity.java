@@ -132,9 +132,7 @@ public class AccountActivity extends BaseAppCompatActivity {
     }
 
     @Override
-    public void setListeners() {
-
-    }
+    public void setListeners() { }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
