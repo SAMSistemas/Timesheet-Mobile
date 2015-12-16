@@ -23,10 +23,12 @@ public class SettingsActivity extends AppCompatActivity {
         //Use this to check troubles
         //DevUtil.enableStrictModeChecker();
         final ActionBar actionBar = getSupportActionBar();
-        if(null != actionBar)
-            ToolbarUtil.styleWithBackButton(actionBar, R.string.action_settings);
 
-        if(null == savedInstanceState) {
+        if (null != actionBar) {
+            ToolbarUtil.styleWithBackButton(actionBar, R.string.action_settings);
+        }
+
+        if (null == savedInstanceState) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(android.R.id.content, new ApplicationSettingsFragment())
@@ -37,8 +39,9 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
-        if(id == android.R.id.home)
+        if (id == android.R.id.home) {
             onBackPressed();
+        }
 
         return true;
     }

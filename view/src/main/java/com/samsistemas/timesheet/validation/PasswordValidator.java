@@ -20,8 +20,8 @@ public class PasswordValidator implements Validator {
 
     @Override
     public boolean validate(@NonNull final String password) {
-        return (!password.isEmpty() &&
-                PASSWORD_PATTERN.matcher(password).matches());
+        return (!password.isEmpty()
+                && PASSWORD_PATTERN.matcher(password).matches());
     }
 
     /**
@@ -30,7 +30,7 @@ public class PasswordValidator implements Validator {
      * @return a singleton object.
      */
     public static PasswordValidator newInstance() {
-        if(null == sInstance) sInstance = new PasswordValidator();
+        if (null == sInstance) sInstance = new PasswordValidator();
         return sInstance;
     }
 }

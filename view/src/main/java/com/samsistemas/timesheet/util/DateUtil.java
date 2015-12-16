@@ -11,8 +11,10 @@ import java.util.Date;
 /**
  * @author jonatan.salas
  */
-public class DateUtil {
+public final class DateUtil {
     private static final String SPACE = " ";
+
+    private DateUtil() { }
 
     public static String formatDate(@NonNull Context context, @NonNull Date dateToFormat) {
         Calendar calendar = Calendar.getInstance();
@@ -24,7 +26,7 @@ public class DateUtil {
 
         final String of = context.getString(R.string.of);
 
-        return day + SPACE + of + SPACE + formatMonth(context, month) + SPACE + of + SPACE + year ;
+        return day + SPACE + of + SPACE + formatMonth(context, month) + SPACE + of + SPACE + year;
     }
 
     private static String formatMonth(@NonNull Context context, int month) {

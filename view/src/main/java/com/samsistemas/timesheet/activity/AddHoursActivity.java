@@ -101,8 +101,9 @@ public class AddHoursActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
-        if(null != actionBar)
+        if (null != actionBar) {
             ToolbarUtil.styleWithBackButton(actionBar, getString(R.string.action_add_hour));
+        }
 
         CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         toolbarLayout.setTitleEnabled(false);

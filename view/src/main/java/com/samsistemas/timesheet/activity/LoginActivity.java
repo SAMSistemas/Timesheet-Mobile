@@ -101,8 +101,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(null != mNetworkStateReceiver)
+        if (null != mNetworkStateReceiver) {
             unregisterReceiver(mNetworkStateReceiver);
+        }
     }
 
     @Override
@@ -144,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void checkNetworkState(Context context, Boolean isConnected) {
-        if(!isConnected) {
+        if (!isConnected) {
             VerifyConnectionFragment verifyConnection = new VerifyConnectionFragment();
             verifyConnection.setContext(this);
             verifyConnection.show(getSupportFragmentManager(), VerifyConnectionFragment.TAG);
@@ -184,11 +185,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         final Validator emailValidator = EmailValidator.newInstance();
         final Validator passwordValidator = PasswordValidator.newInstance();
 
-        if(!emailValidator.validate(email) && !passwordValidator.validate(password)) {
+        if (!emailValidator.validate(email) && !passwordValidator.validate(password)) {
             Snackbar.make(view, context.getString(R.string.email_password_error), Snackbar.LENGTH_LONG).show();
-        } else if(!emailValidator.validate(email)) {
+        } else if (!emailValidator.validate(email)) {
             Snackbar.make(view, context.getString(R.string.email_error), Snackbar.LENGTH_LONG).show();
-        } else if(!passwordValidator.validate(password)) {
+        } else if (!passwordValidator.validate(password)) {
             Snackbar.make(view, context.getString(R.string.password_error), Snackbar.LENGTH_LONG).show();
         } else {
             final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());

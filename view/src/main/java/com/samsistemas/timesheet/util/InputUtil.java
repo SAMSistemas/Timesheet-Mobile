@@ -9,7 +9,9 @@ import android.view.WindowManager;
  *
  * @author jonatan.salas
  */
-public class InputUtil {
+public final class InputUtil {
+
+    private InputUtil() { }
 
     /**
      * Method that enables the keyboard to the user.

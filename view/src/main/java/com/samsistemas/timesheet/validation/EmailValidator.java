@@ -29,7 +29,7 @@ public class EmailValidator implements Validator {
      * @return a singleton object.
      */
     public static EmailValidator newInstance() {
-        if(null == sInstance) sInstance = new EmailValidator();
+        if (null == sInstance) sInstance = new EmailValidator();
         return sInstance;
     }
 }

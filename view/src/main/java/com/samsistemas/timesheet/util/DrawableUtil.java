@@ -15,7 +15,9 @@ import com.samsistemas.timesheet.R;
  *
  * @author jonatan.salas
  */
-public class DrawableUtil {
+public final class DrawableUtil {
+
+    private DrawableUtil() { }
 
     /**
      * Util method that modifies the drawable color.
