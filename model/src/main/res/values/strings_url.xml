@@ -4,6 +4,7 @@
     <string name="login_url" translatable="false">/login</string>
     <string name="job_log_all" translatable="false">/jobLog/all/</string>
     <string name="job_log_create" translatable="false">/jobLog/create</string>
+    <string name="job_log_update" translatable="false">/jobLog/update</string>
     <string name="project_all" translatable="false">/project/allByUsername/</string>
     <string name="person_show" translatable="false">/person/show/</string>
 </resources>
