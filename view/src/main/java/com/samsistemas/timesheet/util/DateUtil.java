@@ -16,6 +16,13 @@ public final class DateUtil {
 
     private DateUtil() { }
 
+    /**
+     * Method that formats a Date in a more friendly representation
+     *
+     * @param context the context used to retrieve some Strings from string.xml file
+     * @param dateToFormat the date to format
+     * @return a String representation of the date prettify
+     */
     public static String formatDate(@NonNull Context context, @NonNull Date dateToFormat) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateToFormat);
@@ -29,6 +36,13 @@ public final class DateUtil {
         return day + SPACE + of + SPACE + formatMonth(context, month) + SPACE + of + SPACE + year;
     }
 
+    /**
+     * Method that returns a Month as String
+     *
+     * @param context the context used to retrieve the month
+     * @param month the index of the month we want to get
+     * @return a Month as String representation
+     */
     private static String formatMonth(@NonNull Context context, int month) {
         switch (month) {
             case Calendar.JANUARY:

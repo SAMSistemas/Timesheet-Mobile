@@ -20,12 +20,12 @@ public final class DrawableUtil {
     private DrawableUtil() { }
 
     /**
-     * Util method that modifies the drawable color.
+     * Util method that modifies the drawable color
      *
-     * @param context - context used to get the drawable and the color.
-     * @param drawableId - the id of the drawable to get.
-     * @param colorId - the id of the color to get.
-     * @return a drawable with color modified.
+     * @param context context used to get the drawable and the color
+     * @param drawableId the id of the drawable to get
+     * @param colorId the id of the color to get
+     * @return a drawable with color modified
      */
     public static Drawable modifyDrawableColor(@NonNull final Context context,
                                                @DrawableRes final int drawableId,
@@ -43,10 +43,10 @@ public final class DrawableUtil {
     /**
      * Util method that modifies the drawable color.
      *
-     * @param context - context used to get the drawable and the color.
-     * @param drawable - the drawable to modify.
-     * @param colorId - the id of the color to get.
-     * @return a drawable with color modified.
+     * @param context context used to get the drawable and the color
+     * @param drawable the drawable to modify
+     * @param colorId the id of the color to get
+     * @return a drawable with color modified
      */
     public static Drawable modifyDrawableColor(@NonNull final Context context,
                                                @NonNull Drawable drawable,
@@ -59,6 +59,13 @@ public final class DrawableUtil {
         return drawable;
     }
 
+    /**
+     * Util method that modifies the drawable color and change its bounds
+     *
+     * @param context the context used to retrieve the Drawable
+     * @param id the id of the Drawable to retrieve
+     * @return a Drawable with modified color and custom bounds
+     */
     public static Drawable modifyDrawableColorWithBounds(@NonNull Context context, @DrawableRes int id) {
         Drawable drawable = modifyDrawableColor(context, id, R.color.primary);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
