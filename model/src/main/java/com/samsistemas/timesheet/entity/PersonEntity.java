@@ -5,61 +5,62 @@ import android.graphics.drawable.Drawable;
 import com.samsistemas.timesheet.entity.base.Entity;
 
 /**
- * Domain class that represents the data contained in the table Person.
+ * Entity that represents a Person table row content
  *
  * @author jonatan.salas
  */
 public class PersonEntity extends Entity {
 
     /**
-     *
+     * The name of the person
      */
     private String name;
 
     /**
-     *
+     * The last name of the person
      */
     private String lastName;
 
     /**
-     *
+     * The username for the person
      */
     private String username;
 
     /**
-     *
+     * The password for the person
      */
     private String password;
 
     /**
-     *
+     * The id of the work position to reference
      */
     private long workPositionId;
 
     /**
-     *
+     * The hours that work the person
      */
     private int workHours;
 
     /**
-     *
+     * Image of profile for the person
      */
     private Drawable picture;
 
     /**
-     *
+     * A boolean flag that validates if the person is still active
      */
     private boolean enabled;
 
     /**
-     *
+     * Public Constructor
      */
     public PersonEntity() { }
 
     /**
+     * Setter as builder pattern
      *
-     * @param name
-     * @return
+     * @param name the name of the person
+     * @return a PersonEntity object
      */
     public PersonEntity setName(String name) {
         this.name = name;
@@ -67,9 +68,10 @@ public class PersonEntity extends Entity {
     }
 
     /**
+     * Setter as builder pattern
      *
-     * @param lastName
-     * @return
+     * @param lastName the last name of the person
+     * @return a PersonEntity object
      */
     public PersonEntity setLastName(String lastName) {
         this.lastName = lastName;
@@ -77,9 +79,10 @@ public class PersonEntity extends Entity {
     }
 
     /**
+     * Setter as builder pattern
      *
-     * @param username
-     * @return
+     * @param username the username of the person
+     * @return a PersonEntity object
      */
     public PersonEntity setUsername(String username) {
         this.username = username;
@@ -87,9 +90,10 @@ public class PersonEntity extends Entity {
     }
 
     /**
+     * Setter as builder pattern
      *
-     * @param password
-     * @return
+     * @param password the password of the person
+     * @return a PersonEntity object
      */
     public PersonEntity setPassword(String password) {
         this.password = password;
@@ -97,9 +101,10 @@ public class PersonEntity extends Entity {
     }
 
     /**
+     * Setter as builder pattern
      *
-     * @param workPositionId
-     * @return
+     * @param workPositionId the work position id of the person
+     * @return a PersonEntity object
      */
     public PersonEntity setWorkPositionId(long workPositionId) {
         this.workPositionId = workPositionId;
@@ -107,9 +112,10 @@ public class PersonEntity extends Entity {
     }
 
     /**
+     * Setter as builder pattern
      *
-     * @param workHours
-     * @return
+     * @param workHours the hours that work the person
+     * @return a PersonEntity object
      */
     public PersonEntity setWorkHours(int workHours) {
         this.workHours = workHours;
@@ -117,9 +123,10 @@ public class PersonEntity extends Entity {
     }
 
     /**
+     * Setter as builder pattern
      *
-     * @param picture
-     * @return
+     * @param picture the profile image of the person
+     * @return a PersonEntity object
      */
     public PersonEntity setPicture(Drawable picture) {
         this.picture = picture;
@@ -127,9 +134,10 @@ public class PersonEntity extends Entity {
     }
 
     /**
+     * Setter as builder pattern
      *
-     * @param enabled
-     * @return
+     * @param enabled the flag that indicates if the person is active
+     * @return a PersonEntity object
      */
     public PersonEntity setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -137,64 +145,72 @@ public class PersonEntity extends Entity {
     }
 
     /**
+     * Getter for Name
      *
-     * @return
+     * @return the value of the field name
      */
     public String getName() {
         return name;
     }
 
     /**
+     * Getter for LastName
      *
-     * @return
+     * @return the value of the field lastName
      */
     public String getLastName() {
         return lastName;
     }
 
     /**
+     * Getter for Username
      *
-     * @return
+     * @return the value of the field username
      */
     public String getUsername() {
         return username;
     }
 
     /**
+     * Getter for Password
      *
-     * @return
+     * @return the value of the field password
      */
     public String getPassword() {
         return password;
     }
 
     /**
+     * Getter for WorkPositionId
      *
-     * @return
+     * @return the value of the field workPositionId
      */
     public long getWorkPositionId() {
         return workPositionId;
     }
 
     /**
+     * Getter for WorkHours
      *
-     * @return
+     * @return the value of the field workHours
      */
     public int getWorkHours() {
         return workHours;
     }
 
     /**
+     * Getter for Picture
      *
-     * @return
+     * @return the value of the field picture
      */
     public Drawable getPicture() {
         return picture;
     }
 
     /**
+     * Getter for Enabled
      *
-     * @return
+     * @return the value of the field enabled
      */
     public boolean isEnabled() {
         return enabled;

@@ -8,25 +8,27 @@ import com.samsistemas.timesheet.entity.base.Entity;
  * @author jonatan.salas
  */
 public class TaskTypeEntity extends Entity {
+
     /**
-     *
+     * The name of the TaskType
      */
     private String name;
 
     /**
-     *
+     * Flag that indicates if this is still active
      */
     private boolean enabled;
 
     /**
-     *
+     * Public Constructor
      */
     public TaskTypeEntity() { }
 
     /**
+     * Setter as builder pattern
      *
-     * @param name
-     * @return
+     * @param name the name of the TaskType as String
+     * @return a TaskTypeEntity object
      */
     public TaskTypeEntity setName(String name) {
         this.name = name;
@@ -34,9 +36,10 @@ public class TaskTypeEntity extends Entity {
     }
 
     /**
+     * Setter as builder pattern
      *
-     * @param enabled
-     * @return
+     * @param enabled a flag that indicates if this is still active
+     * @return a TaskTypeEntity object
      */
     public TaskTypeEntity setEnabled(boolean enabled) {
         this.enabled = enabled;
@@ -44,16 +47,18 @@ public class TaskTypeEntity extends Entity {
     }
 
     /**
+     * Getter for name
      *
-     * @return
+     * @return a String representation of name
      */
     public String getName() {
         return name;
     }
 
     /**
+     * Getter for enabled
      *
-     * @return
+     * @return the boolean value of enabled
      */
     public boolean isEnabled() {
         return enabled;
