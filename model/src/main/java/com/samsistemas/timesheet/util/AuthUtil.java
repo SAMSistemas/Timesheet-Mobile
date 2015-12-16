@@ -2,7 +2,9 @@ package com.samsistemas.timesheet.util;
 
 import android.support.annotation.NonNull;
 import android.util.Base64;
+import android.util.Log;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +14,12 @@ import java.util.Map;
  * @author jonatan.salas
  */
 public final class AuthUtil {
+    private static final String LOG_TAG = AuthUtil.class.getSimpleName();
+
+    /**
+     * Charset encode
+     */
+    private static final String CHARSET = "UTF-8";
 
     /**
      * Pattern for String.
@@ -49,6 +57,14 @@ public final class AuthUtil {
      */
     public static String getAuthCredential(@NonNull final String username,  @NonNull final String password) {
         final String credentials = String.format(STRING_PATTERN, username, password);
-        return "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+        String auth = null;
+
+        try {
+            auth = "Basic " + Base64.encodeToString(credentials.getBytes(CHARSET), Base64.NO_WRAP);
+        } catch (UnsupportedEncodingException ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+        }
+
+        return auth;
     }
 }

@@ -14,6 +14,7 @@ import com.samsistemas.timesheet.data.R;
  */
 public class TestDatabase extends AndroidTestCase {
     private static final String LOG_TAG = TestDatabase.class.getSimpleName();
+    private static final String ERROR = "No values returned :(";
 
     /**
      *
@@ -122,22 +123,22 @@ public class TestDatabase extends AndroidTestCase {
                             if (null != jobLogCursor && jobLogCursor.moveToFirst()) {
                                 TestUtilities.validateCursor(jobLogValues, jobLogCursor);
                             } else {
-                                fail("No values returned :(");
+                                fail(ERROR);
                             }
                         } else {
-                            fail("No values returned :(");
+                            fail(ERROR);
                         }
                     } else {
-                        fail("No values returned :(");
+                        fail(ERROR);
                     }
                 } else {
-                    fail("No values returned :(");
+                    fail(ERROR);
                 }
             } else {
-                fail("No values returned :(");
+                fail(ERROR);
             }
         } else {
-            fail("No values returned :(");
+            fail(ERROR);
         }
     }
 }

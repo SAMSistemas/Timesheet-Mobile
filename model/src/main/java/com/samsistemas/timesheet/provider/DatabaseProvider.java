@@ -24,6 +24,7 @@ import static com.samsistemas.timesheet.util.ContentUriKeys.*;
  * @author jonatan.salas
  */
 public class DatabaseProvider extends ContentProvider {
+    private static final String EQUALS = " = ";
     private UriMatcher mUriMatcher;
     private Database mDatabase;
     private Context mContext;
@@ -67,7 +68,7 @@ public class DatabaseProvider extends ContentProvider {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.client_table),
                         projection,
-                        mContext.getString(R.string.client_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.client_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -89,7 +90,7 @@ public class DatabaseProvider extends ContentProvider {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.work_position_table),
                         projection,
-                        mContext.getString(R.string.work_position_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.work_position_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -111,7 +112,7 @@ public class DatabaseProvider extends ContentProvider {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.person_table),
                         projection,
-                        mContext.getString(R.string.person_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.person_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -133,7 +134,7 @@ public class DatabaseProvider extends ContentProvider {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.task_type_table),
                         projection,
-                        mContext.getString(R.string.task_type_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.task_type_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -155,7 +156,7 @@ public class DatabaseProvider extends ContentProvider {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.project_table),
                         projection,
-                        mContext.getString(R.string.project_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.project_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -177,7 +178,7 @@ public class DatabaseProvider extends ContentProvider {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.job_log_table),
                         projection,
-                        mContext.getString(R.string.job_log_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.job_log_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,

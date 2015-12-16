@@ -28,9 +28,9 @@ android {
         abortOnError true
         xmlReport false
         htmlReport true
-        lintConfig file("${project.rootDir}/config/quality/lint/lint.xml")
-        htmlOutput file("$project.buildDir/reports/lint/lint-result.html")
-        xmlOutput file("$project.buildDir/reports/lint/lint-result.xml")
+        lintConfig file("${project.rootDir}/model/config/quality/lint/lint.xml")
+        htmlOutput file("$project.buildDir/model/reports/lint/lint-result.html")
+        xmlOutput file("$project.buildDir/model/reports/lint/lint-result.xml")
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
@@ -59,7 +59,7 @@ task findbugs(type: FindBugs, dependsOn: assembleDebug) {
     ignoreFailures = false
     effort = "max"
     reportLevel = "high"
-    excludeFilter = new File("${project.rootDir}/view/config/quality/findbugs/findbugs-filter.xml")
+    excludeFilter = new File("${project.rootDir}/model/config/quality/findbugs/findbugs-filter.xml")
     classes = files("${project.rootDir}/model/build/intermediates/classes")
 
     source 'src'
@@ -90,7 +90,7 @@ task pmd(type: Pmd) {
         xml.enabled = false
         html.enabled = true
         html {
-            destination "$project.buildDir/model/reports/pmd/pmd.html"
+            destination "$project.buildDir/reports/pmd/pmd.html"
         }
     }
 }
