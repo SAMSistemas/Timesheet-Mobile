@@ -24,9 +24,9 @@ import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.network.converter.PersonEntityParser;
-import com.samsistemas.timesheet.network.converter.TaskTypeEntityListParser;
-import com.samsistemas.timesheet.network.converter.WorkPositionEntityParser;
+import com.samsistemas.timesheet.network.converter.PersonConverter;
+import com.samsistemas.timesheet.network.converter.TaskTypeConverter;
+import com.samsistemas.timesheet.network.converter.WorkPositionConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONArray;
@@ -41,9 +41,6 @@ import java.util.Map;
  */
 public class FetchPersonDataService extends IntentService {
     private static final String TAG = FetchPersonDataService.class.getSimpleName();
-//    public static final int STATUS_RUNNING = 0;
-//    public static final int STATUS_FINISHED = 1;
-//    public static final int STATUS_ERROR = 2;
     private RequestQueue mRequestQueue;
 
     public FetchPersonDataService() {
@@ -74,18 +71,18 @@ public class FetchPersonDataService extends IntentService {
                             final Controller<WorkPositionEntity> workPositionController = ControllerFactory.getWorkPositionController();
                             final Controller<TaskTypeEntity> taskTypeController = ControllerFactory.getTaskTypeController();
 
-                            final WorkPositionEntityParser workPositionParser = WorkPositionEntityParser.newInstance();
-                            final WorkPositionEntity workPositionEntity = workPositionParser.convert(response);
+                            final WorkPositionConverter workPositionConverter = WorkPositionConverter.newInstance();
+                            final WorkPositionEntity workPositionEntity = workPositionConverter.asObject(response);
 
-                            final PersonEntityParser personEntityParser = PersonEntityParser.newInstance();
-                            final PersonEntity personEntity = personEntityParser.convert(response);
+                            final PersonConverter personConverter = PersonConverter.newInstance();
+                            final PersonEntity personEntity = personConverter.asObject(response);
 
                             personEntity.setUsername(username)
                                         .setPassword(password);
 
                             final JSONArray jsonTaskTypeArray = response.getJSONArray(TASK_TYPES);
-                            final TaskTypeEntityListParser taskTypeEntityListParser = TaskTypeEntityListParser.newInstance();
-                            List<TaskTypeEntity> taskTypeEntities = taskTypeEntityListParser.convert(jsonTaskTypeArray);
+                            final TaskTypeConverter taskTypeConverter = TaskTypeConverter.newInstance();
+                            List<TaskTypeEntity> taskTypeEntities = taskTypeConverter.asList(jsonTaskTypeArray);
 
                             taskTypeController.bulkInsert(getApplicationContext(), taskTypeEntities, UriHelper.buildTaskTypeUri(getApplicationContext()));
                             workPositionController.insert(getApplicationContext(), workPositionEntity, UriHelper.buildWorkPositionUri(getApplicationContext()));

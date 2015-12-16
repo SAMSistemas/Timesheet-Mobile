@@ -19,7 +19,7 @@ import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.network.converter.JobLogEntityListParser;
+import com.samsistemas.timesheet.network.converter.JobLogConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONArray;
@@ -34,9 +34,6 @@ import java.util.Map;
  */
 public class FetchJobLogDataService extends IntentService {
     private static final String TAG = FetchJobLogDataService.class.getSimpleName();
-//    public static final int STATUS_RUNNING = 0;
-//    public static final int STATUS_FINISHED = 1;
-//    public static final int STATUS_ERROR = 2;
     private RequestQueue mRequestQueue;
 
     public FetchJobLogDataService() {
@@ -79,8 +76,8 @@ public class FetchJobLogDataService extends IntentService {
                         try {
                             final Controller<JobLogEntity> jobLogController = ControllerFactory.getJobLogController();
 
-                            final JobLogEntityListParser jobLogEntityListParser = JobLogEntityListParser.newInstance();
-                            final List<JobLogEntity> jobLogEntities = jobLogEntityListParser.convert(response);
+                            final JobLogConverter jobLogConverter = JobLogConverter.newInstance();
+                            final List<JobLogEntity> jobLogEntities = jobLogConverter.asList(response);
                             final Uri uri = UriHelper.buildJobLogUri(getApplicationContext());
 
                             jobLogController.bulkInsert(getApplicationContext(), jobLogEntities, uri);

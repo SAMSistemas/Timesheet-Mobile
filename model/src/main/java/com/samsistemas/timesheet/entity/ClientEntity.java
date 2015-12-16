@@ -3,7 +3,7 @@ package com.samsistemas.timesheet.entity;
 import com.samsistemas.timesheet.entity.base.Entity;
 
 /**
- * Entity class that represents a Client.
+ * Entity class that represents a Client table row content
  *
  * @author jonatan.salas
  */

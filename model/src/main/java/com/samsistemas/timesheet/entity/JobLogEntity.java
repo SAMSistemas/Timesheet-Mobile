@@ -5,7 +5,7 @@ import com.samsistemas.timesheet.entity.base.Entity;
 import java.util.Date;
 
 /**
- * Entity that represents a JobLog.
+ * Entity that represents a JobLog table row content
  *
  * @author jonatan.salas
  */

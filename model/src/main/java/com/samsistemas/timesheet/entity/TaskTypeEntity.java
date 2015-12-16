@@ -8,26 +8,53 @@ import com.samsistemas.timesheet.entity.base.Entity;
  * @author jonatan.salas
  */
 public class TaskTypeEntity extends Entity {
+    /**
+     *
+     */
     private String name;
+
+    /**
+     *
+     */
     private boolean enabled;
 
+    /**
+     *
+     */
     public TaskTypeEntity() { }
 
-    /** Attribute setters and getters **/
+    /**
+     *
+     * @param name
+     * @return
+     */
     public TaskTypeEntity setName(String name) {
         this.name = name;
         return this;
     }
 
+    /**
+     *
+     * @param enabled
+     * @return
+     */
     public TaskTypeEntity setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isEnabled() {
         return enabled;
     }

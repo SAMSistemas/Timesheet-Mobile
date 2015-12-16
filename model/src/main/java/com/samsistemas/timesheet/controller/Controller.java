@@ -13,14 +13,20 @@ import com.samsistemas.timesheet.mapper.base.EntityMapper;
 import java.util.List;
 
 /**
+ * Generic controller used to access the ContentProvider
  *
  * @author jonatan.salas
- * @param <T>
+ * @param <T> class that extends Entity
  */
 public class Controller<T extends Entity> implements BaseController<T> {
     private static final String CLAUSE = " id =? ";
     private final EntityMapper<T, Cursor> entityMapper;
 
+    /**
+     * Default Controller constructor with params
+     *
+     * @param mapper EntityMapper used to convert an object to Cursor/ContentValues/Entity
+     */
     public Controller(EntityMapper<T, Cursor> mapper) {
         this.entityMapper = mapper;
     }
@@ -60,7 +66,9 @@ public class Controller<T extends Entity> implements BaseController<T> {
     @Override
     public boolean update(@NonNull Context context, @NonNull T toUpdate, @NonNull Uri uri) {
         final ContentValues values = entityMapper.asContentValues(toUpdate);
-        final String[] whereArgs = new String[] { String.valueOf(toUpdate.getId()) };
+        final String[] whereArgs = new String[] {
+                String.valueOf(toUpdate.getId())
+        };
 
         int updatedRows = context.getContentResolver().update(uri, values, CLAUSE, whereArgs);
 
@@ -69,7 +77,9 @@ public class Controller<T extends Entity> implements BaseController<T> {
 
     @Override
     public boolean delete(@NonNull Context context, @NonNull Uri uri, long id) {
-        int deletedRows = context.getContentResolver().delete(uri, CLAUSE, new String[] { String.valueOf(id) } );
+        int deletedRows = context.getContentResolver().delete(uri, CLAUSE, new String[] {
+                String.valueOf(id)
+        });
         return (0 != deletedRows);
     }
 }

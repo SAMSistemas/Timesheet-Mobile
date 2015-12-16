@@ -29,10 +29,13 @@ public abstract class BaseDialogFragment extends DialogFragment implements Dialo
 
         builder.setIcon(getIconDrawable())
                .setTitle(getTitleResourceId())
-               .setMessage(getMessageResourceId())
                .setView(getDialogView(getLayoutResourceId()))
                .setPositiveButton(getPositiveButtonMessage(), this)
                .setNegativeButton(getNegativeButtonMessage(), this);
+
+        if(getMessageResourceId() != 0) {
+            builder.setMessage(getMessageResourceId());
+        }
 
         return buildDialog(builder);
     }

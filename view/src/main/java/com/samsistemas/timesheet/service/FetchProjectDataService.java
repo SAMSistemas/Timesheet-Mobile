@@ -19,8 +19,8 @@ import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.network.converter.ClientEntityListParser;
-import com.samsistemas.timesheet.network.converter.ProjectEntityListParser;
+import com.samsistemas.timesheet.network.converter.ClientConverter;
+import com.samsistemas.timesheet.network.converter.ProjectConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONArray;
@@ -35,11 +35,7 @@ import java.util.Map;
  */
 public class FetchProjectDataService extends IntentService {
     private static final String TAG = FetchProjectDataService.class.getSimpleName();
-//    public static final int STATUS_RUNNING = 0;
-//    public static final int STATUS_FINISHED = 1;
-//    public static final int STATUS_ERROR = 2;
     private RequestQueue mRequestQueue;
-
 
     public FetchProjectDataService() {
         super(TAG);
@@ -68,13 +64,13 @@ public class FetchProjectDataService extends IntentService {
                             final Controller<ProjectEntity> projectController = ControllerFactory.getProjectController();
                             final Controller<ClientEntity> clientController = ControllerFactory.getClientController();
 
-                            final ProjectEntityListParser projectEntityListParser = ProjectEntityListParser.newInstance();
-                            final List<ProjectEntity> projectEntities = projectEntityListParser.convert(response);
+                            final ProjectConverter projectConverter = ProjectConverter.newInstance();
+                            final List<ProjectEntity> projectEntities = projectConverter.asList(response);
 
                             projectController.bulkInsert(getApplicationContext(), projectEntities, UriHelper.buildProjectUri(getApplicationContext()));
 
-                            final ClientEntityListParser clientEntityListParser = ClientEntityListParser.newInstance();
-                            final List<ClientEntity> clientEntities = clientEntityListParser.convert(response);
+                            final ClientConverter clientConverter = ClientConverter.newInstance();
+                            final List<ClientEntity> clientEntities = clientConverter.asList(response);
 
                             clientController.bulkInsert(getApplicationContext(), clientEntities, UriHelper.buildClientUri(getApplicationContext()));
 
