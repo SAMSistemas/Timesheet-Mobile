@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.network.converter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.samsistemas.timesheet.entity.ProjectEntity;
@@ -37,7 +38,7 @@ public final class ProjectEntityConverter implements JSONConverter<ProjectEntity
     private ProjectEntityConverter() { }
 
     @Override
-    public ProjectEntity asObject(JSONObject object) throws JSONException {
+    public ProjectEntity asObject(@NonNull JSONObject object) throws JSONException {
         JSONObject jsonClient = object.getJSONObject(CLIENT);
 
         String dateString = object.getString(START_DATE);
@@ -62,7 +63,7 @@ public final class ProjectEntityConverter implements JSONConverter<ProjectEntity
     }
 
     @Override
-    public List<ProjectEntity> asList(JSONArray array) throws JSONException {
+    public List<ProjectEntity> asList(@NonNull JSONArray array) throws JSONException {
         List<ProjectEntity> projectEntities = new ArrayList<>(array.length());
 
         for (int i = 0; i < array.length(); i++) {

@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.network.converter.base;
 
+import android.support.annotation.NonNull;
+
 import com.samsistemas.timesheet.entity.base.Entity;
 
 import org.json.JSONArray;
@@ -9,7 +11,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 /**
- * @author
+ *
+ * @author jonatan.salas
  * @param <T>
  */
 public interface JSONConverter<T extends Entity> {
@@ -20,7 +23,7 @@ public interface JSONConverter<T extends Entity> {
      * @return
      * @throws JSONException
      */
-    T asObject(JSONObject object) throws JSONException;
+    T asObject(@NonNull JSONObject object) throws JSONException;
 
     /**
      *
@@ -28,5 +31,5 @@ public interface JSONConverter<T extends Entity> {
      * @return
      * @throws JSONException
      */
-    List<T> asList(JSONArray array) throws JSONException;
+    List<T> asList(@NonNull JSONArray array) throws JSONException;
 }

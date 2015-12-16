@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.network.converter;
 
+import android.support.annotation.NonNull;
+
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.network.converter.base.JSONConverter;
 
@@ -26,7 +28,7 @@ public final class WorkPositionEntityConverter implements JSONConverter<WorkPosi
     private WorkPositionEntityConverter() { }
 
     @Override
-    public WorkPositionEntity asObject(JSONObject object) throws JSONException {
+    public WorkPositionEntity asObject(@NonNull JSONObject object) throws JSONException {
         final JSONObject jsonWorkPosition = object.getJSONObject(WORK_POSITION);
         WorkPositionEntity entity = new WorkPositionEntity();
 
@@ -37,7 +39,7 @@ public final class WorkPositionEntityConverter implements JSONConverter<WorkPosi
     }
 
     @Override
-    public List<WorkPositionEntity> asList(JSONArray array) throws JSONException {
+    public List<WorkPositionEntity> asList(@NonNull JSONArray array) throws JSONException {
         List<WorkPositionEntity> workPositionEntities = new ArrayList<>(array.length());
 
         for (int i = 0; i < array.length(); i++) {

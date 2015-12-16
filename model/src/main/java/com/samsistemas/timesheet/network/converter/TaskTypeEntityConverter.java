@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.network.converter;
 
+import android.support.annotation.NonNull;
+
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.network.converter.base.JSONConverter;
 
@@ -25,7 +27,7 @@ public final class TaskTypeEntityConverter implements JSONConverter<TaskTypeEnti
     private TaskTypeEntityConverter() { }
 
     @Override
-    public TaskTypeEntity asObject(JSONObject object) throws JSONException {
+    public TaskTypeEntity asObject(@NonNull JSONObject object) throws JSONException {
         TaskTypeEntity entity = new TaskTypeEntity();
 
         entity.setId(object.getLong(ID));
@@ -36,7 +38,7 @@ public final class TaskTypeEntityConverter implements JSONConverter<TaskTypeEnti
     }
 
     @Override
-    public List<TaskTypeEntity> asList(JSONArray array) throws JSONException {
+    public List<TaskTypeEntity> asList(@NonNull JSONArray array) throws JSONException {
         final List<TaskTypeEntity> taskTypeEntities = new ArrayList<>(array.length());
 
         for (int i = 0; i < array.length(); i++) {

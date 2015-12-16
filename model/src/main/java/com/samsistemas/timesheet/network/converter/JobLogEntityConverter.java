@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.network.converter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.samsistemas.timesheet.entity.JobLogEntity;
@@ -39,7 +40,7 @@ public final class JobLogEntityConverter implements JSONConverter<JobLogEntity> 
     private JobLogEntityConverter() { }
 
     @Override
-    public JobLogEntity asObject(JSONObject object) throws JSONException {
+    public JobLogEntity asObject(@NonNull JSONObject object) throws JSONException {
         JSONObject jsonPerson = object.getJSONObject(PERSON);
         JSONObject jsonProject = object.getJSONObject(PROJECT);
         JSONObject jsonTaskType = object.getJSONObject(TASK_TYPE);
@@ -68,7 +69,7 @@ public final class JobLogEntityConverter implements JSONConverter<JobLogEntity> 
     }
 
     @Override
-    public List<JobLogEntity> asList(JSONArray array) throws JSONException {
+    public List<JobLogEntity> asList(@NonNull JSONArray array) throws JSONException {
         final List<JobLogEntity> jobLogEntities = new ArrayList<>(array.length());
 
         for (int i = 0; i < array.length(); i++) {

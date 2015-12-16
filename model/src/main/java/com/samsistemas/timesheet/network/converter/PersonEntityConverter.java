@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.network.converter;
 
+import android.support.annotation.NonNull;
+
 import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.network.converter.base.JSONConverter;
 
@@ -27,7 +29,7 @@ public final class PersonEntityConverter implements JSONConverter<PersonEntity> 
     private PersonEntityConverter() { }
 
     @Override
-    public PersonEntity asObject(JSONObject object) throws JSONException {
+    public PersonEntity asObject(@NonNull JSONObject object) throws JSONException {
         final JSONObject jsonWorkPosition = object.getJSONObject(WORK_POSITION);
         PersonEntity entity = new PersonEntity();
 
@@ -42,7 +44,7 @@ public final class PersonEntityConverter implements JSONConverter<PersonEntity> 
     }
 
     @Override
-    public List<PersonEntity> asList(JSONArray array) throws JSONException {
+    public List<PersonEntity> asList(@NonNull JSONArray array) throws JSONException {
         List<PersonEntity> personEntities = new ArrayList<>(array.length());
 
         for (int i = 0; i < array.length(); i++) {
