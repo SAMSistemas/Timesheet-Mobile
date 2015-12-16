@@ -155,7 +155,7 @@ public final class JobLogFacade implements Facade<JobLog> {
                             final Controller<JobLogEntity> jobLogController = ControllerFactory.getJobLogController();
 
                             final JobLogEntityConverter jobLogConverter = JobLogEntityConverter.newInstance();
-                            final JobLogEntity jobLogEntity= jobLogConverter.asObject(response);
+                            final JobLogEntity jobLogEntity = jobLogConverter.asObject(response);
                             final Uri uri = UriHelper.buildJobLogUri(context);
 
                             result = jobLogController.insert(context.getApplicationContext(), jobLogEntity, uri);

@@ -5,6 +5,8 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
 /**
+ * Base activity class to use in this project
+ *
  * @author jonatan.salas
  */
 public abstract class BaseAppCompatActivity extends AppCompatActivity {
