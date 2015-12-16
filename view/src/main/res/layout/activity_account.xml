@@ -34,7 +34,7 @@
                 tools:ignore="contentDescription"/>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/tool_bar"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent"
                 app:layout_collapseMode="pin"
@@ -43,6 +43,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_accounts" />
+    <include layout="@layout/content_account" />
 
 </android.support.design.widget.CoordinatorLayout>

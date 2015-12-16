@@ -22,40 +22,50 @@ import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.util.DrawableUtil;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * @author jonatan.salas
  */
 public class AccountActivity extends BaseAppCompatActivity {
     private static final int PERSON_LOADER_ID = 0;
 
-    private CollapsingToolbarLayout mToolbarLayout;
-    private TextView mUsername;
-    private TextView mEmail;
-    private TextView mWork;
-    private TextView mEnterprise;
-    private TextView mLocation;
+    @Bind(R.id.tool_bar)
+    Toolbar mToolbar;
+
+    @Bind(R.id.toolbar_layout)
+    CollapsingToolbarLayout mToolbarLayout;
+
+    @Bind(R.id.username_textview)
+    TextView mUsername;
+
+    @Bind(R.id.email_textview)
+    TextView mEmail;
+
+    @Bind(R.id.work_textview)
+    TextView mWork;
+
+    @Bind(R.id.enterprise_textview)
+    TextView mEnterprise;
+
+    @Bind(R.id.location_textview)
+    TextView mLocation;
 
     @Override
     @LayoutRes
     public int getLayoutResourceId() {
-        return R.layout.activity_accounts;
+        return R.layout.activity_account;
     }
 
     @Override
     public void setUserInterface() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        ButterKnife.bind(this);
+        setSupportActionBar(mToolbar);
 
         final ActionBar actionBar = getSupportActionBar();
         if (null != actionBar)
             ToolbarUtil.styleWithBackButton(actionBar, "");
-
-        mToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        mUsername = (TextView) findViewById(R.id.username_textview);
-        mEmail = (TextView) findViewById(R.id.email_textview);
-        mWork = (TextView) findViewById(R.id.work_textview);
-        mEnterprise = (TextView) findViewById(R.id.enterprise_textview);
-        mLocation = (TextView) findViewById(R.id.location_textview);
     }
 
     @Override
