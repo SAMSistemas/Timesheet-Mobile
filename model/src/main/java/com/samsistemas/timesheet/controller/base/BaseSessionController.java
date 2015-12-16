@@ -3,8 +3,6 @@ package com.samsistemas.timesheet.controller.base;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.entity.base.Entity;
-
 /**
  * Interface that manages the User Session
  *
