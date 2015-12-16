@@ -45,24 +45,35 @@ public class JobLogEntityMapper implements EntityMapper<JobLogEntity, Cursor> {
 
     @Override
     public JobLogEntity asEntity(@Nullable Cursor cursor) {
-        if (null != cursor && cursor.moveToFirst()) {
-            long millis = cursor.getLong(cursor.getColumnIndexOrThrow(WORK_DATE));
+        JobLogEntity entity = new JobLogEntity();
 
-            JobLogEntity entity = new JobLogEntity();
+        try {
+            if (null != cursor && cursor.getCount() == 0) {
+                return entity;
+            }
 
-            entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_JOBLOG)));
-            entity.setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)))
-                  .setPersonId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PERSON)))
-                  .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)))
-                  .setHours(cursor.getString(cursor.getColumnIndexOrThrow(HOURS)))
-                  .setWorkDate(new Date(millis))
-                  .setSolicitude(cursor.getInt(cursor.getColumnIndexOrThrow(SOLICITUDE_NUMBER)))
-                  .setObservations(cursor.getString(cursor.getColumnIndexOrThrow(OBSERVATIONS)));
+            if (null != cursor && cursor.moveToFirst()) {
+                long millis = cursor.getLong(cursor.getColumnIndexOrThrow(WORK_DATE));
 
-            return entity;
+                entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_JOBLOG)));
+                entity.setProjectId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)))
+                        .setPersonId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PERSON)))
+                        .setTaskTypeId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)))
+                        .setHours(cursor.getString(cursor.getColumnIndexOrThrow(HOURS)))
+                        .setWorkDate(new Date(millis))
+                        .setSolicitude(cursor.getInt(cursor.getColumnIndexOrThrow(SOLICITUDE_NUMBER)))
+                        .setObservations(cursor.getString(cursor.getColumnIndexOrThrow(OBSERVATIONS)));
+            }
+
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+        } finally {
+            if (null != cursor && !cursor.isClosed()) {
+                cursor.close();
+            }
         }
 
-        return null;
+        return entity;
     }
 
     @Override

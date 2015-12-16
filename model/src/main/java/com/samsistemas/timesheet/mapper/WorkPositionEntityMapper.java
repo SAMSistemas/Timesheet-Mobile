@@ -32,16 +32,27 @@ public class WorkPositionEntityMapper implements EntityMapper<WorkPositionEntity
 
     @Override
     public WorkPositionEntity asEntity(@Nullable Cursor cursor) {
-        if (null != cursor && cursor.moveToFirst()) {
-            WorkPositionEntity entity = new WorkPositionEntity();
+        WorkPositionEntity entity = new WorkPositionEntity();
 
-            entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_WORK_POSITION)));
-            entity.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(DESCRIPTION)));
+        try {
+            if (null != cursor && cursor.getCount() == 0) {
+                return entity;
+            }
 
-            return entity;
+            if (null != cursor && cursor.moveToFirst()) {
+                entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_WORK_POSITION)));
+                entity.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(DESCRIPTION)));
+            }
+
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+        } finally {
+            if (null != cursor && !cursor.isClosed()) {
+                cursor.close();
+            }
         }
 
-        return null;
+        return entity;
     }
 
     @Override

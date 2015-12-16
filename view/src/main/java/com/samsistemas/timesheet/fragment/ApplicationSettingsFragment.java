@@ -14,9 +14,9 @@ import com.samsistemas.timesheet.navigation.LoginNavigator;
 /**
  * @author jonatan.salas
  */
-public class SettingsFragment extends PreferenceFragmentCompat implements BaseSessionController.OnSessionDeleted {
+public class ApplicationSettingsFragment extends PreferenceFragmentCompat implements BaseSessionController.OnSessionDeleted {
 
-    public SettingsFragment() {
+    public ApplicationSettingsFragment() {
         setHasOptionsMenu(false);
     }
 

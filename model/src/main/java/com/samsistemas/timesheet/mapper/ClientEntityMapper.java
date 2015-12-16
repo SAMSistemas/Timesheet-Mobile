@@ -38,22 +38,32 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
 
     @Override
     public ClientEntity asEntity(@Nullable Cursor cursor) {
-        if (null != cursor) {
+        ClientEntity entity = new ClientEntity();
 
-            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
-            final boolean clientEnabled = ConversionUtil.intToBoolean(available);
+        try {
+            if (null != cursor && cursor.getCount() == 0) {
+                return entity;
+            }
 
-            ClientEntity entity = new ClientEntity();
+            if (null != cursor && cursor.moveToFirst()) {
+                final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
+                final boolean clientEnabled = ConversionUtil.intToBoolean(available);
 
-            entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)));
-            entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
-                  .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
-                  .setEnabled(clientEnabled);
+                entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)));
+                entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                      .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
+                      .setEnabled(clientEnabled);
+            }
 
-            return entity;
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+        } finally {
+            if (null != cursor && !cursor.isClosed()) {
+                cursor.close();
+            }
         }
 
-        return null;
+        return entity;
     }
 
     @Override
@@ -66,7 +76,7 @@ public class ClientEntityMapper implements EntityMapper<ClientEntity, Cursor> {
             }
 
             if (null != cursor && cursor.moveToFirst()) {
-                while (!cursor.isAfterLast()){
+                while (!cursor.isAfterLast()) {
                     final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
                     final boolean clientEnabled = ConversionUtil.intToBoolean(available);
 

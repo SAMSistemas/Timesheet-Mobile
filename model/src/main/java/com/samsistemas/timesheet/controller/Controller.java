@@ -48,18 +48,7 @@ public class Controller<T extends Entity> implements BaseController<T> {
     @Override
     public T get(@NonNull Context context, @NonNull Uri uri) {
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-
-        if (null != cursor) {
-            cursor.moveToFirst();
-        }
-
-        final T entity = entityMapper.asEntity(cursor);
-
-        if (null != cursor && !cursor.isClosed()) {
-            cursor.close();
-        }
-
-        return entity;
+        return entityMapper.asEntity(cursor);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.samsistemas.timesheet.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -13,13 +14,19 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
-import com.samsistemas.timesheet.network.service.JobLogsNetworkService;
+
+import com.samsistemas.timesheet.controller.Controller;
+import com.samsistemas.timesheet.entity.JobLogEntity;
+import com.samsistemas.timesheet.factory.ControllerFactory;
+import com.samsistemas.timesheet.helper.UriHelper;
+import com.samsistemas.timesheet.network.converter.JobLogEntityListParser;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +37,6 @@ public class FetchJobLogDataService extends IntentService {
 //    public static final int STATUS_RUNNING = 0;
 //    public static final int STATUS_FINISHED = 1;
 //    public static final int STATUS_ERROR = 2;
-    private JobLogsNetworkService mService;
     private RequestQueue mRequestQueue;
 
     public FetchJobLogDataService() {
@@ -40,8 +46,6 @@ public class FetchJobLogDataService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.mService = new JobLogsNetworkService();
-        //TODO JS: make requestQueue object as singleton instance.
         this.mRequestQueue = Volley.newRequestQueue(this);
     }
 
@@ -73,7 +77,14 @@ public class FetchJobLogDataService extends IntentService {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            mService.parseNetworkResponse(getApplicationContext(), response, null);
+                            final Controller<JobLogEntity> jobLogController = ControllerFactory.getJobLogController();
+
+                            final JobLogEntityListParser jobLogEntityListParser = JobLogEntityListParser.newInstance();
+                            final List<JobLogEntity> jobLogEntities = jobLogEntityListParser.convert(response);
+                            final Uri uri = UriHelper.buildJobLogUri(getApplicationContext());
+
+                            jobLogController.bulkInsert(getApplicationContext(), jobLogEntities, uri);
+
                         } catch (JSONException ex) {
                             Log.e(TAG, ex.getMessage(), ex.getCause());
                         }

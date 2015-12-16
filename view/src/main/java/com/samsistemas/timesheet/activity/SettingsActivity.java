@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.fragment.SettingsFragment;
+import com.samsistemas.timesheet.fragment.ApplicationSettingsFragment;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 
@@ -29,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
         if(null == savedInstanceState) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(android.R.id.content, new SettingsFragment())
+                    .add(android.R.id.content, new ApplicationSettingsFragment())
                     .commit();
         }
     }

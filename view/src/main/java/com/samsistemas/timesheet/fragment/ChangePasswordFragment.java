@@ -1,10 +1,14 @@
 package com.samsistemas.timesheet.fragment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
@@ -26,19 +30,28 @@ public class ChangePasswordFragment extends BaseDialogFragment {
 
     public ChangePasswordFragment() { }
 
+    @LayoutRes
     @Override
     public int getLayoutResourceId() {
         return R.layout.edit_password_content;
     }
 
+    @StyleRes
     @Override
     public int getThemeResourceId() {
         return R.style.AppTheme_Dialog_light;
     }
 
+    @StringRes
     @Override
     public int getTitleResourceId() {
         return R.string.password_dialog_title;
+    }
+
+    @StringRes
+    @Override
+    public int getMessageResourceId() {
+        return 0;
     }
 
     @NonNull
@@ -51,7 +64,7 @@ public class ChangePasswordFragment extends BaseDialogFragment {
         );
     }
 
-    @NonNull
+    @Nullable
     @Override
     public View getDialogView(@LayoutRes int id) {
         View content = LayoutInflater.from(getContext()).inflate(R.layout.edit_password_content, null, false);
@@ -95,5 +108,15 @@ public class ChangePasswordFragment extends BaseDialogFragment {
         dialog.getWindow().setAttributes(params);
 
         return dialog;
+    }
+
+    @Override
+    public void onPositiveButtonClick(DialogInterface dialog) {
+
+    }
+
+    @Override
+    public void onNegativeButtonClick(DialogInterface dialog) {
+
     }
 }

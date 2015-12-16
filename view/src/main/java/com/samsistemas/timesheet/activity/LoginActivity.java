@@ -41,7 +41,6 @@ import com.samsistemas.timesheet.validation.EmailValidator;
 import com.samsistemas.timesheet.validation.PasswordValidator;
 import com.samsistemas.timesheet.validation.base.Validator;
 
-import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -147,7 +146,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void checkNetworkState(Context context, Boolean isConnected) {
         if(!isConnected) {
             VerifyConnectionFragment verifyConnection = new VerifyConnectionFragment();
-            verifyConnection.setActivityReference(new WeakReference<Activity>(this));
+            verifyConnection.setContext(this);
             verifyConnection.show(getSupportFragmentManager(), VerifyConnectionFragment.TAG);
         }
     }

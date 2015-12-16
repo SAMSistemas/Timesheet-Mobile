@@ -1,72 +1,96 @@
 package com.samsistemas.timesheet.fragment;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
-import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.fragment.base.BaseDialogFragment;
 import com.samsistemas.timesheet.util.DrawableUtil;
-
-import java.lang.ref.WeakReference;
 
 /**
  * @author jonatan.salas
  */
-public class VerifyConnectionFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class VerifyConnectionFragment extends BaseDialogFragment {
     public static final String TAG = VerifyConnectionFragment.class.getSimpleName();
-    private WeakReference<Activity> mActivityReference;
 
-    public VerifyConnectionFragment() {}
+    @LayoutRes
+    @Override
+    public int getLayoutResourceId() {
+        return 0;
+    }
+
+    @StyleRes
+    @Override
+    public int getThemeResourceId() {
+        return R.style.AppTheme_Dialog_light;
+    }
+
+    @StringRes
+    @Override
+    public int getTitleResourceId() {
+        return R.string.internet_dialog_title;
+    }
+
+    @StringRes
+    @Override
+    public int getMessageResourceId() {
+        return R.string.internet_dialog_message;
+    }
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder;
-
-        if(null != mActivityReference) {
-            builder = new AlertDialog.Builder(mActivityReference.get(), R.style.AppTheme_Dialog_light);
-            prepare(builder);
-            return builder.create();
-        }
-
-        return super.onCreateDialog(savedInstanceState);
-    }
-
-    private void prepare(AlertDialog.Builder builder) {
-        final Drawable drawable = DrawableUtil.modifyDrawableColor(
-                getContext(),
+    public Drawable getIconDrawable() {
+        return DrawableUtil.modifyDrawableColor(
+                getContext().getApplicationContext(),
                 R.drawable.ic_signal_wifi_off_white,
                 R.color.material_teal
         );
-        builder.setIcon(drawable)
-                .setTitle(R.string.internet_dialog_title)
-                .setMessage(R.string.internet_dialog_message)
-                .setPositiveButton(R.string.internet_dialog_positive_button, this)
-                .setNegativeButton(R.string.internet_dialog_negative_button, this);
+    }
+
+    @Nullable
+    @Override
+    public View getDialogView(@LayoutRes int id) {
+        return null;
+    }
+
+    @StringRes
+    @Override
+    public int getPositiveButtonMessage() {
+        return R.string.internet_dialog_positive_button;
+    }
+
+    @StringRes
+    @Override
+    public int getNegativeButtonMessage() {
+        return R.string.internet_dialog_negative_button;
     }
 
     @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (DialogInterface.BUTTON_NEGATIVE == which) {
-            dialog.dismiss();
-            mActivityReference.get().finish();
-        } else if(DialogInterface.BUTTON_POSITIVE == which) {
-            dialog.dismiss();
-            final Intent settingsIntent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
-            settingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            mActivityReference.get().startActivity(settingsIntent);
-        }
+    public Dialog buildDialog(AlertDialog.Builder builder) {
+        return builder.create();
     }
 
-    /** Attributes setters and getters **/
-    public void setActivityReference(WeakReference<Activity> activityReference) {
-        this.mActivityReference = activityReference;
+    @Override
+    public void onPositiveButtonClick(DialogInterface dialog) {
+        dialog.dismiss();
+        final Intent settingsIntent = new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK);
+        settingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        mContext.startActivity(settingsIntent);
+    }
+
+    @Override
+    public void onNegativeButtonClick(DialogInterface dialog) {
+        dialog.dismiss();
+        mContext.finish();
     }
 }

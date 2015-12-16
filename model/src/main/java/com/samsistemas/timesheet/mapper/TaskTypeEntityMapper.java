@@ -36,20 +36,31 @@ public class TaskTypeEntityMapper implements EntityMapper<TaskTypeEntity, Cursor
 
     @Override
     public TaskTypeEntity asEntity(@Nullable Cursor cursor) {
-        if (null != cursor) {
-            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
-            final boolean taskTypeEnabled = ConversionUtil.intToBoolean(available);
+        TaskTypeEntity entity = new TaskTypeEntity();
 
-            TaskTypeEntity entity = new TaskTypeEntity();
+        try {
+            if (null != cursor && cursor.getCount() == 0) {
+                return entity;
+            }
 
-            entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)));
-            entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
-                  .setEnabled(taskTypeEnabled);
+            if (null != cursor && cursor.moveToFirst()) {
+                final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
+                final boolean taskTypeEnabled = ConversionUtil.intToBoolean(available);
 
-            return entity;
+                entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_TASK_TYPE)));
+                entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                      .setEnabled(taskTypeEnabled);
+            }
+
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+        } finally {
+            if (null != cursor && !cursor.isClosed()) {
+                cursor.close();
+            }
         }
 
-        return null;
+        return entity;
     }
 
     @Override

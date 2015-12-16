@@ -51,28 +51,39 @@ public class PersonEntityMapper implements EntityMapper<PersonEntity, Cursor> {
 
     @Override
     public PersonEntity asEntity(@Nullable Cursor cursor) {
-        if (null != cursor && cursor.moveToFirst()) {
+        PersonEntity entity = new PersonEntity();
 
-            final byte[] profile = cursor.getBlob(cursor.getColumnIndexOrThrow(PICTURE));
-            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
-            final Drawable personPicture = ConversionUtil.byteArrayToDrawable(profile);
-            final boolean personEnabled = ConversionUtil.intToBoolean(available);
+        try {
+            if (null != cursor && cursor.getCount() == 0) {
+                return entity;
+            }
 
-            PersonEntity entity = new PersonEntity();
-            entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_PERSON)));
-            entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
-                  .setLastName(cursor.getString(cursor.getColumnIndexOrThrow(LAST_NAME)))
-                  .setUsername(cursor.getString(cursor.getColumnIndexOrThrow(USERNAME)))
-                  .setPassword(cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD)))
-                  .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_WORK_POSITION)))
-                  .setWorkHours(cursor.getInt(cursor.getColumnIndexOrThrow(WORK_HOURS)))
-                  .setPicture(personPicture)
-                  .setEnabled(personEnabled);
+            if (null != cursor && cursor.moveToFirst()) {
+                final byte[] profile = cursor.getBlob(cursor.getColumnIndexOrThrow(PICTURE));
+                final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
+                final Drawable personPicture = ConversionUtil.byteArrayToDrawable(profile);
+                final boolean personEnabled = ConversionUtil.intToBoolean(available);
 
-            return entity;
+                entity.setId(cursor.getInt(cursor.getColumnIndexOrThrow(ID_PERSON)));
+                entity.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                        .setLastName(cursor.getString(cursor.getColumnIndexOrThrow(LAST_NAME)))
+                        .setUsername(cursor.getString(cursor.getColumnIndexOrThrow(USERNAME)))
+                        .setPassword(cursor.getString(cursor.getColumnIndexOrThrow(PASSWORD)))
+                        .setWorkPositionId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_WORK_POSITION)))
+                        .setWorkHours(cursor.getInt(cursor.getColumnIndexOrThrow(WORK_HOURS)))
+                        .setPicture(personPicture)
+                        .setEnabled(personEnabled);
+            }
+
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+        } finally {
+            if (null != cursor && !cursor.isClosed()) {
+                cursor.close();
+            }
         }
 
-        return null;
+        return entity;
     }
 
     @Override

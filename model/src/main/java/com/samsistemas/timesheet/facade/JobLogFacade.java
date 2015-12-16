@@ -24,7 +24,7 @@ import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
-import com.samsistemas.timesheet.network.service.JobLogNetworkService;
+import com.samsistemas.timesheet.network.converter.JobLogEntityParser;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONException;
@@ -128,16 +128,16 @@ public final class JobLogFacade implements Facade<JobLog> {
             Log.e(TAG, ex.getMessage(), ex.getCause());
         }
 
-        JSONObject jobLogToSend = new JSONObject();
+        JSONObject json = new JSONObject();
 
         try {
-            jobLogToSend.put(DATE, dateString)
-                        .put(HOURS, jobLog.getHours())
-                        .put(SOLICITUDE, String.valueOf(jobLog.getSolicitude()))
-                        .put(OBSERVATION, jobLog.getObservations())
-                        .put(PROJECT_NAME, jobLog.getProject().getName())
-                        .put(USERNAME, jobLog.getPerson().getUsername())
-                        .put(TASK_TYPE_NAME, jobLog.getTaskType().getName());
+            json.put(DATE, dateString)
+                .put(HOURS, jobLog.getHours())
+                .put(SOLICITUDE, String.valueOf(jobLog.getSolicitude()))
+                .put(OBSERVATION, jobLog.getObservations())
+                .put(PROJECT_NAME, jobLog.getProject().getName())
+                .put(USERNAME, jobLog.getPerson().getUsername())
+                .put(TASK_TYPE_NAME, jobLog.getTaskType().getName());
 
         } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage(), ex.getCause());
@@ -147,13 +147,18 @@ public final class JobLogFacade implements Facade<JobLog> {
         JsonObjectRequest jsonRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 URLHelper.buildCreateJobLogUrl(context),
-                jobLogToSend,
+                json,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JobLogNetworkService jobLogNetworkService = new JobLogNetworkService();
-                            result = (boolean) jobLogNetworkService.parseNetworkResponse(context, response, null);
+                            final Controller<JobLogEntity> jobLogController = ControllerFactory.getJobLogController();
+
+                            final JobLogEntityParser jobLogEntityParser = JobLogEntityParser.newInstance();
+                            final JobLogEntity jobLogEntity= jobLogEntityParser.convert(response);
+                            final Uri uri = UriHelper.buildJobLogUri(context);
+
+                            result = jobLogController.insert(context.getApplicationContext(), jobLogEntity, uri);
                         } catch (JSONException ex) {
                             Log.e(TAG, ex.getMessage(), ex.getCause());
                         }

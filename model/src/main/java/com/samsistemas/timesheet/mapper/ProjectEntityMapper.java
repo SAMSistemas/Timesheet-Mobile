@@ -43,24 +43,35 @@ public class ProjectEntityMapper implements EntityMapper<ProjectEntity, Cursor> 
 
     @Override
     public ProjectEntity asEntity(@Nullable Cursor cursor) {
-        if (null != cursor) {
-            final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
-            final long millis = cursor.getLong(cursor.getColumnIndexOrThrow(START_DATE));
-            final boolean projectEnabled = ConversionUtil.intToBoolean(available);
+        ProjectEntity entity = new ProjectEntity();
 
-            ProjectEntity entity = new ProjectEntity();
+        try {
+            if (null != cursor && cursor.getCount() == 0) {
+                return entity;
+            }
 
-            entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)));
-            entity.setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
-                  .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
-                  .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
-                  .setStartDate(new Date(millis))
-                  .setEnabled(projectEnabled);
+            if (null != cursor && cursor.moveToFirst()) {
+                final int available = cursor.getInt(cursor.getColumnIndexOrThrow(ENABLED));
+                final long millis = cursor.getLong(cursor.getColumnIndexOrThrow(START_DATE));
+                final boolean projectEnabled = ConversionUtil.intToBoolean(available);
 
-            return entity;
+                entity.setId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_PROJECT)));
+                entity.setClientId(cursor.getLong(cursor.getColumnIndexOrThrow(ID_CLIENT)))
+                        .setName(cursor.getString(cursor.getColumnIndexOrThrow(NAME)))
+                        .setShortName(cursor.getString(cursor.getColumnIndexOrThrow(SHORT_NAME)))
+                        .setStartDate(new Date(millis))
+                        .setEnabled(projectEnabled);
+            }
+
+        } catch (Exception ex) {
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+        } finally {
+            if (null != cursor && !cursor.isClosed()) {
+                cursor.close();
+            }
         }
 
-        return null;
+        return entity;
     }
 
     @Override

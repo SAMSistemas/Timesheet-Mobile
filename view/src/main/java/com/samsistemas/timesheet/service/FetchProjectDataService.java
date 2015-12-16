@@ -13,13 +13,21 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
-import com.samsistemas.timesheet.network.service.ProjectNetworkService;
+
+import com.samsistemas.timesheet.controller.Controller;
+import com.samsistemas.timesheet.entity.ClientEntity;
+import com.samsistemas.timesheet.entity.ProjectEntity;
+import com.samsistemas.timesheet.factory.ControllerFactory;
+import com.samsistemas.timesheet.helper.UriHelper;
+import com.samsistemas.timesheet.network.converter.ClientEntityListParser;
+import com.samsistemas.timesheet.network.converter.ProjectEntityListParser;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +38,6 @@ public class FetchProjectDataService extends IntentService {
 //    public static final int STATUS_RUNNING = 0;
 //    public static final int STATUS_FINISHED = 1;
 //    public static final int STATUS_ERROR = 2;
-    private ProjectNetworkService mService;
     private RequestQueue mRequestQueue;
 
 
@@ -41,7 +48,6 @@ public class FetchProjectDataService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.mService = new ProjectNetworkService();
         this.mRequestQueue = Volley.newRequestQueue(this);
     }
 
@@ -59,7 +65,19 @@ public class FetchProjectDataService extends IntentService {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            mService.parseNetworkResponse(getApplicationContext(), response, null);
+                            final Controller<ProjectEntity> projectController = ControllerFactory.getProjectController();
+                            final Controller<ClientEntity> clientController = ControllerFactory.getClientController();
+
+                            final ProjectEntityListParser projectEntityListParser = ProjectEntityListParser.newInstance();
+                            final List<ProjectEntity> projectEntities = projectEntityListParser.convert(response);
+
+                            projectController.bulkInsert(getApplicationContext(), projectEntities, UriHelper.buildProjectUri(getApplicationContext()));
+
+                            final ClientEntityListParser clientEntityListParser = ClientEntityListParser.newInstance();
+                            final List<ClientEntity> clientEntities = clientEntityListParser.convert(response);
+
+                            clientController.bulkInsert(getApplicationContext(), clientEntities, UriHelper.buildClientUri(getApplicationContext()));
+
                         } catch (JSONException ex) {
                             Log.e(TAG, ex.getMessage(), ex.getCause());
                         }
