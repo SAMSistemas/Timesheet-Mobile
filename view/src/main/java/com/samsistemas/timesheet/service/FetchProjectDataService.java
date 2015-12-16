@@ -19,8 +19,8 @@ import com.samsistemas.timesheet.entity.ClientEntity;
 import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.network.converter.ClientConverter;
-import com.samsistemas.timesheet.network.converter.ProjectConverter;
+import com.samsistemas.timesheet.network.converter.ClientEntityConverter;
+import com.samsistemas.timesheet.network.converter.ProjectEntityConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONArray;
@@ -64,12 +64,12 @@ public class FetchProjectDataService extends IntentService {
                             final Controller<ProjectEntity> projectController = ControllerFactory.getProjectController();
                             final Controller<ClientEntity> clientController = ControllerFactory.getClientController();
 
-                            final ProjectConverter projectConverter = ProjectConverter.newInstance();
+                            final ProjectEntityConverter projectConverter = ProjectEntityConverter.newInstance();
                             final List<ProjectEntity> projectEntities = projectConverter.asList(response);
 
                             projectController.bulkInsert(getApplicationContext(), projectEntities, UriHelper.buildProjectUri(getApplicationContext()));
 
-                            final ClientConverter clientConverter = ClientConverter.newInstance();
+                            final ClientEntityConverter clientConverter = ClientEntityConverter.newInstance();
                             final List<ClientEntity> clientEntities = clientConverter.asList(response);
 
                             clientController.bulkInsert(getApplicationContext(), clientEntities, UriHelper.buildClientUri(getApplicationContext()));

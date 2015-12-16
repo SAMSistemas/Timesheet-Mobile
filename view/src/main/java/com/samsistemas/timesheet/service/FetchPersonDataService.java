@@ -24,9 +24,9 @@ import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
-import com.samsistemas.timesheet.network.converter.PersonConverter;
-import com.samsistemas.timesheet.network.converter.TaskTypeConverter;
-import com.samsistemas.timesheet.network.converter.WorkPositionConverter;
+import com.samsistemas.timesheet.network.converter.PersonEntityConverter;
+import com.samsistemas.timesheet.network.converter.TaskTypeEntityConverter;
+import com.samsistemas.timesheet.network.converter.WorkPositionEntityConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONArray;
@@ -71,17 +71,17 @@ public class FetchPersonDataService extends IntentService {
                             final Controller<WorkPositionEntity> workPositionController = ControllerFactory.getWorkPositionController();
                             final Controller<TaskTypeEntity> taskTypeController = ControllerFactory.getTaskTypeController();
 
-                            final WorkPositionConverter workPositionConverter = WorkPositionConverter.newInstance();
+                            final WorkPositionEntityConverter workPositionConverter = WorkPositionEntityConverter.newInstance();
                             final WorkPositionEntity workPositionEntity = workPositionConverter.asObject(response);
 
-                            final PersonConverter personConverter = PersonConverter.newInstance();
+                            final PersonEntityConverter personConverter = PersonEntityConverter.newInstance();
                             final PersonEntity personEntity = personConverter.asObject(response);
 
                             personEntity.setUsername(username)
                                         .setPassword(password);
 
                             final JSONArray jsonTaskTypeArray = response.getJSONArray(TASK_TYPES);
-                            final TaskTypeConverter taskTypeConverter = TaskTypeConverter.newInstance();
+                            final TaskTypeEntityConverter taskTypeConverter = TaskTypeEntityConverter.newInstance();
                             List<TaskTypeEntity> taskTypeEntities = taskTypeConverter.asList(jsonTaskTypeArray);
 
                             taskTypeController.bulkInsert(getApplicationContext(), taskTypeEntities, UriHelper.buildTaskTypeUri(getApplicationContext()));

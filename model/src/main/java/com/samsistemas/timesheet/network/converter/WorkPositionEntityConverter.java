@@ -17,13 +17,13 @@ import static com.samsistemas.timesheet.util.JSONObjectKeys.WORK_POSITION;
 /**
  * @author jonatan.salas
  */
-public class WorkPositionConverter implements JSONConverter<WorkPositionEntity> {
-    private static WorkPositionConverter instance = null;
+public final class WorkPositionEntityConverter implements JSONConverter<WorkPositionEntity> {
+    private static WorkPositionEntityConverter instance = null;
 
     /**
      * Private constructor
      */
-    private WorkPositionConverter() { }
+    private WorkPositionEntityConverter() { }
 
     @Override
     public WorkPositionEntity asObject(JSONObject object) throws JSONException {
@@ -53,9 +53,9 @@ public class WorkPositionConverter implements JSONConverter<WorkPositionEntity> 
      *
      * @return a singleton object.
      */
-    public static WorkPositionConverter newInstance() {
+    public static WorkPositionEntityConverter newInstance() {
         if (null == instance) {
-            instance = new WorkPositionConverter();
+            instance = new WorkPositionEntityConverter();
         }
         return instance;
     }

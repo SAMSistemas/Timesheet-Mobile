@@ -18,13 +18,13 @@ import static com.samsistemas.timesheet.util.JSONObjectKeys.WORK_POSITION;
 /**
  * @author jonatan.salas
  */
-public class PersonConverter implements JSONConverter<PersonEntity> {
-    private static PersonConverter instance = null;
+public final class PersonEntityConverter implements JSONConverter<PersonEntity> {
+    private static PersonEntityConverter instance = null;
 
     /**
      * Private constructor
      */
-    private PersonConverter() { }
+    private PersonEntityConverter() { }
 
     @Override
     public PersonEntity asObject(JSONObject object) throws JSONException {
@@ -58,9 +58,9 @@ public class PersonConverter implements JSONConverter<PersonEntity> {
      *
      * @return a singleton object.
      */
-    public static PersonConverter newInstance() {
+    public static PersonEntityConverter newInstance() {
         if (null == instance) {
-            instance = new PersonConverter();
+            instance = new PersonEntityConverter();
         }
         return instance;
     }

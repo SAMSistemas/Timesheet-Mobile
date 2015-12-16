@@ -24,7 +24,7 @@ import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
-import com.samsistemas.timesheet.network.converter.JobLogConverter;
+import com.samsistemas.timesheet.network.converter.JobLogEntityConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
 
 import org.json.JSONException;
@@ -154,7 +154,7 @@ public final class JobLogFacade implements Facade<JobLog> {
                         try {
                             final Controller<JobLogEntity> jobLogController = ControllerFactory.getJobLogController();
 
-                            final JobLogConverter jobLogConverter = JobLogConverter.newInstance();
+                            final JobLogEntityConverter jobLogConverter = JobLogEntityConverter.newInstance();
                             final JobLogEntity jobLogEntity= jobLogConverter.asObject(response);
                             final Uri uri = UriHelper.buildJobLogUri(context);
 

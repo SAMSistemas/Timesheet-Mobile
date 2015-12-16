@@ -26,15 +26,15 @@ import static com.samsistemas.timesheet.util.JSONObjectKeys.START_DATE;
 /**
  * @author jonatan.salas
  */
-public class ProjectConverter implements JSONConverter<ProjectEntity> {
-    private static final String LOG_TAG = ProjectConverter.class.getSimpleName();
+public final class ProjectEntityConverter implements JSONConverter<ProjectEntity> {
+    private static final String LOG_TAG = ProjectEntityConverter.class.getSimpleName();
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
-    private static ProjectConverter instance = null;
+    private static ProjectEntityConverter instance = null;
 
     /**
      * Private constructor
      */
-    private ProjectConverter() { }
+    private ProjectEntityConverter() { }
 
     @Override
     public ProjectEntity asObject(JSONObject object) throws JSONException {
@@ -78,9 +78,9 @@ public class ProjectConverter implements JSONConverter<ProjectEntity> {
      *
      * @return a singleton object.
      */
-    public static ProjectConverter newInstance() {
+    public static ProjectEntityConverter newInstance() {
         if (null == instance) {
-            instance = new ProjectConverter();
+            instance = new ProjectEntityConverter();
         }
         return instance;
     }

@@ -16,13 +16,13 @@ import static com.samsistemas.timesheet.util.JSONObjectKeys.NAME;
 /**
  * @author jonatan.salas
  */
-public class TaskTypeConverter implements JSONConverter<TaskTypeEntity> {
-    private static TaskTypeConverter instance = null;
+public final class TaskTypeEntityConverter implements JSONConverter<TaskTypeEntity> {
+    private static TaskTypeEntityConverter instance = null;
 
     /**
      * Private constructor
      */
-    private TaskTypeConverter() { }
+    private TaskTypeEntityConverter() { }
 
     @Override
     public TaskTypeEntity asObject(JSONObject object) throws JSONException {
@@ -52,9 +52,9 @@ public class TaskTypeConverter implements JSONConverter<TaskTypeEntity> {
      *
      * @return a singleton object.
      */
-    public static TaskTypeConverter newInstance() {
+    public static TaskTypeEntityConverter newInstance() {
         if (null == instance) {
-            instance = new TaskTypeConverter();
+            instance = new TaskTypeEntityConverter();
         }
         return instance;
     }

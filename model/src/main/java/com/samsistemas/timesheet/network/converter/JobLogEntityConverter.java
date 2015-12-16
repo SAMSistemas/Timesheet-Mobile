@@ -28,15 +28,15 @@ import static com.samsistemas.timesheet.util.JSONObjectKeys.TASK_TYPE;
 /**
  * @author jonatan.salas
  */
-public class JobLogConverter implements JSONConverter<JobLogEntity> {
-    private static final String LOG_TAG = JobLogConverter.class.getSimpleName();
+public final class JobLogEntityConverter implements JSONConverter<JobLogEntity> {
+    private static final String LOG_TAG = JobLogEntityConverter.class.getSimpleName();
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
-    private static JobLogConverter instance = null;
+    private static JobLogEntityConverter instance = null;
 
     /**
      * Private constructor
      */
-    private JobLogConverter() { }
+    private JobLogEntityConverter() { }
 
     @Override
     public JobLogEntity asObject(JSONObject object) throws JSONException {
@@ -84,9 +84,9 @@ public class JobLogConverter implements JSONConverter<JobLogEntity> {
      *
      * @return a singleton object.
      */
-    public static JobLogConverter newInstance() {
+    public static JobLogEntityConverter newInstance() {
         if (null == instance) {
-            instance = new JobLogConverter();
+            instance = new JobLogEntityConverter();
         }
         return instance;
     }

@@ -19,13 +19,13 @@ import java.util.List;
 /**
  * @author jonatan.salas
  */
-public class ClientConverter implements JSONConverter<ClientEntity> {
-    private static ClientConverter instance = null;
+public final class ClientEntityConverter implements JSONConverter<ClientEntity> {
+    private static ClientEntityConverter instance = null;
 
     /**
      * Private Constructor
      */
-    private ClientConverter() { }
+    private ClientEntityConverter() { }
 
     @Override
     public ClientEntity asObject(JSONObject object) throws JSONException {
@@ -58,9 +58,9 @@ public class ClientConverter implements JSONConverter<ClientEntity> {
      *
      * @return a singleton object.
      */
-    public static ClientConverter newInstance() {
+    public static ClientEntityConverter newInstance() {
         if (null == instance) {
-            instance = new ClientConverter();
+            instance = new ClientEntityConverter();
         }
         return instance;
     }
