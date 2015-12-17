@@ -1,6 +1,7 @@
 package com.samsistemas.timesheet.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -35,14 +37,19 @@ import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author jonatan.salas
  */
 public class AddHoursActivity extends AppCompatActivity {
+    private static final String LOG_TAG = AddHoursActivity.class.getSimpleName();
+    private static final String DATE_PATTERN = "dd-MM-yyyy";
     private static final int TASK_TYPE_LOADER_ID = 0;
     private static final int CLIENT_LOADER_ID = 1;
     private static final int PROJECT_LOADER_ID = 2;
@@ -58,12 +65,19 @@ public class AddHoursActivity extends AppCompatActivity {
     private final JobLog jobLogToSave = new JobLog();
 
     private CharSequence hours;
+    private String mDateString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Use this to check troubles
         //DevUtil.enableStrictModeChecker();
+        Intent intent = getIntent();
+
+        if (null != intent) {
+            mDateString = intent.getStringExtra(MenuActivity.DATE_KEY);
+        }
+
         setContentView(R.layout.activity_add_hours);
         setToolbar();
         setTaskSpinner();
@@ -194,14 +208,22 @@ public class AddHoursActivity extends AppCompatActivity {
                 String description = descriptionEditText.getText().toString().trim();
                 int solicitudeNumber = Integer.valueOf(solicitudeNumberEditText.getText().toString().trim());
 
+                Date date = null;
+
+                try {
+                    date = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).parse(mDateString);
+                } catch (ParseException ex) {
+                    Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+                }
+
                 jobLogToSave.setHours(hours.toString())
-                        .setObservations(description)
-                        .setSolicitude(solicitudeNumber)
-                        .setWorkDate(new Date(System.currentTimeMillis()))
-                        .setPerson(person.setUsername(username)
-                                         .setPassword(password))
-                        .setProject(project)
-                        .setTaskType(taskType);
+                            .setObservations(description)
+                            .setSolicitude(solicitudeNumber)
+                            .setWorkDate(date)
+                            .setPerson(person.setUsername(username)
+                                             .setPassword(password))
+                            .setProject(project)
+                            .setTaskType(taskType);
 
                 new SaveJobLogOnServerTask(getApplicationContext()).execute(jobLogToSave);
             }

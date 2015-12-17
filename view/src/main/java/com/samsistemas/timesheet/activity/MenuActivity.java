@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.activity;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -7,7 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.IntentCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -28,13 +31,13 @@ import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
+import com.samsistemas.timesheet.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.loader.JobLogsLoader;
 import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
-import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 
 import java.text.SimpleDateFormat;
@@ -54,6 +57,8 @@ import butterknife.ButterKnife;
  * @author jonatan.salas
  */
 public class MenuActivity extends BaseAppCompatActivity {
+    public static final String DATE_KEY = "date";
+    private static final String DATE_TEMPLATE = "dd-MM-yyyy";
     private static final int PERSON_LOADER_ID = 0;
     private static final int JOBLOG_LOADER_ID = 1;
 
@@ -160,7 +165,7 @@ public class MenuActivity extends BaseAppCompatActivity {
                         break;
 
                     case R.id.action_add_hour:
-                        AddHoursNavigator.newInstance().navigateWithAnimation(MenuActivity.this, mNavigationView);
+                        startAddHoursActivity();
                         break;
 
                     case R.id.action_account:
@@ -183,7 +188,7 @@ public class MenuActivity extends BaseAppCompatActivity {
                 //We call this in order to show the data available for the date user-selected
                 initJobLogLoader(date);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault());
                 mDateString = sdf.format(date);
             }
         });
@@ -196,7 +201,7 @@ public class MenuActivity extends BaseAppCompatActivity {
                 final Calendar todayCalendar = Calendar.getInstance(Locale.getDefault());
                 todayCalendar.setTime(new Date(System.currentTimeMillis()));
 
-                if(CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
+                if (CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
                     mCalendarView.setCurrentDay(new Date(System.currentTimeMillis()));
                     mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), new Date(System.currentTimeMillis())));
                 } else {
@@ -208,7 +213,7 @@ public class MenuActivity extends BaseAppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AddHoursNavigator.newInstance().navigateWithAnimation(MenuActivity.this, view);
+                startAddHoursActivity();
             }
         });
     }
@@ -322,5 +327,17 @@ public class MenuActivity extends BaseAppCompatActivity {
                 }
             }
         }).forceLoad();
+    }
+
+    /**
+     *
+     */
+    private void startAddHoursActivity() {
+        final Intent addHoursIntent = new Intent(getApplicationContext(), AddHoursActivity.class);
+        addHoursIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        addHoursIntent.putExtra(DATE_KEY, mDateString);
+
+        Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
+        ActivityCompat.startActivity(MenuActivity.this, addHoursIntent, options);
     }
 }
