@@ -31,7 +31,7 @@ import static com.samsistemas.timesheet.util.JSONObjectKeys.TASK_TYPE;
  */
 public final class JobLogEntityConverter implements JSONConverter<JobLogEntity> {
     private static final String LOG_TAG = JobLogEntityConverter.class.getSimpleName();
-    private static final String DATE_TEMPLATE = "dd-MM-yyyy";
+    private static final String DATE_TEMPLATE = "yyyy-MM-dd";
     private static JobLogEntityConverter instance = null;
 
     /**

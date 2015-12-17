@@ -187,7 +187,6 @@ public class MenuActivity extends BaseAppCompatActivity {
                 mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), date));
                 //We call this in order to show the data available for the date user-selected
                 initJobLogLoader(date);
-
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault());
                 mDateString = sdf.format(date);
             }
@@ -294,29 +293,7 @@ public class MenuActivity extends BaseAppCompatActivity {
             @Override
             public void onLoadFinished(Loader<List<JobLog>> loader, List<JobLog> data) {
                 if (null != data && !data.isEmpty()) {
-                    List<JobLog> filteredList = new ArrayList<>();
-                    Date selectedDate = DateUtil.getDateWithOutTime(date);
-
-                    for (int i = 0; i < data.size(); i++) {
-                        Date workDate = DateUtil.getDateWithOutTime(data.get(i).getWorkDate());
-
-                        if (selectedDate.compareTo(workDate) == 0) {
-                            filteredList.add(data.get(i));
-                        }
-                    }
-
-                    mAdapter.setItems(null);
-
-                    if (filteredList.isEmpty()) {
-                        Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this date", Snackbar.LENGTH_SHORT).show();
-                    } else {
-                        mAdapter.setItems(filteredList);
-                        mRecyclerView.setAdapter(mAdapter);
-                        mAdapter.notifyDataSetChanged();
-                    }
-
-                } else {
-                    Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this month", Snackbar.LENGTH_SHORT).show();
+                    initializeFilteredList(data, date);
                 }
             }
 
@@ -327,6 +304,35 @@ public class MenuActivity extends BaseAppCompatActivity {
                 }
             }
         }).forceLoad();
+    }
+
+    private void initializeFilteredList(List<JobLog> data, Date date) {
+        if (null != data) {
+            List<JobLog> filteredList = new ArrayList<>();
+            Date selectedDate = DateUtil.getDateWithOutTime(date);
+
+            for (int i = 0; i < data.size(); i++) {
+                Date workDate = DateUtil.getDateWithOutTime(data.get(i).getWorkDate());
+
+                if (workDate.compareTo(selectedDate) == 0) {
+                    filteredList.add(data.get(i));
+                }
+            }
+
+            if(!filteredList.isEmpty()) {
+                mAdapter.setItems(null);
+                mAdapter.setItems(filteredList);
+                mAdapter.notifyDataSetChanged();
+            } else {
+                mAdapter.setItems(null);
+                mAdapter.notifyDataSetChanged();
+                Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this date", Snackbar.LENGTH_SHORT).show();
+            }
+        } else {
+            mAdapter.setItems(null);
+            mAdapter.notifyDataSetChanged();
+            Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this month", Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     /**
