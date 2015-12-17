@@ -40,7 +40,6 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
  * @author jonatan.salas
  */
 public class AddHoursActivity extends AppCompatActivity {

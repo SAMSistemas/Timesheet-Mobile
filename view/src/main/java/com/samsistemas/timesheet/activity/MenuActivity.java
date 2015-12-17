@@ -37,6 +37,7 @@ import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.navigation.base.AddHoursNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,6 +60,7 @@ public class MenuActivity extends BaseAppCompatActivity {
     private JobLogAdapter mAdapter;
     private TextView mFullName;
     private TextView mUsername;
+    private String mDateString;
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -95,8 +97,10 @@ public class MenuActivity extends BaseAppCompatActivity {
         setTitle(R.string.action_view_calendar);
         setSupportActionBar(mToolbar);
 
+        //Style CollapsingToolbarLayout
         mCollapsingToolbarLayout.setTitleEnabled(false);
 
+        //Style CalendarView
         mCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
         mCalendarView.setNextButtonColor(R.color.accent);
         mCalendarView.setBackButtonColor(R.color.accent);
@@ -104,16 +108,19 @@ public class MenuActivity extends BaseAppCompatActivity {
         mCalendarView.setIsOverflowDateVisible(true);
         mCalendarView.refreshCalendar(Calendar.getInstance(Locale.getDefault()));
 
+        //Style Navigation Drawer
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, 0, 0);
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 
+        //Style headerView for NavigationView
         final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, null, false);
         mFullName = (TextView) headerView.findViewById(R.id.username);
         mUsername = (TextView) headerView.findViewById(R.id.email);
 
         mNavigationView.addHeaderView(headerView);
 
+        //Style RecyclerView
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setNestedScrollingEnabled(true);
         mRecyclerView.setHasFixedSize(true);
@@ -175,6 +182,9 @@ public class MenuActivity extends BaseAppCompatActivity {
                 mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), date));
                 //We call this in order to show the data available for the date user-selected
                 initJobLogLoader(date);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                mDateString = sdf.format(date);
             }
         });
         mCalendarView.setOnMonthChangedListener(new CalendarView.OnMonthChangedListener() {
