@@ -29,7 +29,7 @@ import static com.samsistemas.timesheet.util.JSONObjectKeys.START_DATE;
  */
 public final class ProjectEntityConverter implements JSONConverter<ProjectEntity> {
     private static final String LOG_TAG = ProjectEntityConverter.class.getSimpleName();
-    private static final String DATE_TEMPLATE = "dd-MM-yyyy";
+    private static final String DATE_TEMPLATE = "yyyy-MM-dd";
     private static ProjectEntityConverter instance = null;
 
     /**
