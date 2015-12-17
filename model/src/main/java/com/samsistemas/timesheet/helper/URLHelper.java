@@ -48,6 +48,17 @@ public final class URLHelper {
     }
 
     /**
+     * Helper method that build the Joblog update URL
+     *
+     * @param context the application context used to retrieve the base url and the joblog create path
+     * @return a String representation of the joblog update URL
+     */
+    public static String buildUpdateJobLogUrl(Context context) {
+        return getBaseUrl(context) + context.getString(R.string.job_log_update);
+    }
+
+
+    /**
      * Helper method that build the show person URL
      *
      * @param context the application context used to retrieve the base url and the person show url
