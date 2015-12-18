@@ -14,7 +14,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
@@ -27,6 +26,14 @@ import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.network.converter.JobLogEntityConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
+
+import static com.samsistemas.timesheet.util.JSONObjectKeys.DATE;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.HOURS;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.OBSERVATION;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.PROJECT_NAME;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.SOLICITUDE;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.TASK_TYPE_NAME;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.USERNAME;
 
 import org.json.JSONException;
 import org.json.JSONObject;
