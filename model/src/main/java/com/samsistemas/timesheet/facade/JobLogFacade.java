@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -144,7 +145,7 @@ public final class JobLogFacade implements Facade<JobLog> {
         }
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(
+        JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 URLHelper.buildCreateJobLogUrl(context),
                 json,
@@ -180,7 +181,9 @@ public final class JobLogFacade implements Facade<JobLog> {
             }
         };
 
-        requestQueue.add(jsonRequest);
+        request.setShouldCache(true);
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        requestQueue.add(request);
 
         return result;
     }

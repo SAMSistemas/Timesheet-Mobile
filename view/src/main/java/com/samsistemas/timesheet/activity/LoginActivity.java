@@ -234,6 +234,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                alertDialog.dismiss();
                                 Log.e(TAG, error.getMessage(), error.getCause());
                                 if (null != error.networkResponse) {
                                     final int statusCode = error.networkResponse.statusCode;

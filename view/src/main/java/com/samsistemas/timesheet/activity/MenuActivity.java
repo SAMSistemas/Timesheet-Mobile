@@ -137,6 +137,8 @@ public class MenuActivity extends BaseAppCompatActivity {
 
     @Override
     public void initialize() {
+        Date date = new Date(System.currentTimeMillis());
+        mDateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(date);
         initPersonLoader();
         initJobLogLoader(new Date(System.currentTimeMillis()));
     }
