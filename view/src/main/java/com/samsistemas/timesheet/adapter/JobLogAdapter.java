@@ -74,7 +74,12 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
 
         holder.mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.material_teal), PorterDuff.Mode.SRC_ATOP);
         holder.mJobLogTask.setText(jobLog.getTaskType().getName());
-        holder.mJobLogDescription.setText(jobLog.getObservations());
+
+        if (jobLog.getObservations().length() <= 17) {
+            holder.mJobLogDescription.setText(jobLog.getObservations());
+        } else {
+            holder.mJobLogDescription.setText(jobLog.getObservations().substring(0, 17));
+        }
 
         final String workedHours = jobLog.getHours() + " hrs";
         holder.mJobLogHours.setText(workedHours);

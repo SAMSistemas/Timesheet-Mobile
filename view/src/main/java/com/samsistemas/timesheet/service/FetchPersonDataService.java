@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -107,6 +108,8 @@ public class FetchPersonDataService extends IntentService {
             }
         };
 
+        request.setShouldCache(true);
+        request.setRetryPolicy(new DefaultRetryPolicy());
         mRequestQueue.add(request);
     }
 

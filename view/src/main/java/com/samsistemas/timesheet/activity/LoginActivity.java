@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -23,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import com.samsistemas.timesheet.R;
-import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
 import com.samsistemas.timesheet.entity.SessionEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
@@ -40,6 +40,12 @@ import com.samsistemas.timesheet.util.TypefaceUtil;
 import com.samsistemas.timesheet.validation.EmailValidator;
 import com.samsistemas.timesheet.validation.PasswordValidator;
 import com.samsistemas.timesheet.validation.base.Validator;
+
+import static com.samsistemas.timesheet.util.JSONObjectKeys.MONTH;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.PASSWORD;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.URL;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.USERNAME;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.YEAR;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -202,7 +208,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             try {
                 Thread.sleep(2000);
-                NetworkRequest networkRequest = new NetworkRequest(
+                NetworkRequest request = new NetworkRequest(
                         URLHelper.buildLoginUrl(getApplicationContext()),
                         new Response.Listener<NetworkResponse>() {
                             @Override
@@ -242,9 +248,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         credentials
                 );
 
-                requestQueue.add(networkRequest);
+                request.setShouldCache(true);
+                request.setRetryPolicy(new DefaultRetryPolicy());
+                requestQueue.add(request);
             } catch (InterruptedException ex) {
-                Log.e(TAG, ex.getMessage(), ex.getCause());            }
+                Log.e(TAG, ex.getMessage(), ex.getCause());
+            }
         }
     }
 

@@ -206,7 +206,12 @@ public class AddHoursActivity extends AppCompatActivity {
                 final String password = prefs.getString(PASSWORD, "");
 
                 String description = descriptionEditText.getText().toString().trim();
-                int solicitudeNumber = Integer.valueOf(solicitudeNumberEditText.getText().toString().trim());
+                String solicitude = solicitudeNumberEditText.getText().toString().trim();
+                int solicitudeNumber = 0;
+
+                if (!solicitude.isEmpty()) {
+                    solicitudeNumber = Integer.valueOf(solicitude);
+                }
 
                 Date date = null;
 

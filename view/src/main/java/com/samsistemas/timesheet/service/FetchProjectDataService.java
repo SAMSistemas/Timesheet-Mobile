@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-
-import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
 
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.ClientEntity;
@@ -22,6 +21,10 @@ import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.network.converter.ClientEntityConverter;
 import com.samsistemas.timesheet.network.converter.ProjectEntityConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
+
+import static com.samsistemas.timesheet.util.JSONObjectKeys.URL;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.USERNAME;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.PASSWORD;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,6 +95,8 @@ public class FetchProjectDataService extends IntentService {
             }
         };
 
+        request.setShouldCache(true);
+        request.setRetryPolicy(new DefaultRetryPolicy());
         mRequestQueue.add(request);
     }
 }
