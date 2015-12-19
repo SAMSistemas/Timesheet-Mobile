@@ -26,6 +26,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * Account activity that acts as view controller
+ *
  * @author jonatan.salas
  */
 public class AccountActivity extends BaseAppCompatActivity {
@@ -70,39 +72,7 @@ public class AccountActivity extends BaseAppCompatActivity {
 
     @Override
     public void initialize() {
-        getSupportLoaderManager().initLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
-
-            @Override
-            public Loader<Person> onCreateLoader(int id, Bundle args) {
-                if (id == PERSON_LOADER_ID) {
-                    return new PersonLoader(getApplicationContext());
-                }
-
-                return null;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<Person> loader, Person data) {
-                if (null != data) {
-                    String fullName = data.getName() + " " + data.getLastName();
-                    mToolbarLayout.setTitle(fullName);
-
-                    mUsername.setText(data.getUsername());
-                    final String emailString = data.getUsername() + getApplicationContext().getString(R.string.domain);
-                    mEmail.setText(emailString);
-                    mWork.setText(data.getWorkPosition().getDescription());
-                } else {
-                    loader.reset();
-                    Snackbar.make(mToolbarLayout, "Ops, we can't load your data now..", Snackbar.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<Person> loader) {
-                loader.reset();
-            }
-
-        }).forceLoad();
+        initPersonLoader();
     }
 
     @Override
@@ -168,5 +138,41 @@ public class AccountActivity extends BaseAppCompatActivity {
     @Override
     public void onBackPressed() {
         MenuNavigator.newInstance().navigate(this);
+    }
+
+    private void initPersonLoader() {
+        getSupportLoaderManager().initLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
+
+            @Override
+            public Loader<Person> onCreateLoader(int id, Bundle args) {
+                if (id == PERSON_LOADER_ID) {
+                    return new PersonLoader(getApplicationContext());
+                }
+
+                return null;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<Person> loader, Person data) {
+                if (null != data) {
+                    String fullName = data.getName() + " " + data.getLastName();
+                    mToolbarLayout.setTitle(fullName);
+
+                    mUsername.setText(data.getUsername());
+                    final String emailString = data.getUsername() + getApplicationContext().getString(R.string.domain);
+                    mEmail.setText(emailString);
+                    mWork.setText(data.getWorkPosition().getDescription());
+                } else {
+                    loader.reset();
+                    Snackbar.make(mToolbarLayout, "Ops, we can't load your data now..", Snackbar.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<Person> loader) {
+                loader.reset();
+            }
+
+        }).forceLoad();
     }
 }
