@@ -57,13 +57,7 @@ public final class AuthUtil {
      */
     public static String getAuthCredential(@NonNull final String username,  @NonNull final String password) {
         final String credentials = String.format(STRING_PATTERN, username, password);
-        String auth = null;
-
-        try {
-            auth = "Basic " + Base64.encodeToString(credentials.getBytes(CHARSET), Base64.NO_WRAP);
-        } catch (UnsupportedEncodingException ex) {
-            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
-        }
+        String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
 
         return auth;
     }

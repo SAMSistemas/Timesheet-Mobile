@@ -40,6 +40,10 @@ import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
 
+import static com.samsistemas.timesheet.util.LoaderId.PERSON_LOADER_ID;
+import static com.samsistemas.timesheet.util.LoaderId.JOBLOG_LOADER_ID;
+
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,8 +63,6 @@ import butterknife.ButterKnife;
 public class MenuActivity extends BaseAppCompatActivity {
     public static final String DATE_KEY = "date";
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
-    private static final int PERSON_LOADER_ID = 0;
-    private static final int JOBLOG_LOADER_ID = 1;
 
     private JobLogAdapter mAdapter;
     private TextView mFullName;

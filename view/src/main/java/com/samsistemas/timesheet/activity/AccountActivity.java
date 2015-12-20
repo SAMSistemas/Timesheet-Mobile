@@ -22,6 +22,8 @@ import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.util.DrawableUtil;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 
+import static com.samsistemas.timesheet.util.LoaderId.PERSON_LOADER_ID;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -31,8 +33,6 @@ import butterknife.ButterKnife;
  * @author jonatan.salas
  */
 public class AccountActivity extends BaseAppCompatActivity {
-    private static final int PERSON_LOADER_ID = 0;
-
     @Bind(R.id.tool_bar)
     Toolbar mToolbar;
 
