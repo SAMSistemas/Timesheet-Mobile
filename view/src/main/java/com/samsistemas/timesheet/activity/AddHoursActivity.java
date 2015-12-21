@@ -213,41 +213,40 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
                 if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
                     Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
+
+                    String description = mDescription.getText().toString().trim();
+                    String solicitude = mSolicitudeNumber.getText().toString().trim();
+                    int solicitudeNumber = 0;
+
+                    if (!solicitude.isEmpty()) {
+                        solicitudeNumber = Integer.valueOf(solicitude);
+                    }
+
+                    Date date = null;
+
+                    try {
+                        date = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).parse(mDateString);
+                    } catch (ParseException ex) {
+                        Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+                    }
+
+                    final Person person = new Person();
+
+                    person.setUsername(username)
+                            .setPassword(password);
+
+                    final JobLog jobLog = new JobLog();
+                    jobLog.setHours(mHourSelected.toString())
+                            .setObservations(description)
+                            .setSolicitude(solicitudeNumber)
+                            .setWorkDate(date)
+                            .setPerson(person.setUsername(username)
+                                    .setPassword(password))
+                            .setProject(mProjectSelected)
+                            .setTaskType(mTaskTypeSelected);
+
+                    new SaveJobLogOnServerTask(getApplicationContext()).execute(jobLog);
                 }
-
-
-                String description = mDescription.getText().toString().trim();
-                String solicitude = mSolicitudeNumber.getText().toString().trim();
-                int solicitudeNumber = 0;
-
-                if (!solicitude.isEmpty()) {
-                    solicitudeNumber = Integer.valueOf(solicitude);
-                }
-
-                Date date = null;
-
-                try {
-                    date = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).parse(mDateString);
-                } catch (ParseException ex) {
-                    Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
-                }
-
-                final Person person = new Person();
-
-                person.setUsername(username)
-                        .setPassword(password);
-
-                final JobLog jobLog = new JobLog();
-                jobLog.setHours(mHourSelected.toString())
-                        .setObservations(description)
-                        .setSolicitude(solicitudeNumber)
-                        .setWorkDate(date)
-                        .setPerson(person.setUsername(username)
-                                         .setPassword(password))
-                        .setProject(mProjectSelected)
-                        .setTaskType(mTaskTypeSelected);
-
-                new SaveJobLogOnServerTask(getApplicationContext()).execute(jobLog);
             }
         });
     }
