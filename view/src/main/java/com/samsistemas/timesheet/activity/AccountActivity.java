@@ -145,11 +145,7 @@ public class AccountActivity extends BaseAppCompatActivity {
 
             @Override
             public Loader<Person> onCreateLoader(int id, Bundle args) {
-                if (id == PERSON_LOADER_ID) {
-                    return new PersonLoader(getApplicationContext());
-                }
-
-                return null;
+                return (id == PERSON_LOADER_ID) ? new PersonLoader(getApplicationContext()) : null;
             }
 
             @Override

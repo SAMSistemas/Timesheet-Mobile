@@ -63,6 +63,20 @@ public class ClientAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public int getPositionById(long id) {
+        int position = 0;
+
+        if(null != mItems) {
+            for (int i = 0; i < mItems.size(); i++) {
+                if (mItems.get(i).getId() == id) {
+                    position = i;
+                }
+            }
+        }
+
+        return position;
+    }
+
     public void setItems(@Nullable List<Client> items) {
         this.mItems = items;
     }

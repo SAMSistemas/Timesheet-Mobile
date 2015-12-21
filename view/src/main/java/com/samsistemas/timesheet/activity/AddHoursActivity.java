@@ -29,6 +29,7 @@ import com.samsistemas.timesheet.adapter.ProjectAdapter;
 import com.samsistemas.timesheet.adapter.TaskTypeAdapter;
 import com.samsistemas.timesheet.facade.JobLogFacade;
 import com.samsistemas.timesheet.loader.ClientsLoader;
+import com.samsistemas.timesheet.loader.JobLogLoader;
 import com.samsistemas.timesheet.loader.ProjectsLoader;
 import com.samsistemas.timesheet.loader.TaskTypeLoader;
 import com.samsistemas.timesheet.model.Client;
@@ -46,6 +47,7 @@ import static com.samsistemas.timesheet.util.SharedPreferenceKeys.PASSWORD;
 import static com.samsistemas.timesheet.util.LoaderId.TASK_TYPE_LOADER_ID;
 import static com.samsistemas.timesheet.util.LoaderId.CLIENT_LOADER_ID;
 import static com.samsistemas.timesheet.util.LoaderId.PROJECT_LOADER_ID;
+import static com.samsistemas.timesheet.util.LoaderId.JOBLOG_LOADER_ID;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -100,6 +102,8 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     private TaskType mTaskTypeSelected;
 
     private String mDateString = "";
+    private Boolean mEditMode;
+    private Integer mJobLogId;
 
     @Override
     public int getLayoutResourceId() {
@@ -136,6 +140,12 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
         if (null != intent) {
             mDateString = intent.getStringExtra(MenuActivity.DATE_KEY);
+            mEditMode = intent.getBooleanExtra(MenuActivity.EDIT_MODE_KEY, false);
+
+            if (mEditMode) {
+                mJobLogId = intent.getIntExtra(MenuActivity.JOBLOG_ID_KEY, 0);
+                initJobLogLoader();
+            }
         }
 
         initClientsLoader();
@@ -201,6 +211,11 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                 final String username = prefs.getString(USERNAME, "");
                 final String password = prefs.getString(PASSWORD, "");
 
+                if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
+                    Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
+                }
+
+
                 String description = mDescription.getText().toString().trim();
                 String solicitude = mSolicitudeNumber.getText().toString().trim();
                 int solicitudeNumber = 0;
@@ -228,7 +243,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                         .setSolicitude(solicitudeNumber)
                         .setWorkDate(date)
                         .setPerson(person.setUsername(username)
-                                .setPassword(password))
+                                         .setPassword(password))
                         .setProject(mProjectSelected)
                         .setTaskType(mTaskTypeSelected);
 
@@ -260,7 +275,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
             @Override
             public Loader<List<TaskType>> onCreateLoader(int id, Bundle args) {
-                return new TaskTypeLoader(getApplicationContext());
+                return (id == TASK_TYPE_LOADER_ID) ? new TaskTypeLoader(getApplicationContext()) : null;
             }
 
             @Override
@@ -286,7 +301,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
             @Override
             public Loader<List<Client>> onCreateLoader(int id, Bundle args) {
-                return new ClientsLoader(getApplicationContext());
+                return (id == CLIENT_LOADER_ID) ? new ClientsLoader(getApplicationContext()) : null;
             }
 
             @Override
@@ -312,7 +327,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
             @Override
             public Loader<List<Project>> onCreateLoader(int id, Bundle args) {
-                return new ProjectsLoader(getApplicationContext());
+                return (id == PROJECT_LOADER_ID) ? new ProjectsLoader(getApplicationContext()) : null;
             }
 
             @Override
@@ -326,6 +341,51 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
             @Override
             public void onLoaderReset(Loader<List<Project>> loader) {
+                if (!loader.isReset()) {
+                    loader.reset();
+                }
+            }
+        }).forceLoad();
+    }
+
+    private void initJobLogLoader() {
+        getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<JobLog>() {
+
+            @Override
+            public Loader<JobLog> onCreateLoader(int id, Bundle args) {
+                return (id == JOBLOG_LOADER_ID) ? new JobLogLoader(getApplicationContext(), mJobLogId) : null;
+            }
+
+            @Override
+            public void onLoadFinished(Loader<JobLog> loader, JobLog data) {
+                if (null != data && mEditMode) {
+                    final String[] hours = getResources().getStringArray(R.array.hours);
+                    int hourPosition = 0;
+
+                    for (int i = 0; i < hours.length; i++) {
+                        if (hours[i].equals(data.getHours())) {
+                            hourPosition = i;
+                        }
+                    }
+
+                    mHourSpinner.setSelection(hourPosition);
+
+                    long taskId = data.getTaskType().getId();
+                    mTaskSpinner.setSelection(mTaskAdapter.getPositionById(taskId));
+
+                    long clientId = data.getProject().getClient().getId();
+                    mClientSpinner.setSelection(mClientAdapter.getPositionById(clientId));
+
+                    long projectId = data.getProject().getId();
+                    mProjectSpinner.setSelection(mProjectAdapter.getPositionById(projectId));
+
+                    mDescription.setText(data.getObservations());
+                    mSolicitudeNumber.setText(data.getSolicitude());
+                }
+            }
+
+            @Override
+            public void onLoaderReset(Loader<JobLog> loader) {
                 if (!loader.isReset()) {
                     loader.reset();
                 }

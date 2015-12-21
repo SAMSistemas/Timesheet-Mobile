@@ -61,7 +61,9 @@ import butterknife.ButterKnife;
  * @author jonatan.salas
  */
 public class MenuActivity extends BaseAppCompatActivity {
+    public static final String EDIT_MODE_KEY = "edit_mode";
     public static final String DATE_KEY = "date";
+    public static final String JOBLOG_ID_KEY = "joblog_id";
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
 
     private JobLogAdapter mAdapter;
@@ -121,7 +123,7 @@ public class MenuActivity extends BaseAppCompatActivity {
         toggle.syncState();
 
         //Style headerView for NavigationView
-        final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, null, false);
+        final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, mNavigationView, false);
         mFullName = (TextView) headerView.findViewById(R.id.username);
         mUsername = (TextView) headerView.findViewById(R.id.email);
 
