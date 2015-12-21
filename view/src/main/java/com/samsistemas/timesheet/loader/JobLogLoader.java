@@ -10,11 +10,11 @@ import com.samsistemas.timesheet.model.JobLog;
  * @author jonatan.salas
  */
 public class JobLogLoader extends AsyncTaskLoader<JobLog> {
-    private final int mJobLogId;
+    private final long mJobLogId;
     private final Context mContext;
     private final JobLogFacade mFacade;
 
-    public JobLogLoader(Context context, int id) {
+    public JobLogLoader(Context context, long id) {
         super(context);
         this.mJobLogId = id;
         this.mFacade = JobLogFacade.newInstance();

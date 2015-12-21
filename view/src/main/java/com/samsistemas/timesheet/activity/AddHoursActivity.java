@@ -103,7 +103,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
     private String mDateString = "";
     private Boolean mEditMode;
-    private Integer mJobLogId;
+    private long mJobLogId;
 
     @Override
     public int getLayoutResourceId() {
@@ -136,6 +136,10 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
     @Override
     public void initialize() {
+        initClientsLoader();
+        initProjectsLoader();
+        initTaskTypeLoader();
+
         Intent intent = getIntent();
 
         if (null != intent) {
@@ -143,14 +147,10 @@ public class AddHoursActivity extends BaseAppCompatActivity {
             mEditMode = intent.getBooleanExtra(MenuActivity.EDIT_MODE_KEY, false);
 
             if (mEditMode) {
-                mJobLogId = intent.getIntExtra(MenuActivity.JOBLOG_ID_KEY, 0);
+                mJobLogId = intent.getLongExtra(MenuActivity.JOBLOG_ID_KEY, 0);
                 initJobLogLoader();
             }
         }
-
-        initClientsLoader();
-        initProjectsLoader();
-        initTaskTypeLoader();
     }
 
     @Override
@@ -358,7 +358,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
             @Override
             public void onLoadFinished(Loader<JobLog> loader, JobLog data) {
                 if (null != data && mEditMode) {
-                    final String[] hours = getResources().getStringArray(R.array.hours);
+                    final String[] hours = getApplicationContext().getResources().getStringArray(R.array.hours);
                     int hourPosition = 0;
 
                     for (int i = 0; i < hours.length; i++) {
@@ -379,7 +379,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                     mProjectSpinner.setSelection(mProjectAdapter.getPositionById(projectId));
 
                     mDescription.setText(data.getObservations());
-                    mSolicitudeNumber.setText(data.getSolicitude());
+                    mSolicitudeNumber.setText(String.valueOf(data.getSolicitude()));
                 }
             }
 
