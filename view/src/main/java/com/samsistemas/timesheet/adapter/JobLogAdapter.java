@@ -1,6 +1,7 @@
 package com.samsistemas.timesheet.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -13,21 +14,23 @@ import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.model.JobLog;
+import com.samsistemas.timesheet.util.ItemTouchHelperAdapter;
+import com.samsistemas.timesheet.util.ItemTouchHelperViewHolder;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author jonatan.salas
  */
-public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder> {
+public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder> implements ItemTouchHelperAdapter {
     private List<JobLog> mItems;
     private final Context mContext;
 
     /**
      * @author jonatan.salas
      */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        final View mItemView;
+    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         final TextView mJobLogTask;
         final TextView mJobLogDescription;
         final TextView mJobLogHours;
@@ -35,19 +38,23 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
 
         public ViewHolder(View v) {
             super(v);
-            mItemView = v;
             mIcon = (ImageView) v.findViewById(R.id.joblog_image);
             mJobLogTask = (TextView) v.findViewById(R.id.joblog_task);
             mJobLogDescription = (TextView) v.findViewById(R.id.joblog_description);
             mJobLogHours = (TextView) v.findViewById(R.id.joblog_hours);
         }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
+        }
     }
 
-    /***
-     *
-     * @param context
-     * @param items
-     */
     public JobLogAdapter(@NonNull Context context, @NonNull List<JobLog> items) {
         this.mContext = context;
         this.mItems = items;
@@ -62,15 +69,6 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
     @Override
     public void onBindViewHolder(JobLogAdapter.ViewHolder holder, final int position) {
         final JobLog jobLog = mItems.get(position);
-
-        holder.mItemView.setEnabled(true);
-        holder.mItemView.setClickable(true);
-        holder.mItemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO JS: add adapter.
-            }
-        });
 
         holder.mIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.material_teal), PorterDuff.Mode.SRC_ATOP);
         holder.mJobLogTask.setText(jobLog.getTaskType().getName());
@@ -88,6 +86,19 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return (null!= mItems && mItems.size() > 0)? mItems.size() : 0;
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        Collections.swap(mItems, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mItems.remove(position);
+        notifyItemRemoved(position);
     }
 
     public void setItems(List<JobLog> items) {

@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,7 @@ import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.util.DateUtil;
+import com.samsistemas.timesheet.util.SimpleTouchItemHelperCallback;
 
 import static com.samsistemas.timesheet.util.LoaderId.PERSON_LOADER_ID;
 import static com.samsistemas.timesheet.util.LoaderId.JOBLOG_LOADER_ID;
@@ -136,6 +138,8 @@ public class MenuActivity extends BaseAppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter = new JobLogAdapter(getApplicationContext(), new ArrayList<JobLog>());
         mRecyclerView.setAdapter(mAdapter);
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SimpleTouchItemHelperCallback(mAdapter));
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
         mAdapter.notifyDataSetChanged();
     }
 
