@@ -45,6 +45,8 @@ import com.samsistemas.timesheet.util.SimpleTouchItemHelperCallback;
 import static com.samsistemas.timesheet.util.LoaderId.PERSON_LOADER_ID;
 import static com.samsistemas.timesheet.util.LoaderId.JOBLOG_LOADER_ID;
 
+import static com.samsistemas.timesheet.util.AppConstants.DATE_KEY;
+import static com.samsistemas.timesheet.util.AppConstants.DATE_TEMPLATE;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,11 +65,6 @@ import butterknife.ButterKnife;
  * @author jonatan.salas
  */
 public class MenuActivity extends BaseAppCompatActivity {
-    public static final String EDIT_MODE_KEY = "edit_mode";
-    public static final String DATE_KEY = "date";
-    public static final String JOBLOG_ID_KEY = "joblog_id";
-    private static final String DATE_TEMPLATE = "dd-MM-yyyy";
-
     private JobLogAdapter mAdapter;
     private TextView mFullName;
     private TextView mUsername;
