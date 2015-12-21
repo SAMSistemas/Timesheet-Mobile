@@ -14,14 +14,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
-
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.helper.UriHelper;
 import com.samsistemas.timesheet.network.converter.JobLogEntityConverter;
 import com.samsistemas.timesheet.util.AuthUtil;
+
+import static com.samsistemas.timesheet.util.JSONObjectKeys.URL;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.USERNAME;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.PASSWORD;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.MONTH;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.YEAR;
 
 import org.json.JSONArray;
 import org.json.JSONException;

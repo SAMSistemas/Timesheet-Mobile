@@ -37,11 +37,11 @@ import java.util.Map;
  * @author jonatan.salas
  */
 public class FetchProjectDataService extends IntentService {
-    private static final String TAG = FetchProjectDataService.class.getSimpleName();
+    private static final String LOG_TAG = FetchProjectDataService.class.getSimpleName();
     private RequestQueue mRequestQueue;
 
     public FetchProjectDataService() {
-        super(TAG);
+        super(LOG_TAG);
     }
 
     @Override
@@ -78,14 +78,14 @@ public class FetchProjectDataService extends IntentService {
                             clientController.bulkInsert(getApplicationContext(), clientEntities, UriHelper.buildClientUri(getApplicationContext()));
 
                         } catch (JSONException ex) {
-                            Log.e(TAG, ex.getMessage(), ex.getCause());
+                            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, error.getMessage(), error.getCause());
+                        Log.e(LOG_TAG, error.getMessage(), error.getCause());
                     }
                 }
         ) {

@@ -20,11 +20,15 @@ import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.AddHoursActivity;
-import com.samsistemas.timesheet.activity.MenuActivity;
 import com.samsistemas.timesheet.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.util.ItemTouchHelperAdapter;
 import com.samsistemas.timesheet.util.ItemTouchHelperViewHolder;
+
+import static com.samsistemas.timesheet.util.AppConstants.EDIT_MODE_KEY;
+import static com.samsistemas.timesheet.util.AppConstants.DATE_KEY;
+import static com.samsistemas.timesheet.util.AppConstants.JOBLOG_ID_KEY;
+import static com.samsistemas.timesheet.util.AppConstants.DATE_TEMPLATE;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -67,12 +71,12 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
                         case R.id.action_mode_edit:
                             Intent addHoursIntent = new Intent(mContext.getApplicationContext(), AddHoursActivity.class);
                             final JobLog jobLog = mItems.get(getAdapterPosition());
-                            String dateString = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(jobLog.getWorkDate());
+                            String dateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(jobLog.getWorkDate());
 
                             addHoursIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            addHoursIntent.putExtra(MenuActivity.DATE_KEY, dateString);
-                            addHoursIntent.putExtra(MenuActivity.EDIT_MODE_KEY, true);
-                            addHoursIntent.putExtra(MenuActivity.JOBLOG_ID_KEY, jobLog.getId());
+                            addHoursIntent.putExtra(DATE_KEY, dateString);
+                            addHoursIntent.putExtra(EDIT_MODE_KEY, true);
+                            addHoursIntent.putExtra(JOBLOG_ID_KEY, jobLog.getId());
 
                             Bundle options = ScaleUpAnimator.newInstance().saveAnimation(v);
                             ActivityCompat.startActivity(mContext, addHoursIntent, options);

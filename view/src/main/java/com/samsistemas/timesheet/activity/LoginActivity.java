@@ -54,7 +54,7 @@ import java.util.Locale;
  * @author jonatan.salas
  */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, NetworkStateReceiver.OnNetworkStateReceived, BaseSessionController.OnSessionRestored {
-    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String LOG_TAG = LoginActivity.class.getSimpleName();
     private NetworkStateReceiver mNetworkStateReceiver;
     private EditText mUsernameEditText;
     private EditText mPasswordEditText;
@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
-            Log.e(TAG, ex.getMessage(), ex.getCause());
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
         }
     }
 
@@ -235,7 +235,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 alertDialog.dismiss();
-                                Log.e(TAG, error.getMessage(), error.getCause());
+                                Log.e(LOG_TAG, error.getMessage(), error.getCause());
                                 if (null != error.networkResponse) {
                                     final int statusCode = error.networkResponse.statusCode;
 
@@ -253,7 +253,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 request.setRetryPolicy(new DefaultRetryPolicy());
                 requestQueue.add(request);
             } catch (InterruptedException ex) {
-                Log.e(TAG, ex.getMessage(), ex.getCause());
+                Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
             }
         }
     }

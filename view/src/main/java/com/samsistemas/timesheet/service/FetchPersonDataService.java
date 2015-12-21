@@ -15,7 +15,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import static com.samsistemas.timesheet.util.JSONObjectKeys.*;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.URL;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.USERNAME;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.PASSWORD;
+import static com.samsistemas.timesheet.util.JSONObjectKeys.TASK_TYPES;
 
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;

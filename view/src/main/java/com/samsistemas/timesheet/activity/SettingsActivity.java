@@ -1,11 +1,10 @@
 package com.samsistemas.timesheet.activity;
 
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.fragment.ApplicationSettingsFragment;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
@@ -15,26 +14,35 @@ import com.samsistemas.timesheet.navigation.MenuNavigator;
  *
  * @author jonatan.salas
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseAppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //Use this to check troubles
-        //DevUtil.enableStrictModeChecker();
+    public int getLayoutResourceId() {
+        return android.R.layout.activity_list_item;
+    }
+
+    @Override
+    public void setUserInterface() {
         final ActionBar actionBar = getSupportActionBar();
 
         if (null != actionBar) {
             ToolbarUtil.styleWithBackButton(actionBar, R.string.action_settings);
         }
-
-        if (null == savedInstanceState) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(android.R.id.content, new ApplicationSettingsFragment())
-                    .commit();
-        }
     }
+
+    @Override
+    public void initialize() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(android.R.id.content, new ApplicationSettingsFragment())
+                .commit();
+    }
+
+    @Override
+    public void populateViews() { }
+
+    @Override
+    public void setListeners() { }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

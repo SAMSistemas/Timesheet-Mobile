@@ -49,6 +49,12 @@ import static com.samsistemas.timesheet.util.LoaderId.CLIENT_LOADER_ID;
 import static com.samsistemas.timesheet.util.LoaderId.PROJECT_LOADER_ID;
 import static com.samsistemas.timesheet.util.LoaderId.JOBLOG_LOADER_ID;
 
+import static com.samsistemas.timesheet.util.AppConstants.DATE_TEMPLATE;
+import static com.samsistemas.timesheet.util.AppConstants.DATE_KEY;
+import static com.samsistemas.timesheet.util.AppConstants.JOBLOG_ID_KEY;
+import static com.samsistemas.timesheet.util.AppConstants.EDIT_MODE_KEY;
+
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,7 +69,6 @@ import butterknife.ButterKnife;
  */
 public class AddHoursActivity extends BaseAppCompatActivity {
     private static final String LOG_TAG = AddHoursActivity.class.getSimpleName();
-    private static final String DATE_PATTERN = "dd-MM-yyyy";
 
     @Bind(R.id.toolbar_layout)
     CollapsingToolbarLayout mToolbarLayout;
@@ -145,11 +150,11 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         Intent intent = getIntent();
 
         if (null != intent) {
-            mDateString = intent.getStringExtra(MenuActivity.DATE_KEY);
-            mEditMode = intent.getBooleanExtra(MenuActivity.EDIT_MODE_KEY, false);
+            mDateString = intent.getStringExtra(DATE_KEY);
+            mEditMode = intent.getBooleanExtra(EDIT_MODE_KEY, false);
 
             if (mEditMode) {
-                mJobLogId = intent.getLongExtra(MenuActivity.JOBLOG_ID_KEY, 0);
+                mJobLogId = intent.getLongExtra(JOBLOG_ID_KEY, 0);
                 initJobLogLoader();
             }
         }
@@ -227,7 +232,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                     Date date = null;
 
                     try {
-                        date = new SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).parse(mDateString);
+                        date = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).parse(mDateString);
                     } catch (ParseException ex) {
                         Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
                     }
