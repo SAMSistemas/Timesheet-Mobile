@@ -1,31 +1,41 @@
 package com.samsistemas.timesheet.entity;
 
+import com.samsistemas.timesheet.entity.base.Entity;
+
 /**
+ * Entity that represents a WorkPosition table row content
+ *
  * @author jonatan.salas
  */
-public class WorkPositionEntity {
-    private long workPositionId;
+public class WorkPositionEntity extends Entity {
+
+    /**
+     * The description of the WorkPosition
+     */
     private String description;
 
-    public WorkPositionEntity() {}
+    /**
+     * Public Constructor
+     */
+    public WorkPositionEntity() { }
 
-    /** Attributes setters and getters **/
-    public WorkPositionEntity setWorkPositionId(long workPositionId) {
-        this.workPositionId = workPositionId;
-        return this;
-    }
-
+    /**
+     * Setter as builder pattern
+     *
+     * @param description an string representing a description
+     * @return a WorkPositionEntity object
+     */
     public WorkPositionEntity setDescription(String description) {
         this.description = description;
         return this;
     }
 
-    public long getWorkPositionId() {
-        return workPositionId;
-    }
-
+    /**
+     * Getter for description
+     *
+     * @return a String representation of description
+     */
     public String getDescription() {
         return description;
     }
-
 }

@@ -1,17 +1,15 @@
 package com.samsistemas.timesheet.fragment;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.annotation.StyleRes;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -20,87 +18,61 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.fragment.base.BaseDialogFragment;
 import com.samsistemas.timesheet.util.DrawableUtil;
 import com.samsistemas.timesheet.util.TypefaceUtil;
-
-import java.lang.ref.WeakReference;
 
 /**
  * @author jonatan.salas
  */
-public class ChangePasswordFragment extends DialogFragment implements DialogInterface.OnClickListener {
+public class ChangePasswordFragment extends BaseDialogFragment {
     public static final String TAG = ChangePasswordFragment.class.getSimpleName();
-    private WeakReference<Activity> mActivityReference;
 
-    public ChangePasswordFragment() {}
+    public ChangePasswordFragment() { }
+
+    @LayoutRes
+    @Override
+    public int getLayoutResourceId() {
+        return R.layout.edit_password_content;
+    }
+
+    @StyleRes
+    @Override
+    public int getThemeResourceId() {
+        return R.style.AppTheme_Dialog_light;
+    }
+
+    @StringRes
+    @Override
+    public int getTitleResourceId() {
+        return R.string.password_dialog_title;
+    }
+
+    @StringRes
+    @Override
+    public int getMessageResourceId() {
+        return 0;
+    }
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder;
-
-        if(null != mActivityReference) {
-            builder = new AlertDialog.Builder(mActivityReference.get(), R.style.AppTheme_Dialog_light);
-            prepare(builder);
-            Dialog dialog = builder.create();
-            return setDialogParams(dialog);
-        }
-
-        return super.onCreateDialog(savedInstanceState);
-    }
-
-    /**
-     *
-     * @param builder
-     */
-    private void prepare(AlertDialog.Builder builder) {
-        builder.setIcon(getIcon(R.drawable.ic_person_white_24dp))
-                .setTitle(R.string.password_dialog_title)
-                .setView(getContentView(R.layout.edit_password_content))
-                .setPositiveButton(R.string.password_dialog_positive_button, this)
-                .setNegativeButton(R.string.password_dialog_negative_button, this);
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-
-    }
-
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public Drawable getIcon(@DrawableRes int id) {
+    public Drawable getIconDrawable() {
         return DrawableUtil.modifyDrawableColor(
                 getContext(),
-                id,
-                R.color.material_teal,
-                PorterDuff.Mode.SRC_ATOP
+                R.drawable.ic_person_white_24dp,
+                R.color.material_teal
         );
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    private View getContentView(@LayoutRes int id) {
-        View content = LayoutInflater.from(getContext()).inflate(id, null, false);
-        styleView(content);
+    @Nullable
+    @Override
+    public View getDialogView(@LayoutRes int id) {
+        View content = LayoutInflater.from(getContext()).inflate(R.layout.edit_password_content, null, false);
 
-        return content;
-    }
-
-    /**
-     *
-     * @param view
-     */
-    private void styleView(@NonNull View view) {
-        TextInputLayout latestLayout = (TextInputLayout) view.findViewById(R.id.latest_layout);
-        TextInputLayout newLayout = (TextInputLayout) view.findViewById(R.id.new_layout);
-        EditText latestPassword = (EditText) view.findViewById(R.id.latest_password);
-        EditText newPassword = (EditText) view.findViewById(R.id.new_password);
+        TextInputLayout latestLayout = (TextInputLayout) content.findViewById(R.id.latest_layout);
+        TextInputLayout newLayout = (TextInputLayout) content.findViewById(R.id.new_layout);
+        EditText latestPassword = (EditText) content.findViewById(R.id.latest_password);
+        EditText newPassword = (EditText) content.findViewById(R.id.new_password);
 
         Typeface roboto = TypefaceUtil.getCustomTypeface(getContext(), R.string.roboto_light);
 
@@ -108,19 +80,27 @@ public class ChangePasswordFragment extends DialogFragment implements DialogInte
         latestPassword.setTypeface(roboto);
         newLayout.setTypeface(roboto);
         newPassword.setTypeface(roboto);
+
+        return content;
     }
 
-    /**
-     *
-     * @param dialog
-     * @return
-     */
-    private Dialog setDialogParams(Dialog dialog) {
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        Activity activity = mActivityReference.get();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+    @Override
+    public int getPositiveButtonMessage() {
+        return R.string.password_dialog_positive_button;
+    }
 
-        //Hacemos que el width del dialog tenga un tamaño del 95% de la pantalla en modo portrait.
+    @Override
+    public int getNegativeButtonMessage() {
+        return R.string.password_dialog_negative_button;
+    }
+
+    @Override
+    public Dialog buildDialog(AlertDialog.Builder builder) {
+        Dialog dialog = builder.create();
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        mContext.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
         int width = (int) (displaymetrics.widthPixels * 0.95);
 
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
@@ -130,8 +110,13 @@ public class ChangePasswordFragment extends DialogFragment implements DialogInte
         return dialog;
     }
 
-    /** Attributes setters and getters **/
-    public void setActivityReference(WeakReference<Activity> activityReference) {
-        this.mActivityReference = activityReference;
+    @Override
+    public void onPositiveButtonClick(DialogInterface dialog) {
+
+    }
+
+    @Override
+    public void onNegativeButtonClick(DialogInterface dialog) {
+
     }
 }

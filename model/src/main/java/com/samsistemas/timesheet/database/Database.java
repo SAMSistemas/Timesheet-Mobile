@@ -14,7 +14,7 @@ import com.samsistemas.timesheet.data.R;
  */
 public class Database extends SQLiteOpenHelper {
     private static Database instance = null;
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * Constructor using parameters. It receives the worker application context
@@ -23,7 +23,10 @@ public class Database extends SQLiteOpenHelper {
      * @param context - the context used to create the SQLiteDatabase
      */
     public Database(@NonNull final Context context) {
-        super(context, context.getString(R.string.database_name), null, Integer.parseInt(context.getString(R.string.database_version)));
+        super(context,
+              context.getString(R.string.database_name),
+              null,
+              Integer.parseInt(context.getString(R.string.database_version)));
         mContext = context;
     }
 
@@ -51,13 +54,15 @@ public class Database extends SQLiteOpenHelper {
     }
 
     /**
+     * Method that gets a singleton instance.
      *
-     * @param context
-     * @return
+     * @param context the application context used to retrieve the SQL create/drop queries.
+     * @return a singleton object.
      */
-    public static Database getInstance(@NonNull Context context) {
-        if(null == instance)
+    public static Database newInstance(@NonNull Context context) {
+        if (null == instance) {
             instance = new Database(context);
+        }
         return instance;
     }
 

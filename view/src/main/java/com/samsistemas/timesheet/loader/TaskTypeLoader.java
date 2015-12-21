@@ -12,9 +12,8 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class TaskTypeLoader extends AsyncTaskLoader<List<TaskType>> {
-    protected Context mContext;
-    protected TaskTypeFacade mFacade;
-    protected List<TaskType> mTaskTypeList;
+    private final Context mContext;
+    private final TaskTypeFacade mFacade;
 
     public TaskTypeLoader(Context context) {
         super(context);
@@ -24,7 +23,7 @@ public class TaskTypeLoader extends AsyncTaskLoader<List<TaskType>> {
 
     @Override
     public List<TaskType> loadInBackground() {
-        mTaskTypeList = mFacade.findAll(mContext);
-        return (null != mTaskTypeList && mTaskTypeList.size() > 0)? mTaskTypeList : null;
+        List<TaskType> taskTypeList = mFacade.findAll(mContext);
+        return (null != taskTypeList && taskTypeList.size() > 0)? taskTypeList : null;
     }
 }

@@ -11,14 +11,12 @@ import com.samsistemas.timesheet.util.TestUtilities;
 import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.helper.UriHelper;
 
-import java.util.Map;
-import java.util.Set;
-
 /**
  * @author jonatan.salas
  */
 public class TestProvider extends AndroidTestCase {
     private static final String LOG_TAG = TestProvider.class.getSimpleName();
+    private static final String ERROR = "No values returned :(";
 
     /**
      *
@@ -83,7 +81,7 @@ public class TestProvider extends AndroidTestCase {
         //                          INSERTS TEST PART                              //
         //-------------------------------------------------------------------------//
         //Test insert on Client Table..
-        final ContentValues clientValues = TestUtilities.getClient(mContext);
+        final ContentValues clientValues = TestUtilities.getClientValues();
         Uri clientUriId = mContext.getContentResolver().insert(UriHelper.buildClientUri(mContext), clientValues);
 
         long clientRowId = ContentUris.parseId(clientUriId);
@@ -93,7 +91,7 @@ public class TestProvider extends AndroidTestCase {
 
         //-------------------------------------------------------------------------//
         //Test insert on WorkPosition Table..
-        final ContentValues workPositionValues = TestUtilities.getWorkPosition(mContext);
+        final ContentValues workPositionValues = TestUtilities.getWorkPositionValues();
         Uri workPositionUriId = mContext.getContentResolver().insert(UriHelper.buildWorkPositionUri(mContext), workPositionValues);
 
         long workPositionRowId = ContentUris.parseId(workPositionUriId);
@@ -103,7 +101,7 @@ public class TestProvider extends AndroidTestCase {
 
         //-------------------------------------------------------------------------//
         //Test insert on Person Table..
-        final ContentValues personValues = TestUtilities.getPerson(mContext, workPositionRowId);
+        final ContentValues personValues = TestUtilities.getPersonValues(workPositionRowId);
         Uri personUriId = mContext.getContentResolver().insert(UriHelper.buildPersonUri(mContext), personValues);
 
         long personRowId = ContentUris.parseId(personUriId);
@@ -113,7 +111,7 @@ public class TestProvider extends AndroidTestCase {
 
         //-------------------------------------------------------------------------//
         //Test insert on TaskType Table..
-        final ContentValues taskTypeValues = TestUtilities.getTaskType(mContext);
+        final ContentValues taskTypeValues = TestUtilities.getTaskTypeValues();
         Uri taskTypeUriId = mContext.getContentResolver().insert(UriHelper.buildTaskTypeUri(mContext), taskTypeValues);
 
         long taskTypeRowId = ContentUris.parseId(taskTypeUriId);
@@ -123,7 +121,7 @@ public class TestProvider extends AndroidTestCase {
 
         //--------------------------------------------------------------------------//
         //Test insert on Project Table..
-        final ContentValues projectValues = TestUtilities.getProject(mContext, clientRowId);
+        final ContentValues projectValues = TestUtilities.getProjectValues(clientRowId);
         Uri projectUriId = mContext.getContentResolver().insert(UriHelper.buildProjectUri(mContext), projectValues);
 
         long projectRowId = ContentUris.parseId(projectUriId);
@@ -133,7 +131,7 @@ public class TestProvider extends AndroidTestCase {
 
         //--------------------------------------------------------------------------//
         //Test insert on JobLog Table..
-        final ContentValues jobLogValues = TestUtilities.getJobLog(mContext, projectRowId, personRowId, taskTypeRowId);
+        final ContentValues jobLogValues = TestUtilities.getJobLogValues(projectRowId, personRowId, taskTypeRowId);
         Uri jobLogUriId = mContext.getContentResolver().insert(UriHelper.buildJobLogUri(mContext), jobLogValues);
 
         long jobLogRowId = ContentUris.parseId(jobLogUriId);
@@ -180,22 +178,22 @@ public class TestProvider extends AndroidTestCase {
                                 if (null != jobLogCursor && jobLogCursor.moveToFirst()) {
                                     TestUtilities.validateCursor(jobLogValues, jobLogCursor);
                                 } else {
-                                    fail("No values returned :(");
+                                    fail(ERROR);
                                 }
                             } else {
-                                fail("No values returned :(");
+                                fail(ERROR);
                             }
                     } else {
-                        fail("No values returned :(");
+                        fail(ERROR);
                     }
                 } else {
-                    fail("No values returned :(");
+                    fail(ERROR);
                 }
             } else {
-                fail("No values returned :(");
+                fail(ERROR);
             }
         } else {
-            fail("No values returned :(");
+            fail(ERROR);
         }
     }
 }

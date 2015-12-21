@@ -9,7 +9,9 @@ import android.support.annotation.NonNull;
  *
  * @author jonatan.salas
  */
-public class NetworkUtil {
+public final class NetworkUtil {
+
+    private NetworkUtil() { }
 
     /***
      * Method that verifies if active networks are connected.
@@ -30,7 +32,7 @@ public class NetworkUtil {
      * @return
      */
     @SuppressWarnings("deprecation")
-    public static boolean isMobileActive(@NonNull final ConnectivityManager manager) {
+    private static boolean isMobileActive(@NonNull final ConnectivityManager manager) {
         return manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnectedOrConnecting();
     }
 
@@ -40,7 +42,7 @@ public class NetworkUtil {
      * @return
      */
     @SuppressWarnings("deprecation")
-    public static boolean isWirelessActive(@NonNull final ConnectivityManager manager) {
+    private static boolean isWirelessActive(@NonNull final ConnectivityManager manager) {
         return manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
     }
 }

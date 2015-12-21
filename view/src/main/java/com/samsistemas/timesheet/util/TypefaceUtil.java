@@ -10,8 +10,10 @@ import android.support.annotation.StringRes;
  *
  * @author jonatan.salas
  */
-public class TypefaceUtil {
+public final class TypefaceUtil {
     private static Typeface sTypeface = null;
+
+    private TypefaceUtil() { }
 
     /**
      * Method that gets a Typeface from a directory.
@@ -21,7 +23,7 @@ public class TypefaceUtil {
      * @return a Singleton typeface object.
      */
     public static Typeface getCustomTypeface(@NonNull final Context context, @StringRes int typefaceId) {
-        if(null == sTypeface) {
+        if (null == sTypeface) {
             String typefacePath = context.getString(typefaceId);
             sTypeface = Typeface.createFromAsset(context.getAssets(), typefacePath);
         }

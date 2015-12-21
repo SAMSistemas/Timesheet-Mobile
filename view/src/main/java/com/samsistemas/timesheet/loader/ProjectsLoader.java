@@ -12,9 +12,8 @@ import java.util.List;
  * @author jonatan.salas
  */
 public class ProjectsLoader extends AsyncTaskLoader<List<Project>> {
-    protected ProjectFacade mFacade;
-    protected Context mContext;
-    protected List<Project> mProjectList;
+    private final ProjectFacade mFacade;
+    private final Context mContext;
 
     public ProjectsLoader(Context context) {
         super(context);
@@ -24,7 +23,7 @@ public class ProjectsLoader extends AsyncTaskLoader<List<Project>> {
 
     @Override
     public List<Project> loadInBackground() {
-        mProjectList = mFacade.findAll(mContext);
-        return (null != mProjectList && mProjectList.size() > 0)? mProjectList : null;
+        List<Project> projectList = mFacade.findAll(mContext);
+        return (null != projectList && projectList.size() > 0)? projectList : null;
     }
 }

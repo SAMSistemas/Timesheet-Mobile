@@ -2,11 +2,11 @@ package com.samsistemas.timesheet.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
-import com.samsistemas.timesheet.fragment.SettingsFragment;
+import com.samsistemas.timesheet.fragment.ApplicationSettingsFragment;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 
@@ -15,7 +15,7 @@ import com.samsistemas.timesheet.navigation.MenuNavigator;
  *
  * @author jonatan.salas
  */
-public class SettingsActivity extends BaseAppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +23,25 @@ public class SettingsActivity extends BaseAppCompatActivity {
         //Use this to check troubles
         //DevUtil.enableStrictModeChecker();
         final ActionBar actionBar = getSupportActionBar();
-        if(null != actionBar)
-            ToolbarUtil.styleWithBackButton(actionBar, R.string.action_settings);
 
-        if(null == savedInstanceState) {
-            addFragment(new SettingsFragment());
+        if (null != actionBar) {
+            ToolbarUtil.styleWithBackButton(actionBar, R.string.action_settings);
+        }
+
+        if (null == savedInstanceState) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(android.R.id.content, new ApplicationSettingsFragment())
+                    .commit();
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
-        if(id == android.R.id.home)
+        if (id == android.R.id.home) {
             onBackPressed();
+        }
 
         return true;
     }

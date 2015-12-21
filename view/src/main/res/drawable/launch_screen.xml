@@ -1,0 +1,10 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The background color, preferably the same as your normal theme -->
+    <item android:drawable="@color/primary"/>
+    <!-- Your product logo - 144dp color version of your app icon -->
+    <item>
+        <bitmap
+            android:src="@drawable/timesheet_logo"
+            android:gravity="center|center_horizontal|center_vertical"/>
+    </item>
+</layer-list>

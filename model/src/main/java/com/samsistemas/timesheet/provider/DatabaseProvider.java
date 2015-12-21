@@ -16,13 +16,15 @@ import android.support.annotation.StringRes;
 import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.database.Database;
 import com.samsistemas.timesheet.helper.UriHelper;
+import static com.samsistemas.timesheet.util.ContentUriKeys.*;
 
 /**
  * The content provider used to effectuate CRUD operations in the app.
  *
  * @author jonatan.salas
  */
-public class DatabaseProvider extends ContentProvider implements ContentUri {
+public class DatabaseProvider extends ContentProvider {
+    private static final String EQUALS = " = ";
     private UriMatcher mUriMatcher;
     private Database mDatabase;
     private Context mContext;
@@ -31,17 +33,22 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
     public boolean onCreate() {
         mContext = getContext();
 
-        if(null != mContext) {
-            mDatabase = Database.getInstance(mContext);
+        if (null != mContext) {
+            mDatabase = Database.newInstance(mContext);
             mUriMatcher = UriHelper.buildUriMatcher(mContext);
         }
 
         return true;
     }
 
-    @Nullable
-    @Override
-    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    @Nullable @Override
+    public Cursor query(
+        @NonNull Uri uri,
+        String[] projection,
+        String selection,
+        String[] selectionArgs,
+        String sortOrder) {
+
         SQLiteDatabase readableDatabase = mDatabase.getReadableDatabase();
         Cursor retCursor;
 
@@ -61,7 +68,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.client_table),
                         projection,
-                        mContext.getString(R.string.client_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.client_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -83,7 +90,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.work_position_table),
                         projection,
-                        mContext.getString(R.string.work_position_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.work_position_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -105,7 +112,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.person_table),
                         projection,
-                        mContext.getString(R.string.person_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.person_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -127,7 +134,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.task_type_table),
                         projection,
-                        mContext.getString(R.string.task_type_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.task_type_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -149,7 +156,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.project_table),
                         projection,
-                        mContext.getString(R.string.project_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.project_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -171,7 +178,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                 retCursor = readableDatabase.query(
                         mContext.getString(R.string.job_log_table),
                         projection,
-                        mContext.getString(R.string.job_log_id) + " = '" + ContentUris.parseId(uri) + "'",
+                        mContext.getString(R.string.job_log_id) + EQUALS + "'" + ContentUris.parseId(uri) + "'",
                         null,
                         null,
                         null,
@@ -261,7 +268,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
      * @param tableName - the table name as resource id.
      * @return a uri that notifies the inserted id.
      */
-    protected Uri insert(@NonNull Uri uri, @NonNull ContentValues values, @StringRes int tableName) {
+    private Uri insert(@NonNull Uri uri, @NonNull ContentValues values, @StringRes int tableName) {
         SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         Uri returnUri;
 
@@ -276,7 +283,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
             );
         }
 
-        if(id < 0) {
+        if (id < 0) {
             throw new SQLException("failed to insert row in Uri: " + uri);
         } else {
             returnUri = ContentUris.withAppendedId(uri, id);
@@ -313,13 +320,15 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
      * @param tableName - the table name as a Resource id.
      * @return an int representing the count of inserted rows.
      */
-    protected int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values, @StringRes int tableName) {
+    private int bulkInsert(@NonNull Uri uri,
+                           @NonNull ContentValues[] values,
+                           @StringRes int tableName) {
         SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         writableDatabase.beginTransaction();
         int returnCount = 0;
 
         try {
-            for(ContentValues value: values) {
+            for (ContentValues value: values) {
                 long id = writableDatabase.insertWithOnConflict(
                         mContext.getString(tableName),
                         null,
@@ -327,7 +336,7 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                         SQLiteDatabase.CONFLICT_REPLACE
                 );
 
-                if(-1 != id) {
+                if (-1 != id) {
                     returnCount++;
                 }
             }
@@ -342,7 +351,10 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
     }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri,
+                      ContentValues values,
+                      String selection,
+                      String[] selectionArgs) {
         SQLiteDatabase writableDatabase = mDatabase.getWritableDatabase();
         int updatedRows;
 
@@ -398,7 +410,9 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
-        if(0 != updatedRows) mContext.getContentResolver().notifyChange(uri, null);
+        if (0 != updatedRows) {
+            mContext.getContentResolver().notifyChange(uri, null);
+        }
 
         return updatedRows;
     }
@@ -456,7 +470,9 @@ public class DatabaseProvider extends ContentProvider implements ContentUri {
         }
 
         //if selection is null, database.delete() method deletes all rows.
-        if(null == selection || 0 != deletedRows) mContext.getContentResolver().notifyChange(uri, null);
+        if (null == selection || 0 != deletedRows) {
+            mContext.getContentResolver().notifyChange(uri, null);
+        }
 
         return deletedRows;
     }

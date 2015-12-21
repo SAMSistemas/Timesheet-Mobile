@@ -9,14 +9,19 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- *
+ * @author jonatan.salas
  */
-public class DateUtil {
+public final class DateUtil {
+    private static final String SPACE = " ";
+
+    private DateUtil() { }
 
     /**
+     * Method that formats a Date in a more friendly representation
      *
-     * @param dateToFormat
-     * @return
+     * @param context the context used to retrieve some Strings from string.xml file
+     * @param dateToFormat the date to format
+     * @return a String representation of the date prettify
      */
     public static String formatDate(@NonNull Context context, @NonNull Date dateToFormat) {
         Calendar calendar = Calendar.getInstance();
@@ -26,27 +31,19 @@ public class DateUtil {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(day)
-               .append(" ")
-               .append(context.getString(R.string.of))
-               .append(" ")
-               .append(formatMonth(context, month))
-               .append(" ")
-               .append(context.getString(R.string.of))
-               .append(" ")
-               .append(year);
+        final String of = context.getString(R.string.of);
 
-        return builder.toString();
+        return day + SPACE + of + SPACE + formatMonth(context, month) + SPACE + of + SPACE + year;
     }
 
     /**
+     * Method that returns a Month as String
      *
-     * @param context
-     * @param month
-     * @return
+     * @param context the context used to retrieve the month
+     * @param month the index of the month we want to get
+     * @return a Month as String representation
      */
-    public static String formatMonth(@NonNull Context context, int month) {
+    private static String formatMonth(@NonNull Context context, int month) {
         switch (month) {
             case Calendar.JANUARY:
                 return context.getString(R.string.january);
@@ -74,5 +71,23 @@ public class DateUtil {
                 return context.getString(R.string.december);
             default: return null;
         }
+    }
+
+    /**
+     *
+     * @param targetDate
+     * @return
+     */
+    public static Date getDateWithOutTime(Date targetDate) {
+        final Calendar newDate = Calendar.getInstance();
+
+        newDate.setLenient(false);
+        newDate.setTime(targetDate);
+        newDate.set(Calendar.HOUR_OF_DAY, 0);
+        newDate.set(Calendar.MINUTE,0);
+        newDate.set(Calendar.SECOND,0);
+        newDate.set(Calendar.MILLISECOND,0);
+
+        return newDate.getTime();
     }
 }

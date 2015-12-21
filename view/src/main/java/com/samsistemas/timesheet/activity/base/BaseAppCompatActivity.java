@@ -1,53 +1,51 @@
 package com.samsistemas.timesheet.activity.base;
 
-import android.content.IntentFilter;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
-import com.samsistemas.timesheet.controller.base.BaseSessionController;
-import com.samsistemas.timesheet.factory.ControllerFactory;
-import com.samsistemas.timesheet.service.NetworkStateService;
-
 /**
+ * Base activity class to use in this project
+ *
  * @author jonatan.salas
  */
-//TODO JS: Delete unused methods.
-public class BaseAppCompatActivity extends AppCompatActivity {
+public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
-    /**
-     *
-     * @return
-     */
-    public BaseSessionController getSessionController() {
-        return ControllerFactory.getSessionController();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayoutResourceId());
+        setUserInterface();
+        initialize();
+        populateViews();
+        setListeners();
     }
 
     /**
+     * Method that returns the id of the layout file that we want to display to the user
      *
-     * @param onReceived
-     * @return
+     * @return an int value representing the layout resource id
      */
-    public NetworkStateService getNetworkStateService(NetworkStateService.OnNetworkStateReceived onReceived) {
-        return new NetworkStateService(onReceived);
-    }
+    @LayoutRes
+    public abstract int getLayoutResourceId();
 
     /**
-     *
-     * @return
+     * Method that helps you to initialize the UI widgets to display
      */
-    public IntentFilter getIntentFilter() {
-        return new IntentFilter(NetworkStateService.CONNECTIVITY_CHANGE_ACTION);
-    }
+    public abstract void setUserInterface();
 
     /**
-     *
-     * @param fragment
+     * Method that lets you initialize some values
      */
-    public void addFragment(@NonNull Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(android.R.id.content, fragment)
-                .commit();
-    }
+    public abstract void initialize();
+
+    /**
+     * Method used to display data in the views
+     */
+    public abstract void populateViews();
+
+    /**
+     * Method that sets the listeners needed for the view
+     */
+    public abstract void setListeners();
 }

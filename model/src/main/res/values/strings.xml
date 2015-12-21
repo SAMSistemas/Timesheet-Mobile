@@ -11,7 +11,7 @@
 
     <!-- Client Table name and columns -->
     <string name="client_table" translatable="false">client</string>
-    <string name="client_id" translatable="false">id_client</string>
+    <string name="client_id" translatable="false">id</string>
     <string name="client_name" translatable="false">name</string>
     <string name="client_short_name" translatable="false">short_name</string>
     <string name="client_enabled" translatable="false">enabled</string>
@@ -21,7 +21,7 @@
 
     <!-- Work Position Table name and columns -->
     <string name="work_position_table" translatable="false">workposition</string>
-    <string name="work_position_id" translatable="false">id_workposition</string>
+    <string name="work_position_id" translatable="false">id</string>
     <string name="work_position_description" translatable="false">description</string>
     <string name="work_position_content_type" translatable="false">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/workposition</string>
     <string name="work_position_content_item_type" translatable="false">vnd.android.cursor.item/com.samsistemas.timesheet.provider/workposition</string>
@@ -29,7 +29,7 @@
 
     <!-- Person Table name and columns -->
     <string name="person_table" translatable="false">person</string>
-    <string name="person_id" translatable="false">id_person</string>
+    <string name="person_id" translatable="false">id</string>
     <string name="person_name" translatable="false">name</string>
     <string name="person_last_name" translatable="false">lastname</string>
     <string name="person_user_name" translatable="false">username</string>
@@ -44,7 +44,7 @@
 
     <!-- TaskType Table name and columns -->
     <string name="task_type_table" translatable="false">tasktype</string>
-    <string name="task_type_id" translatable="false">id_tasktype</string>
+    <string name="task_type_id" translatable="false">id</string>
     <string name="task_type_name" translatable="false">name</string>
     <string name="task_type_enabled" translatable="false">enabled</string>
     <string name="task_type_content_type" translatable="false">vnd.android.cursor.dir/com.samsistemas.timesheet.provider/tasktype</string>
@@ -53,8 +53,8 @@
 
     <!-- Project Table name and columns -->
     <string name="project_table" translatable="false">project</string>
+    <string name="project_id" translatable="false">id</string>
     <string name="project_client_id" translatable="false">id_client</string>
-    <string name="project_id" translatable="false">id_project</string>
     <string name="project_name" translatable="false">name</string>
     <string name="project_short_name" translatable="false">short_name</string>
     <string name="project_start_date" translatable="false">start_date</string>
@@ -65,7 +65,7 @@
 
     <!-- JobLog Table name and columns -->
     <string name="job_log_table" translatable="false">joblog</string>
-    <string name="job_log_id" translatable="false">id_joblog</string>
+    <string name="job_log_id" translatable="false">id</string>
     <string name="job_log_project_id" translatable="false">id_project</string>
     <string name="job_log_person_id" translatable="false">id_person</string>
     <string name="job_log_task_type_id" translatable="false">id_tasktype</string>
@@ -78,13 +78,13 @@
     <string name="job_log_content_uri" translatable="false">content://com.samsistemas.timesheet.provider/joblog</string>
 
     <!-- Create Table strings -->
-    <string name="create_table_client" translatable="false">CREATE TABLE client(id_client INTEGER NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
-    <string name="create_table_work_position" translatable="false">CREATE TABLE workposition(id_workposition INTEGER NOT NULL PRIMARY KEY, description TEXT NOT NULL);</string>
-    <string name="create_table_person" translatable="false">CREATE TABLE person(id_person INTEGER NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, id_workposition INTEGER NOT NULL, work_hours INTEGER, picture BLOB, enabled INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition));</string>
-    <string name="create_table_task_type" translatable="false">CREATE TABLE tasktype(id_tasktype INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
-    <string name="create_table_task_type_x_work_position" translatable="false">CREATE TABLE tasktypexworkposition(id_workposition INTEGER NOT NULL, id_tasktype INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id_workposition), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
-    <string name="create_table_project" translatable="false">CREATE TABLE project(id_client INTEGER NOT NULL, id_project INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, start_date INTEGER NOT NULL, enabled INTEGER NOT NULL, FOREIGN KEY(id_client) REFERENCES client(id_client));</string>
-    <string name="create_table_job_log" translatable="false">CREATE TABLE joblog(id_joblog INTEGER PRIMARY KEY NOT NULL, id_project INTEGER NOT NULL, id_person INTEGER NOT NULL, id_tasktype INTEGER NOT NULL,  hours TEXT NOT NULL, work_date INTEGER NOT NULL, solicitude_number INTEGER NOT NULL, observations TEXT NOT NULL, FOREIGN KEY(id_project) REFERENCES project(id_project), FOREIGN KEY(id_person) REFERENCES person(id_person), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id_tasktype));</string>
+    <string name="create_table_client" translatable="false">CREATE TABLE client(id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_work_position" translatable="false">CREATE TABLE workposition(id INTEGER NOT NULL PRIMARY KEY, description TEXT NOT NULL);</string>
+    <string name="create_table_person" translatable="false">CREATE TABLE person(id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL, lastname TEXT NOT NULL, username TEXT NOT NULL UNIQUE, password TEXT NOT NULL, id_workposition INTEGER NOT NULL, work_hours INTEGER, picture BLOB, enabled INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id));</string>
+    <string name="create_table_task_type" translatable="false">CREATE TABLE tasktype(id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL UNIQUE, enabled INTEGER NOT NULL);</string>
+    <string name="create_table_task_type_x_work_position" translatable="false">CREATE TABLE tasktypexworkposition(id_workposition INTEGER PRIMARY KEY NOT NULL, id_tasktype INTEGER NOT NULL, FOREIGN KEY(id_workposition) REFERENCES workposition(id), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id));</string>
+    <string name="create_table_project" translatable="false">CREATE TABLE project(id INTEGER PRIMARY KEY NOT NULL, id_client INTEGER NOT NULL , name TEXT NOT NULL UNIQUE, short_name TEXT NOT NULL UNIQUE, start_date INTEGER NOT NULL, enabled INTEGER NOT NULL, FOREIGN KEY(id_client) REFERENCES client(id));</string>
+    <string name="create_table_job_log" translatable="false">CREATE TABLE joblog(id INTEGER PRIMARY KEY NOT NULL, id_project INTEGER NOT NULL, id_person INTEGER NOT NULL, id_tasktype INTEGER NOT NULL,  hours TEXT NOT NULL, work_date INTEGER NOT NULL, solicitude_number INTEGER NOT NULL, observations TEXT NOT NULL, FOREIGN KEY(id_project) REFERENCES project(id), FOREIGN KEY(id_person) REFERENCES person(id), FOREIGN KEY(id_tasktype) REFERENCES tasktype(id));</string>
 
     <!-- Drop Table strings -->
     <string name="drop_table_client" translatable="false">DROP TABLE IF EXISTS client;</string>

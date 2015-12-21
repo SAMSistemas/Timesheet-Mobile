@@ -9,7 +9,9 @@ import android.support.v7.app.ActionBar;
  *
  * @author jonatan.salas
  */
-public class ToolbarUtil {
+public final class ToolbarUtil {
+
+    private ToolbarUtil() { }
 
     /**
      * Method that style the ActionBar and adds a back button.

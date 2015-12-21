@@ -2,18 +2,21 @@ package com.samsistemas.timesheet.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.constant.SessionConst;
 import com.samsistemas.timesheet.controller.base.BaseSessionController;
+import com.samsistemas.timesheet.data.R;
 import com.samsistemas.timesheet.entity.SessionEntity;
+
+import static com.samsistemas.timesheet.util.SharedPreferenceKeys.*;
 
 /**
  * Session MainController implementation.
  *
  * @author jonatan.salas
  */
-public class SessionController implements BaseSessionController<SessionEntity>, SessionConst {
+public class SessionController implements BaseSessionController<SessionEntity> {
 
     @Override
     public void createUserSession(@NonNull Context context, @NonNull SessionEntity entity) {
@@ -40,19 +43,19 @@ public class SessionController implements BaseSessionController<SessionEntity>, 
         editor.clear()
               .apply();
 
-//        Uri personUri = Uri.parse(context.getString(R.string.person_content_uri));
-//        Uri workPositionUri = Uri.parse(context.getString(R.string.work_position_content_uri));
-//        Uri taskTypeUri = Uri.parse(context.getString(R.string.task_type_content_uri));
-//        Uri clientUri = Uri.parse(context.getString(R.string.client_content_uri));
-//        Uri projectUri = Uri.parse(context.getString(R.string.project_content_uri));
-//        Uri jobLogUri = Uri.parse(context.getString(R.string.job_log_content_uri));
-//
-//        context.getContentResolver().delete(personUri, null, null);
-//        context.getContentResolver().delete(workPositionUri, null, null);
-//        context.getContentResolver().delete(taskTypeUri, null, null);
-//        context.getContentResolver().delete(clientUri, null, null);
-//        context.getContentResolver().delete(projectUri, null, null);
-//        context.getContentResolver().delete(jobLogUri, null, null);
+        final Uri personUri = Uri.parse(context.getString(R.string.person_content_uri));
+        final Uri workPositionUri = Uri.parse(context.getString(R.string.work_position_content_uri));
+        final Uri taskTypeUri = Uri.parse(context.getString(R.string.task_type_content_uri));
+        final Uri clientUri = Uri.parse(context.getString(R.string.client_content_uri));
+        final Uri projectUri = Uri.parse(context.getString(R.string.project_content_uri));
+        final Uri jobLogUri = Uri.parse(context.getString(R.string.job_log_content_uri));
+
+        context.getContentResolver().delete(personUri, null, null);
+        context.getContentResolver().delete(workPositionUri, null, null);
+        context.getContentResolver().delete(taskTypeUri, null, null);
+        context.getContentResolver().delete(clientUri, null, null);
+        context.getContentResolver().delete(projectUri, null, null);
+        context.getContentResolver().delete(jobLogUri, null, null);
 
         onSessionDeleted.delete();
     }
@@ -68,7 +71,7 @@ public class SessionController implements BaseSessionController<SessionEntity>, 
      * @param context - the context used to get the SharedPreferences.
      * @return a SharedPreferences singleton object.
      */
-    protected SharedPreferences getSharedPreferences(@NonNull Context context) {
+    private SharedPreferences getSharedPreferences(@NonNull Context context) {
         return context.getSharedPreferences(
                 FILENAME,
                 Context.MODE_PRIVATE

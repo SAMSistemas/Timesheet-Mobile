@@ -15,19 +15,19 @@ import junit.framework.Assert;
 public class AssertUtilities {
 
     public static void compareClient(ClientEntity expected, ClientEntity clientEntity) {
-        Assert.assertEquals(expected.getClientId(), clientEntity.getClientId());
+        Assert.assertEquals(expected.getId(), clientEntity.getId());
         Assert.assertEquals(expected.getName(), clientEntity.getName());
         Assert.assertEquals(expected.getShortName(), clientEntity.getShortName());
         Assert.assertEquals(expected.isEnabled(), clientEntity.isEnabled());
     }
 
     public static void compareWorkPosition(WorkPositionEntity expected, WorkPositionEntity workPositionEntity) {
-        Assert.assertEquals(expected.getWorkPositionId(), workPositionEntity.getWorkPositionId());
+        Assert.assertEquals(expected.getId(), workPositionEntity.getId());
         Assert.assertEquals(expected.getDescription(), workPositionEntity.getDescription());
     }
 
     public static void comparePerson(PersonEntity expected, PersonEntity personEntity) {
-        Assert.assertEquals(expected.getPersonId(), personEntity.getPersonId());
+        Assert.assertEquals(expected.getId(), personEntity.getId());
         Assert.assertEquals(expected.getName(), personEntity.getName());
         Assert.assertEquals(expected.getLastName(), personEntity.getLastName());
         Assert.assertEquals(expected.getUsername(), personEntity.getUsername());
@@ -37,12 +37,12 @@ public class AssertUtilities {
     }
 
     public static void compareTaskType(TaskTypeEntity expected, TaskTypeEntity taskTypeEntity) {
-        Assert.assertEquals(expected.getTaskTypeId(), taskTypeEntity.getTaskTypeId());
+        Assert.assertEquals(expected.getId(), taskTypeEntity.getId());
         Assert.assertEquals(expected.getName(), taskTypeEntity.getName());
     }
 
     public static void compareProject(ProjectEntity expected, ProjectEntity projectEntity) {
-        Assert.assertEquals(expected.getProjectId(), projectEntity.getProjectId());
+        Assert.assertEquals(expected.getId(), projectEntity.getId());
         Assert.assertEquals(expected.getClientId(), projectEntity.getClientId());
         Assert.assertEquals(expected.getName(), projectEntity.getName());
         Assert.assertEquals(expected.getShortName(), projectEntity.getShortName());
@@ -50,7 +50,7 @@ public class AssertUtilities {
     }
 
     public static void compareJobLog(JobLogEntity expected, JobLogEntity jobLogEntity) {
-        Assert.assertEquals(expected.getJobLogId(), jobLogEntity.getJobLogId());
+        Assert.assertEquals(expected.getId(), jobLogEntity.getId());
         Assert.assertEquals(expected.getProjectId(), jobLogEntity.getProjectId());
         Assert.assertEquals(expected.getPersonId(), jobLogEntity.getPersonId());
         Assert.assertEquals(expected.getTaskTypeId(), jobLogEntity.getTaskTypeId());
