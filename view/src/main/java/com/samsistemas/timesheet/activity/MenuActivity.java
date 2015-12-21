@@ -136,7 +136,7 @@ public class MenuActivity extends BaseAppCompatActivity {
         mRecyclerView.setNestedScrollingEnabled(true);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new JobLogAdapter(getApplicationContext(), new ArrayList<JobLog>());
+        mAdapter = new JobLogAdapter(this, new ArrayList<JobLog>());
         mRecyclerView.setAdapter(mAdapter);
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SimpleTouchItemHelperCallback(mAdapter));
         itemTouchHelper.attachToRecyclerView(mRecyclerView);

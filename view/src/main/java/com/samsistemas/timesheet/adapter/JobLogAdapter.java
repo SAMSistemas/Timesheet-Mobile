@@ -1,36 +1,47 @@
 package com.samsistemas.timesheet.adapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.IntentCompat;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.activity.AddHoursActivity;
+import com.samsistemas.timesheet.activity.MenuActivity;
+import com.samsistemas.timesheet.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.util.ItemTouchHelperAdapter;
 import com.samsistemas.timesheet.util.ItemTouchHelperViewHolder;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author jonatan.salas
  */
 public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder> implements ItemTouchHelperAdapter {
     private List<JobLog> mItems;
-    private final Context mContext;
+    private final Activity mContext;
 
     /**
      * @author jonatan.salas
      */
-    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder, View.OnClickListener {
         final TextView mJobLogTask;
         final TextView mJobLogDescription;
         final TextView mJobLogHours;
@@ -42,6 +53,35 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
             mJobLogTask = (TextView) v.findViewById(R.id.joblog_task);
             mJobLogDescription = (TextView) v.findViewById(R.id.joblog_description);
             mJobLogHours = (TextView) v.findViewById(R.id.joblog_hours);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(final View v) {
+            PopupMenu popup = new PopupMenu(v.getContext(), v);
+            popup.inflate(R.menu.edit_menu);
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch(item.getItemId()) {
+                        case R.id.action_mode_edit:
+                            Intent addHoursIntent = new Intent(mContext.getApplicationContext(), AddHoursActivity.class);
+                            final JobLog jobLog = mItems.get(getAdapterPosition());
+                            String dateString = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(jobLog.getWorkDate());
+
+                            addHoursIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            addHoursIntent.putExtra(MenuActivity.DATE_KEY, dateString);
+                            addHoursIntent.putExtra(MenuActivity.EDIT_MODE_KEY, true);
+                            addHoursIntent.putExtra(MenuActivity.JOBLOG_ID_KEY, jobLog.getId());
+
+                            Bundle options = ScaleUpAnimator.newInstance().saveAnimation(v);
+                            ActivityCompat.startActivity(mContext, addHoursIntent, options);
+                    }
+
+                    return true;
+                }
+            });
+            popup.show();
         }
 
         @Override
@@ -55,7 +95,7 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
         }
     }
 
-    public JobLogAdapter(@NonNull Context context, @NonNull List<JobLog> items) {
+    public JobLogAdapter(@NonNull Activity context, @NonNull List<JobLog> items) {
         this.mContext = context;
         this.mItems = items;
     }
