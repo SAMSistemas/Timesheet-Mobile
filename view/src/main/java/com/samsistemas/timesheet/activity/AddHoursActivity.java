@@ -105,6 +105,8 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     private Boolean mEditMode;
     private long mJobLogId;
 
+    private JobLog mJobLog = new JobLog();
+
     @Override
     public int getLayoutResourceId() {
         return R.layout.activity_add_hours;
@@ -124,7 +126,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
         mTaskSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
 
-        ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(getApplication(), R.array.hours, android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(getApplication(), R.array.hours, android.R.layout.simple_spinner_dropdown_item);
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mHourSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
@@ -235,8 +237,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                     person.setUsername(username)
                             .setPassword(password);
 
-                    final JobLog jobLog = new JobLog();
-                    jobLog.setHours(mHourSelected.toString())
+                    mJobLog.setHours(mHourSelected.toString())
                             .setObservations(description)
                             .setSolicitude(solicitudeNumber)
                             .setWorkDate(date)
@@ -245,7 +246,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                             .setProject(mProjectSelected)
                             .setTaskType(mTaskTypeSelected);
 
-                    new SaveJobLogOnServerTask(getApplicationContext()).execute(jobLog);
+                    new SaveJobLogAsyncTask(getApplicationContext());
                 }
             }
         });
@@ -392,25 +393,48 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         }).forceLoad();
     }
 
-    public class SaveJobLogOnServerTask extends AsyncTask<JobLog, Void, Boolean> {
+    public class SaveJobLogAsyncTask extends AsyncTask<JobLog, Void, Boolean> {
         private final Context mContext;
 
-        public SaveJobLogOnServerTask(Context context) {
+        public SaveJobLogAsyncTask(Context context) {
             this.mContext = context;
         }
 
         @Override
         protected Boolean doInBackground(JobLog... params) {
-            return JobLogFacade.newInstance().insert(mContext, params[0]);
+            final JobLogFacade facade = JobLogFacade.newInstance();
+            final JobLog jobLog = params[0];
+            if (!mEditMode) {
+                return facade.insert(mContext, jobLog);
+            } else {
+                return facade.update(mContext, jobLog);
+            }
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
-            if (result) {
-                Snackbar.make(mTaskSpinner, "Good luck, joblog saved!!", Snackbar.LENGTH_SHORT).show();
-
+            if (result && !mEditMode) {
+                Snackbar.make(mTaskSpinner, "Good luck, joblog was successfully inserted", Snackbar.LENGTH_SHORT).show();
+            } else if (mEditMode) {
+                Snackbar.make(mTaskSpinner, "Good luck, joblog was successfully updated", Snackbar.LENGTH_SHORT).show();
+            } else if (!mEditMode) {
+                Snackbar.make(mTaskSpinner, "Bad luck, joblog wasn't updated", Snackbar.LENGTH_SHORT)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new SaveJobLogAsyncTask(getApplicationContext()).execute(mJobLog);
+                            }
+                        })
+                        .show();
             } else {
-                Snackbar.make(mTaskSpinner, "Bad luck, joblog not saved!!", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mTaskSpinner, "Bad luck, joblog wasn't inserted", Snackbar.LENGTH_SHORT)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new SaveJobLogAsyncTask(getApplicationContext()).execute(mJobLog);
+                            }
+                        })
+                        .show();
             }
         }
     }
