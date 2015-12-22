@@ -218,8 +218,8 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                 final String username = prefs.getString(USERNAME, "");
                 final String password = prefs.getString(PASSWORD, "");
 
-                if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
-                    Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
+//                if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
+//                    Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
 
                     String description = mDescription.getText().toString().trim();
                     String solicitude = mSolicitudeNumber.getText().toString().trim();
@@ -251,8 +251,8 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                             .setProject(mProjectSelected)
                             .setTaskType(mTaskTypeSelected);
 
-                    new SaveJobLogAsyncTask(getApplicationContext());
-                }
+                    new SaveJobLogAsyncTask(getApplicationContext()).execute(mJobLog);
+//                }
             }
         });
     }
