@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="base_url" translatable="false">http://10.0.0.100:8080</string>
+    <string name="base_url" translatable="false">http://10.0.0.232:8080</string>
     <string name="login_url" translatable="false">/login</string>
     <string name="job_log_all" translatable="false">/jobLog/all/</string>
     <string name="job_log_create" translatable="false">/jobLog/create</string>
