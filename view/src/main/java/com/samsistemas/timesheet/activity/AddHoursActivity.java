@@ -147,7 +147,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         initProjectsLoader();
         initTaskTypeLoader();
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
 
         if (null != intent) {
             mDateString = intent.getStringExtra(DATE_KEY);
