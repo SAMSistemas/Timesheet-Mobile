@@ -102,7 +102,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     private TaskTypeAdapter mTaskAdapter;
 
     private CharSequence mHourSelected;
-    private Client mClientSelected;
+//    private Client mClientSelected;
     private Project mProjectSelected;
     private TaskType mTaskTypeSelected;
 
@@ -161,9 +161,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     }
 
     @Override
-    public void populateViews() {
-
-    }
+    public void populateViews() {  }
 
     @Override
     public void setListeners() {
@@ -192,7 +190,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         mClientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mClientSelected = (Client) parent.getAdapter().getItem(position);
+//                mClientSelected = (Client) parent.getAdapter().getItem(position);
             }
 
             @Override
