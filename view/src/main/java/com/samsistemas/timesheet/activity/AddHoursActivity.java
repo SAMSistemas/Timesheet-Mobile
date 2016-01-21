@@ -107,7 +107,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     private TaskType mTaskTypeSelected;
 
     private String mDateString = "";
-    private Boolean mEditMode;
+    private Boolean mEditMode = true;
     private long mJobLogId;
 
     private JobLog mJobLog = new JobLog();

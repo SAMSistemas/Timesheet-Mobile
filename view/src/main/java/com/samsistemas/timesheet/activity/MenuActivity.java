@@ -25,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.samsistemas.calendarview.util.CalendarUtil;
 import com.samsistemas.calendarview.util.TypefaceUtil;
@@ -154,6 +153,11 @@ public class MenuActivity extends BaseAppCompatActivity {
         Date date = new Date(System.currentTimeMillis());
         mDateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(date);
         initPersonLoader();
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+
+        startFetchJobLogService(month, year);
         initJobLogLoader(new Date(System.currentTimeMillis()));
     }
 
@@ -377,7 +381,7 @@ public class MenuActivity extends BaseAppCompatActivity {
 
             startService(intent);
         } else {
-            Snackbar.make(mRecyclerView, "Error loading credentials", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(mRecyclerView, "Error loading credentials", Snackbar.LENGTH_SHORT).show();
         }
     }
 }
