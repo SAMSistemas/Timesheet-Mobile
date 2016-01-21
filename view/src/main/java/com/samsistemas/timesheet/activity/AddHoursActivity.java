@@ -240,14 +240,15 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                     person.setUsername(username)
                             .setPassword(password);
 
-                    mJobLog.setHours(mHourSelected.toString())
-                            .setObservations(description)
-                            .setSolicitude(solicitudeNumber)
-                            .setWorkDate(date)
-                            .setPerson(person.setUsername(username)
-                                    .setPassword(password))
-                            .setProject(mProjectSelected)
-                            .setTaskType(mTaskTypeSelected);
+                    mJobLog.setId(mJobLogId)
+                           .setHours(mHourSelected.toString())
+                           .setObservations(description)
+                           .setSolicitude(solicitudeNumber)
+                           .setWorkDate(date)
+                           .setPerson(person.setUsername(username)
+                                            .setPassword(password))
+                           .setProject(mProjectSelected)
+                           .setTaskType(mTaskTypeSelected);
 
                     new SaveJobLogAsyncTask(getApplicationContext()).execute(mJobLog);
 //                }
