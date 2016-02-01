@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.samsistemas.timesheet.util.TestUtilities;
 import com.samsistemas.timesheet.data.R;
-import com.samsistemas.timesheet.helper.UriHelper;
+import com.samsistemas.timesheet.UriHelper;
 
 /**
  * @author jonatan.salas

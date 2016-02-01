@@ -10,7 +10,7 @@ import com.samsistemas.timesheet.entity.PersonEntity;
 import com.samsistemas.timesheet.entity.ProjectEntity;
 import com.samsistemas.timesheet.entity.TaskTypeEntity;
 import com.samsistemas.timesheet.entity.WorkPositionEntity;
-import com.samsistemas.timesheet.helper.UriHelper;
+import com.samsistemas.timesheet.UriHelper;
 import com.samsistemas.timesheet.util.AssertUtilities;
 import com.samsistemas.timesheet.util.TestUtilities;
 
