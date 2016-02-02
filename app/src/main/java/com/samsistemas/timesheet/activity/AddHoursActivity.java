@@ -1,16 +1,11 @@
 package com.samsistemas.timesheet.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,40 +18,19 @@ import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
-import com.samsistemas.timesheet.adapter.ClientAdapter;
-import com.samsistemas.timesheet.adapter.ProjectAdapter;
-import com.samsistemas.timesheet.adapter.TaskTypeAdapter;
-import com.samsistemas.timesheet.loader.ClientsLoader;
-import com.samsistemas.timesheet.loader.JobLogLoader;
-import com.samsistemas.timesheet.loader.ProjectsLoader;
-import com.samsistemas.timesheet.loader.TaskTypeLoader;
-import com.samsistemas.timesheet.model.Client;
 import com.samsistemas.timesheet.model.JobLog;
-import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.util.ToolbarUtil;
 
-import static com.samsistemas.timesheet.util.SharedPreferenceKeys.FILENAME;
-import static com.samsistemas.timesheet.util.SharedPreferenceKeys.USERNAME;
-import static com.samsistemas.timesheet.util.SharedPreferenceKeys.PASSWORD;
-
-import static com.samsistemas.timesheet.util.LoaderId.TASK_TYPE_LOADER_ID;
-import static com.samsistemas.timesheet.util.LoaderId.CLIENT_LOADER_ID;
-import static com.samsistemas.timesheet.util.LoaderId.PROJECT_LOADER_ID;
-import static com.samsistemas.timesheet.util.LoaderId.JOBLOG_LOADER_ID;
-
 import static com.samsistemas.timesheet.util.AppConstants.DATE_TEMPLATE;
 import static com.samsistemas.timesheet.util.AppConstants.DATE_KEY;
-import static com.samsistemas.timesheet.util.AppConstants.JOBLOG_ID_KEY;
-import static com.samsistemas.timesheet.util.AppConstants.EDIT_MODE_KEY;
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.Bind;
@@ -95,9 +69,9 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     @Bind(R.id.solicitude)
     EditText mSolicitudeNumber;
 
-    private ClientAdapter mClientAdapter;
-    private ProjectAdapter mProjectAdapter;
-    private TaskTypeAdapter mTaskAdapter;
+//    private ClientAdapter mClientAdapter;
+//    private ProjectAdapter mProjectAdapter;
+//    private TaskTypeAdapter mTaskAdapter;
 
     private CharSequence mHourSelected;
 //    private Client mClientSelected;
@@ -105,8 +79,8 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     private TaskType mTaskTypeSelected;
 
     private String mDateString = "";
-    private Boolean mEditMode = true;
-    private long mJobLogId;
+//    private Boolean mEditMode = true;
+//    private long mJobLogId;
 
     private JobLog mJobLog = new JobLog();
 
@@ -141,20 +115,20 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
     @Override
     public void initialize() {
-        initClientsLoader();
-        initProjectsLoader();
-        initTaskTypeLoader();
+//        initClientsLoader();
+//        initProjectsLoader();
+//        initTaskTypeLoader();
 
         final Intent intent = getIntent();
 
         if (null != intent) {
             mDateString = intent.getStringExtra(DATE_KEY);
-            mEditMode = intent.getBooleanExtra(EDIT_MODE_KEY, false);
-
-            if (mEditMode) {
-                mJobLogId = intent.getLongExtra(JOBLOG_ID_KEY, 0);
-                initJobLogLoader();
-            }
+//            mEditMode = intent.getBooleanExtra(EDIT_MODE_KEY, false);
+//
+//            if (mEditMode) {
+//                mJobLogId = intent.getLongExtra(JOBLOG_ID_KEY, 0);
+////                initJobLogLoader();
+//            }
         }
     }
 
@@ -210,9 +184,9 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-                final String username = prefs.getString(USERNAME, "");
-                final String password = prefs.getString(PASSWORD, "");
+//                final SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+//                final String username = prefs.getString(USERNAME, "");
+//                final String password = prefs.getString(PASSWORD, "");
 
 //                if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
 //                    Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
@@ -233,18 +207,18 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                         Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
                     }
 
-                    final Person person = new Person();
+//                    final Person person = new Person();
 
-                    person.setUsername(username)
-                            .setPassword(password);
+//                    person.setUsername(username)
+//                            .setPassword(password);
 
-                    mJobLog.setId(mJobLogId)
+                    mJobLog.setId(0)
                            .setHours(mHourSelected.toString())
                            .setObservations(description)
                            .setSolicitude(solicitudeNumber)
                            .setWorkDate(date)
-                           .setPerson(person.setUsername(username)
-                                            .setPassword(password))
+//                           .setPerson(person.setUsername(username)
+//                                            .setPassword(password))
                            .setProject(mProjectSelected)
                            .setTaskType(mTaskTypeSelected);
 
@@ -272,128 +246,128 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         MenuNavigator.newInstance().navigate(this);
     }
 
-    private void initTaskTypeLoader() {
-        getSupportLoaderManager().initLoader(TASK_TYPE_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<TaskType>>() {
-
-            @Override
-            public Loader<List<TaskType>> onCreateLoader(int id, Bundle args) {
-                return (id == TASK_TYPE_LOADER_ID) ? new TaskTypeLoader(getApplicationContext()) : null;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<List<TaskType>> loader, List<TaskType> data) {
-                if (null != data && !data.isEmpty()) {
-                    mTaskAdapter = new TaskTypeAdapter(getApplicationContext(), data);
-                    mTaskSpinner.setAdapter(mTaskAdapter);
-                    mTaskAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<List<TaskType>> loader) {
-                if (!loader.isReset()) {
-                    loader.reset();
-                }
-            }
-        }).forceLoad();
-    }
-
-    private void initClientsLoader() {
-        getSupportLoaderManager().initLoader(CLIENT_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<Client>>() {
-
-            @Override
-            public Loader<List<Client>> onCreateLoader(int id, Bundle args) {
-                return (id == CLIENT_LOADER_ID) ? new ClientsLoader(getApplicationContext()) : null;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<List<Client>> loader, List<Client> data) {
-                if (null != data && !data.isEmpty()) {
-                    mClientAdapter = new ClientAdapter(getApplicationContext(), data);
-                    mClientSpinner.setAdapter(mClientAdapter);
-                    mClientAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<List<Client>> loader) {
-                if (!loader.isReset()) {
-                    loader.reset();
-                }
-            }
-        }).forceLoad();
-    }
-
-    private void initProjectsLoader() {
-        getSupportLoaderManager().initLoader(PROJECT_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<Project>>() {
-
-            @Override
-            public Loader<List<Project>> onCreateLoader(int id, Bundle args) {
-                return (id == PROJECT_LOADER_ID) ? new ProjectsLoader(getApplicationContext()) : null;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<List<Project>> loader, List<Project> data) {
-                if (null != data && !data.isEmpty()) {
-                    mProjectAdapter = new ProjectAdapter(getApplicationContext(), data);
-                    mProjectSpinner.setAdapter(mProjectAdapter);
-                    mProjectAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<List<Project>> loader) {
-                if (!loader.isReset()) {
-                    loader.reset();
-                }
-            }
-        }).forceLoad();
-    }
-
-    private void initJobLogLoader() {
-        getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<JobLog>() {
-
-            @Override
-            public Loader<JobLog> onCreateLoader(int id, Bundle args) {
-                return (id == JOBLOG_LOADER_ID) ? new JobLogLoader(getApplicationContext(), mJobLogId) : null;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<JobLog> loader, JobLog data) {
-                if (null != data && mEditMode) {
-                    final String[] hours = getApplicationContext().getResources().getStringArray(R.array.hours);
-                    int hourPosition = 0;
-
-                    for (int i = 0; i < hours.length; i++) {
-                        if (hours[i].equals(data.getHours())) {
-                            hourPosition = i;
-                        }
-                    }
-
-                    mHourSpinner.setSelection(hourPosition);
-
-                    long taskId = data.getTaskType().getId();
-                    mTaskSpinner.setSelection(mTaskAdapter.getPositionById(taskId));
-
-                    long clientId = data.getProject().getClient().getId();
-                    mClientSpinner.setSelection(mClientAdapter.getPositionById(clientId));
-
-                    long projectId = data.getProject().getId();
-                    mProjectSpinner.setSelection(mProjectAdapter.getPositionById(projectId));
-
-                    mDescription.setText(data.getObservations());
-                    mSolicitudeNumber.setText(String.valueOf(data.getSolicitude()));
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<JobLog> loader) {
-                if (!loader.isReset()) {
-                    loader.reset();
-                }
-            }
-        }).forceLoad();
-    }
+//    private void initTaskTypeLoader() {
+//        getSupportLoaderManager().initLoader(TASK_TYPE_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<TaskType>>() {
+//
+//            @Override
+//            public Loader<List<TaskType>> onCreateLoader(int id, Bundle args) {
+//                return (id == TASK_TYPE_LOADER_ID) ? new TaskTypeLoader(getApplicationContext()) : null;
+//            }
+//
+//            @Override
+//            public void onLoadFinished(Loader<List<TaskType>> loader, List<TaskType> data) {
+//                if (null != data && !data.isEmpty()) {
+//                    mTaskAdapter = new TaskTypeAdapter(getApplicationContext(), data);
+//                    mTaskSpinner.setAdapter(mTaskAdapter);
+//                    mTaskAdapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onLoaderReset(Loader<List<TaskType>> loader) {
+//                if (!loader.isReset()) {
+//                    loader.reset();
+//                }
+//            }
+//        }).forceLoad();
+//    }
+//
+//    private void initClientsLoader() {
+//        getSupportLoaderManager().initLoader(CLIENT_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<Client>>() {
+//
+//            @Override
+//            public Loader<List<Client>> onCreateLoader(int id, Bundle args) {
+//                return (id == CLIENT_LOADER_ID) ? new ClientsLoader(getApplicationContext()) : null;
+//            }
+//
+//            @Override
+//            public void onLoadFinished(Loader<List<Client>> loader, List<Client> data) {
+//                if (null != data && !data.isEmpty()) {
+//                    mClientAdapter = new ClientAdapter(getApplicationContext(), data);
+//                    mClientSpinner.setAdapter(mClientAdapter);
+//                    mClientAdapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onLoaderReset(Loader<List<Client>> loader) {
+//                if (!loader.isReset()) {
+//                    loader.reset();
+//                }
+//            }
+//        }).forceLoad();
+//    }
+//
+//    private void initProjectsLoader() {
+//        getSupportLoaderManager().initLoader(PROJECT_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<Project>>() {
+//
+//            @Override
+//            public Loader<List<Project>> onCreateLoader(int id, Bundle args) {
+//                return (id == PROJECT_LOADER_ID) ? new ProjectsLoader(getApplicationContext()) : null;
+//            }
+//
+//            @Override
+//            public void onLoadFinished(Loader<List<Project>> loader, List<Project> data) {
+//                if (null != data && !data.isEmpty()) {
+//                    mProjectAdapter = new ProjectAdapter(getApplicationContext(), data);
+//                    mProjectSpinner.setAdapter(mProjectAdapter);
+//                    mProjectAdapter.notifyDataSetChanged();
+//                }
+//            }
+//
+//            @Override
+//            public void onLoaderReset(Loader<List<Project>> loader) {
+//                if (!loader.isReset()) {
+//                    loader.reset();
+//                }
+//            }
+//        }).forceLoad();
+//    }
+//
+//    private void initJobLogLoader() {
+//        getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<JobLog>() {
+//
+//            @Override
+//            public Loader<JobLog> onCreateLoader(int id, Bundle args) {
+//                return (id == JOBLOG_LOADER_ID) ? new JobLogLoader(getApplicationContext(), mJobLogId) : null;
+//            }
+//
+//            @Override
+//            public void onLoadFinished(Loader<JobLog> loader, JobLog data) {
+//                if (null != data && mEditMode) {
+//                    final String[] hours = getApplicationContext().getResources().getStringArray(R.array.hours);
+//                    int hourPosition = 0;
+//
+//                    for (int i = 0; i < hours.length; i++) {
+//                        if (hours[i].equals(data.getHours())) {
+//                            hourPosition = i;
+//                        }
+//                    }
+//
+//                    mHourSpinner.setSelection(hourPosition);
+//
+//                    long taskId = data.getTaskType().getId();
+//                    mTaskSpinner.setSelection(mTaskAdapter.getPositionById(taskId));
+//
+//                    long clientId = data.getProject().getClient().getId();
+//                    mClientSpinner.setSelection(mClientAdapter.getPositionById(clientId));
+//
+//                    long projectId = data.getProject().getId();
+//                    mProjectSpinner.setSelection(mProjectAdapter.getPositionById(projectId));
+//
+//                    mDescription.setText(data.getObservations());
+//                    mSolicitudeNumber.setText(String.valueOf(data.getSolicitude()));
+//                }
+//            }
+//
+//            @Override
+//            public void onLoaderReset(Loader<JobLog> loader) {
+//                if (!loader.isReset()) {
+//                    loader.reset();
+//                }
+//            }
+//        }).forceLoad();
+//    }
 
 //    public class SaveJobLogAsyncTask extends AsyncTask<JobLog, Void, Boolean> {
 //        private final Context mContext;

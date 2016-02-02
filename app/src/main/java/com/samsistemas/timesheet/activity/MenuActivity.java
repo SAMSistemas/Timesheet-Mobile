@@ -33,24 +33,15 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.JobLogAdapter;
 import com.samsistemas.timesheet.animation.ScaleUpAnimator;
-import com.samsistemas.timesheet.helper.URLHelper;
-import com.samsistemas.timesheet.loader.JobLogsLoader;
 import com.samsistemas.timesheet.loader.PersonLoader;
 import com.samsistemas.timesheet.model.JobLog;
 import com.samsistemas.timesheet.model.Person;
 import com.samsistemas.timesheet.navigation.AccountNavigator;
 import com.samsistemas.timesheet.navigation.SettingsNavigator;
-import com.samsistemas.timesheet.service.FetchJobLogDataService;
 import com.samsistemas.timesheet.util.DateUtil;
 import com.samsistemas.timesheet.util.SimpleTouchItemHelperCallback;
 
-import static com.samsistemas.timesheet.util.JSONObjectKeys.MONTH;
-import static com.samsistemas.timesheet.util.JSONObjectKeys.PASSWORD;
-import static com.samsistemas.timesheet.util.JSONObjectKeys.URL;
-import static com.samsistemas.timesheet.util.JSONObjectKeys.USERNAME;
-import static com.samsistemas.timesheet.util.JSONObjectKeys.YEAR;
 import static com.samsistemas.timesheet.util.LoaderId.PERSON_LOADER_ID;
-import static com.samsistemas.timesheet.util.LoaderId.JOBLOG_LOADER_ID;
 
 import static com.samsistemas.timesheet.util.AppConstants.DATE_KEY;
 import static com.samsistemas.timesheet.util.AppConstants.DATE_TEMPLATE;
@@ -76,7 +67,7 @@ public class MenuActivity extends BaseAppCompatActivity {
     private TextView mFullName;
     private TextView mUsername;
     private String mDateString;
-    private List<String> mCredentials = new ArrayList<>(2);
+//    private List<String> mCredentials = new ArrayList<>(2);
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
@@ -153,12 +144,12 @@ public class MenuActivity extends BaseAppCompatActivity {
         Date date = new Date(System.currentTimeMillis());
         mDateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(date);
         initPersonLoader();
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-        String year = String.valueOf(calendar.get(Calendar.YEAR));
+//        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+//        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+//        String year = String.valueOf(calendar.get(Calendar.YEAR));
 
-        startFetchJobLogService(month, year);
-        initJobLogLoader(new Date(System.currentTimeMillis()));
+//        startFetchJobLogService(month, year);
+//        initJobLogLoader(new Date(System.currentTimeMillis()));
     }
 
     @Override
@@ -206,7 +197,7 @@ public class MenuActivity extends BaseAppCompatActivity {
             public void onDateSelected(@NonNull Date date) {
                 mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), date));
                 //We call this in order to show the data available for the date user-selected
-                initJobLogLoader(date);
+//                initJobLogLoader(date);
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault());
                 mDateString = sdf.format(date);
             }
@@ -224,9 +215,9 @@ public class MenuActivity extends BaseAppCompatActivity {
                     mCalendarView.setCurrentDay(new Date(System.currentTimeMillis()));
                     mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), new Date(System.currentTimeMillis())));
                 } else {
-                    String month = String.valueOf(nextCalendar.get(Calendar.MONTH) + 1);
-                    String year = String.valueOf(nextCalendar.get(Calendar.YEAR));
-                    startFetchJobLogService(month, year);
+//                    String month = String.valueOf(nextCalendar.get(Calendar.MONTH) + 1);
+//                    String year = String.valueOf(nextCalendar.get(Calendar.YEAR));
+//                    startFetchJobLogService(month, year);
                     //We want this to display an announce, telling the user that has not any date selected..
                     mDateTitle.setText(getString(R.string.no_date_selected));
                 }
@@ -285,8 +276,8 @@ public class MenuActivity extends BaseAppCompatActivity {
                     final String fullUsername = data.getUsername() + getApplicationContext().getString(R.string.domain);
                     mFullName.setText(fullName);
                     mUsername.setText(fullUsername);
-                    mCredentials.add(data.getUsername());
-                    mCredentials.add(data.getPassword());
+//                    mCredentials.add(data.getUsername());
+//                    mCredentials.add(data.getPassword());
                 } else {
                     loader.reset();
                     Snackbar.make(mRecyclerView, "Ops, we can't load your data now..", Snackbar.LENGTH_SHORT).show();
@@ -303,62 +294,62 @@ public class MenuActivity extends BaseAppCompatActivity {
         }).forceLoad();
     }
 
-    private void initJobLogLoader(final Date date) {
-        getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<JobLog>>() {
+//    private void initJobLogLoader(final Date date) {
+//        getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<JobLog>>() {
+//
+//            @Override
+//            public Loader<List<JobLog>> onCreateLoader(int id, Bundle args) {
+//                if (id == JOBLOG_LOADER_ID) {
+//                    return new JobLogsLoader(getApplicationContext());
+//                }
+//
+//                return null;
+//            }
+//
+//            @Override
+//            public void onLoadFinished(Loader<List<JobLog>> loader, List<JobLog> data) {
+//                if (null != data && !data.isEmpty()) {
+//                    initializeFilteredList(data, date);
+//                }
+//            }
+//
+//            @Override
+//            public void onLoaderReset(Loader<List<JobLog>> loader) {
+//                if (!loader.isReset()) {
+//                    loader.reset();
+//                }
+//            }
+//        }).forceLoad();
+//    }
 
-            @Override
-            public Loader<List<JobLog>> onCreateLoader(int id, Bundle args) {
-                if (id == JOBLOG_LOADER_ID) {
-                    return new JobLogsLoader(getApplicationContext());
-                }
-
-                return null;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<List<JobLog>> loader, List<JobLog> data) {
-                if (null != data && !data.isEmpty()) {
-                    initializeFilteredList(data, date);
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<List<JobLog>> loader) {
-                if (!loader.isReset()) {
-                    loader.reset();
-                }
-            }
-        }).forceLoad();
-    }
-
-    private void initializeFilteredList(List<JobLog> data, Date date) {
-        if (null != data) {
-            List<JobLog> filteredList = new ArrayList<>();
-            Date selectedDate = DateUtil.getDateWithOutTime(date);
-
-            for (int i = 0; i < data.size(); i++) {
-                Date workDate = DateUtil.getDateWithOutTime(data.get(i).getWorkDate());
-
-                if (workDate.compareTo(selectedDate) == 0) {
-                    filteredList.add(data.get(i));
-                }
-            }
-
-            if(!filteredList.isEmpty()) {
-                mAdapter.setItems(null);
-                mAdapter.setItems(filteredList);
-                mAdapter.notifyDataSetChanged();
-            } else {
-                mAdapter.setItems(null);
-                mAdapter.notifyDataSetChanged();
-                Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this date", Snackbar.LENGTH_SHORT).show();
-            }
-        } else {
-            mAdapter.setItems(null);
-            mAdapter.notifyDataSetChanged();
-            Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this month", Snackbar.LENGTH_SHORT).show();
-        }
-    }
+//    private void initializeFilteredList(List<JobLog> data, Date date) {
+//        if (null != data) {
+//            List<JobLog> filteredList = new ArrayList<>();
+//            Date selectedDate = DateUtil.getDateWithOutTime(date);
+//
+//            for (int i = 0; i < data.size(); i++) {
+//                Date workDate = DateUtil.getDateWithOutTime(data.get(i).getWorkDate());
+//
+//                if (workDate.compareTo(selectedDate) == 0) {
+//                    filteredList.add(data.get(i));
+//                }
+//            }
+//
+//            if(!filteredList.isEmpty()) {
+//                mAdapter.setItems(null);
+//                mAdapter.setItems(filteredList);
+//                mAdapter.notifyDataSetChanged();
+//            } else {
+//                mAdapter.setItems(null);
+//                mAdapter.notifyDataSetChanged();
+//                Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this date", Snackbar.LENGTH_SHORT).show();
+//            }
+//        } else {
+//            mAdapter.setItems(null);
+//            mAdapter.notifyDataSetChanged();
+//            Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this month", Snackbar.LENGTH_SHORT).show();
+//        }
+//    }
 
     private void startAddHoursActivity() {
         final Intent addHoursIntent = new Intent(getApplicationContext(), AddHoursActivity.class);
@@ -369,19 +360,19 @@ public class MenuActivity extends BaseAppCompatActivity {
         ActivityCompat.startActivity(MenuActivity.this, addHoursIntent, options);
     }
 
-    private void startFetchJobLogService(String month, String year) {
-        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, FetchJobLogDataService.class);
-
-        if (!mCredentials.isEmpty()) {
-            intent.putExtra(URL, URLHelper.buildAllJobLogsUrl(getApplicationContext()))
-                    .putExtra(USERNAME, mCredentials.get(0))
-                    .putExtra(PASSWORD, mCredentials.get(1))
-                    .putExtra(MONTH, month)
-                    .putExtra(YEAR, year);
-
-            startService(intent);
-        } else {
-            //Snackbar.make(mRecyclerView, "Error loading credentials", Snackbar.LENGTH_SHORT).show();
-        }
-    }
+//    private void startFetchJobLogService(String month, String year) {
+//        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, FetchJobLogDataService.class);
+//
+//        if (!mCredentials.isEmpty()) {
+//            intent.putExtra(URL, URLHelper.buildAllJobLogsUrl(getApplicationContext()))
+//                    .putExtra(USERNAME, mCredentials.get(0))
+//                    .putExtra(PASSWORD, mCredentials.get(1))
+//                    .putExtra(MONTH, month)
+//                    .putExtra(YEAR, year);
+//
+//            startService(intent);
+//        } else {
+//            //Snackbar.make(mRecyclerView, "Error loading credentials", Snackbar.LENGTH_SHORT).show();
+//        }
+//    }
 }

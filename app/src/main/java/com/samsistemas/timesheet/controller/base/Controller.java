@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.controllers.base;
+package com.samsistemas.timesheet.controller.base;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

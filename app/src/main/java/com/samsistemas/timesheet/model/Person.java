@@ -1,7 +1,5 @@
 package com.samsistemas.timesheet.model;
 
-import android.graphics.drawable.Drawable;
-
 import com.orm.dsl.NotNull;
 import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
@@ -61,7 +59,7 @@ public class Person {
     /**
      * The profile picture of the person
      */
-    private Drawable picture;
+    private Byte[] picture;
 
     /**
      * The flag that indicates if this person is still active
@@ -157,7 +155,7 @@ public class Person {
      * @param picture the profile picture of the person
      * @return a Person object
      */
-    public Person setPicture(Drawable picture) {
+    public Person setPicture(Byte[] picture) {
         this.picture = picture;
         return this;
     }
@@ -241,7 +239,7 @@ public class Person {
      *
      * @return the value of the picture field
      */
-    public Drawable getPicture() {
+    public Byte[] getPicture() {
         return picture;
     }
 

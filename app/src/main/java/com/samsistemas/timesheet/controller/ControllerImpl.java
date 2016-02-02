@@ -1,10 +1,10 @@
-package com.samsistemas.timesheet.controllers;
+package com.samsistemas.timesheet.controller;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.orm.SugarRecord;
-import com.samsistemas.timesheet.controllers.base.Controller;
+import com.samsistemas.timesheet.controller.base.Controller;
 
 import java.util.List;
 

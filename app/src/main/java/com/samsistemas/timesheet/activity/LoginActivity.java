@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.fragment.VerifyConnectionFragment;
+import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.receiver.NetworkStateReceiver;
 import com.samsistemas.timesheet.util.InputUtil;
 import com.samsistemas.timesheet.util.TypefaceUtil;
@@ -168,6 +169,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             final AlertDialog alertDialog = builder.create();
             alertDialog.show();
+
+            MenuNavigator.newInstance().navigateWithAnimation(LoginActivity.this, view);
 
 //            try {
 //                Thread.sleep(2000);
