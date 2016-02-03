@@ -23,7 +23,7 @@
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.samsistemas.timesheet.model" />
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.samsistemas.timesheet.Login.activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher" >

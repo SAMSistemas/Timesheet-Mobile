@@ -212,7 +212,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 //                    person.setUsername(username)
 //                            .setPassword(password);
 
-                    mJobLog.setId(0)
+                    mJobLog.setId(0L)
                            .setHours(mHourSelected.toString())
                            .setObservations(description)
                            .setSolicitude(solicitudeNumber)

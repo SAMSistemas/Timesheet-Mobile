@@ -2,32 +2,12 @@ package com.samsistemas.timesheet.service;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-
-import com.samsistemas.timesheet.util.AuthUtil;
-
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * @author jonatan.salas
  */
 public class FetchProjectDataService extends IntentService {
     private static final String LOG_TAG = FetchProjectDataService.class.getSimpleName();
-    private RequestQueue mRequestQueue;
 
     public FetchProjectDataService() {
         super(LOG_TAG);
@@ -36,7 +16,6 @@ public class FetchProjectDataService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.mRequestQueue = Volley.newRequestQueue(this);
     }
 
     @Override

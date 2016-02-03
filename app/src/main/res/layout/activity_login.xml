@@ -45,8 +45,8 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_below="@+id/include"
-            android:layout_alignLeft="@+id/login_button"
-            android:layout_alignStart="@+id/login_button">
+            android:layout_alignLeft="@+id/login"
+            android:layout_alignStart="@+id/login">
 
             <EditText android:id="@+id/password"
                 android:layout_width="match_parent"
@@ -58,7 +58,7 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <Button android:id="@+id/login_button"
+        <Button android:id="@+id/login"
             android:theme="@style/AppTheme.ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,8 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/login_button"
-            android:layout_alignEnd="@+id/login_button"
+            android:layout_alignRight="@+id/login"
+            android:layout_alignEnd="@+id/login"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"

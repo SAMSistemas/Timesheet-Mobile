@@ -5,15 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
 /**
  * @author jonatan.salas
  */
 public class FetchPersonDataService extends IntentService {
     private static final String TAG = FetchPersonDataService.class.getSimpleName();
-    private RequestQueue mRequestQueue;
 
     public FetchPersonDataService() {
         super(TAG);
@@ -22,7 +18,6 @@ public class FetchPersonDataService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.mRequestQueue = Volley.newRequestQueue(this);
     }
 
     @Override

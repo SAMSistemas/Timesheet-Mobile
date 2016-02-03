@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         TextInputLayout passwordInput = (TextInputLayout) findViewById(R.id.password_layout);
         mUsernameEditText = (EditText) findViewById(R.id.username);
         mPasswordEditText = (EditText) findViewById(R.id.password);
-        Button loginButton = (Button) findViewById(R.id.login_button);
+        Button loginButton = (Button) findViewById(R.id.login);
 
         final Typeface robotoRegular = TypefaceUtil.getCustomTypeface(
                 getApplicationContext(),
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.login_button:
+            case R.id.login:
                 final String username = mUsernameEditText.getText().toString().trim();
                 final String password = mPasswordEditText.getText().toString().trim();
 
@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else
                     InputUtil.hideKeyboard(this);
                 break;
-            case R.id.login_button:
+            case R.id.login:
                 if(hasFocus)
                     InputUtil.hideKeyboard(this);
                 break;

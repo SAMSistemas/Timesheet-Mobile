@@ -22,6 +22,12 @@ public class WorkPosition {
     private Long id;
 
     /**
+     * The id of the workPosition stored in the server
+     */
+    @NotNull @Unique
+    private Long serverId;
+
+    /**
      * The description of the work position
      */
     @NotNull
@@ -32,43 +38,30 @@ public class WorkPosition {
      */
     public WorkPosition() { }
 
-    /**
-     * Setter as builder pattern
-     *
-     * @param id identifier of the work position
-     * @return a WorkPosition object
-     */
-    public WorkPosition setId(long id) {
+    public Long getId() {
+        return id;
+    }
+
+    public WorkPosition setId(Long id) {
         this.id = id;
         return this;
     }
 
-    /**
-     * Setter as builder pattern
-     *
-     * @param description the description of the work position
-     * @return a WorkPosition object
-     */
-    public WorkPosition setDescription(String description) {
-        this.description = description;
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public WorkPosition setServerId(Long serverId) {
+        this.serverId = serverId;
         return this;
     }
 
-    /**
-     * Getter for id
-     *
-     * @return the value of the id field
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Getter for description
-     *
-     * @return the value of the description field
-     */
     public String getDescription() {
         return description;
+    }
+
+    public WorkPosition setDescription(String description) {
+        this.description = description;
+        return this;
     }
 }

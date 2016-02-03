@@ -24,6 +24,12 @@ public class Project {
     private Long id;
 
     /**
+     * The id of the project stored in the server
+     */
+    @NotNull @Unique
+    private Long serverId;
+
+    /**
      * The Client object associated to this Project
      */
     @NotNull
@@ -58,123 +64,66 @@ public class Project {
      */
     public Project() { }
 
-    /**
-     * Setter as builder pattern
-     *
-     * @param id the id of the project
-     * @return a Project object
-     */
-    public Project setId(long id) {
+    public Long getId() {
+        return id;
+    }
+
+    public Project setId(Long id) {
         this.id = id;
         return this;
     }
 
-    /**
-     * Setter as builder pattern
-     *
-     * @param client the client associated to this project
-     * @return a Project object
-     */
+    public Long getServerId() {
+        return serverId;
+    }
+
+    public Project setServerId(Long serverId) {
+        this.serverId = serverId;
+        return this;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
     public Project setClient(Client client) {
         this.client = client;
         return this;
     }
 
-    /**
-     * Setter as builder pattern
-     *
-     * @param name the name of the project
-     * @return a Project object
-     */
+    public String getName() {
+        return name;
+    }
+
     public Project setName(String name) {
         this.name = name;
         return this;
     }
 
-    /**
-     * Setter as builder pattern
-     *
-     * @param shortName the short name of the project
-     * @return a Project object
-     */
+    public String getShortName() {
+        return shortName;
+    }
+
     public Project setShortName(String shortName) {
         this.shortName = shortName;
         return this;
     }
 
-    /**
-     * Setter as builder pattern
-     *
-     * @param startDate the start date of the project
-     * @return a Project object
-     */
+    public Date getStartDate() {
+        return startDate;
+    }
+
     public Project setStartDate(Date startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    /**
-     * Setter as builder pattern
-     *
-     * @param enabled a boolean flag that verifies if this is still active
-     * @return a Project object
-     */
-    public Project setEnabled(boolean enabled) {
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public Project setEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
-    }
-
-    /**
-     * Getter for id
-     *
-     * @return the value of the id field
-     */
-    public long getId() {
-        return id;
-    }
-
-    /**
-     * Getter for client
-     *
-     * @return the value of the client field
-     */
-    public Client getClient() {
-        return client;
-    }
-
-    /**
-     * Getter for name
-     *
-     * @return the value of the name field
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Getter for short name
-     *
-     * @return the value of the short name field
-     */
-    public String getShortName() {
-        return shortName;
-    }
-
-    /**
-     * Getter for the start date
-     *
-     * @return the value of the startDate field
-     */
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    /**
-     * Getter for enabled
-     *
-     * @return the value of the enabled field
-     */
-    public boolean isEnabled() {
-        return enabled;
     }
 }

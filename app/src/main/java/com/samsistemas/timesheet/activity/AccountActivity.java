@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
  * @author jonatan.salas
  */
 public class AccountActivity extends BaseAppCompatActivity {
+
     @Bind(R.id.tool_bar)
     Toolbar mToolbar;
 
