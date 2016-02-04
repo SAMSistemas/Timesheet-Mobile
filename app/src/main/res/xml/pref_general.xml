@@ -8,7 +8,7 @@
             app:key="logged_in"
             app:enabled="true"
             app:selectable="true"
-            app:fragment="com.samsistemas.timesheet.commons.fragment.SettingsFragment">
+            app:fragment="com.samsistemas.timesheet.common.fragment.SettingsFragment">
         </Preference>
 
     </PreferenceCategory>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#e0e0e0"
     android:fitsSystemWindows="true"
-    tools:context=".commons.activity.AccountActivity">
+    tools:context=".common.activity.AccountActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

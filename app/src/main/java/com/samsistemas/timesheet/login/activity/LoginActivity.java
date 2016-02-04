@@ -17,8 +17,8 @@ import com.samsistemas.timesheet.login.presenter.LoginPresenterImpl;
 import com.samsistemas.timesheet.login.presenter.base.LoginPresenter;
 import com.samsistemas.timesheet.login.view.LoginView;
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.commons.activity.MenuActivity;
-import com.samsistemas.timesheet.commons.animation.ScaleUpAnimator;
+import com.samsistemas.timesheet.common.activity.MenuActivity;
+import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

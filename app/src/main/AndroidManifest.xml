@@ -34,29 +34,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".commons.activity.MenuActivity"
+            android:name=".common.activity.MenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".commons.activity.SettingsActivity"
+            android:name=".common.activity.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".commons.activity.AccountActivity"
+            android:name=".common.activity.AccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".commons.activity.AddHoursActivity"
+            android:name=".common.activity.AddHoursActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
 
-        <service android:name=".commons.service.FetchPersonDataService" android:exported="false" />
-        <service android:name=".commons.service.FetchProjectDataService" android:exported="false" />
-        <service android:name=".commons.service.FetchJobLogDataService" android:exported="false" />
+        <service android:name=".common.service.FetchPersonDataService" android:exported="false" />
+        <service android:name=".common.service.FetchProjectDataService" android:exported="false" />
+        <service android:name=".common.service.FetchJobLogDataService" android:exported="false" />
 
     </application>
 </manifest>
