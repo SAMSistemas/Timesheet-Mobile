@@ -13,9 +13,8 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginFinishedListen
     private LoginInteractor loginInteractor;
     private LoginView loginView;
 
-    public LoginPresenterImpl(LoginView loginView) {
+    public LoginPresenterImpl() {
         this.loginInteractor = new LoginInteractorImpl();
-        this.loginView = loginView;
     }
 
     @Override
@@ -53,5 +52,10 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginFinishedListen
         if (loginView != null) {
             loginView.navigateToHome();
         }
+    }
+
+    @Override
+    public void setLoginView(LoginView loginView) {
+        this.loginView = loginView;
     }
 }

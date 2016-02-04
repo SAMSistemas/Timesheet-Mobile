@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/action_account">
+
+        <Preference app:title="@string/action_logout"
+            app:icon="@drawable/ic_exit_to_app_teal"
+            app:key="logged_in"
+            app:enabled="true"
+            app:selectable="true"
+            app:fragment="com.samsistemas.timesheet.settings.fragment.SettingsFragment">
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

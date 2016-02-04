@@ -48,12 +48,16 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
         ButterKnife.bind(this);
 
         login.setOnClickListener(this);
-        loginPresenter = new LoginPresenterImpl(this);
+        loginPresenter = new LoginPresenterImpl();
+        loginPresenter.setLoginView(this);
     }
 
     @Override
     protected void onDestroy() {
-        progressDialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+
         loginPresenter.onDestroy();
         super.onDestroy();
     }
