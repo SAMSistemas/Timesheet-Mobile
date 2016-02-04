@@ -1,7 +1,7 @@
 package com.samsistemas.timesheet.common.model;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
-import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -11,15 +11,8 @@ import org.parceler.Parcel;
  *
  * @author jonatan.salas
  */
-@Table
 @Parcel
-public class WorkPosition {
-
-    /**
-     * The identifier of the work position
-     */
-    @Unique @NotNull
-    private Long id;
+public class WorkPosition extends SugarRecord {
 
     /**
      * The id of the workPosition stored in the server
@@ -37,15 +30,6 @@ public class WorkPosition {
      * Public Constructor
      */
     public WorkPosition() { }
-
-    public Long getId() {
-        return id;
-    }
-
-    public WorkPosition setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public Long getServerId() {
         return serverId;

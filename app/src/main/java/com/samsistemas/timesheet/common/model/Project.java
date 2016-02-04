@@ -1,7 +1,7 @@
 package com.samsistemas.timesheet.common.model;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
-import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -13,15 +13,8 @@ import java.util.Date;
  *
  * @author jonatan.salas
  */
-@Table
 @Parcel
-public class Project {
-
-    /**
-     * The id of the Project
-     */
-    @NotNull @Unique
-    private Long id;
+public class Project extends SugarRecord {
 
     /**
      * The id of the project stored in the server
@@ -63,15 +56,6 @@ public class Project {
      * Public Constructor
      */
     public Project() { }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Project setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public Long getServerId() {
         return serverId;

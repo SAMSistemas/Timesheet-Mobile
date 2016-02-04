@@ -59,6 +59,7 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
         transitive = true
     }
+    compile 'net.xpece.android:support-preference:0.5.3'
 }
 
 check.dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'

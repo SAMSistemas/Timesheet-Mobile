@@ -1,7 +1,7 @@
 package com.samsistemas.timesheet.common.model;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
-import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -11,15 +11,8 @@ import org.parceler.Parcel;
  *
  * @author jonatan.salas
  */
-@Table
 @Parcel
-public class TaskType {
-
-    /**
-     * The id of the task type
-     */
-    @NotNull @Unique
-    private Long id;
+public class TaskType extends SugarRecord {
 
     /**
      * The id of the tasktype stored in the server
@@ -43,15 +36,6 @@ public class TaskType {
      * Public constructor
      */
     public TaskType() { }
-
-    public Long getId() {
-        return id;
-    }
-
-    public TaskType setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public Long getServerId() {
         return serverId;

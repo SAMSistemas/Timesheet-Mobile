@@ -1,7 +1,7 @@
 package com.samsistemas.timesheet.common.model;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
-import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -13,15 +13,8 @@ import java.util.Date;
  *
  * @author jonatan.salas
  */
-@Table
 @Parcel
-public class JobLog {
-
-    /**
-     * The id of the JobLog
-     */
-    @NotNull @Unique
-    private Long id;
+public class JobLog extends SugarRecord {
 
     /**
      * The id of the JobLog stored in the server
@@ -75,15 +68,6 @@ public class JobLog {
      * Public constructor
      */
     public JobLog() { }
-
-    public Long getId() {
-        return id;
-    }
-
-    public JobLog setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public Long getServerId() {
         return serverId;

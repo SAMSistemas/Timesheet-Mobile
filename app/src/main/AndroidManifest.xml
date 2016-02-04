@@ -20,7 +20,7 @@
         <meta-data android:name="DATABASE" android:value="timesheet.db" />
         <meta-data android:name="VERSION" android:value="2" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.samsistemas.timesheet.model" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.samsistemas.timesheet.common.model" />
 
         <activity
             android:name="com.samsistemas.timesheet.login.activity.LoginActivity"

@@ -10,7 +10,8 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
         <item name="popupMenuStyle">@style/AppTheme.PopupMenuStyle</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
+        <item name="preferenceTint">@color/accent</item>
         <!--<item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>-->
     </style>
 

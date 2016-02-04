@@ -13,6 +13,8 @@ import com.samsistemas.timesheet.common.activity.MenuActivity;
 import com.samsistemas.timesheet.common.util.ToolbarUtil;
 import com.samsistemas.timesheet.settings.fragment.SettingsFragment;
 
+import net.xpece.android.support.preference.Fixes;
+
 /**
  * @author jonatan.salas
  */
@@ -21,6 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fixes.updateLayoutInflaterFactory(getLayoutInflater());
         setContentView(android.R.layout.activity_list_item);
         final ActionBar actionBar = getSupportActionBar();
 
