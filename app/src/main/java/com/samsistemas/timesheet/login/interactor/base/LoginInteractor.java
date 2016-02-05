@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.login.interactor.base;
 
+import com.samsistemas.timesheet.login.listener.OnCreateSessionListener;
 import com.samsistemas.timesheet.login.listener.OnLoginFinishedListener;
 
 /**
@@ -7,5 +8,7 @@ import com.samsistemas.timesheet.login.listener.OnLoginFinishedListener;
  */
 public interface LoginInteractor {
 
-    void login(String username, String password, OnLoginFinishedListener listener);
+    void login(String username, String password, OnLoginFinishedListener listener, OnCreateSessionListener sessionListener);
+
+    void createUserSessionIfNotExits(OnCreateSessionListener sessionListener);
 }

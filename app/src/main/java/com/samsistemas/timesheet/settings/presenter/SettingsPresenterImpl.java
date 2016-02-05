@@ -10,8 +10,8 @@ import com.samsistemas.timesheet.settings.view.SettingsView;
  * @author jonatan.salas
  */
 public class SettingsPresenterImpl implements SettingsPresenter, OnLogoutFinishedListener {
-    private SettingsView settingsView;
     private SettingsInteractor settingsInteractor;
+    private SettingsView settingsView;
 
     public SettingsPresenterImpl() {
         this.settingsInteractor = new SettingsInteractorImpl();
@@ -40,7 +40,7 @@ public class SettingsPresenterImpl implements SettingsPresenter, OnLogoutFinishe
     }
 
     @Override
-    public void onSuccess() {
+    public void onLogoutSuccess() {
         if (settingsView != null) {
             settingsView.navigateToLogin();
         }

@@ -7,5 +7,5 @@ public interface OnLogoutFinishedListener {
 
     void onLogoutError();
 
-    void onSuccess();
+    void onLogoutSuccess();
 }

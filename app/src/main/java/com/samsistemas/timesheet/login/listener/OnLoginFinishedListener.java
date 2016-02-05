@@ -9,5 +9,5 @@ public interface OnLoginFinishedListener {
 
     void onPasswordError();
 
-    void onSuccess();
+    void onLoginSuccess();
 }

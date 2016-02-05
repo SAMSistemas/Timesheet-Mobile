@@ -1,6 +1,8 @@
 package com.samsistemas.timesheet.login.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +15,8 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
+import com.samsistemas.timesheet.login.listener.OnCreateSessionListener;
+import com.samsistemas.timesheet.login.listener.OnRestoreSessionListener;
 import com.samsistemas.timesheet.login.presenter.LoginPresenterImpl;
 import com.samsistemas.timesheet.login.presenter.base.LoginPresenter;
 import com.samsistemas.timesheet.login.view.LoginView;
@@ -26,7 +30,14 @@ import butterknife.ButterKnife;
 /**
  * @author jonatan.salas
  */
-public class LoginActivity extends AppCompatActivity implements LoginView, View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements LoginView, OnCreateSessionListener,
+        OnRestoreSessionListener, View.OnClickListener {
+
+    private static final String PREFERENCE_FILENAME="timesheet_prefs";
+    private static final String SESSION_KEY = "session_id";
+
+    private LoginPresenter loginPresenter;
+    private MaterialDialog dialog;
 
     @Bind(R.id.username)
     EditText username;
@@ -37,9 +48,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
     @Bind(R.id.login)
     Button login;
 
-    private MaterialDialog progressDialog;
-    private LoginPresenter loginPresenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_Dark_NoActionBar);
@@ -48,14 +56,18 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
         ButterKnife.bind(this);
 
         login.setOnClickListener(this);
+
         loginPresenter = new LoginPresenterImpl();
+
         loginPresenter.setLoginView(this);
+        loginPresenter.setOnCreateSessionListener(this);
+        loginPresenter.restoreUserSession(this);
     }
 
     @Override
     protected void onDestroy() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
+        if (dialog != null) {
+            dialog.dismiss();
         }
 
         loginPresenter.onDestroy();
@@ -64,18 +76,20 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
     @Override
     public void showProgress() {
-        progressDialog = new MaterialDialog.Builder(this)
+        dialog = new MaterialDialog.Builder(this)
                 .content(R.string.login_dialog_message)
                 .progress(true, 0)
                 .theme(Theme.LIGHT)
                 .build();
 
-        progressDialog.show();
+        dialog.show();
     }
 
     @Override
     public void hideProgress() {
-        progressDialog.dismiss();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
     }
 
     @Override
@@ -101,6 +115,29 @@ public class LoginActivity extends AppCompatActivity implements LoginView, View.
 
         ActivityCompat.startActivity(this, intent, options);
         finish();
+    }
+
+    @Override
+    public void onSessionCreate(Long id) {
+        final SharedPreferences preferences = getSharedPreferences(
+                PREFERENCE_FILENAME,
+                Context.MODE_PRIVATE
+        );
+
+        final SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putLong(SESSION_KEY, id);
+        editor.apply();
+    }
+
+    @Override
+    public Long onSessionRestore() {
+        final SharedPreferences preferences = getSharedPreferences(
+                PREFERENCE_FILENAME,
+                Context.MODE_PRIVATE
+        );
+
+        return preferences.getLong(SESSION_KEY, 0L);
     }
 
     @Override

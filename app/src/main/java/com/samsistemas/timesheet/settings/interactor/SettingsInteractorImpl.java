@@ -2,6 +2,7 @@ package com.samsistemas.timesheet.settings.interactor;
 
 import android.os.Handler;
 
+import com.samsistemas.timesheet.common.model.Session;
 import com.samsistemas.timesheet.settings.interactor.base.SettingsInteractor;
 import com.samsistemas.timesheet.settings.listener.OnLogoutFinishedListener;
 
@@ -15,12 +16,15 @@ public class SettingsInteractorImpl implements SettingsInteractor {
         new Handler().postDelayed(new Runnable() {
             @Override public void run() {
                 boolean error = false;
-                if (sessionId == null){
+                if (sessionId == null) {
                     listener.onLogoutError();
                     error = true;
                 }
-                if (!error){
-                    listener.onSuccess();
+
+                if (!error) {
+                    Session session = Session.findById(Session.class, sessionId);
+                    Session.delete(session);
+                    listener.onLogoutSuccess();
                 }
             }
         }, 0);

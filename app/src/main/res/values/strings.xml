@@ -90,4 +90,6 @@
     <string name="solicitude_number">Solicitude Number</string>
     <string name="sam_sistemas" translatable="false">SAM Sistemas SRL.</string>
     <string name="location_default" translatable="false">Recoleta, Capital Federal</string>
+    <string name="logout_error">Error when trying to logout. Please, retry</string>
+
 </resources>

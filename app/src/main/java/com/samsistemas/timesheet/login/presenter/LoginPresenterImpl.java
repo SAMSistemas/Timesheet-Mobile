@@ -1,8 +1,12 @@
 package com.samsistemas.timesheet.login.presenter;
 
+import com.samsistemas.timesheet.common.model.Session;
+
 import com.samsistemas.timesheet.login.interactor.LoginInteractorImpl;
 import com.samsistemas.timesheet.login.interactor.base.LoginInteractor;
+import com.samsistemas.timesheet.login.listener.OnCreateSessionListener;
 import com.samsistemas.timesheet.login.listener.OnLoginFinishedListener;
+import com.samsistemas.timesheet.login.listener.OnRestoreSessionListener;
 import com.samsistemas.timesheet.login.presenter.base.LoginPresenter;
 import com.samsistemas.timesheet.login.view.LoginView;
 
@@ -10,6 +14,7 @@ import com.samsistemas.timesheet.login.view.LoginView;
  * @author jonatan.salas
  */
 public class LoginPresenterImpl implements LoginPresenter, OnLoginFinishedListener {
+    private OnCreateSessionListener onCreateSessionListener;
     private LoginInteractor loginInteractor;
     private LoginView loginView;
 
@@ -23,12 +28,36 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginFinishedListen
             loginView.showProgress();
         }
 
-        loginInteractor.login(username, password, this);
+        loginInteractor.login(username, password, this, onCreateSessionListener);
     }
 
     @Override
     public void onDestroy() {
         loginView = null;
+    }
+
+    @Override
+    public void restoreUserSession(final OnRestoreSessionListener listener) {
+        if (null != listener) {
+            final Long id = listener.onSessionRestore();
+            final Session session = Session.findById(Session.class, id);
+
+            if (session != null) {
+                if (session.getActive() && loginView != null) {
+                    loginView.navigateToHome();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setLoginView(LoginView loginView) {
+        this.loginView = loginView;
+    }
+
+    @Override
+    public void setOnCreateSessionListener(OnCreateSessionListener listener) {
+        this.onCreateSessionListener = listener;
     }
 
     @Override
@@ -48,14 +77,9 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginFinishedListen
     }
 
     @Override
-    public void onSuccess() {
+    public void onLoginSuccess() {
         if (loginView != null) {
             loginView.navigateToHome();
         }
-    }
-
-    @Override
-    public void setLoginView(LoginView loginView) {
-        this.loginView = loginView;
     }
 }

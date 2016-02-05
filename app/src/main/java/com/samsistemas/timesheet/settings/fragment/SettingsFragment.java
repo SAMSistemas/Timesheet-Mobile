@@ -1,6 +1,8 @@
 package com.samsistemas.timesheet.settings.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -18,7 +20,8 @@ import com.samsistemas.timesheet.settings.view.SettingsView;
  * @author jonatan.salas
  */
 public class SettingsFragment extends XpPreferenceFragment implements SettingsView {
-//    private static final String SESSION_KEY = "session_id";
+    private static final String PREFERENCE_FILENAME="timesheet_prefs";
+    private static final String SESSION_KEY = "session_id";
     private SettingsPresenter settingsPresenter;
 
     public SettingsFragment() {
@@ -45,9 +48,8 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
 
     @Override
     public boolean onPreferenceTreeClick(@NonNull Preference preference) {
-//        final SharedPreferences preferences = getPreferenceManager().getSharedPreferences();
-//        final Long sessionId = preferences.getLong(SESSION_KEY, 0);
-        final Long sessionId = 0L;
+        final SharedPreferences preferences = getActivity().getSharedPreferences(PREFERENCE_FILENAME, Context.MODE_PRIVATE);
+        final Long sessionId = preferences.getLong(SESSION_KEY, 0L);
 
         final String logout = getString(R.string.action_logout);
         final String preferenceTitle = preference.getTitle().toString();
@@ -62,7 +64,7 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
 
     @Override
     public void showLogoutError() {
-        Snackbar.make(getListView(), "Error trying to logout. Please, try again", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getListView(), R.string.logout_error, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
