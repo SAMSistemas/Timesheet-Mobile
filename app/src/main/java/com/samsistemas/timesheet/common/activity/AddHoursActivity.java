@@ -22,10 +22,10 @@ import com.samsistemas.timesheet.common.model.JobLog;
 import com.samsistemas.timesheet.common.model.Project;
 import com.samsistemas.timesheet.common.model.TaskType;
 import com.samsistemas.timesheet.common.navigation.MenuNavigator;
-import com.samsistemas.timesheet.common.util.ToolbarUtil;
+import com.samsistemas.timesheet.common.utility.ToolbarUtil;
 
-import static com.samsistemas.timesheet.common.util.AppConstants.DATE_TEMPLATE;
-import static com.samsistemas.timesheet.common.util.AppConstants.DATE_KEY;
+import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
+import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
 
 
 import java.text.ParseException;

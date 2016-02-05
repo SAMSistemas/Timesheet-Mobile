@@ -19,10 +19,10 @@ import com.samsistemas.timesheet.common.fragment.ChangePasswordFragment;
 import com.samsistemas.timesheet.common.loader.PersonLoader;
 import com.samsistemas.timesheet.common.model.Person;
 import com.samsistemas.timesheet.common.navigation.MenuNavigator;
-import com.samsistemas.timesheet.common.util.DrawableUtil;
-import com.samsistemas.timesheet.common.util.ToolbarUtil;
+import com.samsistemas.timesheet.common.utility.DrawableUtil;
+import com.samsistemas.timesheet.common.utility.ToolbarUtil;
 
-import static com.samsistemas.timesheet.common.util.LoaderId.PERSON_LOADER_ID;
+import static com.samsistemas.timesheet.common.utility.LoaderId.PERSON_LOADER_ID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

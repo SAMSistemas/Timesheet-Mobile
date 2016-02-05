@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.common.util;
+package com.samsistemas.timesheet.common.utility;
 
 import android.graphics.Canvas;
 import android.support.v4.view.ViewCompat;

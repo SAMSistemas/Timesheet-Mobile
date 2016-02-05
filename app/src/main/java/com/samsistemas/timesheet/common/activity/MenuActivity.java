@@ -38,13 +38,13 @@ import com.samsistemas.timesheet.common.model.JobLog;
 import com.samsistemas.timesheet.common.model.Person;
 import com.samsistemas.timesheet.common.navigation.AccountNavigator;
 import com.samsistemas.timesheet.common.navigation.SettingsNavigator;
-import com.samsistemas.timesheet.common.util.DateUtil;
-import com.samsistemas.timesheet.common.util.SimpleTouchItemHelperCallback;
+import com.samsistemas.timesheet.common.utility.DateUtil;
+import com.samsistemas.timesheet.common.utility.SimpleTouchItemHelperCallback;
 
-import static com.samsistemas.timesheet.common.util.LoaderId.PERSON_LOADER_ID;
+import static com.samsistemas.timesheet.common.utility.LoaderId.PERSON_LOADER_ID;
 
-import static com.samsistemas.timesheet.common.util.AppConstants.DATE_KEY;
-import static com.samsistemas.timesheet.common.util.AppConstants.DATE_TEMPLATE;
+import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
+import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

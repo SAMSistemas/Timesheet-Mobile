@@ -20,6 +20,8 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/material_teal</item>
         <item name="popupMenuStyle">@style/AppTheme.PopupMenuStyle</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.Material</item>
+        <item name="preferenceTint">@color/accent</item>
     </style>
 
     <style name="AppTheme.Dark.NoActionBar" parent="Theme.AppCompat.NoActionBar">

@@ -15,7 +15,7 @@ import android.view.View;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.fragment.base.BaseDialogFragment;
-import com.samsistemas.timesheet.common.util.DrawableUtil;
+import com.samsistemas.timesheet.common.utility.DrawableUtil;
 
 /**
  * @author jonatan.salas

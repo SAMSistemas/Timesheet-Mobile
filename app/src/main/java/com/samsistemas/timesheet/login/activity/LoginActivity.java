@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
+import com.samsistemas.timesheet.common.utility.ThreadUtility;
 import com.samsistemas.timesheet.login.listener.OnCreateSessionListener;
 import com.samsistemas.timesheet.login.listener.OnRestoreSessionListener;
 import com.samsistemas.timesheet.login.presenter.LoginPresenterImpl;
@@ -22,7 +22,6 @@ import com.samsistemas.timesheet.login.presenter.base.LoginPresenter;
 import com.samsistemas.timesheet.login.view.LoginView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.MenuActivity;
-import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_Dark_NoActionBar);
+        ThreadUtility.sleep(1000);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
         login.setOnClickListener(this);
 
         loginPresenter = new LoginPresenterImpl();
-
         loginPresenter.setLoginView(this);
         loginPresenter.setOnCreateSessionListener(this);
         loginPresenter.restoreUserSession(this);
@@ -104,7 +103,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
 
     @Override
     public void navigateToHome() {
-        final Bundle options = ScaleUpAnimator.newInstance().saveAnimation(login);
         final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
 
         intent.setFlags(
@@ -113,7 +111,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
                 Intent.FLAG_ACTIVITY_CLEAR_TOP
         );
 
-        ActivityCompat.startActivity(this, intent, options);
+        startActivity(intent);
         finish();
     }
 

@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.common.util;
+package com.samsistemas.timesheet.common.utility;
 
 import android.support.annotation.NonNull;
 import android.util.Base64;

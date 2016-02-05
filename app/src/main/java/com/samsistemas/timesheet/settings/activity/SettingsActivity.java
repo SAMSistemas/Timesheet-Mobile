@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.MenuActivity;
-import com.samsistemas.timesheet.common.util.ToolbarUtil;
+import com.samsistemas.timesheet.common.utility.ToolbarUtil;
 import com.samsistemas.timesheet.settings.fragment.SettingsFragment;
 
 import net.xpece.android.support.preference.Fixes;

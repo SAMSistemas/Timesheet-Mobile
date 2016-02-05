@@ -22,13 +22,13 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.AddHoursActivity;
 import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.common.model.JobLog;
-import com.samsistemas.timesheet.common.util.ItemTouchHelperAdapter;
-import com.samsistemas.timesheet.common.util.ItemTouchHelperViewHolder;
+import com.samsistemas.timesheet.common.utility.ItemTouchHelperAdapter;
+import com.samsistemas.timesheet.common.utility.ItemTouchHelperViewHolder;
 
-import static com.samsistemas.timesheet.common.util.AppConstants.EDIT_MODE_KEY;
-import static com.samsistemas.timesheet.common.util.AppConstants.DATE_KEY;
-import static com.samsistemas.timesheet.common.util.AppConstants.JOBLOG_ID_KEY;
-import static com.samsistemas.timesheet.common.util.AppConstants.DATE_TEMPLATE;
+import static com.samsistemas.timesheet.common.utility.AppConstants.EDIT_MODE_KEY;
+import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
+import static com.samsistemas.timesheet.common.utility.AppConstants.JOBLOG_ID_KEY;
+import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
