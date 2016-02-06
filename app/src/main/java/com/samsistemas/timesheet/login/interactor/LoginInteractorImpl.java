@@ -2,9 +2,9 @@ package com.samsistemas.timesheet.login.interactor;
 
 import android.os.Handler;
 
-import com.samsistemas.timesheet.common.model.Person;
-import com.samsistemas.timesheet.common.model.Session;
-import com.samsistemas.timesheet.common.model.WorkPosition;
+import com.samsistemas.timesheet.data.domain.Person;
+import com.samsistemas.timesheet.data.domain.Session;
+import com.samsistemas.timesheet.data.domain.WorkPosition;
 
 import com.samsistemas.timesheet.login.interactor.base.LoginInteractor;
 import com.samsistemas.timesheet.login.listener.OnCreateSessionListener;

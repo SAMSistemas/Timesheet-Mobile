@@ -1,6 +1,6 @@
 package com.samsistemas.timesheet.login.presenter;
 
-import com.samsistemas.timesheet.common.model.Session;
+import com.samsistemas.timesheet.data.domain.Session;
 
 import com.samsistemas.timesheet.login.interactor.LoginInteractorImpl;
 import com.samsistemas.timesheet.login.interactor.base.LoginInteractor;

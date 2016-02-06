@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.AddHoursActivity;
 import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
-import com.samsistemas.timesheet.common.model.JobLog;
+import com.samsistemas.timesheet.data.domain.JobLog;
 import com.samsistemas.timesheet.common.utility.ItemTouchHelperAdapter;
 import com.samsistemas.timesheet.common.utility.ItemTouchHelperViewHolder;
 

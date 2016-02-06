@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.samsistemas.timesheet.common.model.Client;
+import com.samsistemas.timesheet.data.domain.Client;
 
 import java.util.List;
 

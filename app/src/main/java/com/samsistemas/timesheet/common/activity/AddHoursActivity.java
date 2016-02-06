@@ -18,9 +18,9 @@ import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.base.BaseAppCompatActivity;
-import com.samsistemas.timesheet.common.model.JobLog;
-import com.samsistemas.timesheet.common.model.Project;
-import com.samsistemas.timesheet.common.model.TaskType;
+import com.samsistemas.timesheet.data.domain.JobLog;
+import com.samsistemas.timesheet.data.domain.Project;
+import com.samsistemas.timesheet.data.domain.TaskType;
 import com.samsistemas.timesheet.common.navigation.MenuNavigator;
 import com.samsistemas.timesheet.common.utility.ToolbarUtil;
 
