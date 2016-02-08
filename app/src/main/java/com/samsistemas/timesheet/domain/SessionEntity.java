@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.data.domain;
+package com.samsistemas.timesheet.domain;
 
 /**
  * Entity that represents a Session in a SharedPreferences file

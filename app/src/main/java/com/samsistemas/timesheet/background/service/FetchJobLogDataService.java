@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.common.service;
+package com.samsistemas.timesheet.background.service;
 
 import android.app.IntentService;
 import android.content.Intent;

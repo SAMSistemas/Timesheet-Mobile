@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.common.model;
+package com.samsistemas.timesheet.domain;
 
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;

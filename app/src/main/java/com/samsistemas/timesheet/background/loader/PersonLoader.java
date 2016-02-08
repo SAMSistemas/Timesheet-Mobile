@@ -1,10 +1,10 @@
-package com.samsistemas.timesheet.data.loader;
+package com.samsistemas.timesheet.background.loader;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import com.samsistemas.timesheet.data.domain.Person;
+import com.samsistemas.timesheet.domain.Person;
 
 /**
  * @author jonatan.salas

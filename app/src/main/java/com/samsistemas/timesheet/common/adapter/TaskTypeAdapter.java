@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.samsistemas.timesheet.data.domain.TaskType;
+import com.samsistemas.timesheet.domain.TaskType;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.settings.interactor;
 
 import android.os.Handler;
 
-import com.samsistemas.timesheet.data.domain.Session;
+import com.samsistemas.timesheet.domain.Session;
 import com.samsistemas.timesheet.settings.interactor.base.SettingsInteractor;
 import com.samsistemas.timesheet.settings.listener.OnLogoutFinishedListener;
 
