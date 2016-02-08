@@ -3,8 +3,8 @@ package com.samsistemas.timesheet.common.utility;
 import android.test.AndroidTestCase;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.login.validation.EmailValidator;
-import com.samsistemas.timesheet.login.validation.PasswordValidator;
+import com.samsistemas.timesheet.screen.login.validation.EmailValidator;
+import com.samsistemas.timesheet.screen.login.validation.PasswordValidator;
 
 /**
  * Class to test the validation classes.
