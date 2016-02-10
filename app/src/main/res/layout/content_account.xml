@@ -7,7 +7,7 @@
     tools:showIn="@layout/activity_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".common.activity.AccountActivity">
+    tools:context=".screen.account.activity.AccountActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,51 +33,51 @@
                 android:layout_margin="8dp"
                 android:orientation="vertical">
 
-                <TextView android:id="@+id/username_textview"
+                <TextView android:id="@+id/username"
                     android:layout_marginTop="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
-                    android:drawableLeft="@drawable/ic_account_box_black"
-                    android:drawableStart="@drawable/ic_account_box_black"
+                    android:drawableLeft="@drawable/ic_account_box_black_24dp"
+                    android:drawableStart="@drawable/ic_account_box_black_24dp"
                     tools:text="jonatan.salas" />
 
 
-                <TextView android:id="@+id/email_textview"
+                <TextView android:id="@+id/email"
                     android:layout_marginTop="@dimen/content_margin_top"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
-                    android:drawableLeft="@drawable/ic_email_black"
-                    android:drawableStart="@drawable/ic_email_black"
+                    android:drawableLeft="@drawable/ic_email_black_24dp"
+                    android:drawableStart="@drawable/ic_email_black_24dp"
                     tools:text="jonatan.salas@samsistemas.com.ar" />
 
-                <TextView android:id="@+id/work_textview"
+                <TextView android:id="@+id/work"
                     android:layout_marginTop="@dimen/content_margin_top"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
-                    android:drawableLeft="@drawable/ic_work_black"
-                    android:drawableStart="@drawable/ic_work_black"
+                    android:drawableLeft="@drawable/ic_work_black_24dp"
+                    android:drawableStart="@drawable/ic_work_black_24dp"
                     tools:text="Android Developer Ssr." />
 
-                <TextView android:id="@+id/enterprise_textview"
+                <TextView android:id="@+id/enterprise"
                     android:layout_marginTop="@dimen/content_margin_top"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
-                    android:drawableLeft="@drawable/ic_domain_black"
-                    android:drawableStart="@drawable/ic_domain_black"
+                    android:drawableLeft="@drawable/ic_location_city_black_24dp"
+                    android:drawableStart="@drawable/ic_location_city_black_24dp"
                     android:text="@string/sam_sistemas"
                     tools:text="SAM Sistemas SRL" />
 
-                <TextView android:id="@+id/location_textview"
+                <TextView android:id="@+id/location"
                     android:layout_marginTop="@dimen/content_margin_top"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end|center_vertical"
-                    android:drawableLeft="@drawable/ic_location_city_black"
-                    android:drawableStart="@drawable/ic_location_city_black"
+                    android:drawableLeft="@drawable/ic_home_black_24dp"
+                    android:drawableStart="@drawable/ic_home_black_24dp"
                     android:text="@string/location_default"
                     tools:text="Recoleta, Capital Federal" />
             </LinearLayout>

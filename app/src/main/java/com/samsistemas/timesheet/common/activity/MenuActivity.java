@@ -36,13 +36,12 @@ import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.background.loader.PersonLoader;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.domain.Person;
-import com.samsistemas.timesheet.common.navigation.AccountNavigator;
 import com.samsistemas.timesheet.common.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.common.utility.DateUtil;
 import com.samsistemas.timesheet.common.utility.SimpleTouchItemHelperCallback;
+import com.samsistemas.timesheet.screen.account.activity.AccountActivity;
 
 import static com.samsistemas.timesheet.common.utility.LoaderId.PERSON_LOADER_ID;
-
 import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
 import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
 
@@ -179,9 +178,18 @@ public class MenuActivity extends BaseAppCompatActivity {
                         break;
 
                     case R.id.action_account:
-                        AccountNavigator.newInstance().navigateWithAnimation(MenuActivity.this, mNavigationView);
-                        break;
+                        final Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
+                        final Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
 
+                        intent.setFlags(
+                                Intent.FLAG_ACTIVITY_NEW_TASK |
+                                        IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
+                                        Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        );
+
+                        ActivityCompat.startActivity(MenuActivity.this, intent, options);
+                        finish();
+                        break;
                     case R.id.action_settings:
                         SettingsNavigator.newInstance().navigateWithAnimation(MenuActivity.this, mNavigationView);
                         break;

@@ -32,20 +32,17 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity implements LoginView, OnCreateSessionListener,
         OnRestoreSessionListener, View.OnClickListener {
 
-    private static final String PREFERENCE_FILENAME="timesheet_prefs";
+    private static final String PREFERENCE_FILENAME = "timesheet_prefs";
     private static final String SESSION_KEY = "session_id";
 
     private LoginPresenter loginPresenter;
     private MaterialDialog dialog;
 
-    @Bind(R.id.username)
-    EditText username;
+    @Bind(R.id.username) EditText username;
 
-    @Bind(R.id.password)
-    EditText password;
+    @Bind(R.id.password) EditText password;
 
-    @Bind(R.id.login)
-    Button login;
+    @Bind(R.id.login) Button login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
