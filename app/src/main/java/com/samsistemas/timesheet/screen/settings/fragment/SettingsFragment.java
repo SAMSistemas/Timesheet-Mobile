@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.screen.settings.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.XpPreferenceFragment;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.common.utility.PreferenceUtility;
 import com.samsistemas.timesheet.screen.login.activity.LoginActivity;
 import com.samsistemas.timesheet.screen.settings.presenter.SettingsPresenterImpl;
 import com.samsistemas.timesheet.screen.settings.presenter.base.SettingsPresenter;
@@ -20,8 +20,6 @@ import com.samsistemas.timesheet.screen.settings.view.SettingsView;
  * @author jonatan.salas
  */
 public class SettingsFragment extends XpPreferenceFragment implements SettingsView {
-    private static final String PREFERENCE_FILENAME="timesheet_prefs";
-    private static final String SESSION_KEY = "session_id";
     private SettingsPresenter settingsPresenter;
 
     public SettingsFragment() {
@@ -48,8 +46,8 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
 
     @Override
     public boolean onPreferenceTreeClick(@NonNull Preference preference) {
-        final SharedPreferences preferences = getActivity().getSharedPreferences(PREFERENCE_FILENAME, Context.MODE_PRIVATE);
-        final Long sessionId = preferences.getLong(SESSION_KEY, 0L);
+        final SharedPreferences preferences = PreferenceUtility.getDefaultPreferences(getContext());
+        final Long sessionId = preferences.getLong(PreferenceUtility.SESSION_KEY, 0L);
 
         final String logout = getString(R.string.action_logout);
         final String preferenceTitle = preference.getTitle().toString();

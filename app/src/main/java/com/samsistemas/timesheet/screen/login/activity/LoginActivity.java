@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.screen.login.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +13,9 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
+import com.samsistemas.timesheet.common.fragment.VerifyConnectionFragment;
+import com.samsistemas.timesheet.common.utility.NetworkUtility;
+import com.samsistemas.timesheet.common.utility.PreferenceUtility;
 import com.samsistemas.timesheet.common.utility.ThreadUtility;
 import com.samsistemas.timesheet.screen.login.listener.OnCreateSessionListener;
 import com.samsistemas.timesheet.screen.login.listener.OnRestoreSessionListener;
@@ -31,10 +33,6 @@ import butterknife.ButterKnife;
  */
 public class LoginActivity extends AppCompatActivity implements LoginView, OnCreateSessionListener,
         OnRestoreSessionListener, View.OnClickListener {
-
-    private static final String PREFERENCE_FILENAME = "timesheet_prefs";
-    private static final String SESSION_KEY = "session_id";
-
     private LoginPresenter loginPresenter;
     private MaterialDialog dialog;
 
@@ -113,26 +111,29 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
     }
 
     @Override
+    public boolean checkConnectivity() {
+        return NetworkUtility.isConnected(getApplicationContext());
+    }
+
+    @Override
+    public void showInternetSettings() {
+        final VerifyConnectionFragment fragment = new VerifyConnectionFragment();
+        fragment.setContext(this);
+        fragment.show(getSupportFragmentManager(), VerifyConnectionFragment.TAG);
+    }
+
+    @Override
     public void onSessionCreate(Long id) {
-        final SharedPreferences preferences = getSharedPreferences(
-                PREFERENCE_FILENAME,
-                Context.MODE_PRIVATE
-        );
+        final SharedPreferences.Editor editor = PreferenceUtility.getDefaultEditor(getApplicationContext());
 
-        final SharedPreferences.Editor editor = preferences.edit();
-
-        editor.putLong(SESSION_KEY, id);
+        editor.putLong(PreferenceUtility.SESSION_KEY, id);
         editor.apply();
     }
 
     @Override
     public Long onSessionRestore() {
-        final SharedPreferences preferences = getSharedPreferences(
-                PREFERENCE_FILENAME,
-                Context.MODE_PRIVATE
-        );
-
-        return preferences.getLong(SESSION_KEY, 0L);
+        final SharedPreferences prefs = PreferenceUtility.getDefaultPreferences(getApplicationContext());
+        return prefs.getLong(PreferenceUtility.SESSION_KEY, 0L);
     }
 
     @Override

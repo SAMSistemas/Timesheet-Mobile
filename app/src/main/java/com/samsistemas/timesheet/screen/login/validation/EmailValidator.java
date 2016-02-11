@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
  *
  * @author jonatan.salas
  */
-//TODO JS: modified validator.
 public class EmailValidator implements Validator {
     private static final Pattern EMAIL_PATTERN = Patterns.EMAIL_ADDRESS;
     private static EmailValidator sInstance = null;

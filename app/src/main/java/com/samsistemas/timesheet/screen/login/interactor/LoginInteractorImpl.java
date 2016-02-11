@@ -47,9 +47,8 @@ public class LoginInteractorImpl implements LoginInteractor {
     @Override
     public void createUserSessionIfNotExits(OnCreateSessionListener sessionListener) {
         if (null != sessionListener) {
-            //TODO JS: get person data, save it and add a new user session. Verify internet connection and everything else.
-            Long id = 0L;
-
+            //TODO JS: get person data, save it and add a new user session.
+            //Verify internet connection and everything else.
             WorkPosition workPosition = new WorkPosition();
             workPosition.setDescription("Android Developer")
                     .setServerId(1L);

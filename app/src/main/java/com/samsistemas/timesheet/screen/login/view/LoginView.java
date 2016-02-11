@@ -14,4 +14,8 @@ public interface LoginView {
     void setPasswordError();
 
     void navigateToHome();
+
+    boolean checkConnectivity();
+
+    void showInternetSettings();
 }

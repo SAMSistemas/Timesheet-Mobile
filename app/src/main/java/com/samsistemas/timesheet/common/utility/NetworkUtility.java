@@ -9,9 +9,9 @@ import android.support.annotation.NonNull;
  *
  * @author jonatan.salas
  */
-public final class NetworkUtil {
+public final class NetworkUtility {
 
-    private NetworkUtil() { }
+    private NetworkUtility() { }
 
     /***
      * Method that verifies if active networks are connected.
