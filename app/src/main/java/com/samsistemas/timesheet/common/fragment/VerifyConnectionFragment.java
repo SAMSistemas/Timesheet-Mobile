@@ -10,12 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.fragment.base.BaseDialogFragment;
-import com.samsistemas.timesheet.common.utility.DrawableUtil;
 
 /**
  * @author jonatan.salas
@@ -50,11 +50,7 @@ public class VerifyConnectionFragment extends BaseDialogFragment {
     @NonNull
     @Override
     public Drawable getIconDrawable() {
-        return DrawableUtil.modifyDrawableColor(
-                getContext().getApplicationContext(),
-                R.drawable.ic_signal_wifi_off_white,
-                R.color.material_teal
-        );
+        return ContextCompat.getDrawable(getContext(), R.drawable.ic_signal_wifi_off_white_24dp);
     }
 
     @Nullable

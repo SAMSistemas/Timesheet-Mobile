@@ -7,9 +7,9 @@ import android.os.StrictMode;
  *
  * @author jonatan.salas
  */
-public final class DevUtil {
+public final class DeveloperUtility {
 
-    private DevUtil() { }
+    private DeveloperUtility() { }
 
     /**
      * Method used to check different troubles.

@@ -22,11 +22,9 @@ import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.domain.Project;
 import com.samsistemas.timesheet.domain.TaskType;
 import com.samsistemas.timesheet.common.navigation.MenuNavigator;
-import com.samsistemas.timesheet.common.utility.ToolbarUtil;
 
 import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
 import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -95,8 +93,13 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         setSupportActionBar(mToolbar);
 
         final ActionBar actionBar = getSupportActionBar();
+
         if (null != actionBar) {
-            ToolbarUtil.styleWithBackButton(actionBar, getString(R.string.action_add_hour));
+            actionBar.setTitle(getString(R.string.action_add_hour));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayUseLogoEnabled(false);
         }
 
         mToolbarLayout.setTitleEnabled(false);

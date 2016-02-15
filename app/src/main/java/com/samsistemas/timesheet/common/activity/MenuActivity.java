@@ -7,11 +7,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.content.IntentCompat;
-import android.support.v4.content.Loader;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -33,15 +30,12 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.common.adapter.JobLogAdapter;
 import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
-import com.samsistemas.timesheet.background.loader.PersonLoader;
+import com.samsistemas.timesheet.common.utility.DateUtility;
 import com.samsistemas.timesheet.domain.JobLog;
-import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.common.navigation.SettingsNavigator;
-import com.samsistemas.timesheet.common.utility.DateUtil;
 import com.samsistemas.timesheet.common.utility.SimpleTouchItemHelperCallback;
 import com.samsistemas.timesheet.screen.account.activity.AccountActivity;
 
-import static com.samsistemas.timesheet.common.utility.LoaderId.PERSON_LOADER_ID;
 import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
 import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
 
@@ -141,19 +135,12 @@ public class MenuActivity extends BaseAppCompatActivity {
     public void initialize() {
         Date date = new Date(System.currentTimeMillis());
         mDateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(date);
-        initPersonLoader();
-//        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-//        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
-//        String year = String.valueOf(calendar.get(Calendar.YEAR));
-
-//        startFetchJobLogService(month, year);
-//        initJobLogLoader(new Date(System.currentTimeMillis()));
     }
 
     @Override
     public void populateViews() {
         mDateTitle.setTypeface(getRobotoMediumTypeface());
-        mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), new Date(System.currentTimeMillis())));
+        mDateTitle.setText(DateUtility.formatDate(getApplicationContext(), new Date(System.currentTimeMillis())));
     }
 
     @Override
@@ -202,9 +189,7 @@ public class MenuActivity extends BaseAppCompatActivity {
         mCalendarView.setOnDateSelectedListener(new CalendarView.OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull Date date) {
-                mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), date));
-                //We call this in order to show the data available for the date user-selected
-//                initJobLogLoader(date);
+                mDateTitle.setText(DateUtility.formatDate(getApplicationContext(), date));
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault());
                 mDateString = sdf.format(date);
             }
@@ -220,11 +205,8 @@ public class MenuActivity extends BaseAppCompatActivity {
 
                 if (CalendarUtil.isSameMonth(nextCalendar, todayCalendar)) {
                     mCalendarView.setCurrentDay(new Date(System.currentTimeMillis()));
-                    mDateTitle.setText(DateUtil.formatDate(getApplicationContext(), new Date(System.currentTimeMillis())));
+                    mDateTitle.setText(DateUtility.formatDate(getApplicationContext(), new Date(System.currentTimeMillis())));
                 } else {
-//                    String month = String.valueOf(nextCalendar.get(Calendar.MONTH) + 1);
-//                    String year = String.valueOf(nextCalendar.get(Calendar.YEAR));
-//                    startFetchJobLogService(month, year);
                     //We want this to display an announce, telling the user that has not any date selected..
                     mDateTitle.setText(getString(R.string.no_date_selected));
                 }
@@ -264,100 +246,6 @@ public class MenuActivity extends BaseAppCompatActivity {
         return TypefaceUtil.getCustomTypeface(getApplicationContext(), R.string.roboto_medium);
     }
 
-    private void initPersonLoader() {
-        getSupportLoaderManager().initLoader(PERSON_LOADER_ID, null, new LoaderManager.LoaderCallbacks<Person>() {
-
-            @Override
-            public Loader<Person> onCreateLoader(int id, Bundle args) {
-                if (id == PERSON_LOADER_ID) {
-                    return new PersonLoader(getApplicationContext());
-                }
-
-                return null;
-            }
-
-            @Override
-            public void onLoadFinished(Loader<Person> loader, Person data) {
-                if (null != data) {
-                    final String fullName = data.getName() + " " + data.getLastName();
-                    final String fullUsername = data.getUsername() + getApplicationContext().getString(R.string.domain);
-                    mFullName.setText(fullName);
-                    mUsername.setText(fullUsername);
-//                    mCredentials.add(data.getUsername());
-//                    mCredentials.add(data.getPassword());
-                } else {
-                    loader.reset();
-                    Snackbar.make(mRecyclerView, "Ops, we can't load your data now..", Snackbar.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onLoaderReset(Loader<Person> loader) {
-                if (!loader.isReset()) {
-                    loader.reset();
-                }
-            }
-
-        }).forceLoad();
-    }
-
-//    private void initJobLogLoader(final Date date) {
-//        getSupportLoaderManager().initLoader(JOBLOG_LOADER_ID, null, new LoaderManager.LoaderCallbacks<List<JobLog>>() {
-//
-//            @Override
-//            public Loader<List<JobLog>> onCreateLoader(int id, Bundle args) {
-//                if (id == JOBLOG_LOADER_ID) {
-//                    return new JobLogsLoader(getApplicationContext());
-//                }
-//
-//                return null;
-//            }
-//
-//            @Override
-//            public void onLoadFinished(Loader<List<JobLog>> loader, List<JobLog> data) {
-//                if (null != data && !data.isEmpty()) {
-//                    initializeFilteredList(data, date);
-//                }
-//            }
-//
-//            @Override
-//            public void onLoaderReset(Loader<List<JobLog>> loader) {
-//                if (!loader.isReset()) {
-//                    loader.reset();
-//                }
-//            }
-//        }).forceLoad();
-//    }
-
-//    private void initializeFilteredList(List<JobLog> data, Date date) {
-//        if (null != data) {
-//            List<JobLog> filteredList = new ArrayList<>();
-//            Date selectedDate = DateUtil.getDateWithOutTime(date);
-//
-//            for (int i = 0; i < data.size(); i++) {
-//                Date workDate = DateUtil.getDateWithOutTime(data.get(i).getWorkDate());
-//
-//                if (workDate.compareTo(selectedDate) == 0) {
-//                    filteredList.add(data.get(i));
-//                }
-//            }
-//
-//            if(!filteredList.isEmpty()) {
-//                mAdapter.setItems(null);
-//                mAdapter.setItems(filteredList);
-//                mAdapter.notifyDataSetChanged();
-//            } else {
-//                mAdapter.setItems(null);
-//                mAdapter.notifyDataSetChanged();
-//                Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this date", Snackbar.LENGTH_SHORT).show();
-//            }
-//        } else {
-//            mAdapter.setItems(null);
-//            mAdapter.notifyDataSetChanged();
-//            Snackbar.make(mRecyclerView, "Ups, It seems you don't have any joblog for this month", Snackbar.LENGTH_SHORT).show();
-//        }
-//    }
-
     private void startAddHoursActivity() {
         final Intent addHoursIntent = new Intent(getApplicationContext(), AddHoursActivity.class);
         addHoursIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -366,20 +254,4 @@ public class MenuActivity extends BaseAppCompatActivity {
         Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
         ActivityCompat.startActivity(MenuActivity.this, addHoursIntent, options);
     }
-
-//    private void startFetchJobLogService(String month, String year) {
-//        Intent intent = new Intent(Intent.ACTION_SYNC, null, this, FetchJobLogDataService.class);
-//
-//        if (!mCredentials.isEmpty()) {
-//            intent.putExtra(URL, URLHelper.buildAllJobLogsUrl(getApplicationContext()))
-//                    .putExtra(USERNAME, mCredentials.get(0))
-//                    .putExtra(PASSWORD, mCredentials.get(1))
-//                    .putExtra(MONTH, month)
-//                    .putExtra(YEAR, year);
-//
-//            startService(intent);
-//        } else {
-//            //Snackbar.make(mRecyclerView, "Error loading credentials", Snackbar.LENGTH_SHORT).show();
-//        }
-//    }
 }

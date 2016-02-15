@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.MenuActivity;
-import com.samsistemas.timesheet.common.utility.ToolbarUtil;
 import com.samsistemas.timesheet.screen.settings.fragment.SettingsFragment;
 
 import net.xpece.android.support.preference.Fixes;
@@ -28,7 +27,11 @@ public class SettingsActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
 
         if (null != actionBar) {
-            ToolbarUtil.styleWithBackButton(actionBar, R.string.action_settings);
+            actionBar.setTitle(getString(R.string.action_settings));
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayUseLogoEnabled(false);
         }
 
         getSupportFragmentManager()

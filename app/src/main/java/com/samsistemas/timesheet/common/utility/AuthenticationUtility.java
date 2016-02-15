@@ -11,13 +11,8 @@ import java.util.Map;
  *
  * @author jonatan.salas
  */
-public final class AuthUtil {
-    private static final String LOG_TAG = AuthUtil.class.getSimpleName();
-
-    /**
-     * Charset encode
-     */
-    private static final String CHARSET = "UTF-8";
+public final class AuthenticationUtility {
+    private static final String LOG_TAG = AuthenticationUtility.class.getSimpleName();
 
     /**
      * Pattern for String.
@@ -29,7 +24,7 @@ public final class AuthUtil {
      */
     private static final String KEY = "Authorization";
 
-    private AuthUtil() { }
+    private AuthenticationUtility() { }
 
     /**
      * Method that generates the authentication headers.
@@ -55,8 +50,6 @@ public final class AuthUtil {
      */
     public static String getAuthCredential(@NonNull final String username,  @NonNull final String password) {
         final String credentials = String.format(STRING_PATTERN, username, password);
-        String auth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
-
-        return auth;
+        return "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
     }
 }

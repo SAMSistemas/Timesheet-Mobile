@@ -68,7 +68,7 @@ public class FetchJobLogDataService extends IntentService {
 //        ) {
 //            @Override
 //            public Map<String, String> getHeaders() throws AuthFailureError {
-//                return AuthUtil.getAuthHeaders(new String[]{ username, password });
+//                return AuthenticationUtility.getAuthHeaders(new String[]{ username, password });
 //            }
 //        };
 //

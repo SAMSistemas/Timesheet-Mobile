@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -19,8 +20,6 @@ import android.widget.EditText;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.fragment.base.BaseDialogFragment;
-import com.samsistemas.timesheet.common.utility.DrawableUtil;
-import com.samsistemas.timesheet.common.utility.TypefaceUtil;
 
 /**
  * @author jonatan.salas
@@ -57,11 +56,7 @@ public class ChangePasswordFragment extends BaseDialogFragment {
     @NonNull
     @Override
     public Drawable getIconDrawable() {
-        return DrawableUtil.modifyDrawableColor(
-                getContext(),
-                R.drawable.ic_person_white_24dp,
-                R.color.material_teal
-        );
+        return ContextCompat.getDrawable(getContext(), R.drawable.ic_person_white_24dp);
     }
 
     @Nullable
@@ -74,7 +69,7 @@ public class ChangePasswordFragment extends BaseDialogFragment {
         EditText latestPassword = (EditText) content.findViewById(R.id.latest_password);
         EditText newPassword = (EditText) content.findViewById(R.id.new_password);
 
-        Typeface roboto = TypefaceUtil.getCustomTypeface(getContext(), R.string.roboto_light);
+        Typeface roboto = Typeface.createFromAsset(getActivity().getAssets(), getString(R.string.roboto_light));
 
         latestLayout.setTypeface(roboto);
         latestPassword.setTypeface(roboto);

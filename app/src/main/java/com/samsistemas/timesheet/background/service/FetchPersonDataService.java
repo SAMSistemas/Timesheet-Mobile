@@ -70,7 +70,7 @@ public class FetchPersonDataService extends IntentService {
 //                }) {
 //            @Override
 //            public Map<String, String> getHeaders() throws AuthFailureError {
-//                return AuthUtil.getAuthHeaders(new String[]{ username, password });
+//                return AuthenticationUtility.getAuthHeaders(new String[]{ username, password });
 //            }
 //        };
 //
@@ -81,7 +81,7 @@ public class FetchPersonDataService extends IntentService {
 
     private void initUserSession(@NonNull Context context, String[] credentials, long id) {
 ////        final BaseSessionController<SessionEntity> sessionController = ControllerFactory.getSessionController();
-//        final String authCredential = AuthUtil.getAuthCredential(credentials[0], credentials[1]);
+//        final String authCredential = AuthenticationUtility.getAuthCredential(credentials[0], credentials[1]);
 //        final SessionEntity entity = new SessionEntity();
 //
 //        entity.setSessionId(1)

@@ -1,7 +1,6 @@
 package com.samsistemas.timesheet.screen.login.presenter;
 
-import android.os.Handler;
-
+import com.samsistemas.timesheet.common.utility.ThreadUtility;
 import com.samsistemas.timesheet.domain.Session;
 
 import com.samsistemas.timesheet.screen.login.interactor.LoginInteractorImpl;
@@ -44,20 +43,21 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginFinishedListen
 
     @Override
     public void restoreUserSession(final OnRestoreSessionListener listener) {
-        new Handler().postDelayed(new Runnable() {
-            @Override public void run() {
-                if (null != listener) {
-                    final Long id = listener.onSessionRestore();
-                    final Session session = Session.findById(Session.class, id);
+        if (null != listener) {
+            Session session = ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Session>() {
+                @Override
+                public Session execute() {
+                    return Session.findById(Session.class, listener.onSessionRestore());
+                }
+            });
 
-                    if (session != null) {
-                        if (session.getActive() && loginView != null) {
-                            loginView.navigateToHome();
-                        }
-                    }
+            if (null != session && session.getActive()) {
+                if (loginView != null) {
+                    loginView.navigateToHome();
                 }
             }
-        }, 0);
+        }
+
     }
 
     @Override
