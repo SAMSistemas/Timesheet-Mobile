@@ -1,7 +1,5 @@
 package com.samsistemas.timesheet.screen.login.interactor;
 
-import android.os.Handler;
-
 import com.samsistemas.timesheet.common.utility.ThreadUtility;
 import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.domain.Session;
@@ -22,27 +20,22 @@ public class LoginInteractorImpl implements LoginInteractor {
     public void login(final String username, final  String password,
                       final OnLoginFinishedListener listener,
                       final  OnCreateSessionListener sessionListener) {
-        new Handler().postDelayed(new Runnable() {
-            @Override public void run() {
-                boolean error = false;
+        boolean error = false;
 
-                if (!EmailValidator.newInstance().validate(username)) {
-                    listener.onUsernameError();
-                    error = true;
-                }
+        if (!EmailValidator.newInstance().validate(username)) {
+            listener.onUsernameError();
+            error = true;
+        }
 
-                if (!PasswordValidator.newInstance().validate(password)) {
-                    listener.onPasswordError();
-                    error = true;
-                }
+        if (!PasswordValidator.newInstance().validate(password)) {
+            listener.onPasswordError();
+            error = true;
+        }
 
-                if (!error) {
-                    createUserSessionIfNotExits(sessionListener);
-                    listener.onLoginSuccess();
-                }
-
-            }
-        }, 2000);
+        if (!error) {
+            createUserSessionIfNotExits(sessionListener);
+            listener.onLoginSuccess();
+        }
     }
 
     @Override
