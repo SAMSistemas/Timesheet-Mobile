@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.common.adapter;
+package com.samsistemas.timesheet.screen.addhours.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,22 +9,22 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.samsistemas.timesheet.domain.Client;
+import com.samsistemas.timesheet.domain.Project;
 
 import java.util.List;
 
 /**
  * @author jonatan.salas
  */
-public class ClientAdapter extends BaseAdapter {
+public class ProjectAdapter extends BaseAdapter {
 
     @NonNull
     private Context mContext;
 
     @Nullable
-    private List<Client> mItems;
+    private List<Project> mItems;
 
-    public ClientAdapter(@NonNull Context context, @Nullable List<Client> items) {
+    public ProjectAdapter(@NonNull Context context, @Nullable List<Project> items) {
         this.mContext = context;
         this.mItems = items;
     }
@@ -43,7 +43,6 @@ public class ClientAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return (null == mItems || mItems.isEmpty()) ? 0 : mItems.get(position).getId();
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return getDropDownView(position, convertView, parent);
@@ -51,14 +50,14 @@ public class ClientAdapter extends BaseAdapter {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        final Client client = (Client) getItem(position);
+        final Project project = (Project) getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
         }
 
         final TextView text1 = (TextView) convertView.findViewById(android.R.id.text1);
-        text1.setText(client.getName());
+        text1.setText(project.getName());
 
         return convertView;
     }
@@ -77,7 +76,7 @@ public class ClientAdapter extends BaseAdapter {
         return position;
     }
 
-    public void setItems(@Nullable List<Client> items) {
+    public void setItems(@Nullable List<Project> items) {
         this.mItems = items;
     }
 }

@@ -19,14 +19,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.adapter.ClientAdapter;
-import com.samsistemas.timesheet.common.adapter.ProjectAdapter;
-import com.samsistemas.timesheet.common.adapter.TaskTypeAdapter;
+import com.samsistemas.timesheet.screen.addhours.adapter.ClientAdapter;
+import com.samsistemas.timesheet.screen.addhours.adapter.ProjectAdapter;
+import com.samsistemas.timesheet.screen.addhours.adapter.TaskTypeAdapter;
+import com.samsistemas.timesheet.screen.addhours.view.AddHoursView;
 import com.samsistemas.timesheet.common.navigation.MenuNavigator;
 import com.samsistemas.timesheet.domain.Client;
 import com.samsistemas.timesheet.domain.Project;
 import com.samsistemas.timesheet.domain.TaskType;
-import com.samsistemas.timesheet.screen.addhours.view.AddHoursView;
 
 import java.util.List;
 

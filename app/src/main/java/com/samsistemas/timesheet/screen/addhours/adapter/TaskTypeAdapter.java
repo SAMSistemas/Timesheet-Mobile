@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.common.adapter;
+package com.samsistemas.timesheet.screen.addhours.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
