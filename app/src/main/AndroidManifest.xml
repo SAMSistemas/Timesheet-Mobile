@@ -23,7 +23,7 @@
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.samsistemas.timesheet.domain"/>
 
         <activity
-            android:name=".view.login.activity.LoginActivity"
+            android:name=".screen.login.activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher" >
@@ -34,29 +34,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".common.activity.MenuActivity"
+            android:name=".screen.menu.activity.MenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".view.settings.activity.SettingsActivity"
+            android:name=".screen.settings.activity.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.account.activity.AccountActivity"
+            android:name=".screen.account.activity.AccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".common.activity.AddHoursActivity"
+            android:name=".screen.addhours.activity.AddHoursActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-
-        <service android:name=".background.service.FetchPersonDataService" android:exported="false" />
-        <service android:name=".background.service.FetchProjectDataService" android:exported="false" />
-        <service android:name=".background.service.FetchJobLogDataService" android:exported="false" />
-
     </application>
 </manifest>
