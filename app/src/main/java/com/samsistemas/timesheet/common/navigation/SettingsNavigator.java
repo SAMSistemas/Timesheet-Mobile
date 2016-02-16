@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
-import com.samsistemas.timesheet.screen.settings.activity.SettingsActivity;
+import com.samsistemas.timesheet.view.settings.activity.SettingsActivity;
 import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.common.navigation.base.Navigator;
 

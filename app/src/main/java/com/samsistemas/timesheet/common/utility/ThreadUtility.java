@@ -23,7 +23,7 @@ public final class ThreadUtility {
                 lock.wait(millis);
             }
         } catch (InterruptedException ex) {
-            ex.printStackTrace();
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
         }
     }
 
@@ -44,7 +44,7 @@ public final class ThreadUtility {
         try {
             object = future.get();
         } catch (ExecutionException | InterruptedException ex) {
-            Log.d(LOG_TAG, ex.getMessage(), ex.getCause());
+            Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
         }
 
         return object;

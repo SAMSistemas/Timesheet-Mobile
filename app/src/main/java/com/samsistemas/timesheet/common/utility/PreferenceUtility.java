@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
  */
 public class PreferenceUtility {
     private static final String PREFERENCE_FILENAME = "timesheet_prefs";
-    public static final String SESSION_KEY = "session_id";
+    private static final String SESSION_KEY = "session_id";
 
     private PreferenceUtility() { }
 
@@ -26,6 +26,19 @@ public class PreferenceUtility {
             @Override
             public Long execute() {
                 return getDefaultPreferences(ctx).getLong(SESSION_KEY, 0L);
+            }
+        });
+    }
+
+    public static void setSessionId(final Context  ctx, final Long id) {
+        ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Void>() {
+            @Override
+            public Void execute() {
+                final SharedPreferences.Editor editor = getDefaultEditor(ctx);
+                editor.putLong(SESSION_KEY, id);
+                editor.apply();
+
+                return null;
             }
         });
     }

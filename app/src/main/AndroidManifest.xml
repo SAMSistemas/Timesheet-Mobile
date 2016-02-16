@@ -23,7 +23,7 @@
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.samsistemas.timesheet.domain"/>
 
         <activity
-            android:name=".screen.login.activity.LoginActivity"
+            android:name=".view.login.activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher" >
@@ -40,11 +40,11 @@
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
-            android:name=".screen.settings.activity.SettingsActivity"
+            android:name=".view.settings.activity.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".screen.account.activity.AccountActivity"
+            android:name=".view.account.activity.AccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>

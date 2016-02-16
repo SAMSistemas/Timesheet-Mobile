@@ -34,7 +34,7 @@ import com.samsistemas.timesheet.common.utility.DateUtility;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.common.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.common.utility.SimpleTouchItemHelperCallback;
-import com.samsistemas.timesheet.screen.account.activity.AccountActivity;
+import com.samsistemas.timesheet.view.account.activity.AccountActivity;
 
 import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
 import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
