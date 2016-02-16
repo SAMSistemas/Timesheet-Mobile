@@ -13,7 +13,7 @@ public class PreferenceUtility {
     private PreferenceUtility() { }
 
     public static SharedPreferences getDefaultPreferences(final Context ctx) {
-        return ThreadUtility.runInBackGround(new ThreadUtility.CallBack<SharedPreferences>() {
+        return ThreadUtility.runInBackground(new ThreadUtility.CallBack<SharedPreferences>() {
             @Override
             public SharedPreferences execute() {
                 return ctx.getSharedPreferences(PREFERENCE_FILENAME, Context.MODE_PRIVATE);
@@ -26,7 +26,7 @@ public class PreferenceUtility {
     }
 
     public static Long getSessionId(final Context ctx) {
-        return ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Long>() {
+        return ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
             @Override
             public Long execute() {
                 return getDefaultPreferences(ctx).getLong(SESSION_KEY, 0L);
@@ -35,7 +35,7 @@ public class PreferenceUtility {
     }
 
     public static void setSessionId(final Context  ctx, final Long id) {
-        ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Void>() {
+        ThreadUtility.runInBackground(new ThreadUtility.CallBack<Void>() {
             @Override
             public Void execute() {
                 final SharedPreferences.Editor editor = getDefaultEditor(ctx);

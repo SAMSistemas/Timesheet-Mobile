@@ -7,9 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +21,7 @@ import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.MenuActivity;
-import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
+import com.samsistemas.timesheet.common.utility.ActivityUtility;
 import com.samsistemas.timesheet.common.utility.DeveloperUtility;
 import com.samsistemas.timesheet.view.addhours.adapter.ClientAdapter;
 import com.samsistemas.timesheet.view.addhours.adapter.ProjectAdapter;
@@ -161,21 +159,12 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
 
     @Override
     public void onBackPressed() {
-        navigateToMenu();
+        super.onBackPressed();
     }
 
     @Override
     public void navigateToMenu() {
-        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-
-        intent.setFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK |
-                IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP
-        );
-
-        Bundle options = ScaleUpAnimator.newInstance().saveAnimation(saveButton);
-        ActivityCompat.startActivity(this, intent, options);
+        ActivityUtility.startActivityWithAnimation(this, MenuActivity.class, saveButton);
     }
 
     @Override

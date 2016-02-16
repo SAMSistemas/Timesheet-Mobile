@@ -1,14 +1,11 @@
 package com.samsistemas.timesheet.common.activity;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.IntentCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,7 +13,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.os.Bundle;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,7 +25,7 @@ import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.common.adapter.JobLogAdapter;
-import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
+import com.samsistemas.timesheet.common.utility.ActivityUtility;
 import com.samsistemas.timesheet.common.utility.DateUtility;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.common.utility.SimpleTouchItemHelperCallback;
@@ -161,35 +157,15 @@ public class MenuActivity extends BaseAppCompatActivity {
                         break;
 
                     case R.id.action_add_hour:
-                        startAddHoursActivity();
+                        ActivityUtility.startActivityWithAnimation(MenuActivity.this, AddHoursActivity.class, mNavigationView);
                         break;
 
                     case R.id.action_account:
-                        Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
-                        Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-
-                        intent.setFlags(
-                                Intent.FLAG_ACTIVITY_NEW_TASK |
-                                IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
-                                Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        );
-
-                        ActivityCompat.startActivity(MenuActivity.this, intent, options);
-                        finish();
+                        ActivityUtility.startActivityWithAnimation(MenuActivity.this, AccountActivity.class, mNavigationView);
                         break;
 
                     case R.id.action_settings:
-                        options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
-                        intent = new Intent(getApplicationContext(), SettingsActivity.class);
-
-                        intent.setFlags(
-                                Intent.FLAG_ACTIVITY_NEW_TASK |
-                                IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
-                                Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        );
-
-                        ActivityCompat.startActivity(MenuActivity.this, intent, options);
-                        finish();
+                        ActivityUtility.startActivityWithAnimation(MenuActivity.this, SettingsActivity.class, mNavigationView);
                         break;
                 }
 
@@ -227,7 +203,7 @@ public class MenuActivity extends BaseAppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startAddHoursActivity();
+                ActivityUtility.startActivityWithAnimation(MenuActivity.this, AddHoursActivity.class, mNavigationView);
             }
         });
     }
@@ -256,14 +232,5 @@ public class MenuActivity extends BaseAppCompatActivity {
 
     private Typeface getRobotoMediumTypeface() {
         return TypefaceUtil.getCustomTypeface(getApplicationContext(), R.string.roboto_medium);
-    }
-
-    private void startAddHoursActivity() {
-        final Intent addHoursIntent = new Intent(getApplicationContext(), AddHoursActivity.class);
-        addHoursIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        addHoursIntent.putExtra(DATE_KEY, mDateString);
-
-        Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
-        ActivityCompat.startActivity(MenuActivity.this, addHoursIntent, options);
     }
 }

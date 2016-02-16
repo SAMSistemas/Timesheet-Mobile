@@ -41,7 +41,7 @@ public class LoginInteractorImpl implements LoginInteractor {
     @Override
     public void createUserSessionIfNotExits(OnCreateSessionListener sessionListener) {
         if (null != sessionListener) {
-            final WorkPosition workPosition = ThreadUtility.runInBackGround(new ThreadUtility.CallBack<WorkPosition>() {
+            final WorkPosition workPosition = ThreadUtility.runInBackground(new ThreadUtility.CallBack<WorkPosition>() {
                 @Override
                 public WorkPosition execute() {
                     WorkPosition workPosition = new WorkPosition();
@@ -53,7 +53,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                 }
             });
 
-            final Person person = ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Person>() {
+            final Person person = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Person>() {
                 @Override
                 public Person execute() {
                     Person person = new Person();
@@ -73,7 +73,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                 }
             });
 
-            final Long id = ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Long>() {
+            final Long id = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
                 @Override
                 public Long execute() {
                     Session session = new Session();

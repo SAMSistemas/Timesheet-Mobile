@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
-import com.samsistemas.timesheet.common.fragment.VerifyConnectionFragment;
+import com.samsistemas.timesheet.view.login.fragment.VerifyConnectionFragment;
 import com.samsistemas.timesheet.common.utility.DeveloperUtility;
 import com.samsistemas.timesheet.common.utility.NetworkUtility;
 import com.samsistemas.timesheet.common.utility.PreferenceUtility;

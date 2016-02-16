@@ -23,7 +23,7 @@ public class AccountPresenterImpl implements AccountPresenter {
 
     @Override
     public void setAccountData(final Long sessionId) {
-        final Session session = ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Session>() {
+        final Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
             @Override
             public Session execute() {
                 return Session.findById(Session.class, sessionId);

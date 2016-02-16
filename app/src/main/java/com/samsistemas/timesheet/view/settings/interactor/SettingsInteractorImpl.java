@@ -20,7 +20,7 @@ public class SettingsInteractorImpl implements SettingsInteractor {
         }
 
         if (!error) {
-            final Session session = ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Session>() {
+            final Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
                 @Override
                 public Session execute() {
                     return Session.findById(Session.class, sessionId);
@@ -28,7 +28,7 @@ public class SettingsInteractorImpl implements SettingsInteractor {
             });
 
             if (null != session && session.getActive()) {
-                ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Void>() {
+                ThreadUtility.runInBackground(new ThreadUtility.CallBack<Void>() {
                     @Override
                     public Void execute() {
                         Session.delete(session);

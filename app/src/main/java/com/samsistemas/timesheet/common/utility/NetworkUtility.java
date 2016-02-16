@@ -26,21 +26,11 @@ public final class NetworkUtility {
         return isMobileActive(manager) || isWirelessActive(manager);
     }
 
-    /***
-     *
-     * @param manager
-     * @return
-     */
     @SuppressWarnings("deprecation")
     private static boolean isMobileActive(@NonNull final ConnectivityManager manager) {
         return manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnectedOrConnecting();
     }
 
-    /***
-     *
-     * @param manager
-     * @return
-     */
     @SuppressWarnings("deprecation")
     private static boolean isWirelessActive(@NonNull final ConnectivityManager manager) {
         return manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();

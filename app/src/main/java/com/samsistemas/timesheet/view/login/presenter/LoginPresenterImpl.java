@@ -44,7 +44,7 @@ public class LoginPresenterImpl implements LoginPresenter, OnLoginFinishedListen
     @Override
     public void restoreUserSession(final OnRestoreSessionListener listener) {
         if (null != listener) {
-            Session session = ThreadUtility.runInBackGround(new ThreadUtility.CallBack<Session>() {
+            Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
                 @Override
                 public Session execute() {
                     return Session.findById(Session.class, listener.onSessionRestore());

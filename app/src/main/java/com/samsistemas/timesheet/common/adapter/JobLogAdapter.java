@@ -7,8 +7,10 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.IntentCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -78,7 +80,12 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
                             addHoursIntent.putExtra(EDIT_MODE_KEY, true);
                             addHoursIntent.putExtra(JOBLOG_ID_KEY, jobLog.getId());
 
-                            Bundle options = ScaleUpAnimator.newInstance().saveAnimation(v);
+                            int startX = ((Float) ViewCompat.getX(v)).intValue();
+                            int startY = ((Float) ViewCompat.getY(v)).intValue();
+
+                            Bundle options = ActivityOptionsCompat
+                                    .makeScaleUpAnimation(v, startX, startY, v.getWidth(), v.getHeight()).toBundle();
+
                             ActivityCompat.startActivity(mContext, addHoursIntent, options);
                     }
 

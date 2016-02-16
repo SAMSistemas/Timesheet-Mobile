@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.common.fragment;
+package com.samsistemas.timesheet.view.login.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

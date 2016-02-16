@@ -2,16 +2,12 @@ package com.samsistemas.timesheet.common.activity;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,15 +17,10 @@ import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.base.BaseAppCompatActivity;
-import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
+import com.samsistemas.timesheet.common.utility.ActivityUtility;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.domain.Project;
 import com.samsistemas.timesheet.domain.TaskType;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -207,16 +198,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-
-        intent.setFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK |
-                        IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP
-        );
-
-        Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mFab);
-        ActivityCompat.startActivity(this, intent, options);
+        ActivityUtility.startActivityWithAnimation(this, MenuActivity.class, mFab);
     }
 
 //    private void initTaskTypeLoader() {

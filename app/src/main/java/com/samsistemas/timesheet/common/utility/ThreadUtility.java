@@ -27,7 +27,7 @@ public final class ThreadUtility {
         }
     }
 
-    public static <T> T runInBackGround(final CallBack<T> callBack) {
+    public static <T> T runInBackground(final CallBack<T> callBack) {
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         final Callable<T> callable = new Callable<T>() {
             @Override
