@@ -32,12 +32,9 @@ import com.samsistemas.timesheet.common.adapter.JobLogAdapter;
 import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.common.utility.DateUtility;
 import com.samsistemas.timesheet.domain.JobLog;
-import com.samsistemas.timesheet.common.navigation.SettingsNavigator;
 import com.samsistemas.timesheet.common.utility.SimpleTouchItemHelperCallback;
 import com.samsistemas.timesheet.view.account.activity.AccountActivity;
-
-import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
-import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
+import com.samsistemas.timesheet.view.settings.activity.SettingsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +52,9 @@ import butterknife.ButterKnife;
  * @author jonatan.salas
  */
 public class MenuActivity extends BaseAppCompatActivity {
+    public static final String DATE_KEY = "date";
+    public static final String DATE_TEMPLATE = "dd-MM-yyyy";
+
     private JobLogAdapter mAdapter;
     private TextView mFullName;
     private TextView mUsername;
@@ -165,20 +165,31 @@ public class MenuActivity extends BaseAppCompatActivity {
                         break;
 
                     case R.id.action_account:
-                        final Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
-                        final Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+                        Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
+                        Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
 
                         intent.setFlags(
                                 Intent.FLAG_ACTIVITY_NEW_TASK |
-                                        IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
-                                        Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP
                         );
 
                         ActivityCompat.startActivity(MenuActivity.this, intent, options);
                         finish();
                         break;
+
                     case R.id.action_settings:
-                        SettingsNavigator.newInstance().navigateWithAnimation(MenuActivity.this, mNavigationView);
+                        options = ScaleUpAnimator.newInstance().saveAnimation(mNavigationView);
+                        intent = new Intent(getApplicationContext(), SettingsActivity.class);
+
+                        intent.setFlags(
+                                Intent.FLAG_ACTIVITY_NEW_TASK |
+                                IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        );
+
+                        ActivityCompat.startActivity(MenuActivity.this, intent, options);
+                        finish();
                         break;
                 }
 
@@ -186,9 +197,10 @@ public class MenuActivity extends BaseAppCompatActivity {
                 return true;
             }
         });
-        mCalendarView.setOnDateSelectedListener(new CalendarView.OnDateSelectedListener() {
+        mCalendarView.setOnDateClickListener(new CalendarView.OnDateClickListener() {
+
             @Override
-            public void onDateSelected(@NonNull Date date) {
+            public void onDateClick(@NonNull Date date) {
                 mDateTitle.setText(DateUtility.formatDate(getApplicationContext(), date));
                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault());
                 mDateString = sdf.format(date);

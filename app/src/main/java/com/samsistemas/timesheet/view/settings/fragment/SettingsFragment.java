@@ -1,7 +1,6 @@
 package com.samsistemas.timesheet.view.settings.fragment;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -60,8 +59,7 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
 
     @Override
     public boolean onPreferenceTreeClick(@NonNull Preference preference) {
-        final SharedPreferences preferences = PreferenceUtility.getDefaultPreferences(getContext());
-        final Long sessionId = preferences.getLong(PreferenceUtility.SESSION_KEY, 0L);
+        final Long sessionId = PreferenceUtility.getSessionId(getContext());
 
         final String logout = getString(R.string.action_logout);
         final String preferenceTitle = preference.getTitle().toString();

@@ -12,10 +12,14 @@ public class PreferenceUtility {
 
     private PreferenceUtility() { }
 
-    public static SharedPreferences getDefaultPreferences(Context ctx) {
-        return ctx.getSharedPreferences(PREFERENCE_FILENAME, Context.MODE_PRIVATE);
+    public static SharedPreferences getDefaultPreferences(final Context ctx) {
+        return ThreadUtility.runInBackGround(new ThreadUtility.CallBack<SharedPreferences>() {
+            @Override
+            public SharedPreferences execute() {
+                return ctx.getSharedPreferences(PREFERENCE_FILENAME, Context.MODE_PRIVATE);
+            }
+        });
     }
-
 
     public static SharedPreferences.Editor getDefaultEditor(Context ctx) {
         return getDefaultPreferences(ctx).edit();

@@ -15,4 +15,6 @@
     <color name="text_item_default">@android:color/black</color>
     <color name="icon_item_default">@color/material_teal</color>
 
+    <color name="red">#f44336</color>
+
 </resources>

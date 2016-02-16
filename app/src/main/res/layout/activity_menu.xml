@@ -49,13 +49,14 @@ tools:openDrawer="start">
                     app:calendarBackgroundColor="@color/primary"
                     app:calendarTitleTextColor="@color/accent"
                     app:currentDayOfMonthColor="@color/white"
-                    app:dayOfMonthTextColor="@color/white"
                     app:dayOfWeekTextColor="@color/white"
                     app:disabledDayBackgroundColor="@color/primary"
                     app:disabledDayTextColor="@color/accent"
                     app:selectedDayBackgroundColor="@color/accent"
                     app:titleLayoutBackgroundColor="@color/primary"
-                    app:weekLayoutBackgroundColor="@color/primary">
+                    app:weekLayoutBackgroundColor="@color/primary"
+                    app:weekendColor="@color/red"
+                    app:weekend="saturday|sunday">
                 </com.samsistemas.calendarview.widget.CalendarView>
 
             </FrameLayout>

@@ -7,7 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.IntentCompat;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,12 +22,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.common.activity.MenuActivity;
+import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.common.utility.DeveloperUtility;
 import com.samsistemas.timesheet.view.addhours.adapter.ClientAdapter;
 import com.samsistemas.timesheet.view.addhours.adapter.ProjectAdapter;
 import com.samsistemas.timesheet.view.addhours.adapter.TaskTypeAdapter;
 import com.samsistemas.timesheet.view.addhours.view.AddHoursView;
-import com.samsistemas.timesheet.common.navigation.MenuNavigator;
 import com.samsistemas.timesheet.domain.Client;
 import com.samsistemas.timesheet.domain.Project;
 import com.samsistemas.timesheet.domain.TaskType;
@@ -33,8 +37,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
 
 /**
  * @author jonatan.salas
@@ -65,9 +67,9 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
 
         final Intent intent = getIntent();
 
-        if (null != intent) {
-            String dateString = intent.getStringExtra(DATE_KEY);
-        }
+//        if (null != intent) {
+//            String dateString = intent.getStringExtra(DATE_KEY);
+//        }
 
         final ActionBar actionBar = getSupportActionBar();
 
@@ -159,12 +161,21 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
 
     @Override
     public void onBackPressed() {
-        MenuNavigator.newInstance().navigate(this);
+        navigateToMenu();
     }
 
     @Override
     public void navigateToMenu() {
+        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
 
+        intent.setFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK |
+                IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP
+        );
+
+        Bundle options = ScaleUpAnimator.newInstance().saveAnimation(saveButton);
+        ActivityCompat.startActivity(this, intent, options);
     }
 
     @Override
@@ -173,8 +184,8 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
             taskTypeAdapter = new TaskTypeAdapter(getApplicationContext(), taskTypeList);
         } else {
             if (null != taskTypeList) {
-                taskTypeAdapter.setItems(null);
-                taskTypeAdapter.setItems(taskTypeList);
+                taskTypeAdapter.setList(null);
+                taskTypeAdapter.setList(taskTypeList);
             } else {
                 Snackbar.make(taskTypeSpinner, "Error loading task types data. ", Snackbar.LENGTH_SHORT).show();
             }
@@ -190,8 +201,8 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
             clientAdapter = new ClientAdapter(getApplicationContext(), clientList);
         } else {
             if (null != clientList) {
-                clientAdapter.setItems(null);
-                clientAdapter.setItems(clientList);
+                clientAdapter.setList(null);
+                clientAdapter.setList(clientList);
             } else {
                 Snackbar.make(clientSpinner, "Error loading clients data. ", Snackbar.LENGTH_SHORT).show();
             }
@@ -207,8 +218,8 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
             projectAdapter = new ProjectAdapter(getApplicationContext(), projectList);
         } else {
             if (null != projectList) {
-                projectAdapter.setItems(null);
-                projectAdapter.setItems(projectList);
+                projectAdapter.setList(null);
+                projectAdapter.setList(projectList);
             } else {
                 Snackbar.make(clientSpinner, "Error loading projects data. ", Snackbar.LENGTH_SHORT).show();
             }

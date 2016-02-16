@@ -25,11 +25,6 @@ import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.common.utility.ItemTouchHelperAdapter;
 import com.samsistemas.timesheet.common.utility.ItemTouchHelperViewHolder;
 
-import static com.samsistemas.timesheet.common.utility.AppConstants.EDIT_MODE_KEY;
-import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
-import static com.samsistemas.timesheet.common.utility.AppConstants.JOBLOG_ID_KEY;
-import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
-
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
@@ -39,8 +34,13 @@ import java.util.Locale;
  * @author jonatan.salas
  */
 public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder> implements ItemTouchHelperAdapter {
-    private List<JobLog> mItems;
+    public static final String EDIT_MODE_KEY = "edit_mode";
+    public static final String DATE_KEY = "date";
+    public static final String JOBLOG_ID_KEY = "joblog_id";
+    public static final String DATE_TEMPLATE = "dd-MM-yyyy";
+
     private final Activity mContext;
+    private List<JobLog> mItems;
 
     /**
      * @author jonatan.salas

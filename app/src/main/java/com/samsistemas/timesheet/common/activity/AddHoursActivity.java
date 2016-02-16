@@ -2,10 +2,13 @@ package com.samsistemas.timesheet.common.activity;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,13 +21,10 @@ import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.base.BaseAppCompatActivity;
+import com.samsistemas.timesheet.common.animation.ScaleUpAnimator;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.domain.Project;
 import com.samsistemas.timesheet.domain.TaskType;
-import com.samsistemas.timesheet.common.navigation.MenuNavigator;
-
-import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_TEMPLATE;
-import static com.samsistemas.timesheet.common.utility.AppConstants.DATE_KEY;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -124,15 +124,15 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
         final Intent intent = getIntent();
 
-        if (null != intent) {
-            mDateString = intent.getStringExtra(DATE_KEY);
-//            mEditMode = intent.getBooleanExtra(EDIT_MODE_KEY, false);
-//
-//            if (mEditMode) {
-//                mJobLogId = intent.getLongExtra(JOBLOG_ID_KEY, 0);
-////                initJobLogLoader();
-//            }
-        }
+//        if (null != intent) {
+//            mDateString = intent.getStringExtra(DATE_KEY);
+////            mEditMode = intent.getBooleanExtra(EDIT_MODE_KEY, false);
+////
+////            if (mEditMode) {
+////                mJobLogId = intent.getLongExtra(JOBLOG_ID_KEY, 0);
+//////                initJobLogLoader();
+////            }
+//        }
     }
 
     @Override
@@ -187,45 +187,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                final SharedPreferences prefs = getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
-//                final String username = prefs.getString(USERNAME, "");
-//                final String password = prefs.getString(PASSWORD, "");
 
-//                if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
-//                    Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
-
-                    String description = mDescription.getText().toString().trim();
-                    String solicitude = mSolicitudeNumber.getText().toString().trim();
-                    int solicitudeNumber = 0;
-
-                    if (!solicitude.isEmpty()) {
-                        solicitudeNumber = Integer.valueOf(solicitude);
-                    }
-
-                    Date date = null;
-
-                    try {
-                        date = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).parse(mDateString);
-                    } catch (ParseException ex) {
-                        Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
-                    }
-
-//                    final Person person = new Person();
-
-//                    person.setUsername(username)
-//                            .setPassword(password);
-
-                    mJobLog.setHours(mHourSelected.toString())
-                           .setObservations(description)
-                           .setSolicitude(solicitudeNumber)
-                           .setWorkDate(date)
-//                           .setPerson(person.setUsername(username)
-//                                            .setPassword(password))
-                           .setProject(mProjectSelected)
-                           .setTaskType(mTaskTypeSelected);
-
-//                    new SaveJobLogAsyncTask(getApplicationContext()).execute(mJobLog);
-//                }
             }
         });
     }
@@ -245,7 +207,16 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        MenuNavigator.newInstance().navigate(this);
+        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+
+        intent.setFlags(
+                Intent.FLAG_ACTIVITY_NEW_TASK |
+                        IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP
+        );
+
+        Bundle options = ScaleUpAnimator.newInstance().saveAnimation(mFab);
+        ActivityCompat.startActivity(this, intent, options);
     }
 
 //    private void initTaskTypeLoader() {
