@@ -14,10 +14,7 @@ import com.samsistemas.timesheet.screen.login.activity.LoginActivity;
 import com.samsistemas.timesheet.screen.settings.presenter.SettingsPresenterImpl;
 import com.samsistemas.timesheet.screen.settings.presenter.base.SettingsPresenter;
 import com.samsistemas.timesheet.screen.settings.view.SettingsView;
-
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import com.samsistemas.timesheet.utility.ThreadUtility;
 
 /**
  * @author jonatan.salas
@@ -32,17 +29,13 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
 
     @Override
     public void onCreatePreferences2(Bundle bundle, String s) {
-        final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Callable<Void> callable = new Callable<Void>() {
+        ThreadUtility.runInBackground(new ThreadUtility.CallBack<Void>() {
             @Override
-            public Void call() {
+            public Void execute() {
                 addPreferencesFromResource(R.xml.prefs);
                 return null;
             }
-        };
-
-        executor.submit(callable);
-        executor.shutdown();
+        });
     }
 
     @Override

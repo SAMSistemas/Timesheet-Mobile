@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.api.factory;
 
+import android.support.annotation.Nullable;
 import android.util.Base64;
 
 import com.squareup.okhttp.Interceptor;
@@ -30,7 +31,7 @@ public class ServiceFactory {
         return createService(serviceClass, null, null);
     }
 
-    public static <S> S createService(Class<S> serviceClass, String username, String password) {
+    public static <S> S createService(Class<S> serviceClass, @Nullable String username, @Nullable String password) {
         if (username != null && password != null) {
             String credentials = username + ":" + password;
             final String basic =

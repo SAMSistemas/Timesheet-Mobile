@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +26,7 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.screen.addhours.activity.AddHoursActivity;
 import com.samsistemas.timesheet.screen.menu.adapter.JobLogAdapter;
+import com.samsistemas.timesheet.screen.settings.fragment.SettingsFragment;
 import com.samsistemas.timesheet.utility.ActivityUtility;
 import com.samsistemas.timesheet.utility.DateUtility;
 import com.samsistemas.timesheet.utility.SimpleTouchItemHelperCallback;
@@ -165,6 +167,18 @@ public class MenuActivity extends BaseAppCompatActivity {
                         break;
 
                     case R.id.action_settings:
+//                        setTheme(R.style.AppTheme);
+//                        final ActionBar actionBar = getSupportActionBar();
+//
+//                        if (null != actionBar) {
+//                            actionBar.setTitle(R.string.action_settings);
+//                        }
+//
+//                        getSupportFragmentManager()
+//                                .beginTransaction()
+//                                .add(android.R.id.content, new SettingsFragment())
+//                                .commit();
+//
                         ActivityUtility.startActivityWithAnimation(MenuActivity.this, SettingsActivity.class, mNavigationView);
                         break;
                 }

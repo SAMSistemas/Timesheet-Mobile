@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.utility;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -15,7 +16,7 @@ import android.view.View;
  */
 public class ActivityUtility {
 
-    public static void startActivityWithAnimation(AppCompatActivity activity, Class launchActivity, View view) {
+    public static void startActivityWithAnimation(Activity activity, Class launchActivity, View view) {
         final Intent intent = new Intent(activity.getApplicationContext(), launchActivity);
 
         intent.setFlags(

@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screen.menu.activity.MenuActivity"
+            android:name=".screen.menu.activity.MenuActivity2"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >

@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
 import com.samsistemas.timesheet.screen.login.fragment.VerifyConnectionFragment;
+import com.samsistemas.timesheet.screen.menu.activity.MenuActivity2;
 import com.samsistemas.timesheet.utility.DeveloperUtility;
 import com.samsistemas.timesheet.utility.NetworkUtility;
 import com.samsistemas.timesheet.utility.PreferenceUtility;
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
 
     @Override
     public void navigateToHome() {
-        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), MenuActivity2.class);
 
         intent.setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK |
