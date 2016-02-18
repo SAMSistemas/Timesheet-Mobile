@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.common.fragment.base;
+package com.samsistemas.timesheet.common.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;

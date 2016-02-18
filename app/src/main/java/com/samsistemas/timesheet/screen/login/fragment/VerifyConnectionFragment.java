@@ -15,7 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.fragment.base.BaseDialogFragment;
+import com.samsistemas.timesheet.common.fragment.BaseDialogFragment;
 
 /**
  * @author jonatan.salas

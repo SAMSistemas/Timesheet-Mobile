@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screen.menu.activity.MenuActivity2"
+            android:name=".screen.menu.activity.MenuActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
@@ -42,16 +42,7 @@
         <activity
             android:name=".screen.settings.activity.SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".screen.account.activity.AccountActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity
-            android:name=".screen.addhours.activity.AddHoursActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme" >
         </activity>
     </application>
 </manifest>

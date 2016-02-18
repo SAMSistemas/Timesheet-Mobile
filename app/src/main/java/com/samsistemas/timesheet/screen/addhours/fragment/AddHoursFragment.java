@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.screen.addhours.activity;
+package com.samsistemas.timesheet.screen.addhours.fragment;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -8,28 +8,27 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.utility.ActivityUtility;
-import com.samsistemas.timesheet.utility.DeveloperUtility;
+import com.samsistemas.timesheet.common.fragment.BaseFragment;
+import com.samsistemas.timesheet.domain.Client;
+import com.samsistemas.timesheet.domain.Project;
+import com.samsistemas.timesheet.domain.TaskType;
 import com.samsistemas.timesheet.screen.addhours.adapter.ClientAdapter;
 import com.samsistemas.timesheet.screen.addhours.adapter.ProjectAdapter;
 import com.samsistemas.timesheet.screen.addhours.adapter.TaskTypeAdapter;
 import com.samsistemas.timesheet.screen.addhours.view.AddHoursView;
-import com.samsistemas.timesheet.domain.Client;
-import com.samsistemas.timesheet.domain.Project;
-import com.samsistemas.timesheet.domain.TaskType;
-import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
+import com.samsistemas.timesheet.utility.DeveloperUtility;
 
 import java.util.List;
 
@@ -39,58 +38,55 @@ import butterknife.ButterKnife;
 /**
  * @author jonatan.salas
  */
-public class AddHoursActivity extends AppCompatActivity implements AddHoursView {
-
-    @Bind(R.id.toolbar_layout) CollapsingToolbarLayout toolbarLayout;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.hours_spinner) Spinner hourSpinner;
-    @Bind(R.id.task_spinner) Spinner taskTypeSpinner;
-    @Bind(R.id.client_spinner) Spinner clientSpinner;
-    @Bind(R.id.project_spinner) Spinner projectSpinner;
-    @Bind(R.id.fab) FloatingActionButton saveButton;
-    @Bind(R.id.description) EditText description;
-    @Bind(R.id.solicitude) EditText solicitudeNumber;
-
+public class AddHoursFragment extends BaseFragment implements AddHoursView {
     private TaskTypeAdapter taskTypeAdapter;
     private ClientAdapter clientAdapter;
     private ProjectAdapter projectAdapter;
 
+    @Bind(R.id.toolbar_layout)
+    CollapsingToolbarLayout toolbarLayout;
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+
+    @Bind(R.id.hours_spinner)
+    Spinner hourSpinner;
+
+    @Bind(R.id.task_spinner)
+    Spinner taskTypeSpinner;
+
+    @Bind(R.id.client_spinner)
+    Spinner clientSpinner;
+
+    @Bind(R.id.project_spinner)
+    Spinner projectSpinner;
+
+    @Bind(R.id.fab)
+    FloatingActionButton saveButton;
+
+    @Bind(R.id.description)
+    EditText description;
+
+    @Bind(R.id.solicitude)
+    EditText solicitudeNumber;
+
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_hours);
-        ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        DeveloperUtility.enableStrictModeApi(true);
-
-        final Intent intent = getIntent();
-
-//        if (null != intent) {
-//            String dateString = intent.getStringExtra(DATE_KEY);
-//        }
-
-        final ActionBar actionBar = getSupportActionBar();
-
-        if (null != actionBar) {
-            actionBar.setTitle(getString(R.string.action_add_hour));
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setDisplayUseLogoEnabled(false);
-        }
-
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_add_hours, container, false);
+        ButterKnife.bind(this, view);
         toolbarLayout.setTitleEnabled(false);
 
-        taskTypeSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        taskTypeSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
 
-        final ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(getApplication(), R.array.hours, android.R.layout.simple_spinner_dropdown_item);
+        final ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(getContext(), R.array.hours, android.R.layout.simple_spinner_dropdown_item);
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        hourSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        hourSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
         hourSpinner.setAdapter(hourAdapter);
 
-        clientSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        projectSpinner.getBackground().setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        clientSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        projectSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
 
         hourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -142,35 +138,57 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
 
             }
         });
+
+        return view;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        final int id = item.getItemId();
+    public void onDestroyView() {
+        ButterKnife.unbind(this);
+        super.onDestroyView();
+    }
 
-        switch (id) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        DeveloperUtility.enableStrictModeApi(true);
+
+        final Intent intent = activity.getIntent();
+
+//        if (null != intent) {
+//            String dateString = intent.getStringExtra(DATE_KEY);
+//        }
+
+        final ActionBar actionBar = activity.getSupportActionBar();
+
+        if (null != toolbar) {
+            getToolbarCallback().synchronize(toolbar);
         }
 
-        return super.onOptionsItemSelected(item);
+        if (null != actionBar) {
+            actionBar.setTitle(getString(R.string.action_add_hour));
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
     public void navigateToMenu() {
-        ActivityUtility.startActivityWithAnimation(this, MenuActivity.class, saveButton);
+
     }
 
     @Override
     public void loadTaskTypeData(@Nullable List<TaskType> taskTypeList) {
         if (null == taskTypeAdapter) {
-            taskTypeAdapter = new TaskTypeAdapter(getApplicationContext(), taskTypeList);
+            taskTypeAdapter = new TaskTypeAdapter(getContext(), taskTypeList);
         } else {
             if (null != taskTypeList) {
                 taskTypeAdapter.setList(null);
@@ -187,7 +205,7 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
     @Override
     public void loadClientsData(@Nullable List<Client> clientList) {
         if (null == clientAdapter) {
-            clientAdapter = new ClientAdapter(getApplicationContext(), clientList);
+            clientAdapter = new ClientAdapter(getContext(), clientList);
         } else {
             if (null != clientList) {
                 clientAdapter.setList(null);
@@ -204,7 +222,7 @@ public class AddHoursActivity extends AppCompatActivity implements AddHoursView 
     @Override
     public void loadProjectsData(@Nullable List<Project> projectList) {
         if (null == projectAdapter) {
-            projectAdapter = new ProjectAdapter(getApplicationContext(), projectList);
+            projectAdapter = new ProjectAdapter(getContext(), projectList);
         } else {
             if (null != projectList) {
                 projectAdapter.setList(null);

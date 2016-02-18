@@ -1,16 +1,10 @@
 package com.samsistemas.timesheet.screen.menu.adapter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.IntentCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,12 +18,9 @@ import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.utility.ItemTouchHelperAdapter;
 import com.samsistemas.timesheet.utility.ItemTouchHelperViewHolder;
-import com.samsistemas.timesheet.screen.addhours.activity.AddHoursActivity;
 
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author jonatan.salas
@@ -70,22 +61,22 @@ public class JobLogAdapter extends RecyclerView.Adapter<JobLogAdapter.ViewHolder
                 public boolean onMenuItemClick(MenuItem item) {
                     switch(item.getItemId()) {
                         case R.id.action_mode_edit:
-                            Intent addHoursIntent = new Intent(mContext.getApplicationContext(), AddHoursActivity.class);
-                            final JobLog jobLog = mItems.get(getAdapterPosition());
-                            String dateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(jobLog.getWorkDate());
-
-                            addHoursIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            addHoursIntent.putExtra(DATE_KEY, dateString);
-                            addHoursIntent.putExtra(EDIT_MODE_KEY, true);
-                            addHoursIntent.putExtra(JOBLOG_ID_KEY, jobLog.getId());
-
-                            int startX = ((Float) ViewCompat.getX(v)).intValue();
-                            int startY = ((Float) ViewCompat.getY(v)).intValue();
-
-                            Bundle options = ActivityOptionsCompat
-                                    .makeScaleUpAnimation(v, startX, startY, v.getWidth(), v.getHeight()).toBundle();
-
-                            ActivityCompat.startActivity(mContext, addHoursIntent, options);
+//                            Intent addHoursIntent = new Intent(mContext.getApplicationContext(), AddHoursActivity.class);
+//                            final JobLog jobLog = mItems.get(getAdapterPosition());
+//                            String dateString = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).format(jobLog.getWorkDate());
+//
+//                            addHoursIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            addHoursIntent.putExtra(DATE_KEY, dateString);
+//                            addHoursIntent.putExtra(EDIT_MODE_KEY, true);
+//                            addHoursIntent.putExtra(JOBLOG_ID_KEY, jobLog.getId());
+//
+//                            int startX = ((Float) ViewCompat.getX(v)).intValue();
+//                            int startY = ((Float) ViewCompat.getY(v)).intValue();
+//
+//                            Bundle options = ActivityOptionsCompat
+//                                    .makeScaleUpAnimation(v, startX, startY, v.getWidth(), v.getHeight()).toBundle();
+//
+//                            ActivityCompat.startActivity(mContext, addHoursIntent, options);
                     }
 
                     return true;

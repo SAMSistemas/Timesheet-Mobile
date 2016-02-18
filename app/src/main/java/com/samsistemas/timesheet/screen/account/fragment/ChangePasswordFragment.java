@@ -19,7 +19,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.fragment.base.BaseDialogFragment;
+import com.samsistemas.timesheet.common.fragment.BaseDialogFragment;
 
 /**
  * @author jonatan.salas

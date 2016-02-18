@@ -9,7 +9,6 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.XpPreferenceFragment;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.callback.ToolbarCallback;
 import com.samsistemas.timesheet.utility.PreferenceUtility;
 import com.samsistemas.timesheet.screen.login.activity.LoginActivity;
 import com.samsistemas.timesheet.screen.settings.presenter.SettingsPresenterImpl;
@@ -22,7 +21,6 @@ import com.samsistemas.timesheet.utility.ThreadUtility;
  */
 public class SettingsFragment extends XpPreferenceFragment implements SettingsView {
     private SettingsPresenter settingsPresenter;
-    ToolbarCallback callback;
 
     public SettingsFragment() {
         setHasOptionsMenu(false);
@@ -84,9 +82,5 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
 
         startActivity(intent);
         getActivity().finish();
-    }
-
-    public void setToolbarCallback(@NonNull ToolbarCallback callback) {
-        this.callback = callback;
     }
 }

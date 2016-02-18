@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,11 +20,9 @@ import android.widget.TextView;
 import com.samsistemas.calendarview.util.CalendarUtil;
 import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.callback.ToolbarCallback;
+import com.samsistemas.timesheet.common.fragment.BaseFragment;
 import com.samsistemas.timesheet.domain.JobLog;
-import com.samsistemas.timesheet.screen.addhours.activity.AddHoursActivity;
 import com.samsistemas.timesheet.screen.menu.adapter.JobLogAdapter;
-import com.samsistemas.timesheet.utility.ActivityUtility;
 import com.samsistemas.timesheet.utility.DateUtility;
 import com.samsistemas.timesheet.utility.SimpleTouchItemHelperCallback;
 
@@ -40,7 +37,7 @@ import butterknife.ButterKnife;
 /**
  * @author jonatan.salas
  */
-public class MenuFragment extends Fragment {
+public class MenuFragment extends BaseFragment {
     private JobLogAdapter mAdapter;
 
     @Bind(R.id.toolbar)
@@ -60,8 +57,6 @@ public class MenuFragment extends Fragment {
 
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
-
-    ToolbarCallback callback;
 
     @Nullable
     @Override
@@ -123,7 +118,7 @@ public class MenuFragment extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityUtility.startActivityWithAnimation(getActivity(), AddHoursActivity.class, view);
+
             }
         });
 
@@ -146,8 +141,8 @@ public class MenuFragment extends Fragment {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        if (null != callback) {
-            callback.synchronize(mToolbar);
+        if (null != getToolbarCallback()) {
+            getToolbarCallback().synchronize(mToolbar);
         }
     }
 
@@ -155,9 +150,5 @@ public class MenuFragment extends Fragment {
     public void onDestroyView() {
         ButterKnife.unbind(this);
         super.onDestroyView();
-    }
-
-    public void setToolbarCallback(@NonNull ToolbarCallback callback) {
-        this.callback = callback;
     }
 }
