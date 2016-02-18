@@ -19,6 +19,7 @@ import com.samsistemas.timesheet.common.callback.ToolbarCallback;
 import com.samsistemas.timesheet.screen.account.activity.AccountActivity;
 import com.samsistemas.timesheet.screen.addhours.activity.AddHoursActivity;
 import com.samsistemas.timesheet.screen.menu.fragment.MenuFragment;
+import com.samsistemas.timesheet.screen.settings.activity.SettingsActivity;
 import com.samsistemas.timesheet.screen.settings.fragment.SettingsFragment;
 import com.samsistemas.timesheet.utility.ActivityUtility;
 
@@ -61,10 +62,12 @@ public class MenuActivity2 extends AppCompatActivity
             }
         });
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment, fragment)
-                .commit();
+        if (null == savedInstanceState) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment, fragment)
+                    .commit();
+        }
 
         //Style headerView for NavigationView
         final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, mNavigationView, false);
@@ -104,12 +107,7 @@ public class MenuActivity2 extends AppCompatActivity
                 break;
 
             case R.id.action_settings:
-                setTheme(R.style.AppTheme);
-
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment, new SettingsFragment())
-                        .commit();
+                ActivityUtility.startActivityWithAnimation(MenuActivity2.this, SettingsActivity.class, mNavigationView);
                 break;
         }
 

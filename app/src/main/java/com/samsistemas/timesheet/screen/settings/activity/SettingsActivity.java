@@ -1,15 +1,18 @@
 package com.samsistemas.timesheet.screen.settings.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.IntentCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
+import com.samsistemas.timesheet.screen.menu.activity.MenuActivity2;
 import com.samsistemas.timesheet.screen.settings.fragment.SettingsFragment;
 
 import net.xpece.android.support.preference.Fixes;
@@ -32,12 +35,16 @@ public class SettingsActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setDisplayUseLogoEnabled(false);
+            int color = ContextCompat.getColor(getApplicationContext(), R.color.primary);
+            actionBar.setBackgroundDrawable(new ColorDrawable(color));
         }
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(android.R.id.content, new SettingsFragment())
-                .commit();
+        if (null == savedInstanceState) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(android.R.id.content, new SettingsFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -52,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), MenuActivity2.class);
 
         intent.setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK |

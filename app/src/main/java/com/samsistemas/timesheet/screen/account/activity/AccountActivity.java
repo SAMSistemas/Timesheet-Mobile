@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.screen.menu.activity.MenuActivity2;
 import com.samsistemas.timesheet.utility.DeveloperUtility;
 import com.samsistemas.timesheet.utility.PreferenceUtility;
 import com.samsistemas.timesheet.domain.Person;
@@ -21,7 +22,6 @@ import com.samsistemas.timesheet.screen.account.fragment.ChangePasswordFragment;
 import com.samsistemas.timesheet.screen.account.presenter.AccountPresenterImpl;
 import com.samsistemas.timesheet.screen.account.presenter.base.AccountPresenter;
 import com.samsistemas.timesheet.screen.account.view.AccountView;
-import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -119,7 +119,7 @@ public class AccountActivity extends AppCompatActivity implements AccountView {
 
     @Override
     public void navigateToHome() {
-        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), MenuActivity2.class);
 
         intent.setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK |
