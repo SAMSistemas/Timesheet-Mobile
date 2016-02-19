@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.common.callback.NestedFragmentCallback;
 import com.samsistemas.timesheet.common.callback.ToolbarCallback;
 import com.samsistemas.timesheet.common.fragment.BaseFragment;
 import com.samsistemas.timesheet.screen.account.fragment.AccountFragment;
@@ -43,12 +44,25 @@ public class MenuActivity extends AppCompatActivity
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
 
-    private final ToolbarCallback callback = new ToolbarCallback() {
+    private final ToolbarCallback toolbarCallback = new ToolbarCallback() {
         @Override
         public void synchronize(@NonNull Toolbar toolbar) {
             final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MenuActivity.this, drawerLayout, toolbar, 0, 0);
             drawerLayout.setDrawerListener(toggle);
             toggle.syncState();
+        }
+    };
+
+    private final NestedFragmentCallback nestedFragmentCallback = new NestedFragmentCallback() {
+        @Override
+        public void placeNestedFragment() {
+            final BaseFragment fragment = new AddHoursFragment();
+            fragment.setToolbarCallback(toolbarCallback);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment, fragment)
+                    .commit();
         }
     };
 
@@ -61,7 +75,8 @@ public class MenuActivity extends AppCompatActivity
 
         if (null == savedInstanceState) {
             BaseFragment fragment = new MenuFragment();
-            fragment.setToolbarCallback(callback);
+            fragment.setToolbarCallback(toolbarCallback);
+            fragment.setNestedFragmentCallback(nestedFragmentCallback);
 
             getSupportFragmentManager()
                     .beginTransaction()
@@ -109,7 +124,11 @@ public class MenuActivity extends AppCompatActivity
         drawerLayout.closeDrawer(GravityCompat.START);
 
         if (null != fragment) {
-            fragment.setToolbarCallback(callback);
+            fragment.setToolbarCallback(toolbarCallback);
+
+            if (fragment instanceof MenuFragment) {
+                fragment.setNestedFragmentCallback(nestedFragmentCallback);
+            }
 
             getSupportFragmentManager()
                     .beginTransaction()

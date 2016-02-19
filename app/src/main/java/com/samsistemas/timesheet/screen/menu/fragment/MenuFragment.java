@@ -118,7 +118,9 @@ public class MenuFragment extends BaseFragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (null != getNestedFragmentCallback()) {
+                    getNestedFragmentCallback().placeNestedFragment();
+                }
             }
         });
 
