@@ -18,10 +18,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.jonisaa.commons.fragment.CallbackFragment;
 import com.jonisaa.commons.utility.DeveloperUtility;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.fragment.CallbackFragment;
 import com.samsistemas.timesheet.domain.Client;
 import com.samsistemas.timesheet.domain.Project;
 import com.samsistemas.timesheet.domain.TaskType;

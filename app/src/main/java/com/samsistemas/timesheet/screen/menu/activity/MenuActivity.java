@@ -14,10 +14,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.jonisaa.commons.activity.BaseFragmentActivity;
+import com.jonisaa.commons.fragment.CallbackFragment;
+
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.callback.NestedFragmentCallback;
-import com.samsistemas.timesheet.common.callback.ToolbarCallback;
-import com.samsistemas.timesheet.common.fragment.CallbackFragment;
 import com.samsistemas.timesheet.screen.account.fragment.AccountFragment;
 import com.samsistemas.timesheet.screen.addhours.fragment.AddHoursFragment;
 import com.samsistemas.timesheet.screen.menu.fragment.MenuFragment;
@@ -43,7 +42,7 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
 
-    private final ToolbarCallback toolbarCallback = new ToolbarCallback() {
+    private final CallbackFragment.ToolbarCallback toolbarCallback = new CallbackFragment.ToolbarCallback() {
         @Override
         public void synchronize(@NonNull Toolbar toolbar) {
             final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MenuActivity.this, drawerLayout, toolbar, 0, 0);
@@ -52,7 +51,7 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
         }
     };
 
-    private final NestedFragmentCallback nestedFragmentCallback = new NestedFragmentCallback() {
+    private final CallbackFragment.NestedFragmentCallback nestedFragmentCallback = new CallbackFragment.NestedFragmentCallback() {
         @Override
         public void placeNestedFragment() {
             final AddHoursFragment fragment = new AddHoursFragment();
@@ -92,13 +91,15 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
 
         switch (id) {
             case R.id.action_view_calendar:
-                fragment = new MenuFragment();
+                fragment = getFragment();
                 break;
             case R.id.action_add_hour:
                 fragment = new AddHoursFragment();
+                fragment.setToolbarCallback(toolbarCallback);
                 break;
             case R.id.action_account:
                 fragment = new AccountFragment();
+                fragment.setToolbarCallback(toolbarCallback);
                 break;
             case R.id.action_settings:
                 ActivityUtility
@@ -107,21 +108,14 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
             default: break;
         }
 
-        drawerLayout.closeDrawer(GravityCompat.START);
-
         if (null != fragment) {
-            fragment.setToolbarCallback(toolbarCallback);
-
-            if (fragment instanceof MenuFragment) {
-                fragment.setNestedFragmentCallback(nestedFragmentCallback);
-            }
-
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment, fragment)
                     .commit();
         }
 
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

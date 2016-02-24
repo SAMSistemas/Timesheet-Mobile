@@ -15,10 +15,11 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jonisaa.commons.fragment.CallbackFragment;
+
 import com.samsistemas.calendarview.util.CalendarUtil;
 import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.fragment.CallbackFragment;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.screen.menu.adapter.JobLogAdapter;
 import com.samsistemas.timesheet.screen.menu.presenter.MenuPresenter;

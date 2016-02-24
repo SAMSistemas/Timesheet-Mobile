@@ -51,7 +51,6 @@ public final class ThreadUtility {
     }
 
     public interface CallBack<T> {
-
         T execute();
     }
 }
