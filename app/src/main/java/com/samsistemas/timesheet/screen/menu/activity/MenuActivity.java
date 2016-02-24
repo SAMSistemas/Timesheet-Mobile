@@ -7,17 +7,17 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jonisaa.commons.activity.BaseFragmentActivity;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.callback.NestedFragmentCallback;
 import com.samsistemas.timesheet.common.callback.ToolbarCallback;
-import com.samsistemas.timesheet.common.fragment.BaseFragment;
+import com.samsistemas.timesheet.common.fragment.CallbackFragment;
 import com.samsistemas.timesheet.screen.account.fragment.AccountFragment;
 import com.samsistemas.timesheet.screen.addhours.fragment.AddHoursFragment;
 import com.samsistemas.timesheet.screen.menu.fragment.MenuFragment;
@@ -25,7 +25,6 @@ import com.samsistemas.timesheet.screen.settings.activity.SettingsActivity;
 import com.samsistemas.timesheet.utility.ActivityUtility;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Class used as MenuActivity. It manages multiples fragments instances by
@@ -33,7 +32,7 @@ import butterknife.ButterKnife;
  *
  * @author jonatan.salas
  */
-public class MenuActivity extends AppCompatActivity
+public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
         implements NavigationView.OnNavigationItemSelectedListener {
     private TextView fullname;
     private TextView username;
@@ -56,7 +55,7 @@ public class MenuActivity extends AppCompatActivity
     private final NestedFragmentCallback nestedFragmentCallback = new NestedFragmentCallback() {
         @Override
         public void placeNestedFragment() {
-            final BaseFragment fragment = new AddHoursFragment();
+            final AddHoursFragment fragment = new AddHoursFragment();
             fragment.setToolbarCallback(toolbarCallback);
 
             getSupportFragmentManager()
@@ -69,20 +68,7 @@ public class MenuActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
-        ButterKnife.bind(this);
         setTitle(R.string.action_view_calendar);
-
-        if (null == savedInstanceState) {
-            BaseFragment fragment = new MenuFragment();
-            fragment.setToolbarCallback(toolbarCallback);
-            fragment.setNestedFragmentCallback(nestedFragmentCallback);
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment, fragment)
-                    .commit();
-        }
 
         //Style headerView for NavigationView
         final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, navigationView, false);
@@ -102,7 +88,7 @@ public class MenuActivity extends AppCompatActivity
             item.setChecked(true);
         }
 
-        BaseFragment fragment = null;
+        CallbackFragment fragment = null;
 
         switch (id) {
             case R.id.action_view_calendar:
@@ -159,5 +145,30 @@ public class MenuActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public int getLayout() {
+        return R.layout.activity_menu;
+    }
+
+    @Override
+    public int getContent() {
+        return R.id.fragment;
+    }
+
+    @Nullable
+    @Override
+    public CallbackFragment createFragment() {
+        final CallbackFragment fragment = new MenuFragment();
+        fragment.setToolbarCallback(toolbarCallback);
+        fragment.setNestedFragmentCallback(nestedFragmentCallback);
+
+        return fragment;
+    }
+
+    @Override
+    public void restoreFragmentState(@Nullable Bundle bundle) {
+
     }
 }

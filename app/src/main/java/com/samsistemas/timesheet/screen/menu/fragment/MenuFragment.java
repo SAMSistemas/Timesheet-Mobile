@@ -12,17 +12,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.samsistemas.calendarview.util.CalendarUtil;
 import com.samsistemas.calendarview.widget.CalendarView;
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.fragment.BaseFragment;
+import com.samsistemas.timesheet.common.fragment.CallbackFragment;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.screen.menu.adapter.JobLogAdapter;
+import com.samsistemas.timesheet.screen.menu.presenter.MenuPresenter;
+import com.samsistemas.timesheet.screen.menu.view.MenuView;
 import com.samsistemas.timesheet.utility.DateUtility;
 import com.samsistemas.timesheet.utility.SimpleTouchItemHelperCallback;
 
@@ -32,12 +32,11 @@ import java.util.Date;
 import java.util.Locale;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * @author jonatan.salas
  */
-public class MenuFragment extends BaseFragment {
+public class MenuFragment extends CallbackFragment<MenuPresenter> implements MenuView {
     private JobLogAdapter mAdapter;
 
     @Bind(R.id.toolbar)
@@ -58,11 +57,14 @@ public class MenuFragment extends BaseFragment {
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
+    @Override
+    public int getLayout() {
+        return R.layout.fragment_menu;
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_menu, container, false);
-        ButterKnife.bind(this, view);
+    public View onViewCreated(@Nullable View view) {
 
         //Style CollapsingToolbarLayout
         mCollapsingToolbarLayout.setTitleEnabled(false);
@@ -128,6 +130,12 @@ public class MenuFragment extends BaseFragment {
         return view;
     }
 
+    @NonNull
+    @Override
+    public MenuPresenter createPresenter() {
+        return MenuPresenter.getInstance(this);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -146,11 +154,5 @@ public class MenuFragment extends BaseFragment {
         if (null != getToolbarCallback()) {
             getToolbarCallback().synchronize(mToolbar);
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        ButterKnife.unbind(this);
-        super.onDestroyView();
     }
 }

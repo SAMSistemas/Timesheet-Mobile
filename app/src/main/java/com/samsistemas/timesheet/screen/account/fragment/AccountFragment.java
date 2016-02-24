@@ -1,41 +1,34 @@
 package com.samsistemas.timesheet.screen.account.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.fragment.BaseFragment;
+import com.samsistemas.timesheet.common.fragment.CallbackFragment;
 import com.samsistemas.timesheet.domain.Person;
-import com.samsistemas.timesheet.screen.account.presenter.AccountPresenterImpl;
-import com.samsistemas.timesheet.screen.account.presenter.base.AccountPresenter;
+import com.samsistemas.timesheet.screen.account.presenter.AccountPresenter;
 import com.samsistemas.timesheet.screen.account.view.AccountView;
-import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
 import com.samsistemas.timesheet.utility.DeveloperUtility;
 import com.samsistemas.timesheet.utility.PreferenceUtility;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * @author jonatan.salas
  */
-public class AccountFragment extends BaseFragment implements AccountView {
+public class AccountFragment extends CallbackFragment<AccountPresenter> implements AccountView {
     private static final String SAM_DOMAIN = "@samsistemas.com.ar";
-    private AccountPresenter presenter;
     private ActionBar actionBar;
 
     @Bind(R.id.tool_bar)
@@ -57,28 +50,21 @@ public class AccountFragment extends BaseFragment implements AccountView {
         setHasOptionsMenu(true);
     }
 
+    @Override
+    public int getLayout() {
+        return R.layout.fragment_account;
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_account, container, false);
-        ButterKnife.bind(this, view);
-
-        presenter = new AccountPresenterImpl();
-        presenter.setAccountView(this);
-
+    public View onViewCreated(@Nullable View view) {
         return view;
     }
 
+    @NonNull
     @Override
-    public void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDestroyView() {
-        ButterKnife.unbind(this);
-        super.onDestroyView();
+    public AccountPresenter createPresenter() {
+        return AccountPresenter.getInstance(this);
     }
 
     @Override
@@ -94,8 +80,8 @@ public class AccountFragment extends BaseFragment implements AccountView {
         }
 
         actionBar = activity.getSupportActionBar();
-        presenter.styleBar("");
-        presenter.setAccountData(PreferenceUtility.getSessionId(getContext()));
+        getPresenter().styleBar("");
+        getPresenter().setAccountData(PreferenceUtility.getSessionId(getContext()));
     }
 
     @Override
@@ -143,19 +129,5 @@ public class AccountFragment extends BaseFragment implements AccountView {
         } else {
             Snackbar.make(toolbar, "There's a trouble loading person data. Please, try again.", Snackbar.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void navigateToHome() {
-        final Intent intent = new Intent(getContext(), MenuActivity.class);
-
-        intent.setFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK |
-                        IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP
-        );
-
-        startActivity(intent);
-        getActivity().finish();
     }
 }

@@ -12,6 +12,4 @@ public interface AccountView {
     void styleActionBar(String title);
 
     void bindAccountInfo(@Nullable Person person);
-
-    void navigateToHome();
 }

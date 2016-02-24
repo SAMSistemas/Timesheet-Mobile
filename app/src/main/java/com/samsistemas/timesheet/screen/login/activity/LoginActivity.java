@@ -2,9 +2,9 @@ package com.samsistemas.timesheet.screen.login.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +12,10 @@ import android.widget.EditText;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
+import com.jonisaa.commons.activity.BaseActivity;
+
 import com.samsistemas.timesheet.screen.login.fragment.VerifyConnectionFragment;
+import com.samsistemas.timesheet.screen.login.presenter.LoginPresenter;
 import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
 import com.samsistemas.timesheet.utility.DeveloperUtility;
 import com.samsistemas.timesheet.utility.NetworkUtility;
@@ -20,20 +23,16 @@ import com.samsistemas.timesheet.utility.PreferenceUtility;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.screen.login.listener.OnCreateSessionListener;
 import com.samsistemas.timesheet.screen.login.listener.OnRestoreSessionListener;
-import com.samsistemas.timesheet.screen.login.presenter.LoginPresenterImpl;
-import com.samsistemas.timesheet.screen.login.presenter.base.LoginPresenter;
 import com.samsistemas.timesheet.screen.login.view.LoginView;
 import com.samsistemas.timesheet.R;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * @author jonatan.salas
  */
-public class LoginActivity extends AppCompatActivity implements LoginView, OnCreateSessionListener,
-        OnRestoreSessionListener, View.OnClickListener {
-    private LoginPresenter loginPresenter;
+public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView,
+        OnCreateSessionListener, OnRestoreSessionListener, View.OnClickListener {
     private MaterialDialog dialog;
 
     @Bind(R.id.username) EditText username;
@@ -47,16 +46,23 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
         setTheme(R.style.AppTheme_Dark_NoActionBar);
         ThreadUtility.sleep(1000);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
         DeveloperUtility.enableStrictModeApi(true);
 
         login.setOnClickListener(this);
 
-        loginPresenter = new LoginPresenterImpl();
-        loginPresenter.setLoginView(this);
-        loginPresenter.setOnCreateSessionListener(this);
-        loginPresenter.restoreUserSession(this);
+        getPresenter().setOnCreateSessionListener(this);
+        getPresenter().restoreUserSession(this);
+    }
+
+    @Override
+    public int getLayout() {
+        return R.layout.activity_login;
+    }
+
+    @NonNull
+    @Override
+    public LoginPresenter createPresenter() {
+        return LoginPresenter.getInstance(this);
     }
 
     @Override
@@ -65,7 +71,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
             dialog.dismiss();
         }
 
-        loginPresenter.onDestroy();
         super.onDestroy();
     }
 
@@ -138,6 +143,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, OnCre
         final String user = username.getText().toString().trim();
         final String pass = password.getText().toString().trim();
 
-        loginPresenter.validateCredentials(user, pass);
+        getPresenter().validateCredentials(user, pass);
     }
 }

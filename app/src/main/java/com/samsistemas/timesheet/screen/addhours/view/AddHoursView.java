@@ -13,8 +13,6 @@ import java.util.List;
  */
 public interface AddHoursView {
 
-    void navigateToMenu();
-
     void loadTaskTypeData(@Nullable List<TaskType> taskTypeList);
 
     void loadClientsData(@Nullable List<Client> clientList);

@@ -9,10 +9,9 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.XpPreferenceFragment;
 
 import com.samsistemas.timesheet.R;
+import com.samsistemas.timesheet.screen.settings.presenter.SettingsPresenter;
 import com.samsistemas.timesheet.utility.PreferenceUtility;
 import com.samsistemas.timesheet.screen.login.activity.LoginActivity;
-import com.samsistemas.timesheet.screen.settings.presenter.SettingsPresenterImpl;
-import com.samsistemas.timesheet.screen.settings.presenter.base.SettingsPresenter;
 import com.samsistemas.timesheet.screen.settings.view.SettingsView;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 
@@ -24,7 +23,7 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
 
     public SettingsFragment() {
         setHasOptionsMenu(false);
-        settingsPresenter = new SettingsPresenterImpl();
+        settingsPresenter = SettingsPresenter.getInstance(this);
     }
 
     @Override
@@ -39,14 +38,8 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        settingsPresenter.setSettingsView(this);
-    }
-
-    @Override
     public void onDestroy() {
-        settingsPresenter.onDestroy();
+        settingsPresenter.detachView();
         super.onDestroy();
     }
 

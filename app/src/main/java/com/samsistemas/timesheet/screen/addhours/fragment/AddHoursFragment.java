@@ -3,6 +3,7 @@ package com.samsistemas.timesheet.screen.addhours.fragment;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -11,34 +12,34 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.common.fragment.BaseFragment;
+import com.samsistemas.timesheet.common.callback.ToolbarCallback;
+import com.samsistemas.timesheet.common.fragment.CallbackFragment;
 import com.samsistemas.timesheet.domain.Client;
 import com.samsistemas.timesheet.domain.Project;
 import com.samsistemas.timesheet.domain.TaskType;
 import com.samsistemas.timesheet.screen.addhours.adapter.ClientAdapter;
 import com.samsistemas.timesheet.screen.addhours.adapter.ProjectAdapter;
 import com.samsistemas.timesheet.screen.addhours.adapter.TaskTypeAdapter;
+import com.samsistemas.timesheet.screen.addhours.presenter.AddHoursPresenter;
 import com.samsistemas.timesheet.screen.addhours.view.AddHoursView;
 import com.samsistemas.timesheet.utility.DeveloperUtility;
 
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * @author jonatan.salas
  */
-public class AddHoursFragment extends BaseFragment implements AddHoursView {
+public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implements AddHoursView {
+    private ToolbarCallback toolbarCallback;
     private TaskTypeAdapter taskTypeAdapter;
     private ClientAdapter clientAdapter;
     private ProjectAdapter projectAdapter;
@@ -70,11 +71,14 @@ public class AddHoursFragment extends BaseFragment implements AddHoursView {
     @Bind(R.id.solicitude)
     EditText solicitudeNumber;
 
+    @Override
+    public int getLayout() {
+        return R.layout.fragment_add_hours;
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_add_hours, container, false);
-        ButterKnife.bind(this, view);
+    public View onViewCreated(@Nullable View view) {
         toolbarLayout.setTitleEnabled(false);
 
         taskTypeSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
@@ -142,10 +146,10 @@ public class AddHoursFragment extends BaseFragment implements AddHoursView {
         return view;
     }
 
+    @NonNull
     @Override
-    public void onDestroyView() {
-        ButterKnife.unbind(this);
-        super.onDestroyView();
+    public AddHoursPresenter createPresenter() {
+        return AddHoursPresenter.getInstance(this);
     }
 
     @Override
@@ -173,16 +177,6 @@ public class AddHoursFragment extends BaseFragment implements AddHoursView {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void navigateToMenu() {
-
     }
 
     @Override

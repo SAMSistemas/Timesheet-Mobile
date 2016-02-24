@@ -1,27 +1,28 @@
 package com.samsistemas.timesheet.screen.account.presenter;
 
+import android.support.annotation.NonNull;
+
+import com.jonisaa.commons.presenter.BasePresenter;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.domain.Session;
-import com.samsistemas.timesheet.screen.account.presenter.base.AccountPresenter;
 import com.samsistemas.timesheet.screen.account.view.AccountView;
 
 /**
  * @author jonatan.salas
  */
-public class AccountPresenterImpl implements AccountPresenter {
-    private AccountView accountView;
+public class AccountPresenter extends BasePresenter<AccountView> {
 
-    public AccountPresenterImpl() { }
+    private AccountPresenter(@NonNull AccountView view) {
+        super(view);
+    }
 
-    @Override
     public void styleBar(String title) {
-        if (null != accountView) {
-            accountView.styleActionBar(title);
+        if (null != getView()) {
+            getView().styleActionBar(title);
         }
     }
 
-    @Override
     public void setAccountData(final Long sessionId) {
         final Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
             @Override
@@ -36,25 +37,12 @@ public class AccountPresenterImpl implements AccountPresenter {
             person = session.getPerson();
         }
 
-        if (null != accountView) {
-            accountView.bindAccountInfo(person);
+        if (null != getView()) {
+            getView().bindAccountInfo(person);
         }
     }
 
-    @Override
-    public void onDestroy() {
-        this.accountView = null;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (null != accountView) {
-            accountView.navigateToHome();
-        }
-    }
-
-    @Override
-    public void setAccountView(AccountView accountView) {
-        this.accountView = accountView;
+    public static AccountPresenter getInstance(@NonNull AccountView view) {
+        return new AccountPresenter(view);
     }
 }
