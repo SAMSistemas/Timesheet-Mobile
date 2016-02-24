@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.domain;
 
-import com.jonisaa.commons.adapter.AdapterId;
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
 import com.orm.dsl.Unique;
@@ -13,7 +12,7 @@ import org.parceler.Parcel;
  * @author jonatan.salas
  */
 @Parcel
-public class Client extends SugarRecord implements AdapterId {
+public class Client extends SugarRecord {
 
     /**
      * The id of the client stored in the server
@@ -43,11 +42,6 @@ public class Client extends SugarRecord implements AdapterId {
      * Public Constructor
      */
     public Client() { }
-
-    @Override
-    public long getItemId() {
-        return getId();
-    }
 
     public Long getServerId() {
         return serverId;
