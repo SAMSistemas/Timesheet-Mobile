@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.domain;
 
+import com.jonisaa.commons.adapter.AdapterId;
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
 import com.orm.dsl.Unique;
@@ -12,7 +13,7 @@ import org.parceler.Parcel;
  * @author jonatan.salas
  */
 @Parcel
-public class TaskType extends SugarRecord {
+public class TaskType extends SugarRecord implements AdapterId {
 
     /**
      * The id of the tasktype stored in the server
@@ -36,6 +37,11 @@ public class TaskType extends SugarRecord {
      * Public constructor
      */
     public TaskType() { }
+
+    @Override
+    public long getItemId() {
+        return getId();
+    }
 
     public Long getServerId() {
         return serverId;
