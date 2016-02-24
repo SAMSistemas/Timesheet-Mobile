@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.domain.JobLog;
-import com.samsistemas.timesheet.utility.ItemTouchHelperAdapter;
-import com.samsistemas.timesheet.utility.ItemTouchHelperViewHolder;
+import com.samsistemas.timesheet.common.callback.ItemTouchHelperAdapter;
+import com.samsistemas.timesheet.common.callback.ItemTouchHelperViewHolder;
 
 import java.util.Collections;
 import java.util.List;

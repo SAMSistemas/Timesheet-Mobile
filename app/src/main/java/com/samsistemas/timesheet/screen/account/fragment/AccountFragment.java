@@ -14,12 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jonisaa.commons.utility.DeveloperUtility;
+
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.common.fragment.CallbackFragment;
 import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.screen.account.presenter.AccountPresenter;
 import com.samsistemas.timesheet.screen.account.view.AccountView;
-import com.samsistemas.timesheet.utility.DeveloperUtility;
 import com.samsistemas.timesheet.utility.PreferenceUtility;
 
 import butterknife.Bind;

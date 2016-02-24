@@ -13,12 +13,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
 import com.jonisaa.commons.activity.BaseActivity;
+import com.jonisaa.commons.utility.DeveloperUtility;
+import com.jonisaa.commons.utility.NetworkUtility;
 
 import com.samsistemas.timesheet.screen.login.fragment.VerifyConnectionFragment;
 import com.samsistemas.timesheet.screen.login.presenter.LoginPresenter;
 import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
-import com.samsistemas.timesheet.utility.DeveloperUtility;
-import com.samsistemas.timesheet.utility.NetworkUtility;
 import com.samsistemas.timesheet.utility.PreferenceUtility;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.screen.login.listener.OnCreateSessionListener;

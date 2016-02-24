@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.utility;
+package com.samsistemas.timesheet.common.callback;
 
 import android.graphics.Canvas;
 import android.support.v4.view.ViewCompat;
@@ -85,7 +85,7 @@ public class SimpleTouchItemHelperCallback extends ItemTouchHelper.Callback {
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
 
-        viewHolder.itemView.setAlpha(ALPHA_FULL);
+        ViewCompat.setAlpha(viewHolder.itemView, ALPHA_FULL);
 
         if (viewHolder instanceof ItemTouchHelperViewHolder) {
             // Tell the view holder it's time to restore the idle state

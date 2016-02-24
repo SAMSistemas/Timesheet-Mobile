@@ -24,7 +24,7 @@ import com.samsistemas.timesheet.screen.menu.adapter.JobLogAdapter;
 import com.samsistemas.timesheet.screen.menu.presenter.MenuPresenter;
 import com.samsistemas.timesheet.screen.menu.view.MenuView;
 import com.samsistemas.timesheet.utility.DateUtility;
-import com.samsistemas.timesheet.utility.SimpleTouchItemHelperCallback;
+import com.samsistemas.timesheet.common.callback.SimpleTouchItemHelperCallback;
 
 import java.util.ArrayList;
 import java.util.Calendar;

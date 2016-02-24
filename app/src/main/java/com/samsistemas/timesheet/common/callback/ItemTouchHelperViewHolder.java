@@ -1,4 +1,4 @@
-package com.samsistemas.timesheet.utility;
+package com.samsistemas.timesheet.common.callback;
 
 
 /**
