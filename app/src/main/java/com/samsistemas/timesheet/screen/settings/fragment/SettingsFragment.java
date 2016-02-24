@@ -6,7 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.preference.Preference;
-import android.support.v7.preference.XpPreferenceFragment;
+
+import com.jonisaa.commons.fragment.BasePreferenceFragment;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.screen.settings.presenter.SettingsPresenter;
@@ -18,12 +19,10 @@ import com.samsistemas.timesheet.utility.ThreadUtility;
 /**
  * @author jonatan.salas
  */
-public class SettingsFragment extends XpPreferenceFragment implements SettingsView {
-    private SettingsPresenter settingsPresenter;
+public class SettingsFragment extends BasePreferenceFragment<SettingsPresenter> implements SettingsView {
 
     public SettingsFragment() {
         setHasOptionsMenu(false);
-        settingsPresenter = SettingsPresenter.getInstance(this);
     }
 
     @Override
@@ -37,10 +36,10 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
         });
     }
 
+    @NonNull
     @Override
-    public void onDestroy() {
-        settingsPresenter.detachView();
-        super.onDestroy();
+    public SettingsPresenter createPresenter() {
+        return SettingsPresenter.getInstance(this);
     }
 
     @Override
@@ -51,7 +50,7 @@ public class SettingsFragment extends XpPreferenceFragment implements SettingsVi
         final String preferenceTitle = preference.getTitle().toString();
 
         if (preferenceTitle.equals(logout)) {
-            settingsPresenter.logout(sessionId);
+            getPresenter().logout(sessionId);
             return true;
         }
 

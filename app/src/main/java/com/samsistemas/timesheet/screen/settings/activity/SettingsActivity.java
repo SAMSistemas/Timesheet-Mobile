@@ -7,44 +7,55 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import com.jonisaa.commons.activity.BasePreferenceActivity;
 
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
 import com.samsistemas.timesheet.screen.settings.fragment.SettingsFragment;
 
-import net.xpece.android.support.preference.Fixes;
-
 /**
  * @author jonatan.salas
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BasePreferenceActivity<SettingsFragment> {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fixes.updateLayoutInflaterFactory(getLayoutInflater());
-        setContentView(android.R.layout.activity_list_item);
         final ActionBar actionBar = getSupportActionBar();
 
         if (null != actionBar) {
-            actionBar.setTitle(getString(R.string.action_settings));
+            actionBar.setTitle(R.string.action_settings);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
             actionBar.setDisplayUseLogoEnabled(false);
+
             int color = ContextCompat.getColor(getApplicationContext(), R.color.primary);
+
             actionBar.setBackgroundDrawable(new ColorDrawable(color));
         }
-
-        if (null == savedInstanceState) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(android.R.id.content, new SettingsFragment())
-                    .commit();
-        }
     }
+
+    @Override
+    public int getLayout() {
+        return android.R.layout.activity_list_item;
+    }
+
+    @Override
+    public int getContent() {
+        return android.R.id.content;
+    }
+
+    @Nullable
+    @Override
+    public SettingsFragment createFragment() {
+        return new SettingsFragment();
+    }
+
+    @Override
+    public void restoreFragmentState(@Nullable Bundle bundle) { }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
