@@ -51,5 +51,6 @@ public abstract class BaseSpinnerAdapter<T extends SugarRecord> extends BaseAdap
 
     public void setList(@Nullable List<T> list) {
         this.list = list;
+        this.notifyDataSetChanged();
     }
 }

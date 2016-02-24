@@ -40,7 +40,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.github.jonisaa:android-commons-library:v1.2.1'
+    compile 'com.github.jonisaa:android-commons-library:v1.2.2'
     compile 'com.github.jonisaa:MaterialCalendarView:v1.2.3'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.android.support:preference-v14:23.1.1'
