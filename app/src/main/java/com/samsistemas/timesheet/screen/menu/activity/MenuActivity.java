@@ -9,7 +9,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import com.samsistemas.timesheet.screen.settings.activity.SettingsActivity;
 import com.samsistemas.timesheet.utility.ActivityUtility;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Class used as MenuActivity. It manages multiples fragments instances by
@@ -46,7 +46,8 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
     private final CallbackFragment.ToolbarCallback toolbarCallback = new CallbackFragment.ToolbarCallback() {
         @Override
         public void synchronize(@NonNull Toolbar toolbar) {
-            final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MenuActivity.this, drawerLayout, toolbar, 0, 0);
+            final ActionBarDrawerToggle toggle =
+                    new ActionBarDrawerToggle(MenuActivity.this, drawerLayout, toolbar, 0, 0);
             drawerLayout.setDrawerListener(toggle);
             toggle.syncState();
         }
@@ -71,11 +72,11 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
         setTitle(R.string.action_view_calendar);
 
         //Style headerView for NavigationView
-        final View headerView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.drawer_header, navigationView, false);
-        fullname = (TextView) headerView.findViewById(R.id.username);
-        username = (TextView) headerView.findViewById(R.id.email);
+        View view = getLayoutInflater().inflate(R.layout.drawer_header, navigationView, false);
+        fullname = ButterKnife.findById(this, R.id.username);
+        username = ButterKnife.findById(this, R.id.email);
 
-        navigationView.addHeaderView(headerView);
+        navigationView.addHeaderView(view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -96,21 +97,21 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
                 break;
             case R.id.action_add_hour:
                 fragment = new AddHoursFragment();
-                fragment.setToolbarCallback(toolbarCallback);
                 break;
             case R.id.action_account:
                 fragment = new AccountFragment();
-                fragment.setToolbarCallback(toolbarCallback);
                 break;
             case R.id.action_settings:
                 ActivityUtility
                         .startActivityWithAnimation(this, SettingsActivity.class, navigationView);
                 break;
-            default: break;
+            default:
+                break;
         }
 
         if (null != fragment) {
             final CallbackFragment callbackFragment = fragment;
+            callbackFragment.setToolbarCallback(toolbarCallback);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -119,7 +120,7 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
                             .replace(R.id.fragment, callbackFragment)
                             .commit();
                 }
-            }, 250);
+            }, 150);
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -169,7 +170,5 @@ public class MenuActivity extends BaseFragmentActivity<CallbackFragment>
     }
 
     @Override
-    public void restoreFragmentState(@Nullable Bundle bundle) {
-
-    }
+    public void restoreFragmentState(@Nullable Bundle bundle) { }
 }
