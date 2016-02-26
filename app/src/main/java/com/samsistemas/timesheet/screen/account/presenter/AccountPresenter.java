@@ -1,6 +1,7 @@
 package com.samsistemas.timesheet.screen.account.presenter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 
 import com.jonisaa.commons.presenter.BasePresenter;
 import com.samsistemas.timesheet.utility.ThreadUtility;
@@ -17,9 +18,9 @@ public class AccountPresenter extends BasePresenter<AccountView> {
         super(view);
     }
 
-    public void styleBar(String title) {
+    public void styleBar(ActionBar actionBar, String title) {
         if (null != getView()) {
-            getView().styleActionBar(title);
+            getView().styleActionBar(actionBar, title);
         }
     }
 

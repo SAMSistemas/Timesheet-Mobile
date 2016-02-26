@@ -58,7 +58,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                 public Person execute() {
                     Person person = new Person();
                     person.setEnabled(true)
-                            .setName("Joni")
+                            .setName("Jonatan")
                             .setServerId(1L)
                             .setLastName("Salas")
                             .setPassword("nbbbbbbb")

@@ -30,7 +30,6 @@ import butterknife.Bind;
  */
 public class AccountFragment extends CallbackFragment<AccountPresenter> implements AccountView {
     private static final String SAM_DOMAIN = "@samsistemas.com.ar";
-    private ActionBar actionBar;
 
     @Bind(R.id.tool_bar)
     Toolbar toolbar;
@@ -80,8 +79,7 @@ public class AccountFragment extends CallbackFragment<AccountPresenter> implemen
             getToolbarCallback().synchronize(toolbar);
         }
 
-        actionBar = activity.getSupportActionBar();
-        getPresenter().styleBar("");
+        getPresenter().styleBar(activity.getSupportActionBar(), "");
         getPresenter().setAccountData(PreferenceUtility.getSessionId(getContext()));
     }
 
@@ -109,7 +107,7 @@ public class AccountFragment extends CallbackFragment<AccountPresenter> implemen
     }
 
     @Override
-    public void styleActionBar(String title) {
+    public void styleActionBar(ActionBar actionBar, String title) {
         actionBar.setTitle(title);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         actionBar.setDisplayShowHomeEnabled(true);

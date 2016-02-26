@@ -18,7 +18,7 @@ import com.jonisaa.commons.utility.NetworkUtility;
 
 import com.samsistemas.timesheet.screen.login.fragment.VerifyConnectionFragment;
 import com.samsistemas.timesheet.screen.login.presenter.LoginPresenter;
-import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
+import com.samsistemas.timesheet.screen.menu.activity.MainActivity;
 import com.samsistemas.timesheet.utility.PreferenceUtility;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.screen.login.listener.OnCreateSessionListener;
@@ -104,7 +104,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void navigateToHome() {
-        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
         intent.setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK |

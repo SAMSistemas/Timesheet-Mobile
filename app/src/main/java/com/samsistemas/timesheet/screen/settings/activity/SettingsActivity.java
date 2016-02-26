@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import com.jonisaa.commons.activity.BasePreferenceActivity;
 
 import com.samsistemas.timesheet.R;
-import com.samsistemas.timesheet.screen.menu.activity.MenuActivity;
+import com.samsistemas.timesheet.screen.menu.activity.MainActivity;
 import com.samsistemas.timesheet.screen.settings.fragment.SettingsFragment;
 
 /**
@@ -69,7 +69,7 @@ public class SettingsActivity extends BasePreferenceActivity<SettingsFragment> {
 
     @Override
     public void onBackPressed() {
-        final Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+        final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
         intent.setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK |

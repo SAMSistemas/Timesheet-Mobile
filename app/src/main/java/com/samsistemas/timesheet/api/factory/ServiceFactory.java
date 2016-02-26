@@ -18,6 +18,10 @@ import retrofit.RxJavaCallAdapterFactory;
  * @author jonatan.salas
  */
 public class ServiceFactory {
+    private static final String AUTH = "Authorization";
+    private static final String ACCEPT = "Accept";
+    private static final String MIME_TYPE = "application/json";
+
     public static final String API_BASE_URL = "https://your.api-base.url";
 
     private static OkHttpClient httpClient = new OkHttpClient();
@@ -27,11 +31,11 @@ public class ServiceFactory {
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create());
 
-    public static <S> S createService(Class<S> serviceClass) {
+    public static <T> T createService(Class<T> serviceClass) {
         return createService(serviceClass, null, null);
     }
 
-    public static <S> S createService(Class<S> serviceClass, @Nullable String username, @Nullable String password) {
+    public static <T> T createService(Class<T> serviceClass, @Nullable String username, @Nullable String password) {
         if (username != null && password != null) {
             String credentials = username + ":" + password;
             final String basic =
@@ -43,8 +47,8 @@ public class ServiceFactory {
                     Request original = chain.request();
 
                     Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", basic)
-                            .header("Accept", "application/json")
+                            .header(AUTH, basic)
+                            .header(ACCEPT, MIME_TYPE)
                             .method(original.method(), original.body());
 
                     Request request = requestBuilder.build();
