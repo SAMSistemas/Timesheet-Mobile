@@ -40,8 +40,8 @@ import butterknife.Bind;
  */
 public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implements AddHoursView {
     private TaskTypeAdapter taskTypeAdapter;
-    private ClientAdapter clientAdapter;
     private ProjectAdapter projectAdapter;
+    private ClientAdapter clientAdapter;
 
     @Bind(R.id.toolbar_layout)
     CollapsingToolbarLayout toolbarLayout;
@@ -102,6 +102,7 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
                 Snackbar.make(parent, "You need to select some hours", Snackbar.LENGTH_SHORT).show();
             }
         });
+
         taskTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -113,6 +114,7 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
                 Snackbar.make(parent, "You need to select some TaskType", Snackbar.LENGTH_SHORT).show();
             }
         });
+
         clientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -124,6 +126,7 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
                 Snackbar.make(parent, "You need to select some Client", Snackbar.LENGTH_SHORT).show();
             }
         });
+
         projectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -135,6 +138,7 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
                 Snackbar.make(parent, "You need to select some Project", Snackbar.LENGTH_SHORT).show();
             }
         });
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
