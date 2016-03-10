@@ -33,8 +33,31 @@ public class LoginInteractorImpl implements LoginInteractor {
         }
 
         if (!error) {
-            createUserSessionIfNotExits(sessionListener);
-            listener.onLoginSuccess();
+//            final Boolean login = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Boolean>() {
+//                @Override
+//                public Boolean execute() {
+//                    final LoginService loginService = ServiceFactory
+//                            .createService(LoginService.class, username, password);
+//
+//                    final Call<Void> response = loginService.login(username, password);
+//                    Boolean login = false;
+//
+//                    try {
+//                        final Response<Void> resp = response.execute();
+//                        final Integer statusCode = resp.code();
+//                        login = (statusCode == 200);
+//                    } catch (IOException ex){
+//                        ex.printStackTrace();
+//                    }
+//
+//                    return login;
+//                }
+//            });
+//
+//            if (login) {
+                createUserSessionIfNotExits(sessionListener);
+                listener.onLoginSuccess();
+//            }
         }
     }
 
@@ -44,8 +67,8 @@ public class LoginInteractorImpl implements LoginInteractor {
             final WorkPosition workPosition = ThreadUtility.runInBackground(new ThreadUtility.CallBack<WorkPosition>() {
                 @Override
                 public WorkPosition execute() {
-                    WorkPosition workPosition = new WorkPosition();
-                    workPosition.setDescription("Android Developer")
+                    WorkPosition workPosition = new WorkPosition()
+                            .setDescription("Android Developer")
                             .setServerId(1L);
 
                     WorkPosition.save(workPosition);
@@ -56,8 +79,8 @@ public class LoginInteractorImpl implements LoginInteractor {
             final Person person = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Person>() {
                 @Override
                 public Person execute() {
-                    Person person = new Person();
-                    person.setEnabled(true)
+                    Person person = new Person()
+                            .setEnabled(true)
                             .setName("Jonatan")
                             .setServerId(1L)
                             .setLastName("Salas")
@@ -76,9 +99,9 @@ public class LoginInteractorImpl implements LoginInteractor {
             final Long id = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
                 @Override
                 public Long execute() {
-                    Session session = new Session();
-                    session.setActive(true);
-                    session.setPerson(person);
+                    Session session = new Session()
+                            .setActive(true)
+                            .setPerson(person);
 
                     return Session.save(session);
                 }
