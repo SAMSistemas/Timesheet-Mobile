@@ -1,5 +1,7 @@
 package com.samsistemas.timesheet.screen.login.interactor;
 
+import com.samsistemas.timesheet.api.factory.ServiceFactory;
+import com.samsistemas.timesheet.api.service.LoginService;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.domain.Session;
@@ -10,6 +12,11 @@ import com.samsistemas.timesheet.screen.login.listener.OnCreateSessionListener;
 import com.samsistemas.timesheet.screen.login.listener.OnLoginFinishedListener;
 import com.samsistemas.timesheet.screen.login.validation.EmailValidator;
 import com.samsistemas.timesheet.screen.login.validation.PasswordValidator;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * @author jonatan.salas
@@ -33,31 +40,31 @@ public class LoginInteractorImpl implements LoginInteractor {
         }
 
         if (!error) {
-//            final Boolean login = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Boolean>() {
-//                @Override
-//                public Boolean execute() {
-//                    final LoginService loginService = ServiceFactory
-//                            .createService(LoginService.class, username, password);
-//
-//                    final Call<Void> response = loginService.login(username, password);
-//                    Boolean login = false;
-//
-//                    try {
-//                        final Response<Void> resp = response.execute();
-//                        final Integer statusCode = resp.code();
-//                        login = (statusCode == 200);
-//                    } catch (IOException ex){
-//                        ex.printStackTrace();
-//                    }
-//
-//                    return login;
-//                }
-//            });
-//
-//            if (login) {
+            final Boolean login = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Boolean>() {
+                @Override
+                public Boolean execute() {
+                    final LoginService loginService = ServiceFactory
+                            .createService(LoginService.class, username, password);
+
+                    final Call<Void> response = loginService.login(username, password);
+                    Boolean login = false;
+
+                    try {
+                        final Response<Void> resp = response.execute();
+                        final Integer statusCode = resp.code();
+                        login = (statusCode == 200);
+                    } catch (IOException ex){
+                        ex.printStackTrace();
+                    }
+
+                    return login;
+                }
+            });
+
+            if (login) {
                 createUserSessionIfNotExits(sessionListener);
                 listener.onLoginSuccess();
-//            }
+            }
         }
     }
 

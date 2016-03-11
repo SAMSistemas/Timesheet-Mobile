@@ -1,8 +1,8 @@
 package com.samsistemas.timesheet.api.service;
 
-import retrofit.Call;
-import retrofit.http.POST;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * @author jonatan.salas
