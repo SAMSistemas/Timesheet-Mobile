@@ -19,29 +19,32 @@ public class Person {
 
     @NotNull
     @Unique
-//    @Expose(deserialize = false, serialize = false)
-    private Long id;
+    @Expose(deserialize = false, serialize = false)
+    private transient Long id;
 
     /**
      * The id of the person stored in the server
      */
     @NotNull
     @Unique
-//    @SerializedName("id")
+    @SerializedName("id")
+    @Expose
     private Long serverIdentifier;
 
     /**
      * The name of the person
      */
     @NotNull
-//    @SerializedName("name")
+    @SerializedName("name")
+    @Expose
     private String name;
 
     /**
      * The last name of the person
      */
-//    @NotNull
-//    @SerializedName("lastname")
+    @NotNull
+    @SerializedName("lastname")
+    @Expose
     private String lastName;
 
     /**
@@ -49,33 +52,37 @@ public class Person {
      */
     @NotNull
     @Unique
-//    @SerializedName("username")
+    @SerializedName("username")
+    @Expose
     private String username;
 
     /**
      * The workPosition object associated to this person
      */
     @NotNull
-//    @SerializedName("work_position")
+    @SerializedName("work_position")
+    @Expose
     private String workPosition;
 
     /**
      * The hours that work the person
      */
-//    @SerializedName("work_hours")
+    @SerializedName("work_hours")
+    @Expose
     private int workHours;
 
     /**
      * The profile picture of the person
      */
-//    @Expose(deserialize = false, serialize = false)
+    @Expose(deserialize = false, serialize = false)
     private Byte[] picture;
 
     /**
      * The flag that indicates if this person is still active
      */
     @NotNull
-//    @SerializedName("enabled")
+    @SerializedName("enabled")
+    @Expose
     private Boolean enabled;
 
     /**
