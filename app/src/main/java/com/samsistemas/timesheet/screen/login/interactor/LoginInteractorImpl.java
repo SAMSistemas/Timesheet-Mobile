@@ -44,6 +44,8 @@ public class LoginInteractorImpl implements LoginInteractor {
                     final Person person = ThreadUtility.runInBackground(new PersonCallBack(username, password))
                             .get(0);
 
+//                    SugarRecord.save(person);
+
                     final Long id = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
                         @Override
                         public Long execute() {

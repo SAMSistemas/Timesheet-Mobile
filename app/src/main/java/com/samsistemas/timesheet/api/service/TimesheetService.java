@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.samsistemas.timesheet.domain.Person;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -21,5 +21,5 @@ public interface TimesheetService {
                      @Query("password") @NonNull final String password);
 
     @GET("/people?")
-    Call<List<Person>> findPersonByUsername(@Query("username") @NonNull final String username);
+    Call<ArrayList<Person>> findPersonByUsername(@Query("username") @NonNull final String username);
 }
