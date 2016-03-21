@@ -82,6 +82,11 @@ public class LoginPresenter extends BasePresenter<LoginView> implements OnLoginF
         }
     }
 
+    @Override
+    public void onLoginFailure() {
+
+    }
+
     public static LoginPresenter getInstance(@NonNull LoginView view) {
         return new LoginPresenter(view);
     }

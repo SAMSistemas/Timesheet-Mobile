@@ -1,6 +1,6 @@
 package com.samsistemas.timesheet.api.factory;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.util.Base64;
 
 import java.io.IOException;
@@ -9,56 +9,76 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author jonatan.salas
  */
-public class ServiceFactory {
-    private static final String AUTH = "Authorization";
-    private static final String ACCEPT = "Accept";
-    private static final String MIME_TYPE = "application/json";
+public final class ServiceFactory extends Factory {
+    private static ServiceFactory factory = null;
 
-    private static final String API_BASE_URL = "https://10.0.0.53:8080";
+    private String basicAuth;
+    private String baseUrl;
 
-    private static OkHttpClient httpClient = new OkHttpClient();
-
-    private static Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create());
-
-    public static <T> T createService(Class<T> serviceClass) {
-        return createService(serviceClass, null, null);
+    private ServiceFactory(@NonNull final String username,
+                           @NonNull final String password,
+                           @NonNull final String baseUrl) {
+        final String credentials = username + ":" + password;
+        this.basicAuth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+        this.baseUrl = baseUrl;
     }
 
-    public static <T> T createService(Class<T> serviceClass, @Nullable String username, @Nullable String password) {
-        if (null != username && null != password) {
-            final String credentials = username + ":" + password;
-            final String basic =
-                    "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+    @NonNull
+    @Override
+    protected Retrofit buildRetrofit() {
+        return new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(buildClient())
+                .build();
+    }
 
-            httpClient.interceptors().add(new Interceptor() {
-                @Override
-                public Response intercept(Interceptor.Chain chain) throws IOException {
-                    Request original = chain.request();
+    @NonNull
+    @Override
+    protected OkHttpClient buildClient() {
+        final RequestInterceptor interceptor = RequestInterceptor.getInstance(basicAuth);
+        return new OkHttpClient()
+                .newBuilder()
+                .addInterceptor(interceptor)
+                .build();
+    }
 
-                    Request.Builder requestBuilder = original.newBuilder()
-                            .header(AUTH, basic)
-                            .header(ACCEPT, MIME_TYPE)
-                            .method(original.method(), original.body());
+    public static Factory getInstance(@NonNull String username,
+                                      @NonNull String password,
+                                      @NonNull String baseUrl) {
+        return (null == factory) ? factory = new ServiceFactory(username, password, baseUrl) : factory;
+    }
 
-                    Request request = requestBuilder.build();
+    private static final class RequestInterceptor implements Interceptor {
+        private static RequestInterceptor interceptor = null;
+        private String basic;
 
-                    return chain.proceed(request);
-                }
-            });
+        public RequestInterceptor(@NonNull final String basic) {
+            this.basic = basic;
         }
 
-        final Retrofit retrofit = builder.client(httpClient).build();
-        return retrofit.create(serviceClass);
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request original = chain.request();
+
+            Request.Builder requestBuilder = original.newBuilder()
+                    .header("Authorization", basic)
+                    .header("Accept", "application/json")
+                    .method(original.method(), original.body());
+
+            Request request = requestBuilder.build();
+
+            return chain.proceed(request);
+        }
+
+        public static RequestInterceptor getInstance(@NonNull String basic) {
+            return (null == interceptor) ? interceptor = new RequestInterceptor(basic) : interceptor;
+        }
     }
 }

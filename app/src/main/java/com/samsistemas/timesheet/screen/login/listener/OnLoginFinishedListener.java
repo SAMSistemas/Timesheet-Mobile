@@ -10,4 +10,6 @@ public interface OnLoginFinishedListener {
     void onPasswordError();
 
     void onLoginSuccess();
+
+    void onLoginFailure();
 }

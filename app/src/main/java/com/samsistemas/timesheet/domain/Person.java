@@ -1,7 +1,9 @@
 package com.samsistemas.timesheet.domain;
 
-import com.orm.SugarRecord;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.orm.dsl.NotNull;
+import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -12,58 +14,68 @@ import org.parceler.Parcel;
  * @author jonatan.salas
  */
 @Parcel
-public class Person extends SugarRecord {
+@Table
+public class Person {
+
+    @NotNull
+    @Unique
+    @Expose(deserialize = false, serialize = false)
+    private Long id;
 
     /**
      * The id of the person stored in the server
      */
-    @NotNull @Unique
-    private Long serverId;
+    @NotNull
+    @Unique
+    @SerializedName("id")
+    private Long serverIdentifier;
 
     /**
      * The name of the person
      */
     @NotNull
+    @SerializedName("name")
     private String name;
 
     /**
      * The last name of the person
      */
     @NotNull
+    @SerializedName("lastname")
     private String lastName;
 
     /**
      * The username for this person
      */
-    @NotNull @Unique
-    private String username;
-
-    /**
-     * The password for this person
-     */
     @NotNull
-    private String password;
+    @Unique
+    @SerializedName("username")
+    private String username;
 
     /**
      * The workPosition object associated to this person
      */
     @NotNull
-    private WorkPosition workPosition;
+    @SerializedName("work_position")
+    private String workPosition;
 
     /**
      * The hours that work the person
      */
+    @SerializedName("work_hours")
     private int workHours;
 
     /**
      * The profile picture of the person
      */
+    @Expose(deserialize = false, serialize = false)
     private Byte[] picture;
 
     /**
      * The flag that indicates if this person is still active
      */
     @NotNull
+    @SerializedName("enabled")
     private Boolean enabled;
 
     /**
@@ -71,12 +83,21 @@ public class Person extends SugarRecord {
      */
     public Person() { }
 
+    public Long getId() {
+        return id;
+    }
+
+    public Person setId(Long id) {
+        this.id = id;
+        return this;
+    }
+
     public Long getServerId() {
-        return serverId;
+        return serverIdentifier;
     }
 
     public Person setServerId(Long serverId) {
-        this.serverId = serverId;
+        this.serverIdentifier = serverId;
         return this;
     }
 
@@ -107,20 +128,11 @@ public class Person extends SugarRecord {
         return this;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public Person setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public WorkPosition getWorkPosition() {
+    public String getWorkPosition() {
         return workPosition;
     }
 
-    public Person setWorkPosition(WorkPosition workPosition) {
+    public Person setWorkPosition(String workPosition) {
         this.workPosition = workPosition;
         return this;
     }
