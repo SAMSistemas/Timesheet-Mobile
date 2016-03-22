@@ -19,8 +19,7 @@ public class Person {
 
     @NotNull
     @Unique
-    @Expose(deserialize = false, serialize = false)
-    private transient Long id;
+    private Long id;
 
     /**
      * The id of the person stored in the server
@@ -28,15 +27,13 @@ public class Person {
     @NotNull
     @Unique
     @SerializedName("id")
-    @Expose
-    private Long serverIdentifier;
+    private Long serverId;
 
     /**
      * The name of the person
      */
     @NotNull
     @SerializedName("name")
-    @Expose
     private String name;
 
     /**
@@ -44,7 +41,6 @@ public class Person {
      */
     @NotNull
     @SerializedName("lastname")
-    @Expose
     private String lastName;
 
     /**
@@ -53,7 +49,6 @@ public class Person {
     @NotNull
     @Unique
     @SerializedName("username")
-    @Expose
     private String username;
 
     /**
@@ -61,28 +56,24 @@ public class Person {
      */
     @NotNull
     @SerializedName("work_position")
-    @Expose
     private String workPosition;
 
     /**
      * The hours that work the person
      */
     @SerializedName("work_hours")
-    @Expose
     private int workHours;
 
     /**
      * The profile picture of the person
      */
-    @Expose(deserialize = false, serialize = false)
-    private Byte[] picture;
+    private transient Byte[] picture;
 
     /**
      * The flag that indicates if this person is still active
      */
     @NotNull
     @SerializedName("enabled")
-    @Expose
     private Boolean enabled;
 
     /**
@@ -100,11 +91,11 @@ public class Person {
     }
 
     public Long getServerId() {
-        return serverIdentifier;
+        return serverId;
     }
 
     public Person setServerId(Long serverId) {
-        this.serverIdentifier = serverId;
+        this.serverId = serverId;
         return this;
     }
 

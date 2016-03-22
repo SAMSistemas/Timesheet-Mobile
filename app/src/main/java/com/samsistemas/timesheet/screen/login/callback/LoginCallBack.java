@@ -2,7 +2,6 @@ package com.samsistemas.timesheet.screen.login.callback;
 
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.api.service.TimesheetService;
 import com.samsistemas.timesheet.screen.login.callback.base.BaseCallback;
 
 import java.io.IOException;

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 
 import com.jonisaa.commons.presenter.BasePresenter;
+import com.orm.SugarRecord;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.domain.Session;
@@ -28,7 +29,7 @@ public class AccountPresenter extends BasePresenter<AccountView> {
         final Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
             @Override
             public Session execute() {
-                return Session.findById(Session.class, sessionId);
+                return SugarRecord.findById(Session.class, sessionId);
             }
         });
 

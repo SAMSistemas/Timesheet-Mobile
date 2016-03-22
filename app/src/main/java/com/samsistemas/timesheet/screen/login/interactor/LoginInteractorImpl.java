@@ -20,7 +20,7 @@ public class LoginInteractorImpl implements LoginInteractor {
 
     @Override
     public void login(final String username,
-                      final  String password,
+                      final String password,
                       final OnLoginFinishedListener listener,
                       final OnCreateSessionListener sessionListener) {
         boolean error = false;
@@ -41,21 +41,25 @@ public class LoginInteractorImpl implements LoginInteractor {
 
             if (login) {
                 if (null != sessionListener) {
-                    final Person person = ThreadUtility.runInBackground(new PersonCallBack(username, password))
-                            .get(0);
-
+                    final Person person = ThreadUtility.runInBackground(new PersonCallBack(username, password));
                     SugarRecord.save(person);
 
-                    final Long id = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
-                        @Override
-                        public Long execute() {
-                            Session session = new Session()
-                                    .setActive(true)
-                                    .setPerson(person);
+                    final Session session = new Session()
+                            .setActive(true)
+                            .setPerson(person);
 
-                            return Session.save(session);
-                        }
-                    });
+                    final Long id = SugarRecord.save(session);
+
+//                            ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
+//                        @Override
+//                        public Long execute() {
+//                            Session session = new Session()
+//                                    .setActive(true)
+//                                    .setPerson(person);
+//
+//                            return SugarRecord.save(session);
+//                        }
+//                    });
 
                     sessionListener.onSessionCreate(id);
                 }
@@ -65,37 +69,5 @@ public class LoginInteractorImpl implements LoginInteractor {
                 listener.onLoginFailure();
             }
         }
-    }
-
-    @Override
-    public void createUserSessionIfNotExits(OnCreateSessionListener sessionListener) {
-//        if (null != sessionListener) {
-//            final WorkPosition workPosition = ThreadUtility.runInBackground(new ThreadUtility.CallBack<WorkPosition>() {
-//                @Override
-//                public WorkPosition execute() {
-//                    WorkPosition workPosition = new WorkPosition()
-//                            .setDescription("Android Developer")
-//                            .setServerId(1L);
-//
-//                    WorkPosition.save(workPosition);
-//                    return workPosition;
-//                }
-//            });
-//
-//            final Person person = ThreadUtility.runInBackground(new PersonCallBack());
-//
-//            final Long id = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
-//                @Override
-//                public Long execute() {
-//                    Session session = new Session()
-//                            .setActive(true)
-//                            .setPerson(person);
-//
-//                    return Session.save(session);
-//                }
-//            });
-//
-//            sessionListener.onSessionCreate(id);
-//        }
     }
 }

@@ -1,7 +1,8 @@
 package com.samsistemas.timesheet.domain;
 
-import com.orm.SugarRecord;
+import com.google.gson.annotations.SerializedName;
 import com.orm.dsl.NotNull;
+import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -12,36 +13,57 @@ import org.parceler.Parcel;
  * @author jonatan.salas
  */
 @Parcel
-public class Client extends SugarRecord {
+@Table
+public class Client {
+
+    @NotNull
+    @Unique
+    private transient Long id;
 
     /**
      * The id of the client stored in the server
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("id")
     private Long serverId;
 
     /**
      * The name of the client
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("name")
     private String name;
 
     /**
      * The short name of the client
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("short_name")
     private String shortName;
 
     /**
      * Flag that indicates if the client is still active
      */
     @NotNull
+    @SerializedName("enabled")
     private Boolean enabled;
 
     /**
      * Public Constructor
      */
     public Client() { }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Client setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public Long getServerId() {
         return serverId;

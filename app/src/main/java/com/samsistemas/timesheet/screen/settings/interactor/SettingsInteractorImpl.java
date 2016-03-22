@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.screen.settings.interactor;
 
+import com.orm.SugarRecord;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.domain.Session;
 import com.samsistemas.timesheet.screen.settings.interactor.base.SettingsInteractor;
@@ -23,7 +24,7 @@ public class SettingsInteractorImpl implements SettingsInteractor {
             final Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
                 @Override
                 public Session execute() {
-                    return Session.findById(Session.class, sessionId);
+                    return SugarRecord.findById(Session.class, sessionId);
                 }
             });
 
@@ -31,7 +32,7 @@ public class SettingsInteractorImpl implements SettingsInteractor {
                 ThreadUtility.runInBackground(new ThreadUtility.CallBack<Void>() {
                     @Override
                     public Void execute() {
-                        Session.delete(session);
+                        SugarRecord.delete(session);
                         return null;
                     }
                 });

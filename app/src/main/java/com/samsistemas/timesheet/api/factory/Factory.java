@@ -2,6 +2,8 @@ package com.samsistemas.timesheet.api.factory;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
@@ -20,4 +22,7 @@ public abstract class Factory {
 
     @NonNull
     protected abstract OkHttpClient buildClient();
+
+    @NonNull
+    protected abstract Gson buildGson();
 }

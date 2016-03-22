@@ -9,6 +9,4 @@ import com.samsistemas.timesheet.screen.login.listener.OnLoginFinishedListener;
 public interface LoginInteractor {
 
     void login(String username, String password, OnLoginFinishedListener listener, OnCreateSessionListener sessionListener);
-
-    void createUserSessionIfNotExits(OnCreateSessionListener sessionListener);
 }

@@ -1,7 +1,8 @@
 package com.samsistemas.timesheet.domain;
 
-import com.orm.SugarRecord;
+import com.google.gson.annotations.SerializedName;
 import com.orm.dsl.NotNull;
+import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -12,30 +13,49 @@ import org.parceler.Parcel;
  * @author jonatan.salas
  */
 @Parcel
-public class TaskType extends SugarRecord {
+@Table
+public class TaskType {
+
+    @NotNull
+    @Unique
+    private transient Long id;
 
     /**
      * The id of the tasktype stored in the server
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("id")
     private Long serverId;
 
     /**
      * The name of the task type
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("name")
     private String name;
 
     /**
      * A boolean flag indicating if this is still active
      */
     @NotNull
+    @SerializedName("enabled")
     private Boolean enabled;
 
     /**
      * Public constructor
      */
     public TaskType() { }
+
+    public Long getId() {
+        return id;
+    }
+
+    public TaskType setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public Long getServerId() {
         return serverId;

@@ -7,20 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.orm.SugarRecord;
-
 import java.util.List;
 
 /**
  * @author jonatan.salas
  */
-public abstract class BaseSpinnerAdapter<T extends SugarRecord> extends BaseAdapter {
+public abstract class BaseSpinnerAdapter<T> extends BaseAdapter {
 
     @NonNull
-    protected Context context;
+    private Context context;
 
     @Nullable
-    protected List<T> list;
+    private List<T> list;
 
     public BaseSpinnerAdapter(@NonNull Context ctx, @Nullable List<T> list) {
         this.context = ctx;
@@ -39,7 +37,7 @@ public abstract class BaseSpinnerAdapter<T extends SugarRecord> extends BaseAdap
 
     @Override
     public long getItemId(int position) {
-        return (null == list || list.isEmpty()) ? 0 : list.get(position).getId();
+        return (null == list || list.isEmpty()) ? 0 : position;
     }
 
     @Override
@@ -49,8 +47,22 @@ public abstract class BaseSpinnerAdapter<T extends SugarRecord> extends BaseAdap
 
     public abstract int findPositionById(long id);
 
+    @Nullable
+    public List<T> getList() {
+        return list;
+    }
+
     public void setList(@Nullable List<T> list) {
         this.list = list;
         this.notifyDataSetChanged();
+    }
+
+    @NonNull
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(@NonNull Context context) {
+        this.context = context;
     }
 }

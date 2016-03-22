@@ -1,7 +1,8 @@
 package com.samsistemas.timesheet.domain;
 
-import com.orm.SugarRecord;
+import com.google.gson.annotations.SerializedName;
 import com.orm.dsl.NotNull;
+import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -14,48 +15,71 @@ import java.util.Date;
  * @author jonatan.salas
  */
 @Parcel
-public class Project extends SugarRecord {
+@Table
+public class Project {
+
+    @NotNull
+    @Unique
+    private transient Long id;
 
     /**
      * The id of the project stored in the server
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("id")
     private Long serverId;
 
     /**
      * The Client object associated to this Project
      */
     @NotNull
+    @SerializedName("client")
     private Client client;
 
     /**
      * The name of the project
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("name")
     private String name;
 
     /**
      * The short name of the project
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("short_name")
     private String shortName;
 
     /**
      * The start date of the project
      */
     @NotNull
+    @SerializedName("start_date")
     private Date startDate;
 
     /**
      * The flag that verifies if this is still active
      */
     @NotNull
+    @SerializedName("enabled")
     private Boolean enabled;
 
     /**
      * Public Constructor
      */
     public Project() { }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Project setId(Long id) {
+        this.id = id;
+        return this;
+    }
 
     public Long getServerId() {
         return serverId;
