@@ -51,7 +51,7 @@ public class RestServiceFactory extends Factory {
 
     @NonNull
     @Override
-    public Gson onCrateGson(@NonNull GsonBuilder gsonBuilder) {
+    public Gson onCreateGson(@NonNull GsonBuilder gsonBuilder) {
         return gsonBuilder
                 .addDeserializationExclusionStrategy(strategy)
                 .addSerializationExclusionStrategy(strategy)

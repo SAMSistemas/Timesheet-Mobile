@@ -47,7 +47,7 @@ public abstract class Factory {
 
     @NonNull
     protected Gson buildGson() {
-        return onCrateGson(gsonBuilder);
+        return onCreateGson(gsonBuilder);
     }
 
     @NonNull
@@ -57,5 +57,5 @@ public abstract class Factory {
     public abstract OkHttpClient onCreateOkHttpClient(@NonNull final OkHttpClient.Builder okHttpClientBuilder);
 
     @NonNull
-    public abstract Gson onCrateGson(@NonNull final GsonBuilder gsonBuilder);
+    public abstract Gson onCreateGson(@NonNull final GsonBuilder gsonBuilder);
 }
