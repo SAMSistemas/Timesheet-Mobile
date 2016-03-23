@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.domain;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
 import com.orm.dsl.Unique;
@@ -19,37 +20,46 @@ public class Project extends SugarRecord {
     /**
      * The id of the project stored in the server
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("id")
     private Long serverId;
 
     /**
      * The Client object associated to this Project
      */
     @NotNull
+    @SerializedName("client")
     private Client client;
 
     /**
      * The name of the project
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("name")
     private String name;
 
     /**
      * The short name of the project
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("short_name")
     private String shortName;
 
     /**
      * The start date of the project
      */
     @NotNull
+    @SerializedName("start_date")
     private Date startDate;
 
     /**
      * The flag that verifies if this is still active
      */
     @NotNull
+    @SerializedName("enabled")
     private Boolean enabled;
 
     /**

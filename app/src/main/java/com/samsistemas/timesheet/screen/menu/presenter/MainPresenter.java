@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.jonisaa.commons.presenter.BasePresenter;
 
+import com.orm.SugarRecord;
 import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.domain.Session;
 import com.samsistemas.timesheet.screen.menu.view.MainView;
@@ -27,7 +28,7 @@ public class MainPresenter extends BasePresenter<MainView> {
             final Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
                 @Override
                 public Session execute() {
-                    return Session.findById(Session.class, id);
+                    return SugarRecord.findById(Session.class, id);
                 }
             });
 

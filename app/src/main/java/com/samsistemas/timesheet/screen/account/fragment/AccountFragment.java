@@ -123,7 +123,7 @@ public class AccountFragment extends CallbackFragment<AccountPresenter> implemen
             toolbarLayout.setTitle(completeName);
             username.setText(person.getUsername());
             email.setText(mail);
-            work.setText(person.getWorkPosition().getDescription());
+            work.setText(person.getWorkPosition());
 
         } else {
             Snackbar.make(toolbar, "There's a trouble loading person data. Please, try again.", Snackbar.LENGTH_SHORT).show();

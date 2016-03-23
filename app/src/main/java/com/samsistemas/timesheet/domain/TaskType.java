@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.domain;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
 import com.orm.dsl.Unique;
@@ -17,19 +18,24 @@ public class TaskType extends SugarRecord {
     /**
      * The id of the tasktype stored in the server
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("id")
     private Long serverId;
 
     /**
      * The name of the task type
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("name")
     private String name;
 
     /**
      * A boolean flag indicating if this is still active
      */
     @NotNull
+    @SerializedName("enabled")
     private Boolean enabled;
 
     /**

@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.domain;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
 import com.orm.dsl.Unique;
@@ -19,49 +20,58 @@ public class JobLog extends SugarRecord {
     /**
      * The id of the JobLog stored in the server
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("id")
     private Long serverId;
 
     /**
      * The project associated to this JobLog
      */
     @NotNull
+    @SerializedName("project")
     private Project project;
 
     /**
      * The person associated to this Person
      */
     @NotNull
+    @SerializedName("person")
     private Person person;
 
     /**
      * The taskType associated to this TaskType
      */
     @NotNull
+    @SerializedName("task_type")
     private TaskType taskType;
 
     /**
      * The hours dedicated to the JobLog
      */
     @NotNull
+    @SerializedName("hours")
     private String hours;
 
     /**
      * The date work of the JobLog
      */
     @NotNull
+    @SerializedName("date")
     private Date workDate;
 
     /**
      * The number of solicitude for this JobLog
      */
     @NotNull
+    @SerializedName("solicitude")
     private int solicitude;
 
     /**
      * The observations of the JobLog
      */
     @NotNull
+    @SerializedName("observation")
     private String observations;
 
     /**

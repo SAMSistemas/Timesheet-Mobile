@@ -12,7 +12,8 @@ import org.parceler.Parcel;
 @Parcel
 public class Session extends SugarRecord {
 
-    @NotNull @Unique
+    @NotNull
+    @Unique
     private Person person;
 
     @NotNull

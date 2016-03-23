@@ -3,6 +3,7 @@ package com.samsistemas.timesheet.screen.login.presenter;
 import android.support.annotation.NonNull;
 
 import com.jonisaa.commons.presenter.BasePresenter;
+import com.orm.SugarRecord;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.domain.Session;
 
@@ -42,7 +43,7 @@ public class LoginPresenter extends BasePresenter<LoginView> implements OnLoginF
             final Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
                 @Override
                 public Session execute() {
-                    return Session.findById(Session.class, listener.onSessionRestore());
+                    return SugarRecord.findById(Session.class, listener.onSessionRestore());
                 }
             });
 
@@ -80,6 +81,11 @@ public class LoginPresenter extends BasePresenter<LoginView> implements OnLoginF
         if (getView() != null) {
             getView().navigateToHome();
         }
+    }
+
+    @Override
+    public void onLoginFailure() {
+
     }
 
     public static LoginPresenter getInstance(@NonNull LoginView view) {

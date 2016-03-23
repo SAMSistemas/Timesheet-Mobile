@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.domain;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
 import com.orm.dsl.Unique;
@@ -17,25 +18,32 @@ public class Client extends SugarRecord {
     /**
      * The id of the client stored in the server
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("id")
     private Long serverId;
 
     /**
      * The name of the client
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("name")
     private String name;
 
     /**
      * The short name of the client
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("short_name")
     private String shortName;
 
     /**
      * Flag that indicates if the client is still active
      */
     @NotNull
+    @SerializedName("enabled")
     private Boolean enabled;
 
     /**

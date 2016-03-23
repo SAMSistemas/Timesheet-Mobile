@@ -1,5 +1,6 @@
 package com.samsistemas.timesheet.domain;
 
+import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
 import com.orm.dsl.Unique;
@@ -17,53 +18,56 @@ public class Person extends SugarRecord {
     /**
      * The id of the person stored in the server
      */
-    @NotNull @Unique
+    @NotNull
+    @Unique
+    @SerializedName("id")
     private Long serverId;
 
     /**
      * The name of the person
      */
     @NotNull
+    @SerializedName("name")
     private String name;
 
     /**
      * The last name of the person
      */
     @NotNull
+    @SerializedName("lastname")
     private String lastName;
 
     /**
      * The username for this person
      */
-    @NotNull @Unique
-    private String username;
-
-    /**
-     * The password for this person
-     */
     @NotNull
-    private String password;
+    @Unique
+    @SerializedName("username")
+    private String username;
 
     /**
      * The workPosition object associated to this person
      */
     @NotNull
-    private WorkPosition workPosition;
+    @SerializedName("work_position")
+    private String workPosition;
 
     /**
      * The hours that work the person
      */
+    @SerializedName("work_hours")
     private int workHours;
 
     /**
      * The profile picture of the person
      */
-    private Byte[] picture;
+    private transient Byte[] picture;
 
     /**
      * The flag that indicates if this person is still active
      */
     @NotNull
+    @SerializedName("enabled")
     private Boolean enabled;
 
     /**
@@ -107,20 +111,11 @@ public class Person extends SugarRecord {
         return this;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public Person setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public WorkPosition getWorkPosition() {
+    public String getWorkPosition() {
         return workPosition;
     }
 
-    public Person setWorkPosition(WorkPosition workPosition) {
+    public Person setWorkPosition(String workPosition) {
         this.workPosition = workPosition;
         return this;
     }

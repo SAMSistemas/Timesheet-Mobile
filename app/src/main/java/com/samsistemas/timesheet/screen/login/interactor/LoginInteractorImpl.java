@@ -1,11 +1,11 @@
 package com.samsistemas.timesheet.screen.login.interactor;
 
-import com.samsistemas.timesheet.api.factory.ServiceFactory;
-import com.samsistemas.timesheet.api.service.LoginService;
+import com.orm.SugarRecord;
+import com.samsistemas.timesheet.screen.login.callback.LoginCallBack;
+import com.samsistemas.timesheet.screen.login.callback.PersonCallBack;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.domain.Session;
-import com.samsistemas.timesheet.domain.WorkPosition;
 
 import com.samsistemas.timesheet.screen.login.interactor.base.LoginInteractor;
 import com.samsistemas.timesheet.screen.login.listener.OnCreateSessionListener;
@@ -13,20 +13,16 @@ import com.samsistemas.timesheet.screen.login.listener.OnLoginFinishedListener;
 import com.samsistemas.timesheet.screen.login.validation.EmailValidator;
 import com.samsistemas.timesheet.screen.login.validation.PasswordValidator;
 
-import java.io.IOException;
-
-import retrofit2.Call;
-import retrofit2.Response;
-
 /**
  * @author jonatan.salas
  */
 public class LoginInteractorImpl implements LoginInteractor {
 
     @Override
-    public void login(final String username, final  String password,
+    public void login(final String username,
+                      final String password,
                       final OnLoginFinishedListener listener,
-                      final  OnCreateSessionListener sessionListener) {
+                      final OnCreateSessionListener sessionListener) {
         boolean error = false;
 
         if (!EmailValidator.newInstance().validate(username)) {
@@ -40,81 +36,38 @@ public class LoginInteractorImpl implements LoginInteractor {
         }
 
         if (!error) {
-            final Boolean login = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Boolean>() {
-                @Override
-                public Boolean execute() {
-                    final LoginService loginService = ServiceFactory
-                            .createService(LoginService.class, username, password);
-
-                    final Call<Void> response = loginService.login(username, password);
-                    Boolean login = false;
-
-                    try {
-                        final Response<Void> resp = response.execute();
-                        final Integer statusCode = resp.code();
-                        login = (statusCode == 200);
-                    } catch (IOException ex){
-                        ex.printStackTrace();
-                    }
-
-                    return login;
-                }
-            });
+            final LoginCallBack loginCallBack = new LoginCallBack(username, password);
+            final Boolean login = ThreadUtility.runInBackground(loginCallBack);
 
             if (login) {
-                createUserSessionIfNotExits(sessionListener);
-                listener.onLoginSuccess();
-            }
-        }
-    }
+                if (null != sessionListener) {
+                    final Person person = ThreadUtility.runInBackground(new PersonCallBack(username, password));
+                    SugarRecord.save(person);
 
-    @Override
-    public void createUserSessionIfNotExits(OnCreateSessionListener sessionListener) {
-        if (null != sessionListener) {
-            final WorkPosition workPosition = ThreadUtility.runInBackground(new ThreadUtility.CallBack<WorkPosition>() {
-                @Override
-                public WorkPosition execute() {
-                    WorkPosition workPosition = new WorkPosition()
-                            .setDescription("Android Developer")
-                            .setServerId(1L);
-
-                    WorkPosition.save(workPosition);
-                    return workPosition;
-                }
-            });
-
-            final Person person = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Person>() {
-                @Override
-                public Person execute() {
-                    Person person = new Person()
-                            .setEnabled(true)
-                            .setName("Jonatan")
-                            .setServerId(1L)
-                            .setLastName("Salas")
-                            .setPassword("nbbbbbbb")
-                            .setPicture(null)
-                            .setUsername("jonisaa")
-                            .setWorkHours(6)
-                            .setWorkPosition(workPosition);
-
-                    Person.save(person);
-
-                    return person;
-                }
-            });
-
-            final Long id = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
-                @Override
-                public Long execute() {
-                    Session session = new Session()
+                    final Session session = new Session()
                             .setActive(true)
                             .setPerson(person);
 
-                    return Session.save(session);
-                }
-            });
+                    final Long id = SugarRecord.save(session);
 
-            sessionListener.onSessionCreate(id);
+//                            ThreadUtility.runInBackground(new ThreadUtility.CallBack<Long>() {
+//                        @Override
+//                        public Long execute() {
+//                            Session session = new Session()
+//                                    .setActive(true)
+//                                    .setPerson(person);
+//
+//                            return SugarRecord.save(session);
+//                        }
+//                    });
+
+                    sessionListener.onSessionCreate(id);
+                }
+
+                listener.onLoginSuccess();
+            } else {
+                listener.onLoginFailure();
+            }
         }
     }
 }

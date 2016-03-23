@@ -27,7 +27,9 @@ public class ClientAdapter extends BaseSpinnerAdapter<Client> {
         final Client client = (Client) getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
+            convertView = LayoutInflater
+                    .from(getContext())
+                    .inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
         }
 
         final TextView text1 = (TextView) convertView.findViewById(android.R.id.text1);
@@ -40,9 +42,9 @@ public class ClientAdapter extends BaseSpinnerAdapter<Client> {
     public int findPositionById(long id) {
         int position = 0;
 
-        if(null != list) {
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getId() == id) {
+        if(null != getList()) {
+            for (int i = 0; i < getList().size(); i++) {
+                if (getList().get(i).getId() == id) {
                     position = i;
                 }
             }
