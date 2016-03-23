@@ -1,7 +1,7 @@
 package com.samsistemas.timesheet.domain;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
-import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -10,13 +10,10 @@ import org.parceler.Parcel;
  * @author jonatan.salas
  */
 @Parcel
-@Table
-public class Session {
+public class Session extends SugarRecord {
 
     @NotNull
-    private Long id;
-
-    @NotNull @Unique
+    @Unique
     private Person person;
 
     @NotNull
@@ -26,15 +23,6 @@ public class Session {
      * Empty constructor
      */
     public Session() { }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Session setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public Person getPerson() {
         return person;

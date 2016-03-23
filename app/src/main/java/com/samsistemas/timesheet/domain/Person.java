@@ -1,9 +1,8 @@
 package com.samsistemas.timesheet.domain;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
-import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
@@ -14,12 +13,7 @@ import org.parceler.Parcel;
  * @author jonatan.salas
  */
 @Parcel
-@Table
-public class Person {
-
-    @NotNull
-    @Unique
-    private Long id;
+public class Person extends SugarRecord {
 
     /**
      * The id of the person stored in the server
@@ -80,15 +74,6 @@ public class Person {
      * Public constructor
      */
     public Person() { }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Person setId(Long id) {
-        this.id = id;
-        return this;
-    }
 
     public Long getServerId() {
         return serverId;

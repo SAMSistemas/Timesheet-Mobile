@@ -2,7 +2,7 @@ package com.samsistemas.timesheet.screen.login.callback.base;
 
 import android.support.annotation.NonNull;
 
-import com.samsistemas.timesheet.api.factory.BasicAuthServiceFactory;
+import com.samsistemas.timesheet.api.factory.RestServiceFactory;
 import com.samsistemas.timesheet.api.service.TimesheetService;
 import com.samsistemas.timesheet.utility.ThreadUtility;
 
@@ -17,7 +17,7 @@ public class BaseCallback<T> implements ThreadUtility.CallBack<T> {
     private final String password;
 
     public BaseCallback(@NonNull final String username, @NonNull final String password) {
-        this.service = BasicAuthServiceFactory
+        this.service = RestServiceFactory
                 .getInstance(username, password, BASE_URL)
                 .createService(TimesheetService.class);
         this.username = username;
