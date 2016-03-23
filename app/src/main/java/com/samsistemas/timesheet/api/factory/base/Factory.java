@@ -51,11 +51,11 @@ public abstract class Factory {
     }
 
     @NonNull
-    public abstract Retrofit onCreateRetrofit(@NonNull final Retrofit.Builder retrofitBuilder);
+    protected abstract Retrofit onCreateRetrofit(@NonNull final Retrofit.Builder retrofitBuilder);
 
     @NonNull
-    public abstract OkHttpClient onCreateOkHttpClient(@NonNull final OkHttpClient.Builder okHttpClientBuilder);
+    protected abstract OkHttpClient onCreateOkHttpClient(@NonNull final OkHttpClient.Builder okHttpClientBuilder);
 
     @NonNull
-    public abstract Gson onCreateGson(@NonNull final GsonBuilder gsonBuilder);
+    protected abstract Gson onCreateGson(@NonNull final GsonBuilder gsonBuilder);
 }

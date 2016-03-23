@@ -37,13 +37,13 @@ public class RestServiceFactory extends Factory {
 
     @NonNull
     @Override
-    public Retrofit onCreateRetrofit(@NonNull Retrofit.Builder retrofitBuilder) {
+    protected Retrofit onCreateRetrofit(@NonNull Retrofit.Builder retrofitBuilder) {
         return retrofitBuilder.build();
     }
 
     @NonNull
     @Override
-    public OkHttpClient onCreateOkHttpClient(@NonNull OkHttpClient.Builder okHttpClientBuilder) {
+    protected OkHttpClient onCreateOkHttpClient(@NonNull OkHttpClient.Builder okHttpClientBuilder) {
         return okHttpClientBuilder
                 .addInterceptor(RequestInterceptor.getInstance(authentication))
                 .build();
@@ -51,7 +51,7 @@ public class RestServiceFactory extends Factory {
 
     @NonNull
     @Override
-    public Gson onCreateGson(@NonNull GsonBuilder gsonBuilder) {
+    protected Gson onCreateGson(@NonNull GsonBuilder gsonBuilder) {
         return gsonBuilder
                 .addDeserializationExclusionStrategy(strategy)
                 .addSerializationExclusionStrategy(strategy)
