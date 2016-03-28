@@ -2,6 +2,7 @@ package com.samsistemas.timesheet.api.service;
 
 import android.support.annotation.NonNull;
 
+import com.samsistemas.timesheet.domain.Client;
 import com.samsistemas.timesheet.domain.JobLog;
 import com.samsistemas.timesheet.domain.Person;
 import com.samsistemas.timesheet.domain.Project;
@@ -28,8 +29,11 @@ public interface TimesheetService {
     @GET("/people?")
     Call<List<Person>> findPersonsByUsername(@Query("username") @NonNull final String username);
 
-    @GET("/project?")
+    @GET("/projects?")
     Call<List<Project>> findProjectsByUsername(@Query("username") @NonNull final String username);
+
+    @GET("/clients?")
+    Call<List<Client>> findClientsByName(@Query("name") @NonNull final String name);
 
     @GET("/jobLogs")
     Call<List<JobLog>> findJobLogsByUsername(@Query("username") @NonNull final String username);

@@ -26,13 +26,6 @@ public class Project extends SugarRecord {
     private Long serverId;
 
     /**
-     * The Client object associated to this Project
-     */
-    @NotNull
-    @SerializedName("client")
-    private Client client;
-
-    /**
      * The name of the project
      */
     @NotNull
@@ -63,6 +56,13 @@ public class Project extends SugarRecord {
     private Boolean enabled;
 
     /**
+     * The Client object associated to this Project
+     */
+    @NotNull
+    @SerializedName("client")
+    private Client client;
+
+    /**
      * Public Constructor
      */
     public Project() { }
@@ -73,15 +73,6 @@ public class Project extends SugarRecord {
 
     public Project setServerId(Long serverId) {
         this.serverId = serverId;
-        return this;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public Project setClient(Client client) {
-        this.client = client;
         return this;
     }
 
@@ -118,6 +109,15 @@ public class Project extends SugarRecord {
 
     public Project setEnabled(Boolean enabled) {
         this.enabled = enabled;
+        return this;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Project setClient(Client client) {
+        this.client = client;
         return this;
     }
 }

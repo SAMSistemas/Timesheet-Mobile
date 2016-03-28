@@ -1,6 +1,5 @@
 package com.samsistemas.timesheet.screen.menu.presenter;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.jonisaa.commons.presenter.BasePresenter;
@@ -21,9 +20,9 @@ public class MainPresenter extends BasePresenter<MainView> {
         super(view);
     }
 
-    public void setUsernameData(Context context) {
+    public void setUsernameData() {
         if (null != getView()) {
-            final Long id = PreferenceUtility.getSessionId(context);
+            final Long id = PreferenceUtility.getSessionId();
 
             final Session session = ThreadUtility.runInBackground(new ThreadUtility.CallBack<Session>() {
                 @Override
@@ -38,7 +37,7 @@ public class MainPresenter extends BasePresenter<MainView> {
                 person = session.getPerson();
             }
 
-            getView().addPersonDataToNavigationDrawer(person);
+            getView().showInfoInNavigationDrawer(person);
         }
     }
 

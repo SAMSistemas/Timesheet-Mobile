@@ -13,20 +13,23 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 
 import com.jonisaa.commons.activity.BaseActivity;
-import com.jonisaa.commons.utility.DeveloperUtility;
-import com.jonisaa.commons.utility.NetworkUtility;
 
 import com.samsistemas.timesheet.screen.login.fragment.VerifyConnectionFragment;
 import com.samsistemas.timesheet.screen.login.presenter.LoginPresenter;
 import com.samsistemas.timesheet.screen.menu.activity.MainActivity;
-import com.samsistemas.timesheet.utility.PreferenceUtility;
-import com.samsistemas.timesheet.utility.ThreadUtility;
 import com.samsistemas.timesheet.screen.login.listener.OnCreateSessionListener;
 import com.samsistemas.timesheet.screen.login.listener.OnRestoreSessionListener;
 import com.samsistemas.timesheet.screen.login.view.LoginView;
 import com.samsistemas.timesheet.R;
 
 import butterknife.Bind;
+
+import static com.samsistemas.timesheet.utility.PreferenceUtility.setSessionId;
+import static com.samsistemas.timesheet.utility.PreferenceUtility.getSessionId;
+import static com.samsistemas.timesheet.utility.ThreadUtility.sleep;
+
+import static com.jonisaa.commons.utility.DeveloperUtility.enableStrictModeApi;
+import static com.jonisaa.commons.utility.NetworkUtility.isConnected;
 
 /**
  * @author jonatan.salas
@@ -44,9 +47,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_Dark_NoActionBar);
-        ThreadUtility.sleep(1000);
+        sleep(1000);
         super.onCreate(savedInstanceState);
-        DeveloperUtility.enableStrictModeApi(true);
+        enableStrictModeApi(true);
 
         login.setOnClickListener(this);
 
@@ -118,7 +121,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public boolean checkConnectivity() {
-        return NetworkUtility.isConnected(getApplicationContext());
+        return isConnected(getApplicationContext());
     }
 
     @Override
@@ -130,12 +133,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onSessionCreate(Long id) {
-        PreferenceUtility.setSessionId(getApplicationContext(), id);
+        setSessionId(id);
     }
 
     @Override
     public Long onSessionRestore() {
-        return PreferenceUtility.getSessionId(getApplicationContext());
+        return getSessionId();
     }
 
     @Override

@@ -80,7 +80,7 @@ public class AccountFragment extends CallbackFragment<AccountPresenter> implemen
         }
 
         getPresenter().styleBar(activity.getSupportActionBar(), "");
-        getPresenter().setAccountData(PreferenceUtility.getSessionId(getContext()));
+        getPresenter().setAccountData(PreferenceUtility.getSessionId());
     }
 
     @Override

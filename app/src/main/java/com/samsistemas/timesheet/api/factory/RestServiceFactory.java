@@ -5,7 +5,6 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.orm.SugarRecord;
 
 import com.samsistemas.timesheet.api.factory.base.Factory;
 import com.samsistemas.timesheet.common.SugarExclusionStrategy;
@@ -21,15 +20,14 @@ import retrofit2.Retrofit;
 /**
  * @author jonatan.salas
  */
-public class RestServiceFactory extends Factory {
-    private static final Class<?> clazz = SugarRecord.class;
-    private static final SugarExclusionStrategy strategy = new SugarExclusionStrategy(clazz);
+public final class RestServiceFactory extends Factory {
+    private static final SugarExclusionStrategy strategy = SugarExclusionStrategy.getInstance();
     private static RestServiceFactory factory = null;
-    private String authentication;
+    private final String authentication;
 
-    public RestServiceFactory(@NonNull final String username,
-                              @NonNull final String password,
-                              @NonNull final String url) {
+    private RestServiceFactory(@NonNull final String username,
+                               @NonNull final String password,
+                               @NonNull final String url) {
         super(url);
         final String credentials = username + ":" + password;
         this.authentication = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
@@ -53,20 +51,21 @@ public class RestServiceFactory extends Factory {
     @Override
     protected Gson onCreateGson(@NonNull GsonBuilder gsonBuilder) {
         return gsonBuilder
+                .setLenient()
                 .addDeserializationExclusionStrategy(strategy)
                 .addSerializationExclusionStrategy(strategy)
                 .create();
     }
 
     public static Factory getInstance(@NonNull String username,
-                                             @NonNull String password,
-                                             @NonNull String baseUrl) {
+                                      @NonNull String password,
+                                      @NonNull String baseUrl) {
         return (null == factory) ? factory = new RestServiceFactory(username, password, baseUrl) : factory;
     }
 
     private static final class RequestInterceptor implements Interceptor {
         private static RequestInterceptor interceptor = null;
-        private String basic;
+        private final String basic;
 
         public RequestInterceptor(@NonNull final String basic) {
             this.basic = basic;

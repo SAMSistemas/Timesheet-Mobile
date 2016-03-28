@@ -1,6 +1,10 @@
 package com.samsistemas.timesheet.screen.addhours.view;
 
+import android.support.annotation.ArrayRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 
 import com.samsistemas.timesheet.domain.Client;
 import com.samsistemas.timesheet.domain.Project;
@@ -13,9 +17,13 @@ import java.util.List;
  */
 public interface AddHoursView {
 
-    void loadTaskTypeData(@Nullable List<TaskType> taskTypeList);
+    void styleBar();
 
-    void loadClientsData(@Nullable List<Client> clientList);
+    void loadHours(@ArrayRes int hoursArrayId, @LayoutRes int layoutItemId);
 
-    void loadProjectsData(@Nullable List<Project> projectList);
+    void loadTaskTypes(@Nullable List<TaskType> taskTypeList);
+
+    void loadClients(@Nullable List<Client> clientList);
+
+    void loadProjects(@Nullable List<Project> projectList);
 }

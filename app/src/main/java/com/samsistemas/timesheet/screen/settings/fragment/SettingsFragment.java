@@ -44,7 +44,7 @@ public class SettingsFragment extends BasePreferenceFragment<SettingsPresenter> 
 
     @Override
     public boolean onPreferenceTreeClick(@NonNull Preference preference) {
-        final Long sessionId = PreferenceUtility.getSessionId(getContext());
+        final Long sessionId = PreferenceUtility.getSessionId();
 
         final String logout = getString(R.string.action_logout);
         final String preferenceTitle = preference.getTitle().toString();

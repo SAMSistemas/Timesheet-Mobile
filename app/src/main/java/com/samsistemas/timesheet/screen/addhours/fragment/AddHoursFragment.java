@@ -1,8 +1,9 @@
 package com.samsistemas.timesheet.screen.addhours.fragment;
 
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.ArrayRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -38,7 +39,10 @@ import butterknife.Bind;
 /**
  * @author jonatan.salas
  */
-public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implements AddHoursView {
+public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implements AddHoursView,
+        AdapterView.OnItemSelectedListener, View.OnClickListener {
+
+    private ArrayAdapter<CharSequence> hoursAdapter;
     private TaskTypeAdapter taskTypeAdapter;
     private ProjectAdapter projectAdapter;
     private ClientAdapter clientAdapter;
@@ -78,73 +82,21 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
     @Nullable
     @Override
     public View onViewCreated(@Nullable View view) {
+        final int accentColor = ContextCompat.getColor(getContext(), R.color.accent);
+
         toolbarLayout.setTitleEnabled(false);
 
-        taskTypeSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
+        taskTypeSpinner.getBackground().setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
+        hourSpinner.getBackground().setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
+        clientSpinner.getBackground().setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
+        projectSpinner.getBackground().setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
 
-        final ArrayAdapter<CharSequence> hourAdapter = ArrayAdapter.createFromResource(getContext(), R.array.hours, android.R.layout.simple_spinner_dropdown_item);
-        hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hourSpinner.setOnItemSelectedListener(this);
+        taskTypeSpinner.setOnItemSelectedListener(this);
+        clientSpinner.setOnItemSelectedListener(this);
+        projectSpinner.setOnItemSelectedListener(this);
 
-        hourSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        hourSpinner.setAdapter(hourAdapter);
-
-        clientSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-        projectSpinner.getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.accent), PorterDuff.Mode.SRC_ATOP);
-
-        hourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Snackbar.make(parent, "You need to select some hours", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        taskTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Snackbar.make(parent, "You need to select some TaskType", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        clientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                mClientSelected = (Client) parent.getAdapter().getItem(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Snackbar.make(parent, "You need to select some Client", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        projectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Snackbar.make(parent, "You need to select some Project", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        saveButton.setOnClickListener(this);
 
         return view;
     }
@@ -158,21 +110,21 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
         DeveloperUtility.enableStrictModeApi(true);
 
-        final Intent intent = activity.getIntent();
+        getPresenter().showStyledActionBar();
+        getPresenter().showHoursInSpinner();
+        getPresenter().showTaskTypesInSpinner();
+        getPresenter().showClientsInSpinner();
+        getPresenter().showProjectsInSpinner();
+    }
 
-//        if (null != intent) {
-//            String dateString = intent.getStringExtra(DATE_KEY);
-//        }
-
+    @Override
+    public void styleBar() {
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.setTheme(R.style.AppTheme_NoActionBar);
         final ActionBar actionBar = activity.getSupportActionBar();
-
-        if (null != toolbar) {
-            getToolbarCallback().synchronize(toolbar);
-        }
 
         if (null != actionBar) {
             actionBar.setTitle(getString(R.string.action_add_hour));
@@ -180,12 +132,30 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        if (null != toolbar) {
+            getToolbarCallback().synchronize(toolbar);
+        }
     }
 
     @Override
-    public void loadTaskTypeData(@Nullable List<TaskType> taskTypeList) {
-        if (null == taskTypeAdapter) {
-            taskTypeAdapter = new TaskTypeAdapter(getContext(), taskTypeList);
+    public void loadHours(@ArrayRes int hoursArrayId, @LayoutRes int layoutItemId) {
+        if (null == hoursAdapter) {
+            hoursAdapter = ArrayAdapter.createFromResource(getContext(), hoursArrayId, layoutItemId);
+            hoursAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        } else {
+            Snackbar.make(hourSpinner, "Error when trying to create hours adapter!", Snackbar.LENGTH_SHORT).show();
+        }
+
+        hourSpinner.setAdapter(hoursAdapter);
+        hoursAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadTaskTypes(@Nullable List<TaskType> taskTypeList) {
+        if (null == taskTypeAdapter && null != taskTypeList) {
+            taskTypeAdapter = new TaskTypeAdapter(getContext(), null);
+            taskTypeAdapter.setList(taskTypeList);
         } else {
             if (null != taskTypeList) {
                 taskTypeAdapter.setList(null);
@@ -195,13 +165,13 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
             }
         }
 
-        taskTypeSpinner.setAdapter(clientAdapter);
+        taskTypeSpinner.setAdapter(taskTypeAdapter);
         taskTypeAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void loadClientsData(@Nullable List<Client> clientList) {
-        if (null == clientAdapter) {
+    public void loadClients(@Nullable List<Client> clientList) {
+        if (null == clientAdapter && null != clientList) {
             clientAdapter = new ClientAdapter(getContext(), clientList);
         } else {
             if (null != clientList) {
@@ -217,19 +187,34 @@ public class AddHoursFragment extends CallbackFragment<AddHoursPresenter> implem
     }
 
     @Override
-    public void loadProjectsData(@Nullable List<Project> projectList) {
-        if (null == projectAdapter) {
+    public void loadProjects(@Nullable List<Project> projectList) {
+        if (null == projectAdapter && null != projectList) {
             projectAdapter = new ProjectAdapter(getContext(), projectList);
         } else {
             if (null != projectList) {
                 projectAdapter.setList(null);
                 projectAdapter.setList(projectList);
             } else {
-                Snackbar.make(clientSpinner, "Error loading projects data. ", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(projectSpinner, "Error loading projects data. ", Snackbar.LENGTH_SHORT).show();
             }
         }
 
         projectSpinner.setAdapter(projectAdapter);
         projectAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        //Nothing to do here.
+    }
+
+    @Override
+    public void onClick(View v) {
+        //boolean result = getPresenter().saveOrUpdateAsync(true, new JobLog());
     }
 }

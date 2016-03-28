@@ -68,7 +68,7 @@ public class MainActivity extends BaseFragmentPresenterActivity<CallbackFragment
     @Override
     protected void onStart() {
         super.onStart();
-        getPresenter().setUsernameData(getApplicationContext());
+        getPresenter().setUsernameData();
     }
 
     @Override
@@ -164,7 +164,7 @@ public class MainActivity extends BaseFragmentPresenterActivity<CallbackFragment
     public void restoreFragmentState(@Nullable Bundle bundle) { }
 
     @Override
-    public void addPersonDataToNavigationDrawer(@Nullable Person person) {
+    public void showInfoInNavigationDrawer(@Nullable Person person) {
         if (null != person) {
             final String name = person.getName() + " " + person.getLastName();
             final String user = person.getUsername() + "@samsistemas.com.ar";

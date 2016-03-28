@@ -9,5 +9,5 @@ import com.samsistemas.timesheet.domain.Person;
  */
 public interface MainView {
 
-    void addPersonDataToNavigationDrawer(@Nullable Person person);
+    void showInfoInNavigationDrawer(@Nullable Person person);
 }

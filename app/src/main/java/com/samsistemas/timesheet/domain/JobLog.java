@@ -3,7 +3,6 @@ package com.samsistemas.timesheet.domain;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 import com.orm.dsl.NotNull;
-import com.orm.dsl.Unique;
 
 import org.parceler.Parcel;
 
@@ -21,7 +20,6 @@ public class JobLog extends SugarRecord {
      * The id of the JobLog stored in the server
      */
     @NotNull
-    @Unique
     @SerializedName("id")
     private Long serverId;
 
