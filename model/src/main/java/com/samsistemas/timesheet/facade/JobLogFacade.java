@@ -196,20 +196,59 @@ public final class JobLogFacade implements Facade<JobLog> {
     }
 
     @Override
-    public boolean update(@NonNull Context context, JobLog jobLog) {
-        final Uri uri = UriHelper.buildJobLogUri(context);
-        final JobLogEntity entity = new JobLogEntity();
+    public boolean update(@NonNull final Context context, final JobLog jobLog) {
+        String dateString = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(jobLog.getWorkDate());
+        JSONObject json = new JSONObject();
 
-        entity.setId(jobLog.getId());
-        entity.setProjectId(jobLog.getProject().getId())
-              .setPersonId(jobLog.getPerson().getId())
-              .setTaskTypeId(jobLog.getTaskType().getId())
-              .setSolicitude(jobLog.getSolicitude())
-              .setHours(jobLog.getHours())
-              .setObservations(jobLog.getObservations())
-              .setWorkDate(jobLog.getWorkDate());
+        try {
+            json.put("id", jobLog.getId())
+                .put("id_project", jobLog.getProject().getId())
+                .put("id_person", jobLog.getPerson().getId())
+                .put("id_tasktype", jobLog.getTaskType().getId())
+                .put("hours", jobLog.getHours())
+                .put("work_date", dateString)
+                .put("solicitude_number", jobLog.getSolicitude())
+                .put("observations", jobLog.getObservations());
 
-        return jobLogController.update(context, entity, uri);
+        } catch (JSONException ex) {
+            Log.e(TAG, ex.getMessage(), ex.getCause());
+        }
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                URLHelper.buildUpdateJobLogUrl(context),
+                json,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JobLogEntityConverter converter = JobLogEntityConverter.newInstance();
+                        try {
+                            Uri uri = UriHelper.buildJobLogUri(context);
+                            result = jobLogController.insert(context, converter.asObject(response), uri);
+                        } catch (JSONException ex) {
+                            Log.e(JobLogFacade.class.getSimpleName(), ex.getMessage(), ex.getCause());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(JobLogFacade.class.getSimpleName(), error.getMessage(), error.getCause());
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return AuthUtil.getAuthHeaders(new String[] { jobLog.getPerson().getUsername(), jobLog.getPerson().getPassword() });
+            }
+        };
+
+        request.setShouldCache(true);
+        request.setRetryPolicy(new DefaultRetryPolicy());
+        requestQueue.add(request);
+
+        return result;
     }
 
     @Override

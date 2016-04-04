@@ -102,12 +102,12 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     private TaskTypeAdapter mTaskAdapter;
 
     private CharSequence mHourSelected;
-    private Client mClientSelected;
+//    private Client mClientSelected;
     private Project mProjectSelected;
     private TaskType mTaskTypeSelected;
 
     private String mDateString = "";
-    private Boolean mEditMode;
+    private Boolean mEditMode = true;
     private long mJobLogId;
 
     private JobLog mJobLog = new JobLog();
@@ -147,7 +147,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         initProjectsLoader();
         initTaskTypeLoader();
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
 
         if (null != intent) {
             mDateString = intent.getStringExtra(DATE_KEY);
@@ -161,9 +161,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     }
 
     @Override
-    public void populateViews() {
-
-    }
+    public void populateViews() {  }
 
     @Override
     public void setListeners() {
@@ -192,7 +190,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         mClientSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mClientSelected = (Client) parent.getAdapter().getItem(position);
+//                mClientSelected = (Client) parent.getAdapter().getItem(position);
             }
 
             @Override
@@ -218,8 +216,8 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                 final String username = prefs.getString(USERNAME, "");
                 final String password = prefs.getString(PASSWORD, "");
 
-                if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
-                    Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
+//                if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
+//                    Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
 
                     String description = mDescription.getText().toString().trim();
                     String solicitude = mSolicitudeNumber.getText().toString().trim();
@@ -242,17 +240,18 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                     person.setUsername(username)
                             .setPassword(password);
 
-                    mJobLog.setHours(mHourSelected.toString())
-                            .setObservations(description)
-                            .setSolicitude(solicitudeNumber)
-                            .setWorkDate(date)
-                            .setPerson(person.setUsername(username)
-                                    .setPassword(password))
-                            .setProject(mProjectSelected)
-                            .setTaskType(mTaskTypeSelected);
+                    mJobLog.setId(mJobLogId)
+                           .setHours(mHourSelected.toString())
+                           .setObservations(description)
+                           .setSolicitude(solicitudeNumber)
+                           .setWorkDate(date)
+                           .setPerson(person.setUsername(username)
+                                            .setPassword(password))
+                           .setProject(mProjectSelected)
+                           .setTaskType(mTaskTypeSelected);
 
-                    new SaveJobLogAsyncTask(getApplicationContext());
-                }
+                    new SaveJobLogAsyncTask(getApplicationContext()).execute(mJobLog);
+//                }
             }
         });
     }
