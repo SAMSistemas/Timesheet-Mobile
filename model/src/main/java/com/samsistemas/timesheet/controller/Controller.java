@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.samsistemas.timesheet.controller.base.BaseController;
 import com.samsistemas.timesheet.entity.base.Entity;
@@ -45,6 +46,8 @@ public class Controller<T extends Entity> implements BaseController<T> {
         for (int i = 0; i < list.size(); i++) {
             values[i] = entityMapper.asContentValues(list.get(i));
         }
+
+        Log.d(Controller.class.getSimpleName(), "Values: " + values );
 
         int count = context.getContentResolver().bulkInsert(uri, values);
 

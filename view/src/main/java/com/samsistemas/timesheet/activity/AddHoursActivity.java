@@ -241,7 +241,7 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                             .setPassword(password);
 
                     mJobLog.setId(mJobLogId)
-                           .setHours(mHourSelected.toString())
+                           .setHours(prettyHours(mHourSelected))
                            .setObservations(description)
                            .setSolicitude(solicitudeNumber)
                            .setWorkDate(date)
@@ -254,6 +254,17 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 //                }
             }
         });
+    }
+
+    private String prettyHours(CharSequence hoursChars){
+        String prettyHours = "";
+        Double hours = new Double(hoursChars.toString());
+        if((hours % 2) == 0){
+            prettyHours = String.valueOf(hours.intValue());
+        }else {
+            prettyHours = hours.toString();
+        }
+        return prettyHours;
     }
 
     @Override
