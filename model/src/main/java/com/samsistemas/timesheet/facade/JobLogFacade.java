@@ -17,6 +17,8 @@ import com.android.volley.toolbox.Volley;
 import com.samsistemas.timesheet.controller.Controller;
 import com.samsistemas.timesheet.entity.JobLogEntity;
 import com.samsistemas.timesheet.facade.base.Facade;
+import com.samsistemas.timesheet.facade.base.JFacade;
+import com.samsistemas.timesheet.facade.base.OnDataFetchListener;
 import com.samsistemas.timesheet.factory.ControllerFactory;
 import com.samsistemas.timesheet.helper.URLHelper;
 import com.samsistemas.timesheet.helper.UriHelper;
@@ -47,9 +49,19 @@ import java.util.Map;
 /**
  * @author jonatan.salas
  */
-public final class JobLogFacade implements Facade<JobLog> {
+public final class JobLogFacade implements JFacade<JobLog> {
     private static final String TAG = JobLogFacade.class.getSimpleName();
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
+
+    @Override
+    public boolean insert(@NonNull Context context, JobLog object) {
+        return false;
+    }
+
+    @Override
+    public boolean update(@NonNull Context context, JobLog object) {
+        return false;
+    }
 
     private static JobLogFacade instance = null;
 
@@ -57,8 +69,6 @@ public final class JobLogFacade implements Facade<JobLog> {
     private final Facade<Project> projectFacade;
     private final Facade<Person> personFacade;
     private final Facade<TaskType> taskTypeFacade;
-
-    private boolean result = false;
 
     private JobLogFacade() {
         this.jobLogController = ControllerFactory.getJobLogController();
@@ -127,7 +137,7 @@ public final class JobLogFacade implements Facade<JobLog> {
     }
 
     @Override
-    public boolean insert(@NonNull final Context context, final JobLog jobLog) {
+    public void insert(@NonNull final Context context, final JobLog jobLog, final OnDataFetchListener<Boolean> listener) {
         String dateString = "";
 
         try {
@@ -166,16 +176,20 @@ public final class JobLogFacade implements Facade<JobLog> {
                             final JobLogEntity jobLogEntity = jobLogConverter.asObject(response);
                             final Uri uri = UriHelper.buildJobLogUri(context);
 
-                            result = jobLogController.insert(context.getApplicationContext(), jobLogEntity, uri);
+                            boolean result = jobLogController.insert(context.getApplicationContext(), jobLogEntity, uri);
+                            listener.onSuccess(result);
+
                         } catch (JSONException ex) {
-                            Log.e(TAG, ex.getMessage(), ex.getCause());
+                            listener.onError(ex);
+                            //Log.e(TAG, ex.getMessage(), ex.getCause());
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, error.getMessage(), error.getCause());
+                        listener.onError(error);
+                        //Log.e(TAG, error.getMessage(), error.getCause());
                     }
                 }
         ) {
@@ -191,12 +205,10 @@ public final class JobLogFacade implements Facade<JobLog> {
         request.setShouldCache(true);
         request.setRetryPolicy(new DefaultRetryPolicy());
         requestQueue.add(request);
-
-        return result;
     }
 
     @Override
-    public boolean update(@NonNull final Context context, final JobLog jobLog) {
+    public void update(@NonNull final Context context, final JobLog jobLog, final OnDataFetchListener<Boolean> listener) {
         String dateString = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(jobLog.getWorkDate());
         JSONObject json = new JSONObject();
 
@@ -225,16 +237,19 @@ public final class JobLogFacade implements Facade<JobLog> {
                         JobLogEntityConverter converter = JobLogEntityConverter.newInstance();
                         try {
                             Uri uri = UriHelper.buildJobLogUri(context);
-                            result = jobLogController.insert(context, converter.asObject(response), uri);
+                            boolean result = jobLogController.insert(context, converter.asObject(response), uri);
+                            listener.onSuccess(result);
                         } catch (JSONException ex) {
-                            Log.e(JobLogFacade.class.getSimpleName(), ex.getMessage(), ex.getCause());
+                            listener.onError(ex);
+                            //Log.e(JobLogFacade.class.getSimpleName(), ex.getMessage(), ex.getCause());
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(JobLogFacade.class.getSimpleName(), error.getMessage(), error.getCause());
+                        listener.onError(error);
+                        //Log.e(JobLogFacade.class.getSimpleName(), error.getMessage(), error.getCause());
                     }
                 }
         ) {
@@ -247,8 +262,6 @@ public final class JobLogFacade implements Facade<JobLog> {
         request.setShouldCache(true);
         request.setRetryPolicy(new DefaultRetryPolicy());
         requestQueue.add(request);
-
-        return result;
     }
 
     @Override

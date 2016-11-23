@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -28,6 +29,7 @@ import com.samsistemas.timesheet.adapter.ClientAdapter;
 import com.samsistemas.timesheet.adapter.ProjectAdapter;
 import com.samsistemas.timesheet.adapter.TaskTypeAdapter;
 import com.samsistemas.timesheet.facade.JobLogFacade;
+import com.samsistemas.timesheet.facade.base.OnDataFetchListener;
 import com.samsistemas.timesheet.loader.ClientsLoader;
 import com.samsistemas.timesheet.loader.JobLogLoader;
 import com.samsistemas.timesheet.loader.ProjectsLoader;
@@ -409,8 +411,9 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         }).forceLoad();
     }
 
-    public class SaveJobLogAsyncTask extends AsyncTask<JobLog, Void, Boolean> {
+    public class SaveJobLogAsyncTask extends AsyncTask<JobLog, Void, Boolean> implements OnDataFetchListener<Boolean> {
         private final Context mContext;
+        private boolean result = false;
 
         public SaveJobLogAsyncTask(Context context) {
             this.mContext = context;
@@ -422,12 +425,22 @@ public class AddHoursActivity extends BaseAppCompatActivity {
             final JobLog jobLog = params[0];
             if (validateFields(jobLog)) {
                 if (!mEditMode) {
-                    return facade.insert(mContext, jobLog);
+                    facade.insert(mContext, jobLog, this);
                 } else {
-                    return facade.update(mContext, jobLog);
+                    facade.update(mContext, jobLog, this);
                 }
             }
-            return false;
+
+            boolean value = false;
+
+            try {
+                Thread.sleep(1500);
+                value = getResult();
+            } catch (InterruptedException ex) {
+
+            }
+
+            return value;
         }
 
         @Override
@@ -457,6 +470,24 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                         })
                         .show();
             }
+        }
+
+        @Override
+        public void onSuccess(@NonNull Boolean response) {
+            setResult(response);
+        }
+
+        @Override
+        public void onError(@NonNull Exception error) {
+            Log.e(LOG_TAG, "This is the error --------> " + error.getMessage(), error.getCause());
+        }
+
+        void setResult(boolean result) {
+            this.result = result;
+        }
+
+        boolean getResult() {
+            return this.result;
         }
     }
 
