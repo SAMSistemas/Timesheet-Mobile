@@ -384,4 +384,10 @@ public class MenuActivity extends BaseAppCompatActivity {
             //Snackbar.make(mRecyclerView, "Error loading credentials", Snackbar.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
 }

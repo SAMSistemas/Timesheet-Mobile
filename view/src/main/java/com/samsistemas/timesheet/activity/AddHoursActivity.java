@@ -102,12 +102,12 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     private TaskTypeAdapter mTaskAdapter;
 
     private CharSequence mHourSelected;
-//    private Client mClientSelected;
+    //    private Client mClientSelected;
     private Project mProjectSelected;
     private TaskType mTaskTypeSelected;
 
     private String mDateString = "";
-    private Boolean mEditMode = true;
+    private Boolean mEditMode = false;
     private long mJobLogId;
 
     private JobLog mJobLog = new JobLog();
@@ -161,7 +161,8 @@ public class AddHoursActivity extends BaseAppCompatActivity {
     }
 
     @Override
-    public void populateViews() {  }
+    public void populateViews() {
+    }
 
     @Override
     public void setListeners() {
@@ -219,49 +220,49 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 //                if (!mProjectSelected.getClient().getName().equals(mClientSelected.getName())) {
 //                    Snackbar.make(mFab, "Ups, the client you selected, does not match!", Snackbar.LENGTH_SHORT).show();
 
-                    String description = mDescription.getText().toString().trim();
-                    String solicitude = mSolicitudeNumber.getText().toString().trim();
-                    int solicitudeNumber = 0;
+                String description = mDescription.getText().toString().trim();
+                String solicitude = mSolicitudeNumber.getText().toString().trim();
+                int solicitudeNumber = 0;
 
-                    if (!solicitude.isEmpty()) {
-                        solicitudeNumber = Integer.valueOf(solicitude);
-                    }
+                if (!solicitude.isEmpty()) {
+                    solicitudeNumber = Integer.valueOf(solicitude);
+                }
 
-                    Date date = null;
+                Date date = null;
 
-                    try {
-                        date = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).parse(mDateString);
-                    } catch (ParseException ex) {
-                        Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
-                    }
+                try {
+                    date = new SimpleDateFormat(DATE_TEMPLATE, Locale.getDefault()).parse(mDateString);
+                } catch (ParseException ex) {
+                    Log.e(LOG_TAG, ex.getMessage(), ex.getCause());
+                }
 
-                    final Person person = new Person();
+                final Person person = new Person();
 
-                    person.setUsername(username)
-                            .setPassword(password);
+                person.setUsername(username)
+                        .setPassword(password);
 
-                    mJobLog.setId(mJobLogId)
-                           .setHours(prettyHours(mHourSelected))
-                           .setObservations(description)
-                           .setSolicitude(solicitudeNumber)
-                           .setWorkDate(date)
-                           .setPerson(person.setUsername(username)
-                                            .setPassword(password))
-                           .setProject(mProjectSelected)
-                           .setTaskType(mTaskTypeSelected);
+                mJobLog.setId(mJobLogId)
+                        .setHours(prettyHours(mHourSelected))
+                        .setObservations(description)
+                        .setSolicitude(solicitudeNumber)
+                        .setWorkDate(date)
+                        .setPerson(person.setUsername(username)
+                                .setPassword(password))
+                        .setProject(mProjectSelected)
+                        .setTaskType(mTaskTypeSelected);
 
-                    new SaveJobLogAsyncTask(getApplicationContext()).execute(mJobLog);
+                new SaveJobLogAsyncTask(getApplicationContext()).execute(mJobLog);
 //                }
             }
         });
     }
 
-    private String prettyHours(CharSequence hoursChars){
+    private String prettyHours(CharSequence hoursChars) {
         String prettyHours = "";
         Double hours = new Double(hoursChars.toString());
-        if((hours % 2) == 0){
+        if ((hours % 2) == 0) {
             prettyHours = String.valueOf(hours.intValue());
-        }else {
+        } else {
             prettyHours = hours.toString();
         }
         return prettyHours;
@@ -419,20 +420,25 @@ public class AddHoursActivity extends BaseAppCompatActivity {
         protected Boolean doInBackground(JobLog... params) {
             final JobLogFacade facade = JobLogFacade.newInstance();
             final JobLog jobLog = params[0];
-            if (!mEditMode) {
-                return facade.insert(mContext, jobLog);
-            } else {
-                return facade.update(mContext, jobLog);
+            if (validateFields(jobLog)) {
+                if (!mEditMode) {
+                    return facade.insert(mContext, jobLog);
+                } else {
+                    return facade.update(mContext, jobLog);
+                }
             }
+            return false;
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
             if (result && !mEditMode) {
                 Snackbar.make(mTaskSpinner, "Good luck, joblog was successfully inserted", Snackbar.LENGTH_SHORT).show();
-            } else if (mEditMode) {
+                onBackPressed();
+            } else if (result && mEditMode) {
                 Snackbar.make(mTaskSpinner, "Good luck, joblog was successfully updated", Snackbar.LENGTH_SHORT).show();
-            } else if (!mEditMode) {
+                onBackPressed();
+            } else if (mEditMode) {
                 Snackbar.make(mTaskSpinner, "Bad luck, joblog wasn't updated", Snackbar.LENGTH_SHORT)
                         .setAction("Retry", new View.OnClickListener() {
                             @Override
@@ -452,5 +458,9 @@ public class AddHoursActivity extends BaseAppCompatActivity {
                         .show();
             }
         }
+    }
+
+    private boolean validateFields(JobLog jobLog) {
+        return !(jobLog.getObservations().equals("") || jobLog.getSolicitude() == 0);
     }
 }
