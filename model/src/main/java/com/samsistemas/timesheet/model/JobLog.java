@@ -213,4 +213,18 @@ public class JobLog {
     public String getObservations() {
         return observations;
     }
+
+    @Override
+    public String toString() {
+        return "JobLog{" +
+                "id=" + id +
+                ", project=" + project +
+                ", person=" + person +
+                ", taskType=" + taskType +
+                ", hours='" + hours + '\'' +
+                ", workDate=" + workDate +
+                ", solicitude=" + solicitude +
+                ", observations='" + observations + '\'' +
+                '}';
+    }
 }

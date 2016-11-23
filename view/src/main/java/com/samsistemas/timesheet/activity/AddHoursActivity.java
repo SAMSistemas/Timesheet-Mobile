@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.android.volley.VolleyError;
 import com.samsistemas.timesheet.R;
 import com.samsistemas.timesheet.activity.base.BaseAppCompatActivity;
 import com.samsistemas.timesheet.adapter.ClientAdapter;
@@ -41,6 +42,9 @@ import com.samsistemas.timesheet.model.Project;
 import com.samsistemas.timesheet.model.TaskType;
 import com.samsistemas.timesheet.navigation.MenuNavigator;
 import com.samsistemas.timesheet.util.ToolbarUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static com.samsistemas.timesheet.util.SharedPreferenceKeys.FILENAME;
 import static com.samsistemas.timesheet.util.SharedPreferenceKeys.USERNAME;
@@ -479,7 +483,18 @@ public class AddHoursActivity extends BaseAppCompatActivity {
 
         @Override
         public void onError(@NonNull Exception error) {
-            Log.e(LOG_TAG, "This is the error --------> " + error.getMessage(), error.getCause());
+            if (error instanceof VolleyError) {
+                byte[] bytes = ((VolleyError) error).networkResponse.data;
+                String stringBytes = new String(bytes);
+                try {
+                    Log.e(LOG_TAG, "This is the error --------> " + new JSONObject(stringBytes).toString());
+                } catch (JSONException ex) {
+                    Log.e(LOG_TAG, "This is the with json parsing --------> " + ex.getMessage(), ex.getCause());
+                }
+
+            } else {
+                Log.e(LOG_TAG, "This is the error --------> " + error.getMessage(), error.getCause());
+            }
         }
 
         void setResult(boolean result) {

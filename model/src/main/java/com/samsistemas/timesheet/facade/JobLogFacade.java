@@ -221,7 +221,6 @@ public final class JobLogFacade implements JFacade<JobLog> {
                 .put("work_date", dateString)
                 .put("solicitude_number", jobLog.getSolicitude())
                 .put("observations", jobLog.getObservations());
-
         } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage(), ex.getCause());
         }
